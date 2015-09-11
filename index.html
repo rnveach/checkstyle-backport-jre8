@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>rnveach/checkstyle-backport-jre8 @ GitHub</title>
+
+    <script type="text/Javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+<style type="text/css">
+body {
+  margin-top: 1.0em;
+  background-color: #E8F2FC;
+  font-family: Helvetica, Arial, FreeSans, san-serif;
+  color: #000;
+}
+
+#container {
+  margin: 0 auto;
+  width: 65%;
+}
+
+h1 {
+  font-size: 3.1em;
+  color: #242630;
+  margin-bottom: 10px;
+}
+
+h1 .small {
+  font-size: 0.4em;
+}
+
+h1 a {
+  text-decoration: none
+}
+
+h2 {
+  font-size: 1.7em;
+  color: #242630;
+}
+
+h3 {
+  text-align: left;
+  color: #242630;
+}
+
+a {
+  color:#242630;
+  -o-transition:.01s;
+  -ms-transition:.01s;
+  -moz-transition:.01s;
+  -webkit-transition:.01s;
+  transition:.01s;
+
+  /* Micro shadow in all sides */
+  text-shadow: 0 0 1px #79848F;
+  transform: scale(1.01);
+}
+
+a:hover {
+  color: #242630;
+}
+
+.description {
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+.download {
+  float: right;
+}
+
+pre {
+  background: #000;
+  color: #fff;
+  padding: 15px;
+}
+
+hr {
+  border: 0;
+  width: 80%;
+  border-bottom: 1px solid #aaa
+}
+
+.footer {
+  text-align: center;
+  padding-top: 30px;
+  font-style: italic;
+}
+
+div.spoiler div.name {
+    cursor: pointer;
+    height:auto;
+    width:auto;
+}
+
+div.spoiler div.text {
+    display: none;
+}
+
+img.jumpingImage {
+    float: left;
+    margin-top: 4px;
+    -webkit-transition: margin 0.2s ease-out;
+    -moz-transition: margin 0.2s ease-out;
+    -o-transition: margin 0.2s ease-out;
+}
+
+img.jumpingImage:hover {
+    margin-top: 3px;
+}
+
+img.shadowed {
+  /* Shadow in all sides */
+  box-shadow: 0 0 3px #3B3B3B;
+}
+
+img.darkShadowed {
+  /* Shadow in all sides */
+  box-shadow: 0 0 5px #0F0F0F;
+}
+
+</style>
+
+</head>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34158835-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<script type="text/Javascript">
+        $(document).ready(function() {
+
+            // Configure spoilers. Spoilers are configured by their classes:
+            // openOnHover color_on_hover pre_opened_spoiler
+            var fadeTime = 300;
+
+            // Set the toggle operarions (spoilers fading)
+            $("div.spoiler div.name span").toggle(
+            function() {
+                $(this).parent("div.name").parent("div.spoiler").children("div.text").fadeIn(fadeTime);
+            }
+            ,function() {
+                $(this).parent("div.name").parent("div.spoiler").children("div.text").fadeOut(fadeTime);
+            });
+
+            // Set mouseOver operations (coloring/opening on hover)
+            $("div.spoiler div.name span").mouseover(function() {
+
+                var openOnHover = $(this).parent("div.name").parent("div.spoiler").hasClass("openOnHower");
+                var color_on_hover = $(this).parent("div.name").parent("div.spoiler").hasClass("color_on_hover");
+
+                if (color_on_hover) {
+                    $(this).children().css("color", "#1D4875");
+                }
+                if (openOnHover) {
+                     $(this).parent("div.name").parent("div.spoiler").children("div.text").fadeIn(fadeTime);
+                }
+
+            }).mouseout(function() {
+                var color_on_hover = $(this).parent("div.name").parent("div.spoiler").hasClass("color_on_hover");
+                if (color_on_hover) {
+                    $(this).children().css("color", "#242630");
+                 }
+            });
+
+            // Open spoilers with 'pre-opened' class
+            $(".pre_opened_spoiler").children("div.text").fadeIn(fadeTime);
+            // End configure spoilers
+        });
+    </script>
+
+<body>
+  <a href="http://github.com/rnveach/checkstyle-backport-jre8">
+   <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" />
+  </a>
+
+  <div id="container">
+
+    <h1><a href="http://github.com/rnveach/checkstyle-backport-jre8">Checkstyle-Backport-jre8</a></h1>
+    Licence is <a href="https://www.gnu.org/licenses/lgpl-2.1.en.html">GNU LESSER GENERAL PUBLIC LICENSE Version 2.1.</a>
+      </span></p>
+
+    <h2>Description</h2>
+
+    <div class="description">
+      Main idea of <a href="http://checkstyle.sourceforge.net/">Checkstyle</a> project is to automate and to ease code-review process; to assist developers in complying with the company's Code-standard, and allow them to fix and eliminate any minor problem upon just saving the file.
+We are strongly convinced that it is much more easier and convenient to catch minor traps in code during writing than after committing/pushing. This project contains a number of Checks that can help program engineers to write code in a uniform style, which makes it easier for the whole team of programmers to review the code, also significantly improves the low threshold of understanding for new developers.
+      <br/>
+      <br/>
+This project is a backport of Checkstyle to be used with older Java runtime environments, like Java 8, for users who can't upgrade to newer versions.
+Backport is managed unofficially by the community, and not by the Checkstyle team.
+<br/>
+<br/>
+</div>
+
+    <h2>Releases</h2>
+
+    Backport tries to update as soon as new, official Checkstyle releases come out, but we may fall behind a few days for various reasons.
+    The current list of Backport releases that are supported can be found at
+    <a href="https://github.com/rnveach/checkstyle-backport-jre8/releases">here</a>.
+
+    <h2>Standalone Use</h2>
+
+    <p>
+      Nothing has changed in backport from the main Checkstyle project in terms on how to run the standalone, CLI usage.
+      The current instructions for the Checkstyle CLI can be found <a href="http://checkstyle.sourceforge.net/cmdline.html#Command_line_usage">here</a>.
+    </p>
+    <p>
+      To download backport's standalone JARs, use the following https URL schema:
+    </p>
+    <p style="margin-left: 40px;">
+      <a href="https://rnveach.github.io/checkstyle-backport-jre8/maven2/com/puppycrawl/tools/checkstyle-backport-jre8/XXXX/checkstyle-backport-jre8-XXXX-all.jar">https://rnveach.github.io/checkstyle-backport-jre8/maven2/com/puppycrawl/tools/checkstyle-backport-jre8/XXXX/checkstyle-backport-jre8-XXXX-all.jar</a>
+    </p>
+    <p>
+      <b>Note</b>: Remember to replace the <b><u>2</u></b> instances of <i>XXXX</i> with the version of the
+      <a href="https://github.com/rnveach/checkstyle-backport-jre8/releases">release</a> you wish to use. You only
+      need to use the numerical version (<i>XX.X</i>), not the full project name.
+    </p>
+
+    <h2>Maven Use</h2>
+
+    Though this page is a simple GithubIO site, it is backport's way of giving out releases and so doubles as our fully functional maven repository.
+    Below is an example on how to setup Maven to use backport's repository:
+
+    <pre style="border-bottom-style: dashed; border-top-style: dashed; border-left-color: #E8F2FC; border-top-color: #E8F2FC; border-left-style: dashed; border-right-color: #E8F2FC; border-right-style: dashed; border-bottom-color: #E8F2FC; border-bottom-width: medium; border-right-width: medium; border-left-width: medium; border-top-width: medium; width:85%;">
+&lt;project&gt;
+    ...
+
+    &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;checkstyle-backport-jre8-maven&lt;/id&gt;
+            &lt;name&gt;checkstyle-backport-jre8-maven&lt;/name&gt;
+            &lt;url&gt;http://rnveach.github.io/checkstyle-backport-jre8/maven2&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+    &lt;/pluginRepositories&gt;
+
+    ...
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.puppycrawl.tools&lt;/groupId&gt;
+            &lt;artifactId&gt;checkstyle-backport-jre8&lt;/artifactId&gt;
+            &lt;version&gt;XXX&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    ...
+&lt;/project&gt;
+    </pre>
+    <b>Note</b>: Remember to replace version's <i>XXX</i> with the version of the
+    <a href="https://github.com/rnveach/checkstyle-backport-jre8/releases">release</a> you wish to use. You only
+    need to use the numerical version (<i>XX.X</i>), not the full project name.
+    <br/>
+    <br/>
+
+    <h2>Download Source</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/rnveach/checkstyle-backport-jre8/zipball/master">zip</a> or
+      <a href="http://github.com/rnveach/checkstyle-backport-jre8/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre style="border-bottom-style: dashed; border-top-style: dashed; border-left-color: #E8F2FC; border-top-color: #E8F2FC; border-left-style: dashed; border-right-color: #E8F2FC; border-right-style: dashed; border-bottom-color: #E8F2FC; border-bottom-width: medium; border-right-width: medium; border-left-width: medium; border-top-width: medium; width:85%;">$ git clone git://github.com/rnveach/checkstyle-backport-jre8</pre>
+    </p>
+
+    <div class="footer">
+      Get the source code on GitHub : <a href="http://github.com/rnveach/checkstyle-backport-jre8">rnveach/checkstyle-backport-jre8</a>
+    </div>
+    <br/>
+  </div>
+
+
+</body>
+</html>
