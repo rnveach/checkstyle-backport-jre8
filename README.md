@@ -10,7 +10,14 @@ of users who can't upgrade.
 This project tries to provide all the functionality of current checkstyle version for
 those older environments.
 
-## Licensing
+Downloading and Using
+=====================
+
+Documentation on how to use backport as a standalone utility or as part of maven can be found here:
+https://rnveach.github.io/checkstyle-backport-jre8
+
+Licensing
+=========
 
 ![](https://img.shields.io/badge/license-GNU%20LGPL%20v2.1-blue.svg)
 
