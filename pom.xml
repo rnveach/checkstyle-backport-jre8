@@ -11,17 +11,19 @@
   </parent>
 
   <groupId>com.puppycrawl.tools</groupId>
-  <artifactId>checkstyle</artifactId>
+  <artifactId>checkstyle-backport-jre8</artifactId>
   <version>10.0</version>
   <packaging>jar</packaging>
 
-  <name>checkstyle</name>
+  <name>checkstyle-backport-jre8</name>
   <description>
     Checkstyle is a development tool to help programmers write Java code
-    that adheres to a coding standard
+    that adheres to a coding standard.
+    This is a backport of Checkstyle to support an older runtime for those 
+    that need it.
   </description>
-  <url>https://checkstyle.org/</url>
-  <inceptionYear>2001</inceptionYear>
+  <url>https://github.com/rnveach/checkstyle-backport-jre8</url>
+  <inceptionYear>2022</inceptionYear>
   <licenses>
     <license>
       <name>LGPL-2.1+</name>
@@ -31,168 +33,28 @@
 
   <developers>
     <developer>
-      <id>romani</id>
-      <name>Roman Ivanov</name>
-      <roles>
-        <role>project admin, lead developer</role>
-      </roles>
-    </developer>
-    <developer>
       <id>rnveach</id>
       <name>Richard Veach</name>
       <roles>
-        <role>project admin, developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>pbludov</id>
-      <name>Pavel Bludov</name>
-      <roles>
-        <role>developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>strkkk</id>
-      <name>Andrei Paikin</name>
-      <roles>
-        <role>developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>sabaka</id>
-      <name>Ilja Dubinin</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>MEZk</id>
-      <name>Andrei Selkin</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>Vladlis</id>
-      <name>Vladislav Lisetskii</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>oburn</id>
-      <name>Oliver Burn</name>
-      <roles>
-        <role>founder (retired)</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mkordas</id>
-      <name>Michał Kordas</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>rdiachenko</id>
-      <name>Ruslan Diachenko</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>baratali</id>
-      <name>Baratali Izmailov</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>daniilyar</id>
-      <name>Daniil Yaroslavtsev</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>moradan</id>
-      <name>Ivan Sopov</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>lkuehne</id>
-      <name>Lars Kühne</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>rickgiles</id>
-      <name>Rick Giles</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>o_sukhodolsky</id>
-      <name>Oleg Sukhodolsky</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mstudman</id>
-      <name>Michael Studman</name>
-      <roles>
-        <role>former developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>tschneeberger</id>
-      <name>Travis Schneeberger</name>
-      <roles>
-        <role>former developer</role>
+        <role>project admin, lead developer</role>
       </roles>
     </developer>
   </developers>
   <contributors>
     <contributor>
-      <url>https://github.com/checkstyle/checkstyle/graphs/contributors</url>
+      <url>https://github.com/rnveach/checkstyle-backport-jre8/graphs/contributors</url>
     </contributor>
   </contributors>
 
-  <mailingLists>
-    <mailingList>
-      <name>checkstyle</name>
-      <archive>https://groups.google.com/forum/#!forum/checkstyle</archive>
-      <subscribe>mailto:checkstyle%2Bsubscribe@googlegroups.com</subscribe>
-      <unsubscribe>mailto:checkstyle%2Bunsubscribe@googlegroups.com</unsubscribe>
-      <post>mailto:checkstyle@googlegroups.com</post>
-    </mailingList>
-    <mailingList>
-      <name>checkstyle-devel</name>
-      <archive>https://groups.google.com/forum/#!forum/checkstyle-devel</archive>
-      <subscribe>mailto:checkstyle-devel%2Bsubscribe@googlegroups.com</subscribe>
-      <unsubscribe>mailto:checkstyle-devel%2Bunsubscribe@googlegroups.com</unsubscribe>
-      <post>mailto:checkstyle-devel@googlegroups.com</post>
-    </mailingList>
-  </mailingLists>
-
   <scm>
-    <connection>scm:git:git@github.com:checkstyle/checkstyle.git</connection>
-    <developerConnection>scm:git:git@github.com:checkstyle/checkstyle.git</developerConnection>
-    <url>https://github.com/checkstyle/checkstyle</url>
+    <connection>scm:git:git@github.com:rnveach/checkstyle-backport-jre8.git</connection>
+    <developerConnection>scm:git:git@github.com:rnveach/checkstyle-backport-jre8.git</developerConnection>
+    <url>https://github.com/rnveach/checkstyle-backport-jre8</url>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/checkstyle/checkstyle/issues</url>
+    <url>https://github.com/rnveach/checkstyle-backport-jre8/issues</url>
   </issueManagement>
-  <ciManagement>
-    <system>travis</system>
-    <url>https://travis-ci.org/checkstyle/checkstyle</url>
-  </ciManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
