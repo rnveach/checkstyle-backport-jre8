@@ -22,6 +22,7 @@ package com.puppycrawl.tools.checkstyle;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -46,8 +47,9 @@ public class JavadocDetailNodeParserTest extends AbstractModuleTestSupport {
         final JavadocDetailNodeParser.ParseStatus status = parser.parseJavadocAsDetailNode(ast);
         final String actual = toLfLineEnding(DetailNodeTreeStringPrinter.printTree(status.getTree(),
                 "", ""));
-        final String expected = toLfLineEnding(Files.readString(Paths.get(
-                getPath("ExpectedJavadocDetailNodeParser.txt"))));
+        final String expected = toLfLineEnding(new String(Files.readAllBytes(Paths.get(
+                getPath("ExpectedJavadocDetailNodeParser.txt"))),
+                StandardCharsets.UTF_8));
         assertWithMessage("Invalid parse result")
                 .that(actual)
                 .isEqualTo(expected);

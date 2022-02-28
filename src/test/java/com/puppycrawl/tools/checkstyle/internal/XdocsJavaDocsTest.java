@@ -20,6 +20,7 @@
 package com.puppycrawl.tools.checkstyle.internal;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.net.URI;
@@ -149,7 +150,7 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
                 continue;
             }
 
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final Document document = XmlUtil.getRawXml(fileName, input, input);
             final NodeList sources = document.getElementsByTagName("section");
 

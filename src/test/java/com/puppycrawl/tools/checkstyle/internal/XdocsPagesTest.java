@@ -21,6 +21,7 @@ package com.puppycrawl.tools.checkstyle.internal;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Integer.parseInt;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.beans.PropertyDescriptor;
 import java.io.File;
@@ -92,7 +93,7 @@ public class XdocsPagesTest {
     private static final Pattern DESCRIPTION_VERSION = Pattern
             .compile("^Since Checkstyle \\d+\\.\\d+(\\.\\d+)?");
 
-    private static final List<String> XML_FILESET_LIST = List.of(
+    private static final List<String> XML_FILESET_LIST = Arrays.asList(
             "TreeWalker",
             "name=\"Checker\"",
             "name=\"Header\"",
@@ -121,7 +122,7 @@ public class XdocsPagesTest {
             getProperties(AbstractJavadocCheck.class);
     private static final Set<String> FILESET_PROPERTIES = getProperties(AbstractFileSetCheck.class);
 
-    private static final List<String> UNDOCUMENTED_PROPERTIES = List.of(
+    private static final List<String> UNDOCUMENTED_PROPERTIES = Arrays.asList(
             "Checker.classLoader",
             "Checker.classloader",
             "Checker.moduleClassLoader",
@@ -134,7 +135,7 @@ public class XdocsPagesTest {
             "SuppressionCommentFilter.fileContents"
     );
 
-    private static final List<String> PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD = List.of(
+    private static final List<String> PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD = Arrays.asList(
             // static field (all upper case)
             "SuppressWarningsHolder.aliasList",
             // loads string into memory similar to file
@@ -155,7 +156,7 @@ public class XdocsPagesTest {
     // ignore the not yet properly covered modules while testing newly added ones
     // add proper sections to the coverage report and integration tests
     // and then remove this list eventually
-    private static final List<String> IGNORED_SUN_MODULES = List.of(
+    private static final List<String> IGNORED_SUN_MODULES = Arrays.asList(
             "ArrayTypeStyle",
             "AvoidNestedBlocks",
             "AvoidStarImport",
@@ -224,7 +225,7 @@ public class XdocsPagesTest {
 
     @Test
     public void testAllChecksPresentOnAvailableChecksPage() throws Exception {
-        final String availableChecks = Files.readString(AVAILABLE_CHECKS_PATH);
+        final String availableChecks = new String(Files.readAllBytes(AVAILABLE_CHECKS_PATH), UTF_8);
 
         CheckUtil.getSimpleNames(CheckUtil.getCheckstyleChecks())
             .stream()
@@ -256,7 +257,7 @@ public class XdocsPagesTest {
                 continue;
             }
 
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final Document document = XmlUtil.getRawXml(fileName, input, input);
             final NodeList sources = document.getElementsByTagName("subsection");
 
@@ -287,7 +288,7 @@ public class XdocsPagesTest {
 
     private static Map<String, String> readSummaries() throws Exception {
         final String fileName = AVAILABLE_CHECKS_PATH.getFileName().toString();
-        final String input = Files.readString(AVAILABLE_CHECKS_PATH);
+        final String input = new String(Files.readAllBytes(AVAILABLE_CHECKS_PATH), UTF_8);
         final Document document = XmlUtil.getRawXml(fileName, input, input);
         final NodeList rows = document.getElementsByTagName("tr");
         final Map<String, String> result = new HashMap<>();
@@ -307,7 +308,7 @@ public class XdocsPagesTest {
     @Test
     public void testAllSubSections() throws Exception {
         for (Path path : XdocUtil.getXdocsFilePaths()) {
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final String fileName = path.getFileName().toString();
 
             final Document document = XmlUtil.getRawXml(fileName, input, input);
@@ -353,7 +354,7 @@ public class XdocsPagesTest {
     @Test
     public void testAllXmlExamples() throws Exception {
         for (Path path : XdocUtil.getXdocsFilePaths()) {
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final String fileName = path.getFileName().toString();
 
             final Document document = XmlUtil.getRawXml(fileName, input, input);
@@ -470,7 +471,7 @@ public class XdocsPagesTest {
                 continue;
             }
 
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final Document document = XmlUtil.getRawXml(fileName, input, input);
             final NodeList sources = document.getElementsByTagName("section");
             String lastSectionName = null;
@@ -517,7 +518,7 @@ public class XdocsPagesTest {
         final Path path = Paths.get(XdocUtil.DIRECTORY_PATH + "/config.xml");
         final String fileName = path.getFileName().toString();
 
-        final String input = Files.readString(path);
+        final String input = new String(Files.readAllBytes(path), UTF_8);
         final Document document = XmlUtil.getRawXml(fileName, input, input);
         final NodeList sources = document.getElementsByTagName("section");
 
@@ -1283,7 +1284,7 @@ public class XdocsPagesTest {
         while (!Object.class.equals(currentClass)) {
             try {
                 result = currentClass.getDeclaredField(propertyName);
-                result.trySetAccessible();
+                result.setAccessible(true);
                 break;
             }
             catch (NoSuchFieldException ignored) {
@@ -1359,7 +1360,9 @@ public class XdocsPagesTest {
 
         for (Field field : fields) {
             // below is required for package/private classes
-            field.trySetAccessible();
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
 
             list.add(field.get(null).toString());
         }
@@ -1536,7 +1539,7 @@ public class XdocsPagesTest {
         for (Path path : XdocUtil.getXdocsStyleFilePaths(XdocUtil.getXdocsFilePaths())) {
             final String fileName = path.getFileName().toString();
             final String styleName = fileName.substring(0, fileName.lastIndexOf('_'));
-            final String input = Files.readString(path);
+            final String input = new String(Files.readAllBytes(path), UTF_8);
             final Document document = XmlUtil.getRawXml(fileName, input, input);
             final NodeList sources = document.getElementsByTagName("tr");
 

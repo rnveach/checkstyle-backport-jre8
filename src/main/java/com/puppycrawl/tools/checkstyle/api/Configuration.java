@@ -36,7 +36,7 @@ public interface Configuration extends Serializable {
      * @deprecated This shall be removed in future releases. Please use
      *      {@code getPropertyNames()} instead.
      */
-    @Deprecated(since = "8.45")
+    @Deprecated
     String[] getAttributeNames();
 
     /**
@@ -48,7 +48,7 @@ public interface Configuration extends Serializable {
      * @deprecated This shall be removed in future releases. Please use
      *      {@code getProperty(String name)} instead.
      */
-    @Deprecated(since = "8.45")
+    @Deprecated
     String getAttribute(String name) throws CheckstyleException;
 
     /**

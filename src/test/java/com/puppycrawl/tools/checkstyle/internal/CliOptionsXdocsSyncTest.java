@@ -20,6 +20,7 @@
 package com.puppycrawl.tools.checkstyle.internal;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -127,7 +128,7 @@ public class CliOptionsXdocsSyncTest {
 
     private static NodeList getSectionsFromXdoc(String xdocPath) throws Exception {
         final Path path = Paths.get(xdocPath);
-        final String input = Files.readString(path);
+        final String input = new String(Files.readAllBytes(path), UTF_8);
         final Document document = XmlUtil.getRawXml(path.getFileName().toString(), input, input);
         return document.getElementsByTagName("section");
     }

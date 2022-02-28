@@ -287,10 +287,14 @@ public class SarifLogger extends AutomaticBean implements AuditListener {
      * @return the escaped string.
      */
     private static String escapeUnicode1F(char chr) {
+        final StringBuilder stringBuilder = new StringBuilder(UNICODE_LENGTH + 1);
+        stringBuilder.append("\\u");
         final String hexString = Integer.toHexString(chr);
-        return "\\u"
-                + "0".repeat(UNICODE_LENGTH - hexString.length())
-                + hexString.toUpperCase(Locale.US);
+        for (int i = 0; i < UNICODE_LENGTH - hexString.length(); i++) {
+            stringBuilder.append('0');
+        }
+        stringBuilder.append(hexString.toUpperCase(Locale.US));
+        return stringBuilder.toString();
     }
 
     /**
@@ -312,7 +316,7 @@ public class SarifLogger extends AutomaticBean implements AuditListener {
                 result.write(buffer, 0, length);
                 length = inputStream.read(buffer);
             }
-            return result.toString(StandardCharsets.UTF_8);
+            return result.toString(StandardCharsets.UTF_8.name());
         }
     }
 }

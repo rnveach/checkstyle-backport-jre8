@@ -26,6 +26,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -50,17 +52,19 @@ import com.puppycrawl.tools.checkstyle.internal.utils.CheckUtil;
 public class XpathRegressionTest extends AbstractModuleTestSupport {
 
     // Checks that not compatible with SuppressionXpathFilter
-    public static final Set<String> INCOMPATIBLE_CHECK_NAMES = Set.of(
+    public static final Set<String> INCOMPATIBLE_CHECK_NAMES =
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             "NoCodeInFile (reason is that AST is not generated for a file not containing code)",
             "Regexp (reason is at  #7759)",
             "RegexpSinglelineJava (reason is at  #7759)"
-    );
+    )));
 
     // Javadoc checks are not compatible with SuppressionXpathFilter
     // till https://github.com/checkstyle/checkstyle/issues/5770
     // then all of them should be added to the list of incompatible checks
     // and this field should be removed
-    public static final Set<String> INCOMPATIBLE_JAVADOC_CHECK_NAMES = Set.of(
+    public static final Set<String> INCOMPATIBLE_JAVADOC_CHECK_NAMES =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
                     "AtclauseOrder",
                     "JavadocBlockTagLocation",
                     "JavadocMethod",
@@ -76,20 +80,21 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
                     "SingleLineJavadoc",
                     "SummaryJavadoc",
                     "WriteTag"
-    );
+    )));
 
     // Older regex-based checks that are under INCOMPATIBLE_JAVADOC_CHECK_NAMES
     // but not subclasses of AbstractJavadocCheck.
-    private static final Set<Class<?>> REGEXP_JAVADOC_CHECKS = Set.of(
+    private static final Set<Class<?>> REGEXP_JAVADOC_CHECKS =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
                     JavadocStyleCheck.class,
                     JavadocMethodCheck.class,
                     JavadocTypeCheck.class,
                     WriteTagCheck.class
-    );
+    )));
 
     // Checks that allowed to have no XPath IT Regression Testing
     // till https://github.com/checkstyle/checkstyle/issues/6207
-    private static final Set<String> MISSING_CHECK_NAMES = Set.of(
+    private static final Set<String> MISSING_CHECK_NAMES = new HashSet<>(Arrays.asList(
             "BooleanExpressionComplexity",
             "CatchParameterName",
             "ClassDataAbstractionCoupling",
@@ -142,12 +147,12 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             "ThrowsCount",
             "TypeName",
             "VisibilityModifier"
-    );
+    ));
 
     // Modules that will never have xpath support ever because they not report violations
-    private static final Set<String> NO_VIOLATION_MODULES = Set.of(
+    private static final Set<String> NO_VIOLATION_MODULES = new HashSet<>(Collections.singletonList(
             "SuppressWarningsHolder"
-    );
+    ));
 
     private static Set<String> simpleCheckNames;
     private static Map<String, String> allowedDirectoryAndChecks;
@@ -250,7 +255,7 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
         final Set<String> allChecks = new HashSet<>(simpleCheckNames);
         allChecks.removeAll(INCOMPATIBLE_JAVADOC_CHECK_NAMES);
         allChecks.removeAll(INCOMPATIBLE_CHECK_NAMES);
-        allChecks.removeAll(Set.of("Regexp", "RegexpSinglelineJava", "NoCodeInFile"));
+        allChecks.removeAll(Arrays.asList("Regexp", "RegexpSinglelineJava", "NoCodeInFile"));
         allChecks.removeAll(MISSING_CHECK_NAMES);
         allChecks.removeAll(NO_VIOLATION_MODULES);
         allChecks.removeAll(compatibleChecks);

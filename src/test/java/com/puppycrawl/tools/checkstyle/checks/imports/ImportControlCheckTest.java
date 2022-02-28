@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.puppycrawl.tools.checkstyle.checks.imports.ImportControlCheck.MSG_DISALLOWED;
 import static com.puppycrawl.tools.checkstyle.checks.imports.ImportControlCheck.MSG_MISSING_FILE;
 import static com.puppycrawl.tools.checkstyle.checks.imports.ImportControlCheck.MSG_UNKNOWN_PKG;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -343,7 +344,7 @@ public class ImportControlCheckTest extends AbstractModuleTestSupport {
         // One more time to use cache.
         verify(checkerConfig, filePath, expected);
 
-        final String contents = Files.readString(cacheFile.toPath());
+        final String contents = new String(Files.readAllBytes(cacheFile.toPath()), UTF_8);
         assertWithMessage("External resource is not present in cache")
                 .that(contents.contains("InputImportControlOneRegExp.xml"))
                 .isTrue();

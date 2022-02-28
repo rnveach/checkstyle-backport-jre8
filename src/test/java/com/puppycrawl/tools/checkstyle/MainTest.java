@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -423,10 +424,11 @@ public class MainTest {
      *
      * @param systemErr the system error stream
      * @param systemOut the system output stream
+     * @throws Exception if there is an error.
      */
     @Test
     public void testNonClosedSystemStreams(@SysErr Capturable systemErr,
-           @SysOut Capturable systemOut) {
+           @SysOut Capturable systemOut) throws Exception {
         try (ShouldNotBeClosedStream stream = new ShouldNotBeClosedStream()) {
             System.setOut(stream);
             System.setErr(stream);
@@ -1161,8 +1163,8 @@ public class MainTest {
     @Test
     public void testPrintTreeJavadocOption(@SysErr Capturable systemErr,
             @SysOut Capturable systemOut) throws IOException {
-        final String expected = Files.readString(Paths.get(
-            getPath("InputMainExpectedInputJavadocComment.txt")))
+        final String expected = new String(Files.readAllBytes(Paths.get(
+            getPath("InputMainExpectedInputJavadocComment.txt"))), StandardCharsets.UTF_8)
             .replaceAll("\\\\r\\\\n", "\\\\n").replaceAll("\r\n", "\n");
 
         assertMainReturnCode(0, "-j", getPath("InputMainJavadocComment.javadoc"));
@@ -1554,9 +1556,9 @@ public class MainTest {
     @Test
     public void testPrintFullTreeOption(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
             throws IOException {
-        final String expected = Files.readString(Paths.get(
-            getPath("InputMainExpectedInputAstTreeStringPrinterJavadoc.txt")))
-                .replaceAll("\\\\r\\\\n", "\\\\n")
+        final String expected = new String(Files.readAllBytes(Paths.get(
+            getPath("InputMainExpectedInputAstTreeStringPrinterJavadoc.txt"))),
+            StandardCharsets.UTF_8).replaceAll("\\\\r\\\\n", "\\\\n")
                 .replaceAll("\r\n", "\n");
 
         assertMainReturnCode(0, "-J", getPath("InputMainAstTreeStringPrinterJavadoc.java"));
@@ -1875,8 +1877,8 @@ public class MainTest {
 
         private boolean isClosed;
 
-        /* package */ ShouldNotBeClosedStream() {
-            super(new ByteArrayOutputStream(), false, StandardCharsets.UTF_8);
+        /* package */ ShouldNotBeClosedStream() throws UnsupportedEncodingException {
+            super(new ByteArrayOutputStream(), false, StandardCharsets.UTF_8.name());
         }
 
         @Override

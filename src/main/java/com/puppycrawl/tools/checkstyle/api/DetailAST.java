@@ -98,7 +98,7 @@ public interface DetailAST {
      *      traversal of subtrees to be written per the needs of each check
      *      to avoid unintended side effects.
      */
-    @Deprecated(since = "8.43")
+    @Deprecated
     boolean branchContains(int type);
 
     /**
@@ -137,7 +137,7 @@ public interface DetailAST {
      * @deprecated This method will be removed in a future release.
      *             Use {@link #getChildCount()} instead.
      */
-    @Deprecated(since = "8.30")
+    @Deprecated
     int getNumberOfChildren();
 
     /**

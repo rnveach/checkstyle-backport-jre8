@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -151,7 +150,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
      */
     public final void setExcludedClasses(String... excludedClasses) {
         this.excludedClasses =
-            Arrays.stream(excludedClasses).collect(Collectors.toUnmodifiableSet());
+            Arrays.stream(excludedClasses).collect(Collectors.toSet());
     }
 
     /**
@@ -175,7 +174,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
      */
     public final void setExcludedPackages(String... excludedPackages) {
         final List<String> invalidIdentifiers = Arrays.stream(excludedPackages)
-            .filter(Predicate.not(CommonUtil::isName))
+            .filter(excludedPackageName -> !CommonUtil.isName(excludedPackageName))
             .collect(Collectors.toList());
         if (!invalidIdentifiers.isEmpty()) {
             throw new IllegalArgumentException(
@@ -183,7 +182,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
         }
 
         this.excludedPackages =
-            Arrays.stream(excludedPackages).collect(Collectors.toUnmodifiableSet());
+            Arrays.stream(excludedPackages).collect(Collectors.toSet());
     }
 
     @Override

@@ -552,7 +552,9 @@ public class AllChecksTest extends AbstractModuleTestSupport {
                     .isEqualTo(Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL);
 
                 // below is required for package/private classes
-                message.trySetAccessible();
+                if (!message.isAccessible()) {
+                    message.setAccessible(true);
+                }
 
                 if (!INTERNAL_MODULES.contains(module.getSimpleName())) {
                     verifyCheckstyleMessage(usedMessages, module, message);

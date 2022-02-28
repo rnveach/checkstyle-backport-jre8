@@ -30,6 +30,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -51,7 +53,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 public class DetailAstImplTest extends AbstractModuleTestSupport {
 
     // Ignores file which are not meant to have root node intentionally.
-    public static final Set<String> NO_ROOT_FILES = Set.of(
+    public static final Set<String> NO_ROOT_FILES =
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
                  // fails with unexpected character
                  "InputGrammar.java",
                  // comment only files, no root
@@ -61,7 +64,7 @@ public class DetailAstImplTest extends AbstractModuleTestSupport {
                  "InputNoCodeInFile2.java",
                  "InputNoCodeInFile3.java",
                  "InputNoCodeInFile5.java"
-        );
+        )));
 
     @TempDir
     public File temporaryFolder;
