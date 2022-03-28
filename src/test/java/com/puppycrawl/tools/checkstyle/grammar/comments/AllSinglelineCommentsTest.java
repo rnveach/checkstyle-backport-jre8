@@ -33,7 +33,6 @@ import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.internal.utils.CheckUtil;
-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
 public class AllSinglelineCommentsTest extends AbstractModuleTestSupport {
 
@@ -52,10 +51,10 @@ public class AllSinglelineCommentsTest extends AbstractModuleTestSupport {
             createModuleConfig(SinglelineCommentListenerCheck.class);
         final String path = getPath("InputFullOfSinglelineComments.java");
         lineSeparator = CheckUtil.getLineSeparatorForFile(path, StandardCharsets.UTF_8);
-        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
-        verify(checkConfig, path, expected);
+        execute(checkConfig, path);
         assertWithMessage("All comments should be empty")
-            .that(ALL_COMMENTS).isEmpty();
+            .that(ALL_COMMENTS)
+            .isEmpty();
     }
 
     public static class SinglelineCommentListenerCheck extends AbstractCheck {

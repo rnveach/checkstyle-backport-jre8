@@ -47,6 +47,7 @@ import com.puppycrawl.tools.checkstyle.bdd.TestInputConfiguration;
 import com.puppycrawl.tools.checkstyle.bdd.TestInputViolation;
 import com.puppycrawl.tools.checkstyle.internal.utils.BriefUtLogger;
 import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
+import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.ModuleReflectionUtil;
 
 public abstract class AbstractModuleTestSupport extends AbstractPathTestSupport {
@@ -403,6 +404,22 @@ public abstract class AbstractModuleTestSupport extends AbstractPathTestSupport 
     }
 
     /**
+     * Executes given config on a list of files only. Does not verify violations.
+     *
+     * @param config check configuration
+     * @param filenames names of files to process
+     * @throws Exception if there is a problem during checker configuration
+     */
+    protected final void execute(Configuration config, String... filenames) throws Exception {
+        final Checker checker = createChecker(config);
+        final List<File> files = Arrays.stream(filenames)
+                .map(File::new)
+                .collect(Collectors.toList());
+        checker.process(files);
+        checker.destroy();
+    }
+
+    /**
      * Performs verification of violation lines.
      *
      * @param config parsed config.
@@ -564,6 +581,21 @@ public abstract class AbstractModuleTestSupport extends AbstractPathTestSupport 
             messageBundle = packageName + "." + messages;
         }
         return messageBundle;
+    }
+
+    /**
+     * Remove suppressed violation messages from actual violation messages.
+     *
+     * @param actualViolations actual violation messages
+     * @param suppressedViolations suppressed violation messages
+     * @return an array of actual violation messages minus suppressed violation messages
+     */
+    protected static String[] removeSuppressed(String[] actualViolations,
+                                               String... suppressedViolations) {
+        final List<String> actualViolationsList =
+            Arrays.stream(actualViolations).collect(Collectors.toList());
+        actualViolationsList.removeAll(Arrays.asList(suppressedViolations));
+        return actualViolationsList.toArray(CommonUtil.EMPTY_STRING_ARRAY);
     }
 
 }

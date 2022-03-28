@@ -19,6 +19,7 @@
 
 package com.puppycrawl.tools.checkstyle.utils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -36,6 +37,15 @@ public final class AnnotationUtil {
      * Common message.
      */
     private static final String THE_AST_IS_NULL = "the ast is null";
+
+    /** {@link Override Override} annotation name. */
+    private static final String OVERRIDE = "Override";
+
+    /** Fully-qualified {@link Override Override} annotation name. */
+    private static final String FQ_OVERRIDE = "java.lang." + OVERRIDE;
+
+    /** List of simple and fully-qualified {@link Override Override} annotation names. */
+    private static final List<String> OVERRIDE_ANNOTATIONS = Arrays.asList(OVERRIDE, FQ_OVERRIDE);
 
     /**
      * Private utility constructor.
@@ -126,6 +136,18 @@ public final class AnnotationUtil {
         }
 
         return result;
+    }
+
+    /**
+     * Checks if the AST is annotated with {@code Override} or
+     * {@code java.lang.Override} annotation.
+     *
+     * @param ast the current node
+     * @return {@code true} if the AST contains Override annotation
+     * @throws IllegalArgumentException when ast is null
+     */
+    public static boolean hasOverrideAnnotation(DetailAST ast) {
+        return containsAnnotation(ast, OVERRIDE_ANNOTATIONS);
     }
 
     /**

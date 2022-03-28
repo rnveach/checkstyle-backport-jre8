@@ -110,26 +110,21 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             "FinalParameters",
             "HideUtilityClassConstructor",
             "IllegalInstantiation",
-            "IllegalToken",
             "IllegalTokenText",
-            "IllegalType",
             "InnerAssignment",
             "InnerTypeLast",
             "InterfaceTypeParameterName",
             "JavaNCSS",
-            "IllegalImport",
             "LocalFinalVariableName",
             "LocalVariableName",
             "MagicNumber",
             "MemberName",
             "MethodLength",
-            "MethodName",
             "MethodTypeParameterName",
             "ModifiedControlVariable",
             "ModifierOrder",
             "MultipleStringLiterals",
             "MutableException",
-            "OperatorWrap",
             "PackageName",
             "ParameterAssignment",
             "ParameterName",
@@ -263,7 +258,8 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
 
         assertWithMessage("XpathRegressionTest is missing for [" + String.join(", ", allChecks)
                 + "]. Please add them to src/it/java/org/checkstyle/suppressionxpathfilter")
-                        .that(allChecks).isEmpty();
+                        .that(allChecks)
+                        .isEmpty();
     }
 
     @Test

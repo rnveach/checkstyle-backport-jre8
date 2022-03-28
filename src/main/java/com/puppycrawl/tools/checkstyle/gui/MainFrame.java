@@ -114,8 +114,6 @@ public class MainFrame extends JFrame {
         xpathAreaPanel.setBorder(title);
 
         add(xpathAreaPanel, BorderLayout.PAGE_END);
-
-        pack();
     }
 
     /**
@@ -125,7 +123,7 @@ public class MainFrame extends JFrame {
      */
     private JPanel createButtonsPanel() {
         final JButton openFileButton = new JButton(new FileSelectionAction());
-        openFileButton.setMnemonic(KeyEvent.VK_S);
+        openFileButton.setMnemonic(KeyEvent.VK_O);
         openFileButton.setText("Open File");
 
         reloadAction.setEnabled(false);

@@ -60,7 +60,8 @@ public class ViolationTest {
         final String language = DEFAULT_LOCALE.getLanguage();
         assumeFalse(language.isEmpty(), "Locale not set");
         assertWithMessage("Invalid language")
-                .that(Locale.getISOLanguages()).asList()
+                .that(Locale.getISOLanguages())
+                .asList()
                 .contains(language);
     }
 
@@ -72,7 +73,8 @@ public class ViolationTest {
         final String country = DEFAULT_LOCALE.getCountry();
         assumeFalse(country.isEmpty(), "Locale not set");
         assertWithMessage("Invalid country")
-                .that(Locale.getISOCountries()).asList()
+                .that(Locale.getISOCountries())
+                .asList()
                 .contains(country);
     }
 
@@ -86,7 +88,7 @@ public class ViolationTest {
         assumeFalse(language.isEmpty() || Locale.ENGLISH.getLanguage().equals(language),
                 "Custom locale not set");
         final Violation violation = createSampleViolation();
-        assertWithMessage("Unsupported language: {}", DEFAULT_LOCALE)
+        assertWithMessage("Unsupported language: %s", DEFAULT_LOCALE)
                 .that(violation.getViolation())
                 .isNotEqualTo("Empty statement.");
     }

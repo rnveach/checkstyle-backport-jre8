@@ -60,7 +60,7 @@
   <suppress checks="MethodCount" files="[\\/]VisibilityModifierCheck.java$"/>
   <!-- RequireThisCheck has a hierarchy of nested classes which contains a lot of methods. -->
   <suppress checks="MethodCount" files="[\\/]RequireThisCheck.java$"/>
-  <!-- Until https://github.com/checkstyle/checkstyle/issues/11201 -->
+  <!-- Apart from complex logic, there is a nested class which contains many methods.  -->
   <suppress checks="MethodCount" files="[\\/]UnusedLocalVariableCheck.java"/>
   <!-- parse method needs catching Exceptions to print context of execution -->
   <suppress checks="IllegalCatch" files="[\\/]src[\\/]test[\\/].*[\\/]InlineConfigParser\.java"/>
@@ -101,7 +101,6 @@
     files="[\\/]src[\\/]xdocs[\\/]beginning_development.xml"/>
 
   <!-- these are legacy use cases until #11166 -->
-  <suppress id="noUsageOfGetFileContentsMethod" files="MissingOverrideCheck.java"/>
   <suppress id="noUsageOfGetFileContentsMethod" files="PackageAnnotationCheck.java"/>
   <suppress id="noUsageOfGetFileContentsMethod" files="FallThroughCheck.java"/>
   <suppress id="noUsageOfGetFileContentsMethod" files="PackageDeclarationCheck.java"/>

@@ -1,6 +1,38 @@
-////////////////////////////////////////////////////////////////////////////////
-// Test case file for checkstyle.
-////////////////////////////////////////////////////////////////////////////////
+/*
+SuppressWithNearbyCommentFilter
+commentFormat = (default)SUPPRESS CHECKSTYLE (\\w+)
+checkFormat = (default).*
+messageFormat = (default)(null)
+idFormat = (default)(null)
+influenceFormat = (default)0
+checkCPP = (default)true
+checkC = (default)true
+
+
+com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck
+id = ignore
+format = (default)^[a-z][a-zA-Z0-9]*$
+applyToPublic = (default)true
+applyToProtected = (default)true
+applyToPackage = (default)true
+applyToPrivate = (default)true
+
+
+com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck
+id = (null)
+format = (default)^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$
+applyToPublic = (default)true
+applyToProtected = (default)true
+applyToPackage = (default)true
+applyToPrivate = (default)true
+
+
+com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck
+illegalClassNames = (default)Error, Exception, RuntimeException, Throwable, java.lang.Error, \
+                    java.lang.Exception, java.lang.RuntimeException, java.lang.Throwable
+
+
+*/
 
 package com.puppycrawl.tools.checkstyle.filters.suppresswithnearbycommentfilter;
 
@@ -9,51 +41,55 @@ package com.puppycrawl.tools.checkstyle.filters.suppresswithnearbycommentfilter;
  *
  * @author Mick Killianey
  */
-class InputSuppressWithNearbyCommentFilter
-{
+public class InputSuppressWithNearbyCommentFilter {
+    // filtered violation below
     private int A1;  // SUPPRESS CHECKSTYLE MemberNameCheck
+
+    // filtered violation below
     private int A2;  /* SUPPRESS CHECKSTYLE MemberNameCheck */
-    /* SUPPRESS CHECKSTYLE MemberNameCheck */ private int A3;
+    /* SUPPRESS CHECKSTYLE MemberNameCheck */ private int A3; // filtered violation
 
+    // filtered violation below
     private int B1;  // SUPPRESS CHECKSTYLE MemberNameCheck
+
+    // filtered violation below
     private int B2;  /* SUPPRESS CHECKSTYLE MemberNameCheck */
-    /* SUPPRESS CHECKSTYLE MemberNameCheck */ private int B3;
+    /* SUPPRESS CHECKSTYLE MemberNameCheck */ private int B3; // filtered violation
 
-    private int C1;
+    private int C1; // violation
     // ALLOW MemberName ON NEXT LINE
-    private int C2;
-    private int C3;
+    private int C2; // violation
+    private int C3; // violation
 
-    private int D1;
-    private int D2;
+    private int D1; // violation
+    private int D2; // violation
     // ALLOW MemberName ON PREVIOUS LINE
-    private int D3;
+    private int D3; // violation
 
-    private static final int e1 = 0;
-    private int E2;
+    private static final int e1 = 0; // violation
+    private int E2; // violation
+
+    // violation below
     private int E3;    // ALLOW ConstantName UNTIL THIS LINE+2
-    private static final int e4 = 0;
-    private int E5;
-    private static final int e6 = 0;
-    private int E7;
+    private static final int e4 = 0; // violation
+    private int E5; // violation
+    private static final int e6 = 0; // violation
+    private int E7; // violation
     private int E8;    /* ALLOW MemberName UNTIL THIS LINE-3 */
-    private static final int e9 = 0;
+    // violation above
+    private static final int e9 = 0; // violation
 
     // ALLOW Unused UNTIL THIS LINE+5
-    public static void doit1(int aInt) // this is +1
-    {
+    public static void doit1(int aInt) { // this is +1
     }
 
-    public static void doit2(int aInt) // this is +5
-    {
+    public static void doit2(int aInt) { // this is +5
     }
 
-    public static void doit3(int aInt) // this is +9
-    {
+    public static void doit3(int aInt) { // this is +9
     }
 
-    public void doit4()
-    {
+    public void doit4() {
         try {
             // blah blah blah
             for(int i = 0; i < 10; i++) {
@@ -61,22 +97,23 @@ class InputSuppressWithNearbyCommentFilter
                 while(true) {
                     try {
                         // blah blah blah
-                    } catch(Exception e) {
+                    } catch(Exception e) { // violation
                         // bad bad bad
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { // violation
                         // ALLOW CATCH Throwable BECAUSE I threw this together.
                     }
                 }
                 // blah blah blah
             }
             // blah blah blah
-        } catch(Exception ex) {
+        } catch(Exception ex) { // violation
             // ALLOW CATCH Exception BECAUSE I am an exceptional person.
         }
     }
 }
 
 class Magic {
+    // filtered violation below
     /* SUPPRESS CHECKSTYLE MemberNameCheck */ private int A2;/* SUPPRESS CHECKSTYLE MemberName ol */
-    private int A1;
+    private int A1; // violation
 }
