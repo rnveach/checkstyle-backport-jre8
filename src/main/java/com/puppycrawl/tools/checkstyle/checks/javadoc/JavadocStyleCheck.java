@@ -328,8 +328,9 @@ public class JavadocStyleCheck
 
     /** HTML tags that do not require a close tag. */
     private static final Set<String> SINGLE_TAGS = Collections.unmodifiableSortedSet(
-        Arrays.stream(new String[] {"br", "li", "dt", "dd", "hr", "img", "p", "td", "tr", "th", })
-            .collect(Collectors.toCollection(TreeSet::new)));
+        Arrays.stream(new String[] {
+            "br", "li", "dt", "dd", "hr", "img", "p", "td", "tr", "th",
+        }).collect(Collectors.toCollection(TreeSet::new)));
 
     /**
      * HTML tags that are allowed in java docs.
@@ -344,8 +345,8 @@ public class JavadocStyleCheck
             "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "ins", "kbd",
             "li", "ol", "p", "pre", "q", "samp", "small", "span", "strong",
             "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead",
-            "tr", "tt", "u", "ul", "var", })
-        .collect(Collectors.toCollection(TreeSet::new)));
+            "tr", "tt", "u", "ul", "var",
+        }).collect(Collectors.toCollection(TreeSet::new)));
 
     /** Specify the visibility scope where Javadoc comments are checked. */
     private Scope scope = Scope.PRIVATE;
@@ -421,13 +422,11 @@ public class JavadocStyleCheck
      * @param ast a given node.
      * @return whether we should check a given node.
      */
-    // suppress deprecation until https://github.com/checkstyle/checkstyle/issues/11166
-    @SuppressWarnings("deprecation")
     private boolean shouldCheck(final DetailAST ast) {
         boolean check = false;
 
         if (ast.getType() == TokenTypes.PACKAGE_DEF) {
-            check = getFileContents().inPackageInfo();
+            check = CheckUtil.isPackageInfo(getFilePath());
         }
         else if (!ScopeUtil.isInCodeBlock(ast)) {
             final Scope customScope = ScopeUtil.getScope(ast);
@@ -452,15 +451,13 @@ public class JavadocStyleCheck
      * @see #checkFirstSentenceEnding(DetailAST, TextBlock)
      * @see #checkHtmlTags(DetailAST, TextBlock)
      */
-    // suppress deprecation until https://github.com/checkstyle/checkstyle/issues/11166
-    @SuppressWarnings("deprecation")
     private void checkComment(final DetailAST ast, final TextBlock comment) {
         if (comment == null) {
             // checking for missing docs in JavadocStyleCheck is not consistent
             // with the rest of CheckStyle...  Even though, I didn't think it
             // made sense to make another check just to ensure that the
             // package-info.java file actually contains package Javadocs.
-            if (getFileContents().inPackageInfo()) {
+            if (CheckUtil.isPackageInfo(getFilePath())) {
                 log(ast, MSG_JAVADOC_MISSING);
             }
         }

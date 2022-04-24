@@ -2,8 +2,8 @@
 <checkstyle-metadata>
    <module>
       <check fully-qualified-name="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"
-             name="MethodLength"
-             parent="com.puppycrawl.tools.checkstyle.TreeWalker">
+              name="MethodLength"
+              parent="com.puppycrawl.tools.checkstyle.TreeWalker">
          <description>&lt;p&gt;
  Checks for long methods and constructors.
  &lt;/p&gt;
@@ -17,13 +17,12 @@
                <description>Specify the maximum number of lines allowed.</description>
             </property>
             <property default-value="true" name="countEmpty" type="boolean">
-               <description>Control whether to count empty lines and single
- line comments of the form {@code //}.</description>
+               <description>Control whether to count empty lines and comments.</description>
             </property>
             <property default-value="METHOD_DEF,CTOR_DEF,COMPACT_CTOR_DEF"
-                      name="tokens"
-                      type="java.lang.String[]"
-                      validation-type="tokenSet">
+                       name="tokens"
+                       type="java.lang.String[]"
+                       validation-type="tokenSet">
                <description>tokens to check</description>
             </property>
          </properties>

@@ -129,12 +129,48 @@ public class WhitespaceAfterCheckTest
     }
 
     @Test
+    public void testLiteralFinally() throws Exception {
+        final String[] expected = {
+            "14:13: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
+            "17:31: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "finally"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralFinally.java"),
+            expected);
+    }
+
+    @Test
+    public void testLiteralReturn() throws Exception {
+        final String[] expected = {
+            "17:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
+            "21:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
+            "25:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
+            "29:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "return"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralReturn.java"),
+            expected);
+    }
+
+    @Test
     public void testLiteralDo() throws Exception {
         final String[] expected = {
             "70:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "do"),
         };
         verifyWithInlineConfigParser(
                 getPath("InputWhitespaceAfterLiteralDo.java"),
+                expected);
+    }
+
+    @Test
+    public void testLiteralSynchronized() throws Exception {
+        final String[] expected = {
+            "13:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "synchronized"),
+            "31:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "synchronized"),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputWhitespaceAfterLiteralSynchronized.java"),
                 expected);
     }
 
@@ -146,6 +182,27 @@ public class WhitespaceAfterCheckTest
         verifyWithInlineConfigParser(
                 getPath("InputWhitespaceAfterDoWhile.java"),
                 expected);
+    }
+
+    @Test
+    public void testLiteralTry() throws Exception {
+        final String[] expected = {
+            "20:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
+            "24:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "try"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralTry.java"),
+            expected);
+    }
+
+    @Test
+    public void testLiteralCatch() throws Exception {
+        final String[] expected = {
+            "14:14: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "catch"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralCatch.java"),
+            expected);
     }
 
     @Test

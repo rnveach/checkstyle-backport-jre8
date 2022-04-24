@@ -290,7 +290,7 @@ public class SarifLogger extends AutomaticBean implements AuditListener {
         final StringBuilder stringBuilder = new StringBuilder(UNICODE_LENGTH + 1);
         stringBuilder.append("\\u");
         final String hexString = Integer.toHexString(chr);
-        for (int i = 0; i < UNICODE_LENGTH - hexString.length(); i++) {
+        for (int index = 0; index < UNICODE_LENGTH - hexString.length(); index++) {
             stringBuilder.append('0');
         }
         stringBuilder.append(hexString.toUpperCase(Locale.US));

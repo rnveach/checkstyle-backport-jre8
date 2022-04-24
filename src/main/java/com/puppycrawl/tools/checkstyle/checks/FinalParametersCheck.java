@@ -161,8 +161,8 @@ public class FinalParametersCheck extends AbstractCheck {
             TokenTypes.LITERAL_FLOAT,
             TokenTypes.LITERAL_DOUBLE,
             TokenTypes.LITERAL_BOOLEAN,
-            TokenTypes.LITERAL_CHAR, })
-        .collect(Collectors.toSet()));
+            TokenTypes.LITERAL_CHAR,
+        }).collect(Collectors.toSet()));
 
     /**
      * Ignore primitive types as parameters.

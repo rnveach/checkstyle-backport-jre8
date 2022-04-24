@@ -93,10 +93,11 @@ public final class TokenUtil {
      * @return unmodifiable name to value map
      */
     public static Map<String, Integer> nameToValueMapFromPublicIntFields(Class<?> cls) {
-        final Map<String, Integer> map = Arrays.stream(cls.getDeclaredFields())
+        return Collections.unmodifiableMap(Arrays.stream(cls.getDeclaredFields())
             .filter(fld -> Modifier.isPublic(fld.getModifiers()) && fld.getType() == Integer.TYPE)
-            .collect(Collectors.toMap(Field::getName, fld -> getIntFromField(fld, fld.getName())));
-        return Collections.unmodifiableMap(map);
+            .collect(Collectors.toMap(
+                Field::getName, fld -> getIntFromField(fld, fld.getName()))
+            ));
     }
 
     /**
@@ -281,7 +282,14 @@ public final class TokenUtil {
      * @return true if type matches one of the given types.
      */
     public static boolean isOfType(int type, int... types) {
-        return Arrays.stream(types).anyMatch(tokenType -> tokenType == type);
+        boolean matching = false;
+        for (int tokenType : types) {
+            if (tokenType == type) {
+                matching = true;
+                break;
+            }
+        }
+        return matching;
     }
 
     /**

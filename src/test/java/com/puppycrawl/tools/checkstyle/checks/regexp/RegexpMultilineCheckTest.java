@@ -231,7 +231,7 @@ public class RegexpMultilineCheckTest extends AbstractModuleTestSupport {
         // StackOverflowError
         final int size = 100_000;
         final StringBuilder largeString = new StringBuilder(size);
-        for (int i = 0; i < size / 2; i++) {
+        for (int index = 0; index < size / 2; index++) {
             largeString.append("xy");
         }
         return largeString;

@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.1</version>
+  <version>10.2</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -62,13 +62,13 @@
     <surefire.options />
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
-    <maven.site.plugin.version>3.11.0</maven.site.plugin.version>
+    <maven.site.plugin.version>3.12.0</maven.site.plugin.version>
     <maven.spotbugs.plugin.version>4.6.0.0</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.16.0</maven.pmd.plugin.version>
-    <pmd.version>6.43.0</pmd.version>
-    <maven.jacoco.plugin.version>0.8.7</maven.jacoco.plugin.version>
-    <mockito.version>4.4.0</mockito.version>
-    <saxon.version>10.6</saxon.version>
+    <pmd.version>6.44.0</pmd.version>
+    <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
+    <mockito.version>4.5.1</mockito.version>
+    <saxon.version>11.3</saxon.version>
     <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
     <maven.sevntu-checkstyle-check.checkstyle.version>
@@ -148,8 +148,28 @@
     <dependency>
       <groupId>org.junit-pioneer</groupId>
       <artifactId>junit-pioneer</artifactId>
-      <version>1.6.2</version>
+      <version>1.7.0</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.caciocavallosilano</groupId>
+      <artifactId>cacio-tta</artifactId>
+      <version>1.10</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jidesoft</groupId>
+          <artifactId>jide-oss</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-swing-junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
@@ -209,6 +229,10 @@
           <groupId>com.ibm.icu</groupId>
           <artifactId>icu4j</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
   </dependencies>
@@ -222,7 +246,7 @@
              see no old versions -->
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
@@ -252,7 +276,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.4</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.pitest</groupId>
@@ -269,7 +293,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.2</version>
+          <version>3.4.0</version>
           <configuration>
             <!-- Exclude generated sources. -->
             <excludePackageNames>
@@ -499,7 +523,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
       </plugin>
 
       <plugin>
@@ -679,12 +703,6 @@
             <goals>
               <goal>report</goal>
             </goals>
-            <configuration>
-              <excludes>
-                <!-- Swing related classes -->
-                <exclude>com/puppycrawl/tools/checkstyle/gui/*.class</exclude>
-              </excludes>
-            </configuration>
           </execution>
           <execution>
             <id>default-check</id>
@@ -717,17 +735,21 @@
                       com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck.RegularClass
                     </exclude>
                     <!-- Swing related classes -->
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.BaseCellEditor*</exclude>
+                    <exclude>com.puppycrawl.tools.checkstyle.gui.BaseCellEditor</exclude>
                     <exclude>com.puppycrawl.tools.checkstyle.gui.CodeSelector</exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTable*</exclude>
                     <exclude>
-                             com.puppycrawl.tools.checkstyle.gui.ListToTreeSelectionModelWrapper*
+                             com.puppycrawl.tools.checkstyle.gui.ListToTreeSelectionModelWrapper
                     </exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.Main*</exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.MainFrame*</exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.ParseTreeTableModel*</exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTableCellRenderer*</exclude>
-                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTableModelAdapter*</exclude>
+                    <exclude>com.puppycrawl.tools.checkstyle.gui.ParseTreeTableModel</exclude>
+                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTable</exclude>
+                    <exclude>
+                             com.puppycrawl.tools.checkstyle.gui.TreeTable.TreeTableCellEditor
+                    </exclude>
+                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTableCellRenderer</exclude>
+                    <exclude>com.puppycrawl.tools.checkstyle.gui.TreeTableModelAdapter</exclude>
+                    <exclude>
+                             com.puppycrawl.tools.checkstyle.gui.TreeTableModelAdapter.UpdatingTreeModelListener
+                    </exclude>
                     <!-- Metadata Generator related classes -->
                     <exclude>com.puppycrawl.tools.checkstyle.meta.ModuleDetails*</exclude>
                     <exclude>com.puppycrawl.tools.checkstyle.meta.JavadocMetadataScraper*</exclude>
@@ -738,6 +760,174 @@
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
                       <minimum>1.00</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>1.00</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.BaseCellEditor</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.09</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.00</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.CodeSelector</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.91</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.50</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>
+                      com.puppycrawl.tools.checkstyle.gui.ListToTreeSelectionModelWrapper
+                    </include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.74</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.35</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>
+                      com.puppycrawl.tools.checkstyle.gui.ParseTreeTableModel
+                    </include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.79</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.83</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.TreeTable</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.90</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.54</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.TreeTable.TreeTableCellEditor</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.06</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.00</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.TreeTableCellRenderer</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.46</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.20</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>com.puppycrawl.tools.checkstyle.gui.TreeTableModelAdapter</include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.64</minimum>
+                    </limit>
+                    <limit>
+                      <counter>BRANCH</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>1.00</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+                <rule>
+                  <element>CLASS</element>
+                  <includes>
+                    <include>
+                      com.puppycrawl.tools.checkstyle.gui.TreeTableModelAdapter.UpdatingTreeModelListener
+                    </include>
+                  </includes>
+                  <limits>
+                    <limit>
+                      <counter>LINE</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.45</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
@@ -1092,6 +1282,12 @@
           <argLine>-Dfile.encoding=UTF-8 @{surefire.options}</argLine>
           <systemPropertyVariables>
             <jacoco-agent.destfile>${project.build.directory}/jacoco.exec</jacoco-agent.destfile>
+            <!-- Virtual AWT driver for GUI unit tests -->
+            <awt.toolkit>com.github.caciocavallosilano.cacio.ctc.CTCToolkit</awt.toolkit>
+            <java.awt.headless>false</java.awt.headless>
+            <java.awt.graphicsenv>
+              com.github.caciocavallosilano.cacio.ctc.CTCGraphicsEnvironment
+            </java.awt.graphicsenv>
           </systemPropertyVariables>
           <additionalClasspathElements>
             <additionalClasspathElement>
@@ -1254,7 +1450,7 @@
               <includes>
                 <include>site.xml</include>
               </includes>
-              <systemId>.ci/decoration-1.8.0.xsd</systemId>
+              <systemId>config/decoration-1.8.0.xsd</systemId>
             </validationSet>
             <validationSet>
               <validating>true</validating>
@@ -3001,6 +3197,8 @@
                 <param>com.puppycrawl.tools.checkstyle.api.*</param>
                 <!-- 1% mutation in FullIdent -->
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheckTest</param>
+                <!-- 1% mutation in CheckUtil -->
+                <param>com.puppycrawl.tools.checkstyle.checks.OuterTypeFilenameCheckTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>

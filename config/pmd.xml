@@ -388,6 +388,8 @@
     <exclude name="AvoidInstantiatingObjectsInLoops"/>
     <!-- Not configurable, decreases readability. -->
     <exclude name="UseStringBufferForStringAppends"/>
+    <!-- Backport to Java 8. -->
+    <exclude name="InefficientEmptyStringCheck"/>
   </rule>
 
   <rule ref="category/java/design.xml/ExcessivePublicCount">
