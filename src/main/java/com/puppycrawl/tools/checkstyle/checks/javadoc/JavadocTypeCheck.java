@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -93,7 +95,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * Default value is {@code false}.
  * </li>
  * <li>
- * Property {@code allowedAnnotations} - Specify the list of annotations that allow
+ * Property {@code allowedAnnotations} - Specify annotations that allow
  * missed documentation. Only short names are allowed, e.g. {@code Generated}.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code Generated}.
@@ -268,10 +270,11 @@ public class JavadocTypeCheck
     private boolean allowUnknownTags;
 
     /**
-     * Specify the list of annotations that allow missed documentation.
+     * Specify annotations that allow missed documentation.
      * Only short names are allowed, e.g. {@code Generated}.
      */
-    private List<String> allowedAnnotations = Collections.singletonList("Generated");
+    private Set<String> allowedAnnotations = Collections.unmodifiableSet(
+            Arrays.stream(new String[] {"Generated"}).collect(Collectors.toSet()));
 
     /**
      * Setter to specify the visibility scope where Javadoc comments are checked.
@@ -329,13 +332,14 @@ public class JavadocTypeCheck
     }
 
     /**
-     * Setter to specify the list of annotations that allow missed documentation.
+     * Setter to specify annotations that allow missed documentation.
      * Only short names are allowed, e.g. {@code Generated}.
      *
      * @param userAnnotations user's value.
      */
     public void setAllowedAnnotations(String... userAnnotations) {
-        allowedAnnotations = Arrays.asList(userAnnotations);
+        allowedAnnotations = Collections
+                .unmodifiableSet(Arrays.stream(userAnnotations).collect(Collectors.toSet()));
     }
 
     @Override
@@ -513,9 +517,9 @@ public class JavadocTypeCheck
     /**
      * Checks for unused param tags for type parameters and record components.
      *
-     * @param tags tags from the Javadoc comment for the type definition.
+     * @param tags tags from the Javadoc comment for the type definition
      * @param typeParamNames names of type parameters
-     * @param recordComponentNames list of record component names in this definition
+     * @param recordComponentNames record component names in this definition
      */
     private void checkUnusedParamTags(
         List<JavadocTag> tags,
@@ -563,7 +567,7 @@ public class JavadocTypeCheck
      * Collects the record components in a record definition.
      *
      * @param node the possible record definition ast.
-     * @return the list of record components in this record definition.
+     * @return the record components in this record definition.
      */
     private static List<String> getRecordComponentNames(DetailAST node) {
         final DetailAST components = node.findFirstToken(TokenTypes.RECORD_COMPONENTS);

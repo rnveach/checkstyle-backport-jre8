@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.2</version>
+  <version>10.3</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,20 +63,20 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.0</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.6.0.0</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.7.0.0</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.16.0</maven.pmd.plugin.version>
-    <pmd.version>6.44.0</pmd.version>
+    <pmd.version>6.45.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
-    <mockito.version>4.5.1</mockito.version>
+    <mockito.version>4.6.0</mockito.version>
     <saxon.version>11.3</saxon.version>
     <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
     <maven.sevntu-checkstyle-check.checkstyle.version>
       9.1
     </maven.sevntu-checkstyle-check.checkstyle.version>
-    <maven.versions.plugin.version>2.10.0</maven.versions.plugin.version>
+    <maven.versions.plugin.version>2.11.0</maven.versions.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.7.5</pitest.plugin.version>
+    <pitest.plugin.version>1.8.0</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
@@ -88,12 +88,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>com.tngtech.archunit</groupId>
-      <artifactId>archunit-junit5</artifactId>
-      <version>0.23.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
@@ -148,7 +142,13 @@
     <dependency>
       <groupId>org.junit-pioneer</groupId>
       <artifactId>junit-pioneer</artifactId>
-      <version>1.7.0</version>
+      <version>1.7.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>0.23.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -578,10 +578,13 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.9.0</version>
+        <version>3.10.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <compilerArgs>
+            <arg>-Xpkginfo:always</arg>
+          </compilerArgs>
         </configuration>
         <!-- till https://github.com/checkstyle/checkstyle/issues/2160
         <executions>
@@ -1552,6 +1555,7 @@
                 <exclude>**/MainTest.class</exclude>
                 <!-- tests need forbidden apis to test the main code fully -->
                 <exclude>**/XpathFileGeneratorAuditListenerTest.class</exclude>
+                <exclude>**/AllChecksTest.class</exclude>
                 <!-- Needed for testing deprecated API. -->
                 <exclude>**/DefaultConfigurationTest.class</exclude>
                 <!-- is not Check or Filter, it is internal module -->
@@ -1567,6 +1571,7 @@
 
                 <!-- input files are not java files, bdd need support for other comment types -->
                 <exclude>**/SuppressWithPlainTextCommentFilterTest.class</exclude>
+                <exclude>**/NewlineAtEndOfFileCheckTest.class</exclude>
 
                 <!-- stay in old way as format of input files is very special -->
                 <exclude>**/IndentationCheckTest.class</exclude>
@@ -1629,6 +1634,9 @@
                 <!-- tests should be updated -->
                 <exclude>**/AbstractJavadocCheckTest.class</exclude>
 
+                <!-- tests should be updated -->
+                <exclude>**/JavadocPackageCheckTest.class</exclude>
+
               </excludes>
             </configuration>
           </execution>
@@ -1671,7 +1679,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.3.0</version>
       </plugin>
 
       <plugin>
@@ -1821,14 +1829,14 @@
             <excludedLink>https://travis-ci.org/checkstyle/checkstyle</excludedLink>
             <excludedLink>https://coveralls.io/r/checkstyle/checkstyle</excludedLink>
 
-            <!-- we did too much requests to github,
-                 now github reject all requests "429 Too Many Requests"
+            <!-- we did too many requests to GitHub,
+                 now GitHub reject all requests "429 Too Many Requests"
                  https://codeship.com/projects/124310/builds/12027213  -->
             <excludedLink>https://github.com/*</excludedLink>
             <!-- redirects to US page, it is better to stay international -->
             <excludedLink>https://help.github.com/*</excludedLink>
             <excludedLink>http://search.maven.org/*</excludedLink>
-            <!-- codehaus does not exists anymore -->
+            <!-- codehaus does not exist anymore -->
             <excludedLink>http://sonar-plugins.codehaus.org/maven-report</excludedLink>
             <excludedLink>
               http://www.mojohaus.org/sonar-maven-plugin/sonar-maven-plugin
@@ -1871,7 +1879,7 @@
             <excludedLink>https://plus.google.com/+CheckstyleJava</excludedLink>
             <!-- 302 redirect to
              https://marketplace.atlassian.com/apps/1214095/checkstyles-for-bitbucket-server/version-history
-             this link does not looks like permanent, it is better to keep the existing link -->
+             this link does not look like permanent, it is better to keep the existing link -->
             <excludedLink>
               https://marketplace.atlassian.com/apps/1214095/checkstyles-for-bitbucket-server
             </excludedLink>
@@ -1892,7 +1900,7 @@
             <!-- very frequent SocketTimeoutException : Read timed out -->
             <excludedLink>https://www.bountysource.com/*</excludedLink>
             <excludedLink>https://api.bountysource.com/*</excludedLink>
-            <!-- This URL become to require to login first to see content -->
+            <!-- This URL become to require to log in first to see content -->
             <excludedLink>https://bitbucket.org/atlassian/bamboo-checkstyle-plugin</excludedLink>
             <!-- link works but plugin's request always result in 404 -->
             <excludedLink>https://www.manning.com/books/java-development-with-ant</excludedLink>
@@ -1915,6 +1923,8 @@
             <!-- permanent 403 -->
             <excludedLink>https://www.ej-technologies.com/*</excludedLink>
             <excludedLink>https://travis-ci.com/</excludedLink>
+            <!-- permanent 403 -->
+            <excludedLink>https://docs.github.com/en/rest/checks</excludedLink>
           </excludedLinks>
         </configuration>
       </plugin>
@@ -1998,7 +2008,7 @@
             </executions>
           </plugin>
 
-          <!-- Creates the all inclusive uber jar -->
+          <!-- Creates the all-inclusive uber jar -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
@@ -3340,6 +3350,10 @@
                 <!-- 1% mutation in ScopeUtil -->
                 <param>
                   com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheckTest
+                </param>
+                <!-- TokenUtil#asBitSet -->
+                <param>
+                  com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheckTest
                 </param>
                 <param>
                   com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheckTest

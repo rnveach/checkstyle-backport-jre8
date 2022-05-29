@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.regexp;
 
@@ -43,7 +43,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * <p>
  * It differs from them in that it works in multiline mode. Its regular expression
  * can span multiple lines and it checks this against the whole file at once.
- * The others work in singleline mode. Their single or multiple regular expressions
+ * The others work in single-line mode. Their single or multiple regular expressions
  * can only span one line. They check each of these against each line in the file in turn.
  * </p>
  * <p>
@@ -262,7 +262,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * \A means the start of the file.
  * </li>
  * <li>
- * The date can be any 4 digit number.
+ * The date can be any 4-digit number.
  * </li>
  * </ul>
  * <pre>
@@ -391,7 +391,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * are the same, and that they match the class name.
  * </li>
  * <li>
- * The date can be any 4 digit number.
+ * The date can be any 4-digit number.
  * </li>
  * </ul>
  * <pre>

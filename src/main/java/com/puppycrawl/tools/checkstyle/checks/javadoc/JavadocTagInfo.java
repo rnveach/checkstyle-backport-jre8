@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,11 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
@@ -32,7 +33,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
 /**
- * This enum defines the various Javadoc tags and there properties.
+ * This enum defines the various Javadoc tags and their properties.
  *
  * <p>
  * This class was modeled after documentation located at
@@ -90,7 +91,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -104,7 +105,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -118,7 +119,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES_DEPRECATED, astType) >= 0
+            return DEF_TOKEN_TYPES_DEPRECATED.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -162,7 +163,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -176,7 +177,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -190,7 +191,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -236,7 +237,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -304,7 +305,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -332,7 +333,7 @@ public enum JavadocTagInfo {
         @Override
         public boolean isValidOn(final DetailAST ast) {
             final int astType = ast.getType();
-            return Arrays.binarySearch(DEF_TOKEN_TYPES, astType) >= 0
+            return DEF_TOKEN_TYPES.get(astType)
                 && !ScopeUtil.isLocalVariableDef(ast);
         }
 
@@ -353,7 +354,7 @@ public enum JavadocTagInfo {
     };
 
     /** Default token types for DEPRECATED Javadoc tag.*/
-    private static final int[] DEF_TOKEN_TYPES_DEPRECATED = {
+    private static final BitSet DEF_TOKEN_TYPES_DEPRECATED = TokenUtil.asBitSet(
         TokenTypes.CTOR_DEF,
         TokenTypes.METHOD_DEF,
         TokenTypes.VARIABLE_DEF,
@@ -362,11 +363,11 @@ public enum JavadocTagInfo {
         TokenTypes.ENUM_DEF,
         TokenTypes.ENUM_CONSTANT_DEF,
         TokenTypes.ANNOTATION_DEF,
-        TokenTypes.ANNOTATION_FIELD_DEF,
-    };
+        TokenTypes.ANNOTATION_FIELD_DEF
+    );
 
     /** Default token types.*/
-    private static final int[] DEF_TOKEN_TYPES = {
+    private static final BitSet DEF_TOKEN_TYPES = TokenUtil.asBitSet(
         TokenTypes.CTOR_DEF,
         TokenTypes.METHOD_DEF,
         TokenTypes.VARIABLE_DEF,
@@ -374,8 +375,8 @@ public enum JavadocTagInfo {
         TokenTypes.INTERFACE_DEF,
         TokenTypes.PACKAGE_DEF,
         TokenTypes.ENUM_DEF,
-        TokenTypes.ANNOTATION_DEF,
-    };
+        TokenTypes.ANNOTATION_DEF
+    );
 
     /** Holds tag text to tag enum mappings. **/
     private static final Map<String, JavadocTagInfo> TEXT_TO_TAG;
@@ -383,14 +384,11 @@ public enum JavadocTagInfo {
     private static final Map<String, JavadocTagInfo> NAME_TO_TAG;
 
     static {
-        TEXT_TO_TAG = Collections.unmodifiableMap(Arrays.stream(values())
+        final JavadocTagInfo[] values = values();
+        TEXT_TO_TAG = Collections.unmodifiableMap(Arrays.stream(values)
                 .collect(Collectors.toMap(JavadocTagInfo::getText, Function.identity())));
-        NAME_TO_TAG = Collections.unmodifiableMap(Arrays.stream(values())
+        NAME_TO_TAG = Collections.unmodifiableMap(Arrays.stream(values)
                 .collect(Collectors.toMap(JavadocTagInfo::getName, Function.identity())));
-
-        // Arrays sorting for binary search
-        Arrays.sort(DEF_TOKEN_TYPES);
-        Arrays.sort(DEF_TOKEN_TYPES_DEPRECATED);
     }
 
     /** The tag text. **/
@@ -524,7 +522,7 @@ public enum JavadocTagInfo {
      * The Javadoc Type.
      *
      * <p>For example a {@code @param} tag is a block tag while a
-     * {@code {@link}} tag is a inline tag.
+     * {@code {@link}} tag is an inline tag.
      *
      */
     public enum Type {

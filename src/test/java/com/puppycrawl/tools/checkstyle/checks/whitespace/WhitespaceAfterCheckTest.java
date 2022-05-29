@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
@@ -163,6 +163,16 @@ public class WhitespaceAfterCheckTest
     }
 
     @Test
+    public void testLiteralYield() throws Exception {
+        final String[] expected = {
+            "17:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "yield"),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputWhitespaceAfterLiteralYield.java"),
+                expected);
+    }
+
+    @Test
     public void testLiteralSynchronized() throws Exception {
         final String[] expected = {
             "13:9: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "synchronized"),
@@ -202,6 +212,26 @@ public class WhitespaceAfterCheckTest
         };
         verifyWithInlineConfigParser(
             getPath("InputWhitespaceAfterLiteralCatch.java"),
+            expected);
+    }
+
+    @Test
+    public void testLiteralCase() throws Exception {
+        final String[] expected = {
+            "15:13: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "case"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralCase.java"),
+            expected);
+    }
+
+    @Test
+    public void testLiteralCase2() throws Exception {
+        final String[] expected = {
+            "13:13: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "case"),
+        };
+        verifyWithInlineConfigParser(
+            getPath("InputWhitespaceAfterLiteralCase2.java"),
             expected);
     }
 

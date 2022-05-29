@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
@@ -194,7 +194,7 @@ class PkgImportControl extends AbstractImportControl {
         AbstractImportControl finestMatch = null;
         // Check if we are a match.
         if (matchesAtFront(forPkg)) {
-            // If there won't be match so I am the best there is.
+            // If there won't be match, so I am the best there is.
             finestMatch = this;
             // Check if any of the children match.
             for (AbstractImportControl child : children) {
@@ -242,9 +242,9 @@ class PkgImportControl extends AbstractImportControl {
      * @return if it matches.
      */
     private boolean matchesAtFrontNoRegex(String pkg) {
+        final int length = fullPackageName.length();
         return pkg.startsWith(fullPackageName)
-                && (pkg.length() == fullPackageName.length()
-                    || pkg.charAt(fullPackageName.length()) == '.');
+                && (pkg.length() == length || pkg.charAt(length) == '.');
     }
 
     @Override

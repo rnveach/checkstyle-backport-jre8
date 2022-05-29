@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -146,9 +146,10 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
         final DetailAstImpl importRoot = create(ctx.start);
 
         // Static import
-        if (ctx.LITERAL_STATIC() != null) {
+        final TerminalNode literalStaticNode = ctx.LITERAL_STATIC();
+        if (literalStaticNode != null) {
             importRoot.setType(TokenTypes.STATIC_IMPORT);
-            importRoot.addChild(create(ctx.LITERAL_STATIC()));
+            importRoot.addChild(create(literalStaticNode));
         }
 
         // Handle star imports
@@ -501,8 +502,9 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
         ctx.arrayDeclarator().forEach(child -> type.addChild(visit(child)));
 
         // If this is an assignment statement, ASSIGN becomes the parent of EXPR
-        if (ctx.ASSIGN() != null) {
-            final DetailAstImpl assign = create(ctx.ASSIGN());
+        final TerminalNode assignNode = ctx.ASSIGN();
+        if (assignNode != null) {
+            final DetailAstImpl assign = create(assignNode);
             variableDef.addChild(assign);
             assign.addChild(visit(ctx.variableInitializer()));
         }
@@ -1588,8 +1590,9 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
      */
     private DetailAstImpl getInnerBopAst(JavaLanguageParser.BinOpContext descendant) {
         final DetailAstImpl innerBop = create(descendant.bop);
-        if (!(descendant.expr(0) instanceof JavaLanguageParser.BinOpContext)) {
-            innerBop.addChild(visit(descendant.expr(0)));
+        final JavaLanguageParser.ExprContext expr = descendant.expr(0);
+        if (!(expr instanceof JavaLanguageParser.BinOpContext)) {
+            innerBop.addChild(visit(expr));
         }
         innerBop.addChild(visit(descendant.expr(1)));
         return innerBop;
@@ -1764,14 +1767,16 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
     public DetailAstImpl visitArrayCreatorRest(JavaLanguageParser.ArrayCreatorRestContext ctx) {
         final DetailAstImpl arrayDeclarator = create(TokenTypes.ARRAY_DECLARATOR,
                 (Token) ctx.LBRACK().getPayload());
+        final JavaLanguageParser.ExpressionContext expression = ctx.expression();
+        final TerminalNode rbrack = ctx.RBRACK();
         // child[0] is LBRACK
         for (int i = 1; i < ctx.children.size(); i++) {
-            if (ctx.children.get(i) == ctx.RBRACK()) {
-                arrayDeclarator.addChild(create(ctx.RBRACK()));
+            if (ctx.children.get(i) == rbrack) {
+                arrayDeclarator.addChild(create(rbrack));
             }
-            else if (ctx.children.get(i) == ctx.expression()) {
+            else if (ctx.children.get(i) == expression) {
                 // Handle '[8]', etc.
-                arrayDeclarator.addChild(visit(ctx.expression()));
+                arrayDeclarator.addChild(visit(expression));
             }
             else {
                 addLastSibling(arrayDeclarator, visit(ctx.children.get(i)));

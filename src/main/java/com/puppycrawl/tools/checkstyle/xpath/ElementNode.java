@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.xpath;
 
@@ -234,7 +234,6 @@ public class ElementNode extends AbstractNode {
      *
      * @param axisNumber element from {@code AxisInfo}
      * @return {@code AxisIterator} object
-     * @noinspection resource, IOResourceOpenedButNotSafelyClosed
      */
     @Override
     public AxisIterator iterateAxis(int axisNumber) {
@@ -343,7 +342,6 @@ public class ElementNode extends AbstractNode {
      * class has non-empty {@code close()} method.
      *
      * @return iterator
-     * @noinspection resource, IOResourceOpenedButNotSafelyClosed
      */
     private AxisIterator getPrecedingSiblingsIterator() {
         final AxisIterator result;
@@ -365,7 +363,6 @@ public class ElementNode extends AbstractNode {
      * class has non-empty {@code close()} method.
      *
      * @return iterator
-     * @noinspection resource, IOResourceOpenedButNotSafelyClosed
      */
     private AxisIterator getFollowingSiblingsIterator() {
         final AxisIterator result;

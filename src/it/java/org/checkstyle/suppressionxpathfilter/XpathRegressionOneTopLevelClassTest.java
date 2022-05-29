@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package org.checkstyle.suppressionxpathfilter;
 
@@ -40,7 +40,7 @@ public class XpathRegressionOneTopLevelClassTest extends AbstractXpathTestSuppor
     @Test
     public void testOne() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionOneTopLevelClass.java"));
+                new File(getPath("SuppressionXpathRegressionOneTopLevelClassFirst.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(OneTopLevelClassCheck.class);
@@ -58,5 +58,28 @@ public class XpathRegressionOneTopLevelClassTest extends AbstractXpathTestSuppor
 
         runVerifications(moduleConfig, fileToProcess, expectedViolation,
                 expectedXpathQueries);
+    }
+
+    @Test
+    public void testTwo() throws Exception {
+        final File fileToProcess =
+            new File(getPath("SuppressionXpathRegressionOneTopLevelClassSecond.java"));
+
+        final DefaultConfiguration moduleConfig =
+            createModuleConfig(OneTopLevelClassCheck.class);
+
+        final String[] expectedViolation = {
+            "7:1: " + getCheckMessage(OneTopLevelClassCheck.class,
+                                      OneTopLevelClassCheck.MSG_KEY, "ViolationClass"),
+        };
+
+        final List<String> expectedXpathQueries = Arrays.asList(
+            "/COMPILATION_UNIT/ENUM_DEF[./IDENT[@text='ViolationClass']]",
+            "/COMPILATION_UNIT/ENUM_DEF[./IDENT[@text='ViolationClass']]/MODIFIERS",
+            "/COMPILATION_UNIT/ENUM_DEF[./IDENT[@text='ViolationClass']]/ENUM"
+        );
+
+        runVerifications(moduleConfig, fileToProcess, expectedViolation,
+                         expectedXpathQueries);
     }
 }

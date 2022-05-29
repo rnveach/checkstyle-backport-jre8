@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.metrics;
 
@@ -146,7 +146,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
     /**
      * Setter to specify user-configured class names to ignore.
      *
-     * @param excludedClasses the list of classes to ignore.
+     * @param excludedClasses classes to ignore.
      */
     public final void setExcludedClasses(String... excludedClasses) {
         this.excludedClasses =
@@ -169,7 +169,7 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
      * Setter to specify user-configured packages to ignore. All excluded packages
      * should end with a period, so it also appends a dot to a package name.
      *
-     * @param excludedPackages the list of packages to ignore.
+     * @param excludedPackages packages to ignore.
      * @throws IllegalArgumentException if there are invalid identifiers among the packages.
      */
     public final void setExcludedPackages(String... excludedPackages) {

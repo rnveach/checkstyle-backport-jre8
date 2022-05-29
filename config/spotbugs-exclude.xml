@@ -169,6 +169,19 @@
     <Method name="findLastChildWhichContainsSpecifiedToken"/>
     <Bug pattern="SLS_SUSPICIOUS_LOOP_SEARCH"/>
   </Match>
+  <Match>
+    <!-- Till https://github.com/mebigfatguy/fb-contrib/issues/329 -->
+    <Or>
+      <Class name="com.puppycrawl.tools.checkstyle.Checker"/>
+      <Class name="com.puppycrawl.tools.checkstyle.TreeWalker"/>
+      <Class name="com.puppycrawl.tools.checkstyle.checks.indentation.BlockParentHandler"/>
+    </Or>
+    <Or>
+      <Method name="getExternalResourceLocations"/>
+      <Method name="getChildrenExpectedIndent"/>
+    </Or>
+    <Bug pattern="PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS"/>
+  </Match>
   <!-- After https://github.com/checkstyle/checkstyle/issues/11140
        there should be one section per one bug pattern, with list of allowed classes or methods -->
   <Match>
@@ -179,8 +192,6 @@
       CC_CYCLOMATIC_COMPLEXITY,
       CE_CLASS_ENVY,
       CLI_CONSTANT_LIST_INDEX,
-      CVAA_CONTRAVARIANT_ELEMENT_ASSIGNMENT,
-      DLC_DUBIOUS_LIST_COLLECTION,
       EXS_EXCEPTION_SOFTENING_NO_CHECKED,
       EXS_EXCEPTION_SOFTENING_NO_CONSTRAINTS,
       FCCD_FIND_CLASS_CIRCULAR_DEPENDENCY,
@@ -195,15 +206,12 @@
       OCP_OVERLY_CONCRETE_PARAMETER,
       OPM_OVERLY_PERMISSIVE_METHOD,
       PMB_INSTANCE_BASED_THREAD_LOCAL,
-      PRMC_POSSIBLY_REDUNDANT_METHOD_CALLS,
       PSC_PRESIZE_COLLECTIONS,
-      PSC_SUBOPTIMAL_COLLECTION_SIZING,
       S508C_SET_COMP_COLOR,
       S508C_NO_SETLABELFOR,
       SEO_SUBOPTIMAL_EXPRESSION_ORDER,
       SGSU_SUSPICIOUS_GETTER_SETTER_USE,
       STT_STRING_PARSING_A_FIELD,
-      SUI_CONTAINS_BEFORE_ADD,
       UAC_UNNECESSARY_API_CONVERSION_FILE_TO_PATH,
       UCPM_USE_CHARACTER_PARAMETERIZED_METHOD,
       WEM_WEAK_EXCEPTION_MESSAGING,

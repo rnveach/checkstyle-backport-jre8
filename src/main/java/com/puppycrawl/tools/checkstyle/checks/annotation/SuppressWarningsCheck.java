@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.annotation;
 
@@ -214,15 +214,10 @@ public class SuppressWarningsCheck extends AbstractCheck {
 
             final DetailAST token =
                     warningHolder.findFirstToken(TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR);
-            DetailAST warning;
 
-            if (token == null) {
-                warning = warningHolder.findFirstToken(TokenTypes.EXPR);
-            }
-            else {
-                // case like '@SuppressWarnings(value = UNUSED)'
-                warning = token.findFirstToken(TokenTypes.EXPR);
-            }
+            // case like '@SuppressWarnings(value = UNUSED)'
+            final DetailAST parent = token != null ? token : warningHolder;
+            DetailAST warning = parent.findFirstToken(TokenTypes.EXPR);
 
             // rare case with empty array ex: @SuppressWarnings({})
             if (warning == null) {
@@ -307,23 +302,11 @@ public class SuppressWarningsCheck extends AbstractCheck {
     private static DetailAST findWarningsHolder(final DetailAST annotation) {
         final DetailAST annValuePair =
             annotation.findFirstToken(TokenTypes.ANNOTATION_MEMBER_VALUE_PAIR);
-        final DetailAST annArrayInit;
 
-        if (annValuePair == null) {
-            annArrayInit =
-                    annotation.findFirstToken(TokenTypes.ANNOTATION_ARRAY_INIT);
-        }
-        else {
-            annArrayInit =
-                    annValuePair.findFirstToken(TokenTypes.ANNOTATION_ARRAY_INIT);
-        }
-
-        DetailAST warningsHolder = annotation;
-        if (annArrayInit != null) {
-            warningsHolder = annArrayInit;
-        }
-
-        return warningsHolder;
+        final DetailAST annArrayInitParent = annValuePair != null ? annValuePair : annotation;
+        final DetailAST annArrayInit = annArrayInitParent
+                .findFirstToken(TokenTypes.ANNOTATION_ARRAY_INIT);
+        return annArrayInit != null ? annArrayInit : annotation;
     }
 
     /**

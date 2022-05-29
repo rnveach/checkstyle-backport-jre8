@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.coding;
 
@@ -62,7 +62,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * are not needed.
  * In the second case, parentheses are required as <em>q</em>, <em>r</em> are
  * of type {@code int} and <em>p</em> is of type {@code boolean}
- * and removing parentheses will give a compile time error. Even if <em>q</em>
+ * and removing parentheses will give a compile-time error. Even if <em>q</em>
  * and <em>r</em> were {@code boolean} still there will be no violation
  * raised as check is not "type aware".
  * </p>
@@ -498,7 +498,7 @@ public class UnnecessaryParenthesesCheck extends AbstractCheck {
                         chopString(ast.getText()));
                 }
                 else if (type == TokenTypes.TEXT_BLOCK_LITERAL_BEGIN) {
-                    // Strip newline control characters to keep message as single line, add
+                    // Strip newline control characters to keep message as single-line, add
                     // quotes to make string consistent with STRING_LITERAL
                     final String logString = QUOTE
                         + NEWLINE.matcher(

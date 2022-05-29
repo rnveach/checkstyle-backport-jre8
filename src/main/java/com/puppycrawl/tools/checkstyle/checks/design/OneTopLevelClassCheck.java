@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.design;
 
@@ -31,7 +31,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * or annotation resides in a source file of its own.
  * Official description of a 'top-level' term:
  * <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-7.html#jls-7.6">
- * 7.6. Top Level Type Declarations</a>. If file doesn't contains
+ * 7.6. Top Level Type Declarations</a>. If file doesn't contain
  * public class, interface, enum or annotation, top-level type is the first type in file.
  * </p>
  * <p>

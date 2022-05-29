@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -36,9 +36,9 @@ import java.lang.annotation.Target;
  * It means, that if a check holds a property of type "array of strings",
  * the property value will not be shared across check instances.
  * Instead, each check instance will hold its own array instance.
- * Checker does not guarantee that each file will have it's own thread -
+ * Checker does not guarantee that each file will have its own thread -
  * there might be a list of files, which will be executed on the same thread.
- * Checker does not guarantee that each file will have it's own check instance -
+ * Checker does not guarantee that each file will have its own check instance -
  * there might be a list of files, which will be checked by the same instance.
  * Note: Checks with such annotation will be executed in mode how all Checks worked
  * before MT mode is introduced.

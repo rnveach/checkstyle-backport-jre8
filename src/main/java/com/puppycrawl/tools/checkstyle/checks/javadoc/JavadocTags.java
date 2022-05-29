@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
@@ -37,8 +37,8 @@ public final class JavadocTags {
     /**
      * Creates an instance.
      *
-     * @param tags the list of valid tags
-     * @param invalidTags the list of invalid tags
+     * @param tags valid tags
+     * @param invalidTags invalid tags
      */
     public JavadocTags(List<JavadocTag> tags, List<InvalidJavadocTag> invalidTags) {
         validTags = Collections.unmodifiableList(new ArrayList<>(tags));
@@ -51,7 +51,7 @@ public final class JavadocTags {
      *  @return validTags field
      */
     public List<JavadocTag> getValidTags() {
-        return Collections.unmodifiableList(validTags);
+        return validTags;
     }
 
     /**
@@ -60,7 +60,7 @@ public final class JavadocTags {
      *  @return invalidTags field
      */
     public List<InvalidJavadocTag> getInvalidTags() {
-        return Collections.unmodifiableList(invalidTags);
+        return invalidTags;
     }
 
 }

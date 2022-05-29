@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal;
 
@@ -201,8 +201,8 @@ public class CommitValidationTest {
             result = 1;
         }
         else if (!trimRight.equals(message)) {
-            // single line of text (multiple new lines are allowed on end because of
-            // git (1 new line) and github's web ui (2 new lines))
+            // single-line of text (multiple new lines are allowed on end because of
+            // git (1 new line) and GitHub's web ui (2 new lines))
             result = 2;
         }
         else if (INVALID_POSTFIX_PATTERN.matcher(message).matches()) {

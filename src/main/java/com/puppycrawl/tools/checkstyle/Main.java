@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -604,7 +604,7 @@ public final class Main {
      *              MismatchedQueryAndUpdateOfCollection, LocalCanBeFinal
      */
     @Command(name = "checkstyle", description = "Checkstyle verifies that the specified "
-            + "source code files adhere to the specified rules. By default violations are "
+            + "source code files adhere to the specified rules. By default, violations are "
             + "reported to standard out in plain format. Checkstyle requires a configuration "
             + "XML file that configures the checks to apply.",
             mixinStandardHelpOptions = true)
@@ -627,7 +627,7 @@ public final class Main {
 
         /**
          * The checker threads number.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          * This option has been skipped for CLI options intentionally.
          *
          * @noinspection CanBeFinal
@@ -636,7 +636,7 @@ public final class Main {
 
         /**
          * The tree walker threads number.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          * This option has been skipped for CLI options intentionally.
          *
          * @noinspection CanBeFinal
@@ -676,7 +676,7 @@ public final class Main {
 
         /**
          * Tab character length.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          *
          * @noinspection CanBeFinal
          */
@@ -696,7 +696,7 @@ public final class Main {
 
         /**
          * Output format.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          *
          * @noinspection CanBeFinal
          */
@@ -746,7 +746,7 @@ public final class Main {
 
         /**
          * Option that allows users to specify a list of paths to exclude.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          *
          * @noinspection CanBeFinal
          */
@@ -758,7 +758,7 @@ public final class Main {
 
         /**
          * Option that allows users to specify a regex of paths to exclude.
-         * Suppression: CanBeFinal - we use picocli and it use  reflection to manage such fields
+         * Suppression: CanBeFinal - we use picocli and it use reflection to manage such fields
          *
          * @noinspection CanBeFinal
          */

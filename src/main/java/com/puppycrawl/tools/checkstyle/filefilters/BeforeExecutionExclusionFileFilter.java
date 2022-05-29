@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filefilters;
 
@@ -31,8 +31,8 @@ import com.puppycrawl.tools.checkstyle.api.BeforeExecutionFileFilter;
  * </p>
  *
  * <p>
- * By default Checkstyle includes all files and sub-directories in a directory to be processed and
- * checked for violations. Users could have files that are in these sub-directories that shouldn't
+ * By default, Checkstyle includes all files and subdirectories in a directory to be processed and
+ * checked for violations. Users could have files that are in these subdirectories that shouldn't
  * be processed with their checkstyle configuration for various reasons, one of which is a valid
  * Java file that won't pass Checkstyle's parser. When Checkstyle tries to parse a Java file and
  * fails, it will throw an {@code Exception} and halt parsing any more files for violations.

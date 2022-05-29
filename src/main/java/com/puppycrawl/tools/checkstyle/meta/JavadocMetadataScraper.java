@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.meta;
 
@@ -382,23 +382,21 @@ public class JavadocMetadataScraper extends AbstractJavadocCheck {
      */
     private static String constructSubTreeText(DetailNode node, int childLeftLimit,
                                                int childRightLimit) {
-        final StringBuilder result = new StringBuilder(1024);
         DetailNode detailNode = node;
 
         final Deque<DetailNode> stack = new ArrayDeque<>();
         stack.addFirst(detailNode);
         final Set<DetailNode> visited = new HashSet<>();
+        final StringBuilder result = new StringBuilder(1024);
         while (!stack.isEmpty()) {
-            detailNode = stack.getFirst();
-            stack.removeFirst();
+            detailNode = stack.removeFirst();
 
-            if (!visited.contains(detailNode)) {
+            if (visited.add(detailNode)) {
                 final String childText = detailNode.getText();
                 if (detailNode.getType() != JavadocTokenTypes.LEADING_ASTERISK
                         && !TOKEN_TEXT_PATTERN.matcher(childText).matches()) {
-                    result.insert(0, detailNode.getText());
+                    result.insert(0, childText);
                 }
-                visited.add(detailNode);
             }
 
             for (DetailNode child : detailNode.getChildren()) {
@@ -417,7 +415,7 @@ public class JavadocMetadataScraper extends AbstractJavadocCheck {
 
     /**
      * Create the description text with starting index as 0 and ending index would be the first
-     * valid non zero index amongst in the order of {@code propertySectionStartIdx},
+     * valid non-zero index amongst in the order of {@code propertySectionStartIdx},
      * {@code exampleSectionStartIdx} and {@code parentSectionStartIdx}.
      *
      * @return description text

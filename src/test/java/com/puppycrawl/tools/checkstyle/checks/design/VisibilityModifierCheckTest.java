@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.design;
 
@@ -408,8 +408,8 @@ public class VisibilityModifierCheckTest
     }
 
     /**
-     * We can not cover this mutation because it force all imports to be non static,
-     * but static imports are ignored, so we will not see any affect on validation.
+     * We can not cover this mutation because it forces all imports to be non static,
+     * but static imports are ignored, so we will not see any effect on validation.
      * We could remove this method at all, and it will work correctly as we can not use
      * class with name "", but in this case internal collection will have short names
      * as "" that will not make problems, but will be weird in debug.

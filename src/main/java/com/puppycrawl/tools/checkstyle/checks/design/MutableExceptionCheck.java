@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.design;
 
@@ -42,7 +42,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * </p>
  * <p>
  * Rationale: Exception instances should represent an error
- * condition. Having non final fields not only allows the state to be
+ * condition. Having non-final fields not only allows the state to be
  * modified by accident and therefore mask the original condition but
  * also allows developers to accidentally forget to set the initial state.
  * In both cases, code catching the exception could draw incorrect
@@ -98,7 +98,7 @@ public final class MutableExceptionCheck extends AbstractCheck {
     /** Should we check current class or not. */
     private boolean checking;
     /** Specify pattern for exception class names. */
-    private Pattern format = Pattern.compile(DEFAULT_FORMAT);
+    private Pattern format = extendedClassNameFormat;
 
     /**
      * Setter to specify pattern for extended class names.

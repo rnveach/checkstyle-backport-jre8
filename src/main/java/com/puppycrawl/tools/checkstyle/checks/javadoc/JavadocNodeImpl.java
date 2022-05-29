@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
@@ -94,11 +95,9 @@ public class JavadocNodeImpl implements DetailNode {
 
     @Override
     public DetailNode[] getChildren() {
-        DetailNode[] nodeChildren = EMPTY_DETAIL_NODE_ARRAY;
-        if (children != null) {
-            nodeChildren = Arrays.copyOf(children, children.length);
-        }
-        return nodeChildren;
+        return Optional.ofNullable(children)
+                .map(array -> Arrays.copyOf(array, array.length))
+                .orElse(EMPTY_DETAIL_NODE_ARRAY);
     }
 
     @Override

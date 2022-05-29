@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
@@ -33,7 +34,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
 /**
  * <p>
- * Checks that a Javadoc block can fit in a single line and doesn't contain block tags.
+ * Checks that a Javadoc block can fit in a single-line and doesn't contain block tags.
  * Javadoc comment that contains at least one block tag should be formatted in a few lines.
  * </p>
  * <ul>
@@ -258,7 +259,7 @@ public class SingleLineJavadocCheck extends AbstractJavadocCheck {
      * <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html#CHDBEFIF">
      * block tags</a> which are ignored by the check.
      */
-    private List<String> ignoredTags = new ArrayList<>();
+    private Set<String> ignoredTags = Collections.unmodifiableSet(new HashSet<>());
 
     /**
      * Control whether
@@ -275,7 +276,7 @@ public class SingleLineJavadocCheck extends AbstractJavadocCheck {
      * @param tags to be ignored by check.
      */
     public void setIgnoredTags(String... tags) {
-        ignoredTags = Arrays.stream(tags).collect(Collectors.toList());
+        ignoredTags = Collections.unmodifiableSet(Arrays.stream(tags).collect(Collectors.toSet()));
     }
 
     /**
@@ -310,10 +311,10 @@ public class SingleLineJavadocCheck extends AbstractJavadocCheck {
     }
 
     /**
-     * Checks if comment is single line comment.
+     * Checks if comment is single-line comment.
      *
      * @param blockCommentStart the AST tree in which a block comment starts
-     * @return true, if comment is single line comment.
+     * @return true, if comment is single-line comment.
      */
     private static boolean isSingleLineJavadoc(DetailAST blockCommentStart) {
         final DetailAST blockCommentEnd = blockCommentStart.getLastChild();

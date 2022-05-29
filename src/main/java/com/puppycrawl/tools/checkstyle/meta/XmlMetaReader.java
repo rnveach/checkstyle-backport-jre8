@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.meta;
 
@@ -65,7 +65,7 @@ public final class XmlMetaReader {
      * Third party(e.g. SevNTU Checks) metadata files are prefixed with {@code checkstylemeta-}
      * to their file names.
      *
-     * @param thirdPartyPackages list of fully qualified third party package names(can be only a
+     * @param thirdPartyPackages fully qualified third party package names(can be only a
      *                           hint, e.g. for SevNTU it can be com.github.sevntu / com.github)
      * @return list of module details found in the classpath satisfying the above conditions
      * @throws IllegalStateException if there was a problem reading the module metadata files

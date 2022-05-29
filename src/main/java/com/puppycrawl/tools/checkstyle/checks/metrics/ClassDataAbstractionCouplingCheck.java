@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.metrics;
 
@@ -25,7 +25,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * <p>
  * Measures the number of instantiations of other classes
  * within the given class or record. This type of coupling is not caused by inheritance or
- * the object oriented paradigm. Generally speaking, any data type with other
+ * the object-oriented paradigm. Generally speaking, any data type with other
  * data types as members or local variable that is an instantiation (object)
  * of another class has data abstraction coupling (DAC). The higher the DAC,
  * the more complex the structure of the class.

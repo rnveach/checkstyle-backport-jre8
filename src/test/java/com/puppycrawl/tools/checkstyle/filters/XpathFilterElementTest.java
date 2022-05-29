@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filters;
 
@@ -153,8 +153,8 @@ public class XpathFilterElementTest extends AbstractModuleTestSupport {
             assertWithMessage("Exception is expected but got " + test).fail();
         }
         catch (IllegalArgumentException ex) {
-            assertWithMessage("Message should be: Unexpected xpath query")
-                    .that(ex.getMessage().contains("Unexpected xpath query"))
+            assertWithMessage("Message should be: Incorrect xpath query")
+                    .that(ex.getMessage().contains("Incorrect xpath query"))
                     .isTrue();
         }
     }
@@ -351,7 +351,8 @@ public class XpathFilterElementTest extends AbstractModuleTestSupport {
                 xpathEvaluator.createExpression("//METHOD_DEF"),
                 xpathEvaluator.createExpression("//VARIABLE_DEF"))
                 .usingGetClass()
-                .withIgnoredFields("fileRegexp", "checkRegexp", "messageRegexp", "xpathExpression")
+                .withIgnoredFields("fileRegexp", "checkRegexp", "messageRegexp",
+                    "xpathExpression", "isEmptyConfig")
                 .report();
         assertWithMessage("Error: " + ev.getMessage())
                 .that(ev.isSuccessful())

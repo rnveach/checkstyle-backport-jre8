@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.coding;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -151,7 +151,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     /**
      * Assign operator types.
      */
-    private static final int[] ASSIGN_OPERATOR_TYPES = {
+    private static final BitSet ASSIGN_OPERATOR_TYPES = TokenUtil.asBitSet(
         TokenTypes.POST_INC,
         TokenTypes.POST_DEC,
         TokenTypes.ASSIGN,
@@ -167,17 +167,17 @@ public class FinalLocalVariableCheck extends AbstractCheck {
         TokenTypes.BXOR_ASSIGN,
         TokenTypes.BOR_ASSIGN,
         TokenTypes.INC,
-        TokenTypes.DEC,
-    };
+        TokenTypes.DEC
+    );
 
     /**
      * Loop types.
      */
-    private static final int[] LOOP_TYPES = {
+    private static final BitSet LOOP_TYPES = TokenUtil.asBitSet(
         TokenTypes.LITERAL_FOR,
         TokenTypes.LITERAL_WHILE,
-        TokenTypes.LITERAL_DO,
-    };
+        TokenTypes.LITERAL_DO
+    );
 
     /** Scope Deque. */
     private final Deque<ScopeData> scopeStack = new ArrayDeque<>();
@@ -196,12 +196,6 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * enhanced for-loop</a> variable.
      */
     private boolean validateEnhancedForLoopVariable;
-
-    static {
-        // Array sorting for binary search
-        Arrays.sort(ASSIGN_OPERATOR_TYPES);
-        Arrays.sort(LOOP_TYPES);
-    }
 
     /**
      * Setter to control whether to check
@@ -377,7 +371,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * Update assigned variables in a temporary stack.
      */
     private void updateCurrentScopeAssignedVariables() {
-        // -@cs[MoveVariableInsideIf] assignment value is a modification call so it can't be moved
+        // -@cs[MoveVariableInsideIf] assignment value is a modification call, so it can't be moved
         final Deque<DetailAST> poppedScopeAssignedVariableData =
                 currentScopeAssignedVariables.pop();
         final Deque<DetailAST> currentScopeAssignedVariableData =
@@ -723,7 +717,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * @return true is token type is in arithmetic operator
      */
     private static boolean isAssignOperator(int parentType) {
-        return Arrays.binarySearch(ASSIGN_OPERATOR_TYPES, parentType) >= 0;
+        return ASSIGN_OPERATOR_TYPES.get(parentType);
     }
 
     /**
@@ -831,7 +825,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * @return true if the ast is a loop.
      */
     private static boolean isLoopAst(int ast) {
-        return Arrays.binarySearch(LOOP_TYPES, ast) >= 0;
+        return LOOP_TYPES.get(ast);
     }
 
     /**

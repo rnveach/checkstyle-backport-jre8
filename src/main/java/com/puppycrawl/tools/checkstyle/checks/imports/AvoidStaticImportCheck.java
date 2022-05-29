@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
@@ -138,7 +138,7 @@ public class AvoidStaticImportCheck
      * to be excluded like {@code java.lang.System.out} for a variable or
      * {@code java.lang.Math.random} for a method. See notes section for details.
      *
-     * @param excludes a list of fully-qualified class names/specific
+     * @param excludes fully-qualified class names/specific
      *     static members where static imports are ok
      */
     public void setExcludes(String... excludes) {
@@ -151,8 +151,9 @@ public class AvoidStaticImportCheck
             ast.getFirstChild().getNextSibling();
         final FullIdent name = FullIdent.createFullIdent(startingDot);
 
-        if (!isExempt(name.getText())) {
-            log(startingDot, MSG_KEY, name.getText());
+        final String nameText = name.getText();
+        if (!isExempt(nameText)) {
+            log(startingDot, MSG_KEY, nameText);
         }
     }
 

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal;
 
@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,13 +36,11 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
 import com.puppycrawl.tools.checkstyle.AbstractModuleTestSupport;
-import com.puppycrawl.tools.checkstyle.Checker;
 import com.puppycrawl.tools.checkstyle.DefaultConfiguration;
 import com.puppycrawl.tools.checkstyle.Definitions;
 import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
@@ -281,8 +280,7 @@ public class AllChecksTest extends AbstractModuleTestSupport {
                 moduleConfig.addProperty("file", getPath(
                         "InputAllChecksImportControl.xml"));
             }
-            final Checker checker = createChecker(moduleConfig);
-            verify(checker, inputFilePath, expected);
+            verify(moduleConfig, inputFilePath, expected);
         }
     }
 
@@ -467,13 +465,8 @@ public class AllChecksTest extends AbstractModuleTestSupport {
     private static void validateDefaultTokens(Configuration checkConfig, AbstractCheck check,
                                               Set<String> configTokens) {
 
-        final Set<Integer> defaultTokensSet = IntStream.of(check.getDefaultTokens())
-            .boxed()
-            .collect(Collectors.toSet());
-
-        final Set<Integer> requiredTokensSet = IntStream.of(check.getRequiredTokens())
-            .boxed()
-            .collect(Collectors.toSet());
+        final BitSet defaultTokensSet = TokenUtil.asBitSet(check.getDefaultTokens());
+        final BitSet requiredTokensSet = TokenUtil.asBitSet(check.getRequiredTokens());
 
         if (defaultTokensSet.equals(requiredTokensSet)) {
             configTokens.addAll(

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.bdd;
 
@@ -98,13 +98,10 @@ public final class InlineConfigParser {
      * Until <a>https://github.com/checkstyle/checkstyle/issues/11214</a>
      */
     private static final Set<String> SUPPRESSED_CHECKS = new HashSet<>(Arrays.asList(
-            "com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck",
             "com.puppycrawl.tools.checkstyle.checks.whitespace.MethodParamPadCheck",
             "com.puppycrawl.tools.checkstyle.checks.DescendantTokenCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck",
-            "com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck",
             "com.puppycrawl.tools.checkstyle.checks.metrics.JavaNCSSCheck",
-            "com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck",
             "com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationUseStyleCheck",
             "com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck",
@@ -116,17 +113,14 @@ public final class InlineConfigParser {
             "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck",
             "com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck",
             "com.puppycrawl.tools.checkstyle.checks.annotation.MissingDeprecatedCheck",
-            "com.puppycrawl.tools.checkstyle.checks.regexp.RegexpOnFilenameCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.WriteTagCheck",
-            "com.puppycrawl.tools.checkstyle.checks.TranslationCheck",
             "com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck",
             "com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationLocationCheck",
             "com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck",
-            "com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck",
-            "com.puppycrawl.tools.checkstyle.checks.imports.ImportControlCheck"));
+            "com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck"));
 
     /**
      *  Inlined configs can not be used in non-java checks, as Inlined config is java style
@@ -138,6 +132,7 @@ public final class InlineConfigParser {
             // Inlined config is not supported for non java files.
             "com.puppycrawl.tools.checkstyle.checks.OrderedPropertiesCheck",
             "com.puppycrawl.tools.checkstyle.checks.UniquePropertiesCheck",
+            "com.puppycrawl.tools.checkstyle.checks.TranslationCheck",
         }).collect(Collectors.toSet()));
 
     /** Stop instances being created. **/

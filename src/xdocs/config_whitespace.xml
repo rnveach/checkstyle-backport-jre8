@@ -60,6 +60,17 @@ for (
         <source>
 &lt;module name=&quot;EmptyForInitializerPad&quot;/&gt;
         </source>
+        <p>
+          Example:
+        </p>
+        <source>
+for ( ; i &lt; 1; i++ );  // violation semicolon is preceded with whitespace
+for (; i &lt; 2; i++ );   // ok
+for (;i&lt;2;i++);        // ok
+for ( ;i&lt;2;i++);       // violation semicolon is preceded with whitespace
+for (
+      ; i &lt; 2; i++ );  // ok
+        </source>
 
         <p>
           To configure the check to require white space at an empty for
@@ -69,6 +80,17 @@ for (
 &lt;module name=&quot;EmptyForInitializerPad&quot;&gt;
   &lt;property name=&quot;option&quot; value=&quot;space&quot;/&gt;
 &lt;/module&gt;
+        </source>
+        <p>
+          Example:
+        </p>
+        <source>
+for ( ; i &lt; 2; i++ );   // ok
+for (; i &lt; 2; i++ );    // violation semicolon is not preceded with whitespace
+for (;i&lt;2;i++);         // violation semicolon is not preceded with whitespace
+for ( ;i&lt;2;i++);        // ok
+for (
+      ; i &lt; 2; i++ );   // ok
         </source>
       </subsection>
 
@@ -249,7 +271,7 @@ for (Iterator foo = very.long.line.iterator();
         <p>
           ATTENTION: empty line separator is required between token siblings,
           not after line where token is found.
-          If token does not have same type sibling then empty line
+          If token does not have a sibling of the same type, then empty line
           is required at its end (for example for CLASS_DEF it is after '}').
           Also, trailing comments are skipped.
         </p>
@@ -769,7 +791,7 @@ public class Test {
         </p>
         <ul>
           <li> should be preceded with whitespace only in generic methods definitions.</li>
-          <li> should not be preceded with whitespace when it is precede method name
+          <li> should not be preceded with whitespace when it is preceded method name
             or constructor.</li>
           <li> should not be preceded with whitespace when following type name.</li>
           <li> should not be followed with whitespace in all cases.</li>
@@ -1086,7 +1108,7 @@ public class Test {
       <p>Since Checkstyle 5.8</p>
       <subsection name="Description" id="NoLineWrap_Description">
         <p>
-          Checks that chosen statements are not line-wrapped. By default this
+          Checks that chosen statements are not line-wrapped. By default, this
           Check restricts wrapping import and package statements, but it's possible to check
           any statement.
         </p>
@@ -1222,20 +1244,20 @@ import static java.math. // OK
           Example:
         </p>
         <source>
-public class // violation, class definition not wrapped in a single line
+public class // violation, class definition not wrapped in a single-line
   Foo {
 
   public Foo() { // OK
   }
 
-  public static void // violation, method definition not wrapped in a single line
+  public static void // violation, method definition not wrapped in a single-line
     doSomething() {
   }
 }
 
 public class Bar { // OK
 
-  public // violation, constructor definition not wrapped in a single line
+  public // violation, constructor definition not wrapped in a single-line
     Bar() {
   }
 
@@ -1308,7 +1330,7 @@ import static java.math.BigInteger.ZERO;
           and
           <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#INDEX_OP">INDEX_OP</a>
           tokens specially from other tokens. Actually it is checked that there is
-          no whitespace before this tokens, not after them.
+          no whitespace before these tokens, not after them.
           Space after the
           <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#ANNOTATIONS">
                 ANNOTATIONS</a> before
@@ -1319,6 +1341,13 @@ import static java.math.BigInteger.ZERO;
                 INDEX_OP</a>
           will be ignored.
         </p>
+        <p>
+         If the annotation is between the type and the array, the check will skip validation for
+         spaces
+        </p>
+        <source>
+public void foo(final char @NotNull [] param) {} // No violation
+        </source>
       </subsection>
 
       <subsection name="Properties" id="NoWhitespaceAfter_Properties">
@@ -1415,7 +1444,32 @@ import static java.math.BigInteger.ZERO;
         <source>
 &lt;module name=&quot;NoWhitespaceAfter&quot;/&gt;
         </source>
+        <p>Example:</p>
+        <source>
+class Test {
 
+  public void lineBreak(String x) {
+    Integer.
+        parseInt(x); // Ok
+    Integer.parseInt(x); // Ok
+  }
+
+  public void dotOperator(String s) {
+    Integer.parseInt(s); // Ok
+    Integer. parseInt(s); // violation, '.' is followed by whitespace
+  }
+
+  public void arrayDec() {
+    int[] arr = arr; // Ok
+    int [] arr = arr; // violation, int is followed by whitespace
+  }
+
+  public void bitwiseNot(int a) {
+    a = ~ a; // violation '~' is followed by whitespace
+    a = ~a; // Ok
+  }
+}
+        </source>
         <p>
           To configure the check to forbid linebreaks after a DOT token:
         </p>
@@ -1425,12 +1479,31 @@ import static java.math.BigInteger.ZERO;
   &lt;property name=&quot;allowLineBreaks&quot; value=&quot;false&quot;/&gt;
 &lt;/module&gt;
         </source>
-        <p>
-         If the annotation is between the type and the array, the check will skip validation for
-         spaces:
-        </p>
+        <p>Example:</p>
         <source>
-public void foo(final char @NotNull [] param) {} // No violation
+class Test {
+
+  public void lineBreak(String x) {
+    Integer.
+        parseInt(x); // violation, '.' is followed by whitespace
+    Integer.parseInt(x); // Ok
+  }
+
+  public void dotOperator(String s) {
+    Integer.parseInt(s); // Ok
+    Integer. parseInt(s); // violation, '.' is followed by whitespace
+  }
+
+  public void arrayDec() {
+    int[] arr = arr; // Ok
+    int [] arr = arr; // Ok
+  }
+
+  public void bitwiseNot(int a) {
+    a = ~ a; // Ok
+    a = ~a; // Ok
+  }
+}
         </source>
       </subsection>
 
@@ -1482,7 +1555,7 @@ public void foo(final char @NotNull [] param) {} // No violation
           (if linebreaks are allowed) all characters on the line before are
           whitespace. To allow linebreaks before a token, set property
           <code>allowLineBreaks</code> to <code>true</code>. No check occurs
-          before semi-colons in empty for loop initializers or conditions.
+          before semicolons in empty for loop initializers or conditions.
         </p>
       </subsection>
 
@@ -2086,7 +2159,7 @@ class Test {
           the right parenthesis after an empty for iterator, at the left
           parenthesis before an empty for initialization, or at the right
           parenthesis of a try-with-resources resource specification where
-          the last resource variable has a trailing semi-colon.
+          the last resource variable has a trailing semicolon.
           Use Check <a href="config_whitespace.html#EmptyForIteratorPad">
           EmptyForIteratorPad</a> to validate empty for iterators and
           <a href="config_whitespace.html#EmptyForInitializerPad">
@@ -2586,7 +2659,7 @@ class Test3 {
         <p>
           Checks that non-whitespace characters are separated by no more than one
           whitespace. Separating characters by tabs or multiple spaces will be
-          reported. Currently the check doesn't permit horizontal alignment. To inspect
+          reported. Currently, the check doesn't permit horizontal alignment. To inspect
           whitespaces before and after comments, set the property
           <code>validateComments</code> to true.
         </p>
@@ -2904,6 +2977,8 @@ class Bar {
                   LITERAL_FINALLY</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_RETURN">
                   LITERAL_RETURN</a>
+                , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_YIELD">
+                  LITERAL_YIELD</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_CATCH">
                   LITERAL_CATCH</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_DO">
@@ -2916,6 +2991,8 @@ class Bar {
                   LITERAL_SYNCHRONIZED</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_TRY">
                   LITERAL_TRY</a>
+                , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_CASE">
+                  LITERAL_CASE</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LAMBDA">
                   LAMBDA</a>
                   .
@@ -2942,6 +3019,8 @@ class Bar {
                   LITERAL_FINALLY</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_RETURN">
                   LITERAL_RETURN</a>
+                , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_YIELD">
+                  LITERAL_YIELD</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_CATCH">
                   LITERAL_CATCH</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_DO">
@@ -2954,6 +3033,8 @@ class Bar {
                   LITERAL_SYNCHRONIZED</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_TRY">
                   LITERAL_TRY</a>
+                  , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_CASE">
+                  LITERAL_CASE</a>
                 , <a href="apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LAMBDA">
                   LAMBDA</a>
                   .
@@ -3002,14 +3083,24 @@ public void myTest() {
     try {} catch (Exception e){} // OK
     try {} catch(Exception e){} // violation ''catch' is not followed by whitespace'
 
+    synchronized (this) { } // OK
     synchronized(this) { } // violation ''synchronized' is not followed by whitespace'
-    synchronized (this) { } // ok
 }
 public String testOne() {
     return ("a" + "b"); // OK
 }
 public String testTwo() {
     return("a" + "b"); // violation 'return' is not followed by whitespace'
+}
+public static void main(String[] args) {
+  int a = switch (args[0]) {
+    case "got":
+      yield (1); // OK
+    case "my":
+      yield(3); // violation ''yield' is not followed by whitespace'
+    default:
+      yield 2;
+  };
 }
           </pre>
         </div>

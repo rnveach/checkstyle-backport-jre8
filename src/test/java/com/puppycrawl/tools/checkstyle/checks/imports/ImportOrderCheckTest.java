@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
@@ -558,7 +558,7 @@ public class ImportOrderCheckTest extends AbstractModuleTestSupport {
     /**
      * This test requires reflection to insert an unsupported option in the check to cover the
      * exception that gets thrown when a unsupported option is used. The field has a value by
-     * default and the setter for the property will throw it's own exception when an unsupported
+     * default and the setter for the property will throw its own exception when an unsupported
      * option is given, so there is no other way to cover this code.
      */
     @Test

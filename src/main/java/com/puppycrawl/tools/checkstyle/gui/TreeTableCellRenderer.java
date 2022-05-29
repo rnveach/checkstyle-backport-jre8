@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.gui;
 
@@ -44,7 +44,7 @@ class TreeTableCellRenderer extends JTree implements
     /** Tree table to render. */
     private final TreeTable treeTable;
 
-    /** Last table/tree row asked to renderer. */
+    /** Last table/tree row asked to render. */
     private int visibleRow;
 
     /**
@@ -70,10 +70,7 @@ class TreeTableCellRenderer extends JTree implements
         final TreeCellRenderer tcr = getCellRenderer();
         if (tcr instanceof DefaultTreeCellRenderer) {
             final DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tcr;
-            // For 1.1 uncomment this, 1.2 has a bug that will cause an
-            // exception to be thrown if the border selection color is
-            // null.
-            // renderer.setBorderSelectionColor(null);
+            renderer.setBorderSelectionColor(null);
             renderer.setTextSelectionColor(UIManager.getColor("Table.selectionForeground"));
             renderer.setBackgroundSelectionColor(UIManager.getColor("Table.selectionBackground"));
         }

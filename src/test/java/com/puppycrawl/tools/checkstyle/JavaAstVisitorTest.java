@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -27,6 +27,7 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,11 +52,12 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
      * If a visit method is not overridden, we should explain why we do not 'visit' the
      * parse tree at this node and construct an AST. Reasons could include that we have
      * no terminal symbols (tokens) in the corresponding production rule, or that
-     * we handle the construction of this particular AST in it's parent node. If we
+     * we handle the construction of this particular AST in its parent node. If we
      * have a production rule where we have terminal symbols (tokens), but we do not build
      * an AST from tokens in the rule context, the rule is extraneous.
      */
-    private static final List<String> VISIT_METHODS_NOT_OVERRIDDEN = Arrays.asList(
+    private static final Set<String> VISIT_METHODS_NOT_OVERRIDDEN = Collections
+        .unmodifiableSet(Arrays.stream(new String[] {
             // no tokens in production rule, so no AST to build
             "visitClassOrInterfaceOrPrimitiveType",
             "visitNonWildcardTypeArgs",
@@ -85,8 +87,8 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
             "visitFieldAccessNoIdent",
             "visitClassType",
             "visitClassOrInterfaceTypeExtended",
-            "visitQualifiedNameExtended"
-    );
+            "visitQualifiedNameExtended",
+        }).collect(Collectors.toSet()));
 
     @Override
     protected String getPackageLocation() {

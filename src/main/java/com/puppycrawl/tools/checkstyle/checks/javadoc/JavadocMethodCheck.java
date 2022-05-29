@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
@@ -29,6 +29,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -75,12 +76,12 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * <p>
  * ATTENTION: Checkstyle does not have information about hierarchy of exception types
  * so usage of base class is considered as separate exception type.
- * As workaround you need to specify both types in javadoc (parent and exact type).
+ * As workaround, you need to specify both types in javadoc (parent and exact type).
  * </p>
  * <p>
  * Javadoc is not required on a method that is tagged with the {@code @Override}
- * annotation. However under Java 5 it is not possible to mark a method required
- * for an interface (this was <i>corrected</i> under Java 6). Hence Checkstyle
+ * annotation. However, under Java 5 it is not possible to mark a method required
+ * for an interface (this was <i>corrected</i> under Java 6). Hence, Checkstyle
  * supports using the convention of using a single {@code {@inheritDoc}} tag
  * instead of all the other tags.
  * </p>
@@ -101,8 +102,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * </pre>
  * <ul>
  * <li>
- * Property {@code allowedAnnotations} - Specify the list of annotations
- * that allow missed documentation.
+ * Property {@code allowedAnnotations} - Specify annotations that allow missed documentation.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code Override}.
  * </li>
@@ -386,8 +386,9 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private boolean allowMissingReturnTag;
 
-    /** Specify the list of annotations that allow missed documentation. */
-    private List<String> allowedAnnotations = Collections.singletonList("Override");
+    /** Specify annotations that allow missed documentation. */
+    private Set<String> allowedAnnotations = Collections.unmodifiableSet(
+            Arrays.stream(new String[] {"Override"}).collect(Collectors.toSet()));
 
     /**
      * Setter to control whether to validate {@code throws} tags.
@@ -399,12 +400,13 @@ public class JavadocMethodCheck extends AbstractCheck {
     }
 
     /**
-     * Setter to specify the list of annotations that allow missed documentation.
+     * Setter to specify annotations that allow missed documentation.
      *
      * @param userAnnotations user's value.
      */
     public void setAllowedAnnotations(String... userAnnotations) {
-        allowedAnnotations = Arrays.asList(userAnnotations);
+        allowedAnnotations = Collections
+                .unmodifiableSet(Arrays.stream(userAnnotations).collect(Collectors.toSet()));
     }
 
     /**
@@ -575,7 +577,7 @@ public class JavadocMethodCheck extends AbstractCheck {
     }
 
     /**
-     * Validates whether the Javadoc has a short circuit tag. Currently this is
+     * Validates whether the Javadoc has a short circuit tag. Currently, this is
      * the inheritTag. Any violations are logged.
      *
      * @param ast the construct being checked
@@ -996,7 +998,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     private void checkReturnTag(List<JavadocTag> tags, int lineNo,
         boolean reportExpectedTags) {
-        // Loop over tags finding return tags. After the first one, report an
+        // Loop over tags finding return tags. After the first one, report a
         // violation.
         boolean found = false;
         final ListIterator<JavadocTag> it = tags.listIterator();

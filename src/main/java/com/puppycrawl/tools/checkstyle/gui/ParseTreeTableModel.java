@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.gui;
 
@@ -159,7 +159,7 @@ public class ParseTreeTableModel implements TreeModel {
     }
 
     /**
-     * Notify all listeners that have registered interest for
+     * Notify all listeners that have registered interest in
      * 'tree structure changed' event.  The event instance
      * is lazily created using the parameters passed into
      * the fire method.
@@ -191,7 +191,7 @@ public class ParseTreeTableModel implements TreeModel {
     }
 
     /**
-     * Indicates whether the the value for node {@code node},
+     * Indicates whether the value for node {@code node},
      * at column number {@code column} is editable.
      *
      * @param column the column number

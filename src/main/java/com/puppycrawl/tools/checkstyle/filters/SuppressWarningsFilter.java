@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filters;
 
@@ -33,7 +33,7 @@ import com.puppycrawl.tools.checkstyle.checks.SuppressWarningsHolder;
  * Rationale: Same as for {@code SuppressionCommentFilter}. In the contrary to it here,
  * comments are not used comments but the builtin syntax of {@code @SuppressWarnings}.
  * This can be perceived as a more elegant solution than using comments.
- * Also this approach maybe supported by various IDE.
+ * Also, this approach maybe supported by various IDE.
  * </p>
  * <p>
  * Usage: This filter only works in conjunction with a

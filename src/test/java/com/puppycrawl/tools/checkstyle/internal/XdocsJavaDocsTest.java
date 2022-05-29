@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal;
 
@@ -264,8 +264,8 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
         boolean skip = true;
 
         // if the first child is a wrapper element instead of the first table row containing
-        // the table head
-        //   set element to populate properties for to the current elements first child
+        // the table headset
+        //   element to populate properties for to the current elements first child
         Node child = XmlUtil.getFirstChildElement(subSection);
         if (child.hasAttributes() && child.getAttributes().getNamedItem("class") != null
                 && "wrapper".equals(child.getAttributes().getNamedItem("class")

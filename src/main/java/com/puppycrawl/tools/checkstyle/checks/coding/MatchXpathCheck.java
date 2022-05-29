@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.coding;
 
@@ -52,7 +52,7 @@ import net.sf.saxon.trans.XPathException;
  * <a href="https://www.saxonica.com/html/documentation10/expressions/">Xpath Syntax</a>.
  * Information regarding Xpath functions can be found at
  * <a href="https://www.saxonica.com/html/documentation10/functions/fn/">XSLT/XPath Reference</a>.
- * Note, that <b>@text</b> attribute can used only with token types that are listed in
+ * Note, that <b>@text</b> attribute can be used only with token types that are listed in
  * <a href="https://github.com/checkstyle/checkstyle/search?q=%22TOKEN_TYPES_WITH_TEXT_ATTRIBUTE+%3D+Arrays.asList%22">
  *     XpathUtil</a>.
  * </p>

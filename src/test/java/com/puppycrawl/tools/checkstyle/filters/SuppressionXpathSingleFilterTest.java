@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filters;
 
@@ -325,6 +325,79 @@ public class SuppressionXpathSingleFilterTest
                     .that(ex.getMessage())
                     .contains("Cannot initialize context and evaluate query");
         }
+    }
+
+    @Test
+    public void testAllNullConfiguration() throws Exception {
+        final String[] expected = {
+            "18:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        final String[] suppressed = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyFilterWithInlineConfigParser(
+                getPath("InputSuppressionXpathSingleFilterAllNullConfiguration.java"),
+                expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testDecideByIdAndExpression() throws Exception {
+        final String[] expected = {
+            "20:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        final String[] suppressed = {
+            "20:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        verifyFilterWithInlineConfigParser(
+                getPath("InputSuppressionXpathSingleFilterDecideByIdAndExpression.java"),
+                expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testDefaultFileProperty() throws Exception {
+        final String[] expected = {
+            "20:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        final String[] suppressed = {
+            "20:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        verifyFilterWithInlineConfigParser(
+                getPath("InputSuppressionXpathSingleFilterDefaultFileProperty.java"),
+                expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testDecideByCheck() throws Exception {
+        final String[] expected = {
+            "18:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        final String[] suppressed = {
+            "18:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        verifyFilterWithInlineConfigParser(
+                getPath("InputSuppressionXpathSingleFilterDecideByCheck.java"),
+                expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testDecideById() throws Exception {
+        final String[] expected = {
+            "19:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        final String[] suppressed = {
+            "19:1: " + getCheckMessage(MissingJavadocTypeCheck.class, MSG_JAVADOC_MISSING),
+        };
+
+        verifyFilterWithInlineConfigParser(
+                getPath("InputSuppressionXpathSingleFilterDecideById.java"),
+                expected, removeSuppressed(expected, suppressed));
     }
 
     private static SuppressionXpathSingleFilter createSuppressionXpathSingleFilter(

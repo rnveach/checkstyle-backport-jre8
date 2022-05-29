@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
@@ -143,17 +143,18 @@ public class RedundantImportCheck
         }
         else if (ast.getType() == TokenTypes.IMPORT) {
             final FullIdent imp = FullIdent.createFullIdentBelow(ast);
-            if (isFromPackage(imp.getText(), "java.lang")) {
-                log(ast, MSG_LANG, imp.getText());
+            final String importText = imp.getText();
+            if (isFromPackage(importText, "java.lang")) {
+                log(ast, MSG_LANG, importText);
             }
             // imports from unnamed package are not allowed,
             // so we are checking SAME rule only for named packages
-            else if (pkgName != null && isFromPackage(imp.getText(), pkgName)) {
-                log(ast, MSG_SAME, imp.getText());
+            else if (pkgName != null && isFromPackage(importText, pkgName)) {
+                log(ast, MSG_SAME, importText);
             }
             // Check for a duplicate import
-            imports.stream().filter(full -> imp.getText().equals(full.getText()))
-                .forEach(full -> log(ast, MSG_DUPLICATE, full.getLineNo(), imp.getText()));
+            imports.stream().filter(full -> importText.equals(full.getText()))
+                .forEach(full -> log(ast, MSG_DUPLICATE, full.getLineNo(), importText));
 
             imports.add(imp);
         }

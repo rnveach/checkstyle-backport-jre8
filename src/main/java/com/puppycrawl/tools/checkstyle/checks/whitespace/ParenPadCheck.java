@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
-import java.util.Arrays;
+import java.util.BitSet;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -33,7 +33,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * forbidden. No check occurs at the right parenthesis after an empty for
  * iterator, at the left parenthesis before an empty for initialization, or at
  * the right parenthesis of a try-with-resources resource specification where
- * the last resource variable has a trailing semi-colon.
+ * the last resource variable has a trailing semicolon.
  * Use Check <a href="https://checkstyle.org/config_whitespace.html#EmptyForIteratorPad">
  * EmptyForIteratorPad</a> to validate empty for iterators and
  * <a href="https://checkstyle.org/config_whitespace.html#EmptyForInitializerPad">
@@ -219,16 +219,15 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 public class ParenPadCheck extends AbstractParenPadCheck {
 
     /**
-     * The array of Acceptable Tokens.
+     * Tokens that this check handles.
      */
-    private final int[] acceptableTokens;
+    private final BitSet acceptableTokens;
 
     /**
-     * Initializes and sorts acceptableTokens to make binary search over it possible.
+     * Initializes acceptableTokens.
      */
     public ParenPadCheck() {
-        acceptableTokens = makeAcceptableTokens();
-        Arrays.sort(acceptableTokens);
+        acceptableTokens = TokenUtil.asBitSet(makeAcceptableTokens());
     }
 
     @Override
@@ -307,10 +306,10 @@ public class ParenPadCheck extends AbstractParenPadCheck {
     }
 
     /**
-     * Checks that a token is preceded by a semi-colon.
+     * Checks that a token is preceded by a semicolon.
      *
      * @param ast the token to check
-     * @return whether a token is preceded by a semi-colon
+     * @return whether a token is preceded by a semicolon
      */
     private static boolean hasPrecedingSemiColon(DetailAST ast) {
         return ast.getPreviousSibling().getType() == TokenTypes.SEMI;
@@ -369,7 +368,7 @@ public class ParenPadCheck extends AbstractParenPadCheck {
      * @return true if the ast is in AcceptableTokens.
      */
     private boolean isAcceptableToken(DetailAST ast) {
-        return Arrays.binarySearch(acceptableTokens, ast.getType()) >= 0;
+        return acceptableTokens.get(ast.getType());
     }
 
     /**

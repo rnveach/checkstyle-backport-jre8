@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * <p>
  * Helper class used to parse HTML tags or generic type identifiers
- * from a single line of text. Just the beginning of the HTML tag
+ * from a single-line of text. Just the beginning of the HTML tag
  * is located.  No attempt is made to parse out the complete tag,
  * particularly since some of the tag parameters could be located
  * on the following line of text.  The {@code hasNextTag} and
@@ -34,7 +34,7 @@ import java.util.List;
  * </p>
  *
  * <p>
- * This class isn't really specific to HTML tags. Currently the only HTML
+ * This class isn't really specific to HTML tags. Currently, the only HTML
  * tag that this class looks specifically for is the HTML comment tag.
  * This class helps figure out if a tag exists and if it is well-formed.
  * It does not know whether it is valid HTML.  This class is also used for
@@ -45,7 +45,7 @@ import java.util.List;
  */
 class TagParser {
 
-    /** List of HtmlTags found on the input line of text. */
+    /** HtmlTags found on the input line of text. */
     private final List<HtmlTag> tags = new LinkedList<>();
 
     /**
@@ -265,15 +265,16 @@ class TagParser {
             if (line < text.length) {
                 // skip beginning spaces and stars
                 final String currentLine = text[line];
-                while (column < currentLine.length()
+                final int currentLineLength = currentLine.length();
+                while (column < currentLineLength
                        && (Character.isWhitespace(currentLine.charAt(column))
                            || currentLine.charAt(column) == '*')) {
                     column++;
-                    if (column < currentLine.length()
+                    if (column < currentLineLength
                         && currentLine.charAt(column - 1) == '*'
                         && currentLine.charAt(column) == '/') {
                         // this is end of comment
-                        column = currentLine.length();
+                        column = currentLineLength;
                     }
                 }
             }

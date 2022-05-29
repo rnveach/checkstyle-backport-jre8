@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,16 +15,18 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.utils;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.isUtilsClassHasPrivateConstructor;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -179,7 +181,8 @@ public class AnnotationUtilTest {
     @Test
     public void testContainsAnnotationListWithNullAst() {
         try {
-            AnnotationUtil.containsAnnotation(null, Collections.singletonList("Override"));
+            AnnotationUtil.containsAnnotation(null, Collections.unmodifiableSet(
+                    Arrays.stream(new String[] {"Override"}).collect(Collectors.toSet())));
             assertWithMessage("IllegalArgumentException is expected").fail();
         }
         catch (IllegalArgumentException ex) {
@@ -192,7 +195,7 @@ public class AnnotationUtilTest {
     @Test
     public void testContainsAnnotationListWithNullList() {
         final DetailAST ast = new DetailAstImpl();
-        final List<String> annotations = null;
+        final Set<String> annotations = null;
         try {
             AnnotationUtil.containsAnnotation(ast, annotations);
             assertWithMessage("IllegalArgumentException is expected").fail();
@@ -207,9 +210,9 @@ public class AnnotationUtilTest {
     @Test
     public void testContainsAnnotationListWithEmptyList() {
         final DetailAST ast = new DetailAstImpl();
-        final List<String> annotations = new ArrayList<>();
+        final Set<String> annotations = Collections.unmodifiableSet(new HashSet<>());
         final boolean result = AnnotationUtil.containsAnnotation(ast, annotations);
-        assertWithMessage("An empty list should lead to a false result")
+        assertWithMessage("An empty set should lead to a false result")
             .that(result)
             .isFalse();
     }
@@ -220,7 +223,8 @@ public class AnnotationUtilTest {
         final DetailAstImpl modifiersAst = new DetailAstImpl();
         modifiersAst.setType(TokenTypes.MODIFIERS);
         ast.addChild(modifiersAst);
-        final List<String> annotations = Collections.singletonList("Override");
+        final Set<String> annotations = Collections.unmodifiableSet(
+                Arrays.stream(new String[] {"Override"}).collect(Collectors.toSet()));
         final boolean result = AnnotationUtil.containsAnnotation(ast, annotations);
         assertWithMessage("An empty ast should lead to a false result")
             .that(result)
@@ -243,7 +247,8 @@ public class AnnotationUtilTest {
                 )
         );
         ast.addChild(modifiersAst);
-        final List<String> annotations = Collections.singletonList("Override");
+        final Set<String> annotations = Collections.unmodifiableSet(
+                Arrays.stream(new String[] {"Override"}).collect(Collectors.toSet()));
         final boolean result = AnnotationUtil.containsAnnotation(ast, annotations);
         assertWithMessage("The dot-ident variation should also work")
                 .that(result)
@@ -266,7 +271,8 @@ public class AnnotationUtilTest {
                 )
         );
         ast.addChild(modifiersAst);
-        final List<String> annotations = Collections.singletonList("Deprecated");
+        final Set<String> annotations = Collections.unmodifiableSet(
+                Arrays.stream(new String[] {"Deprecated"}).collect(Collectors.toSet()));
         final boolean result = AnnotationUtil.containsAnnotation(ast, annotations);
         assertWithMessage("No matching annotation found")
             .that(result)

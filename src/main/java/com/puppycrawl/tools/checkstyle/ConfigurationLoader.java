@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -124,6 +124,8 @@ public final class ConfigurationLoader {
 
     /** Dollar sign literal. */
     private static final char DOLLAR_SIGN = '$';
+    /** Dollar sign string. */
+    private static final String DOLLAR_SIGN_STRING = String.valueOf(DOLLAR_SIGN);
 
     /** The SAX document handler. */
     private final InternalLoader saxHandler;
@@ -168,7 +170,6 @@ public final class ConfigurationLoader {
      * from constructor and inner class isn't static.
      *
      * @return map between local resources and dtd ids.
-     * @noinspection MethodOnlyUsedFromInnerClass
      */
     private static Map<String, String> createIdToResourceNameMap() {
         final Map<String, String> map = new HashMap<>();
@@ -347,7 +348,7 @@ public final class ConfigurationLoader {
      * @throws CheckstyleException if the string contains an opening
      *                           {@code ${} without a closing
      *                           {@code }}
-     * @noinspection MethodWithMultipleReturnPoints, MethodOnlyUsedFromInnerClass
+     * @noinspection MethodWithMultipleReturnPoints
      */
     private static String replaceProperties(
             String value, PropertyResolver props, String defaultValue)
@@ -418,7 +419,7 @@ public final class ConfigurationLoader {
             // if we are at the end of the string, we tack on a $
             // then move past it
             if (pos == value.length() - 1) {
-                fragments.add(String.valueOf(DOLLAR_SIGN));
+                fragments.add(DOLLAR_SIGN_STRING);
                 prev = pos + 1;
             }
             else if (value.charAt(pos + 1) == '{') {
@@ -436,7 +437,7 @@ public final class ConfigurationLoader {
             else {
                 if (value.charAt(pos + 1) == DOLLAR_SIGN) {
                     // backwards compatibility two $ map to one mode
-                    fragments.add(String.valueOf(DOLLAR_SIGN));
+                    fragments.add(DOLLAR_SIGN_STRING);
                 }
                 else {
                     // new behaviour: $X maps to $X for all values of X!='$'

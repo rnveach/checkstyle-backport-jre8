@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,12 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filters;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,9 @@ public class XpathFilterElement implements TreeWalkerFilter {
     /** Xpath query. */
     private final String xpathQuery;
 
+    /** Indicates if all properties are set to null. */
+    private final boolean isEmptyConfig;
+
     /**
      * Creates a {@code XpathElement} instance.
      *
@@ -82,42 +86,11 @@ public class XpathFilterElement implements TreeWalkerFilter {
      */
     public XpathFilterElement(String files, String checks,
                        String message, String moduleId, String query) {
-        filePattern = files;
-        if (files == null) {
-            fileRegexp = null;
-        }
-        else {
-            fileRegexp = Pattern.compile(files);
-        }
-        checkPattern = checks;
-        if (checks == null) {
-            checkRegexp = null;
-        }
-        else {
-            checkRegexp = CommonUtil.createPattern(checks);
-        }
-        messagePattern = message;
-        if (message == null) {
-            messageRegexp = null;
-        }
-        else {
-            messageRegexp = Pattern.compile(message);
-        }
-        this.moduleId = moduleId;
-        xpathQuery = query;
-        if (xpathQuery == null) {
-            xpathExpression = null;
-        }
-        else {
-            final XPathEvaluator xpathEvaluator = new XPathEvaluator(
-                    Configuration.newConfiguration());
-            try {
-                xpathExpression = xpathEvaluator.createExpression(xpathQuery);
-            }
-            catch (XPathException ex) {
-                throw new IllegalArgumentException("Unexpected xpath query: " + xpathQuery, ex);
-            }
-        }
+        this(Optional.ofNullable(files).map(Pattern::compile).orElse(null),
+             Optional.ofNullable(checks).map(CommonUtil::createPattern).orElse(null),
+             Optional.ofNullable(message).map(Pattern::compile).orElse(null),
+             moduleId,
+             query);
     }
 
     /**
@@ -171,11 +144,17 @@ public class XpathFilterElement implements TreeWalkerFilter {
                 throw new IllegalArgumentException("Incorrect xpath query: " + xpathQuery, ex);
             }
         }
+        isEmptyConfig = fileRegexp == null
+                             && checkRegexp == null
+                             && messageRegexp == null
+                             && moduleId == null
+                             && xpathExpression == null;
     }
 
     @Override
     public boolean accept(TreeWalkerAuditEvent event) {
-        return !isFileNameAndModuleAndModuleNameMatching(event)
+        return isEmptyConfig
+                || !isFileNameAndModuleAndModuleNameMatching(event)
                 || !isMessageNameMatching(event)
                 || !isXpathQueryMatching(event);
     }
@@ -261,7 +240,8 @@ public class XpathFilterElement implements TreeWalkerFilter {
 
     @Override
     public int hashCode() {
-        return Objects.hash(filePattern, checkPattern, messagePattern, moduleId, xpathQuery);
+        return Objects.hash(filePattern, checkPattern, messagePattern,
+            moduleId, xpathQuery);
     }
 
     @Override

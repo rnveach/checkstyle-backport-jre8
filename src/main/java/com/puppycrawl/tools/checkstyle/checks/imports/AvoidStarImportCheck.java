@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -194,7 +194,7 @@ public class AvoidStarImportCheck
      * Specify packages where starred class imports are
      * allowed and classes where starred static member imports are allowed.
      */
-    private final List<String> excludes = new ArrayList<>();
+    private final Set<String> excludes = new HashSet<>();
 
     /**
      * Control whether to allow starred class imports like
@@ -236,8 +236,8 @@ public class AvoidStarImportCheck
      * Setter to specify packages where starred class imports are
      * allowed and classes where starred static member imports are allowed.
      *
-     * @param excludesParam a list of package names/fully-qualifies class names
-     *     where star imports are ok.
+     * @param excludesParam package names/fully-qualifies class names
+     *     where star imports are ok
      */
     public void setExcludes(String... excludesParam) {
         for (final String exclude : excludesParam) {

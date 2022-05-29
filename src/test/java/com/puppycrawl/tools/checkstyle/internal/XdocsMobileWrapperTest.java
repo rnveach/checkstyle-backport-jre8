@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal;
 
@@ -25,10 +25,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -39,15 +40,13 @@ import com.puppycrawl.tools.checkstyle.internal.utils.XmlUtil;
 
 public class XdocsMobileWrapperTest {
 
-    private static final List<String> NODES_TO_WRAP = new ArrayList<>();
-
-    @BeforeEach
-    public void setUp() {
-        NODES_TO_WRAP.add("pre");
-        NODES_TO_WRAP.add("table");
-        NODES_TO_WRAP.add("svg");
-        NODES_TO_WRAP.add("img");
-    }
+    private static final Set<String> NODES_TO_WRAP = Collections
+        .unmodifiableSet(Arrays.stream(new String[] {
+            "pre",
+            "table",
+            "svg",
+            "img",
+        }).collect(Collectors.toSet()));
 
     @Test
     public void testAllCheckSectionMobileWrapper() throws Exception {

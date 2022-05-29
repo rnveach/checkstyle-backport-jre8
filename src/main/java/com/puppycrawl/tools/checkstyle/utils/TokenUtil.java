@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -325,6 +327,31 @@ public final class TokenUtil {
         final boolean isTrue = tokenType == TokenTypes.LITERAL_TRUE;
         final boolean isFalse = tokenType == TokenTypes.LITERAL_FALSE;
         return isTrue || isFalse;
+    }
+
+    /**
+     * Creates a new {@code BitSet} from array of tokens.
+     *
+     * @param tokens to initialize the BitSet
+     * @return tokens as BitSet
+     */
+    public static BitSet asBitSet(int... tokens) {
+        return IntStream.of(tokens)
+                .collect(BitSet::new, BitSet::set, BitSet::or);
+    }
+
+    /**
+     * Creates a new {@code BitSet} from array of tokens.
+     *
+     * @param tokens to initialize the BitSet
+     * @return tokens as BitSet
+     */
+    public static BitSet asBitSet(String... tokens) {
+        return Arrays.stream(tokens)
+                .map(String::trim)
+                .filter(string -> !string.isEmpty())
+                .mapToInt(TokenUtil::getTokenId)
+                .collect(BitSet::new, BitSet::set, BitSet::or);
     }
 
 }

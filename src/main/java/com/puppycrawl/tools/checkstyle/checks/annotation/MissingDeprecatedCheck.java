@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.annotation;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.BitSet;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -49,9 +47,9 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * deprecation should be present.
  * </p>
  * <p>
- * Package deprecation is a exception to the rule of always using the
+ * Package deprecation is an exception to the rule of always using the
  * javadoc tag and annotation to deprecate.  It is not clear if the javadoc
- * tool will support it or not as newer versions keep flip flopping on if
+ * tool will support it or not as newer versions keep flip-flopping on if
  * it is supported or will cause an error. See
  * <a href="https://bugs.openjdk.java.net/browse/JDK-8160601">JDK-8160601</a>.
  * The deprecated javadoc tag is currently the only way to say why the package
@@ -193,11 +191,11 @@ public final class MissingDeprecatedCheck extends AbstractJavadocCheck {
     /** Fully-qualified {@link Deprecated Deprecated} annotation name. */
     private static final String FQ_DEPRECATED = "java.lang." + DEPRECATED;
 
-    /** List of token types to find parent of. */
-    private static final Set<Integer> TYPES_HASH_SET = new HashSet<>(Arrays.asList(
+    /** Token types to find parent of. */
+    private static final BitSet TYPES_HASH_SET = TokenUtil.asBitSet(
             TokenTypes.TYPE, TokenTypes.MODIFIERS, TokenTypes.ANNOTATION,
             TokenTypes.ANNOTATIONS, TokenTypes.ARRAY_DECLARATOR,
-            TokenTypes.TYPE_PARAMETERS, TokenTypes.DOT));
+            TokenTypes.TYPE_PARAMETERS, TokenTypes.DOT);
 
     @Override
     public int[] getDefaultJavadocTokens() {
@@ -262,7 +260,7 @@ public final class MissingDeprecatedCheck extends AbstractJavadocCheck {
 
         while (true) {
             final int type = result.getType();
-            if (TYPES_HASH_SET.contains(type)) {
+            if (TYPES_HASH_SET.get(type)) {
                 result = result.getParent();
             }
             else if (type == TokenTypes.SINGLE_LINE_COMMENT) {

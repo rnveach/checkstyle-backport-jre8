@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks;
 
@@ -168,7 +168,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * </pre>
  * <p>
  * As we can see from the configuration, the TranslationCheck was configured
- * to check an existence of 'es', 'fr' and 'de' translations. Lets assume that
+ * to check an existence of 'es', 'fr' and 'de' translations. Let's assume that
  * we have the resource bundle:
  * </p>
  * <pre>
@@ -302,7 +302,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
     /**
      * Setter to specify language codes of required translations which must exist in project.
      *
-     * @param translationCodes a comma separated list of language codes.
+     * @param translationCodes language codes.
      */
     public void setRequiredTranslations(String... translationCodes) {
         requiredTranslations = Arrays.stream(translationCodes).collect(Collectors.toSet());
@@ -352,7 +352,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
 
     @Override
     protected void processFiltered(File file, FileText fileText) {
-        // We just collecting files for processing at finishProcessing()
+        // We are just collecting files for processing at finishProcessing()
         filesToProcess.add(file);
     }
 

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,15 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.BitSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
@@ -31,6 +29,7 @@ import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.api.JavadocTokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
+import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
 /**
  * <p>
@@ -115,7 +114,7 @@ import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
  * }
  * </pre>
  * <p>
- * To ensure that summary do not contain phrase like "This method returns",
+ * To ensure that summary does not contain phrase like "This method returns",
  * use following config:
  * </p>
  * <pre>
@@ -242,7 +241,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
     public static final String MSG_SUMMARY_MISSING_PERIOD = "summary.javaDoc.missing.period";
 
     /**
-     * This regexp is used to convert multiline javadoc to single line without stars.
+     * This regexp is used to convert multiline javadoc to single-line without stars.
      */
     private static final Pattern JAVADOC_MULTILINE_TO_SINGLELINE_PATTERN =
             Pattern.compile("\n[ ]+(\\*)|^[ ]+(\\*)");
@@ -263,12 +262,11 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
     private static final String RETURN_TEXT = "@return";
 
     /** Set of allowed Tokens tags in summary java doc. */
-    private static final Set<Integer> ALLOWED_TYPES = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(
-                    JavadocTokenTypes.WS,
-                    JavadocTokenTypes.DESCRIPTION,
-                    JavadocTokenTypes.TEXT
-    )));
+    private static final BitSet ALLOWED_TYPES = TokenUtil.asBitSet(
+            JavadocTokenTypes.WS,
+            JavadocTokenTypes.DESCRIPTION,
+            JavadocTokenTypes.TEXT
+    );
 
     /**
      * Specify the regexp for forbidden summary fragments.
@@ -672,22 +670,22 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      * @return violation string.
      */
     private static String getSummarySentence(DetailNode ast) {
-        boolean flag = true;
         final StringBuilder result = new StringBuilder(256);
         for (DetailNode child : ast.getChildren()) {
-            if (ALLOWED_TYPES.contains(child.getType())) {
+            if (child.getType() == JavadocTokenTypes.JAVADOC_TAG) {
+                break;
+            }
+            if (child.getType() != JavadocTokenTypes.EOF
+                    && ALLOWED_TYPES.get(child.getType())) {
                 result.append(child.getText());
             }
-            else if (child.getType() == JavadocTokenTypes.HTML_ELEMENT
-                    && CommonUtil.isBlank(result.toString().trim())) {
-                result.append(getStringInsideTag(result.toString(),
-                        child.getChildren()[0].getChildren()[0]));
-            }
-            else if (child.getType() == JavadocTokenTypes.JAVADOC_TAG) {
-                flag = false;
-            }
-            if (!flag) {
-                break;
+            else {
+                final String summary = result.toString();
+                if (child.getType() == JavadocTokenTypes.HTML_ELEMENT
+                        && CommonUtil.isBlank(summary)) {
+                    result.append(getStringInsideTag(summary,
+                            child.getChildren()[0].getChildren()[0]));
+                }
             }
         }
         return result.toString().trim();

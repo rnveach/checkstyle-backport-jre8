@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.meta;
 
@@ -26,8 +26,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,11 +45,12 @@ import com.puppycrawl.tools.checkstyle.internal.utils.CheckUtil;
 @ExtendWith(SystemOutGuard.class)
 public final class MetadataGeneratorUtilTest extends AbstractModuleTestSupport {
 
-    private final List<String> modulesContainingNoMetadataFile = Arrays.asList(
+    private final Set<String> modulesContainingNoMetadataFile = Collections
+        .unmodifiableSet(Arrays.stream(new String[] {
             "Checker",
             "TreeWalker",
-            "JavadocMetadataScraper"
-    );
+            "JavadocMetadataScraper",
+        }).collect(Collectors.toSet()));
 
     @Override
     protected String getPackageLocation() {

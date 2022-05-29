@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,15 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.sizes;
 
 import java.util.ArrayDeque;
+import java.util.BitSet;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.IntStream;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -37,7 +35,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * </p>
  * <p>
  * Rationale: If a method becomes very long it is hard to understand.
- * Therefore long methods should usually be refactored into several
+ * Therefore, long methods should usually be refactored into several
  * individual methods that focus on a specific task.
  * </p>
  * <ul>
@@ -271,18 +269,19 @@ public class MethodLengthCheck extends AbstractCheck {
     private static int countUsedLines(DetailAST ast) {
         final Deque<DetailAST> nodes = new ArrayDeque<>();
         nodes.add(ast);
-        final Set<Integer> usedLines = new HashSet<>();
+        final BitSet usedLines = new BitSet();
+        final int startLineNo = ast.getLineNo();
         while (!nodes.isEmpty()) {
             final DetailAST node = nodes.removeFirst();
-            final int lineNo = node.getLineNo();
+            final int lineIndex = node.getLineNo() - startLineNo;
             // text block requires special treatment,
             // since it is the only non-comment token that can span more than one line
             if (node.getType() == TokenTypes.TEXT_BLOCK_LITERAL_BEGIN) {
-                IntStream.rangeClosed(lineNo, node.getLastChild().getLineNo())
-                    .forEach(usedLines::add);
+                final int endLineIndex = node.getLastChild().getLineNo() - startLineNo;
+                usedLines.set(lineIndex, endLineIndex + 1);
             }
             else {
-                usedLines.add(lineNo);
+                usedLines.set(lineIndex);
 
                 DetailAST start = node.getLastChild();
                 while (start != null) {
@@ -291,7 +290,7 @@ public class MethodLengthCheck extends AbstractCheck {
                 }
             }
         }
-        return usedLines.size();
+        return usedLines.cardinality();
     }
 
     /**

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.metrics;
 
@@ -32,7 +32,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * <p>
  * Checks cyclomatic complexity against a specified limit. It is a measure of
  * the minimum number of possible paths through the source and therefore the
- * number of required tests, it is not a about quality of code! It is only
+ * number of required tests, it is not about quality of code! It is only
  * applied to methods, c-tors,
  * <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html">
  * static initializers and instance initializers</a>.
@@ -51,7 +51,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
  * When it comes to code quality measurement by this metric level 10 is very
  * good level as a ultimate target (that is hard to archive). Do not be ashamed
  * to have complexity level 15 or even higher, but keep it below 20 to catch
- * really bad designed code automatically.
+ * really bad-designed code automatically.
  * </p>
  * <p>
  * Please use Suppression to avoid violations on cases that could not be split

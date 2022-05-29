@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
@@ -88,7 +88,7 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
     /**
      * This property determines if a check should log a violation upon encountering javadoc with
      * non-tight html. The default return value for this method is set to false since checks
-     * generally tend to be fine with non tight html. It can be set through config file if a check
+     * generally tend to be fine with non-tight html. It can be set through config file if a check
      * is to log violation upon encountering non-tight HTML in javadoc.
      *
      * @see ParseStatus#isNonTight()
@@ -301,16 +301,9 @@ public abstract class AbstractJavadocCheck extends AbstractCheck {
             final LineColumn treeCacheKey = new LineColumn(blockCommentNode.getLineNo(),
                     blockCommentNode.getColumnNo());
 
-            final ParseStatus result;
-
-            if (TREE_CACHE.get().containsKey(treeCacheKey)) {
-                result = TREE_CACHE.get().get(treeCacheKey);
-            }
-            else {
-                result = context.get().parser
-                        .parseJavadocAsDetailNode(blockCommentNode);
-                TREE_CACHE.get().put(treeCacheKey, result);
-            }
+            final ParseStatus result = TREE_CACHE.get().computeIfAbsent(treeCacheKey, key -> {
+                return context.get().parser.parseJavadocAsDetailNode(blockCommentNode);
+            });
 
             if (result.getParseErrorMessage() == null) {
                 if (acceptJavadocWithNonTightHtml() || !result.isNonTight()) {

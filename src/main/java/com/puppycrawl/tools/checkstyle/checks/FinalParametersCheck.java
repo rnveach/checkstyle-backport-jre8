@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,14 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.BitSet;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -152,17 +149,16 @@ public class FinalParametersCheck extends AbstractCheck {
      * <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html">
      * primitive datatypes</a>.
      */
-    private final Set<Integer> primitiveDataTypes = Collections.unmodifiableSet(
-        Arrays.stream(new Integer[] {
-            TokenTypes.LITERAL_BYTE,
-            TokenTypes.LITERAL_SHORT,
-            TokenTypes.LITERAL_INT,
-            TokenTypes.LITERAL_LONG,
-            TokenTypes.LITERAL_FLOAT,
-            TokenTypes.LITERAL_DOUBLE,
-            TokenTypes.LITERAL_BOOLEAN,
-            TokenTypes.LITERAL_CHAR,
-        }).collect(Collectors.toSet()));
+    private final BitSet primitiveDataTypes = TokenUtil.asBitSet(
+        TokenTypes.LITERAL_BYTE,
+        TokenTypes.LITERAL_SHORT,
+        TokenTypes.LITERAL_INT,
+        TokenTypes.LITERAL_LONG,
+        TokenTypes.LITERAL_FLOAT,
+        TokenTypes.LITERAL_DOUBLE,
+        TokenTypes.LITERAL_BOOLEAN,
+        TokenTypes.LITERAL_CHAR
+    );
 
     /**
      * Ignore primitive types as parameters.
@@ -284,7 +280,7 @@ public class FinalParametersCheck extends AbstractCheck {
             final DetailAST arrayDeclarator = type
                     .findFirstToken(TokenTypes.ARRAY_DECLARATOR);
             if (arrayDeclarator == null
-                    && primitiveDataTypes.contains(parameterType.getType())) {
+                    && primitiveDataTypes.get(parameterType.getType())) {
                 result = true;
             }
         }

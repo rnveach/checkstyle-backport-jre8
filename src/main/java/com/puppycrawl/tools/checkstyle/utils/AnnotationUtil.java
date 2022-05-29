@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.utils;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
@@ -44,8 +46,12 @@ public final class AnnotationUtil {
     /** Fully-qualified {@link Override Override} annotation name. */
     private static final String FQ_OVERRIDE = "java.lang." + OVERRIDE;
 
-    /** List of simple and fully-qualified {@link Override Override} annotation names. */
-    private static final List<String> OVERRIDE_ANNOTATIONS = Arrays.asList(OVERRIDE, FQ_OVERRIDE);
+    /** Simple and fully-qualified {@link Override Override} annotation names. */
+    private static final Set<String> OVERRIDE_ANNOTATIONS = Collections.unmodifiableSet(
+            Arrays.stream(new String[] {
+                OVERRIDE,
+                FQ_OVERRIDE,
+            }).collect(Collectors.toSet()));
 
     /**
      * Private utility constructor.
@@ -111,7 +117,7 @@ public final class AnnotationUtil {
      *                      {@code false} otherwise.
      * @throws IllegalArgumentException when ast or annotations are null
      */
-    public static boolean containsAnnotation(DetailAST ast, List<String> annotations) {
+    public static boolean containsAnnotation(DetailAST ast, Set<String> annotations) {
         if (ast == null) {
             throw new IllegalArgumentException(THE_AST_IS_NULL);
         }

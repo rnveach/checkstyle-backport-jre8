@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,12 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.api;
 
 /**
- * A interface of Checkstyle's AST nodes for traversing trees generated from the
+ * An interface of Checkstyle's AST nodes for traversing trees generated from the
  * Java code. The main purpose of this interface is to abstract away ANTLR
  * specific classes from API package so other libraries won't require it.
  *
@@ -29,7 +29,7 @@ package com.puppycrawl.tools.checkstyle.api;
 public interface DetailAST {
 
     /**
-     * Returns the number of child nodes one level below this node. That is is
+     * Returns the number of child nodes one level below this node. That is,
      * does not recurse down the tree.
      *
      * @return the number of child nodes

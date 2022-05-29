@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
@@ -31,7 +31,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * <p>
  * Checks that non-whitespace characters are separated by no more than one
  * whitespace. Separating characters by tabs or multiple spaces will be
- * reported. Currently the check doesn't permit horizontal alignment. To inspect
+ * reported. Currently, the check doesn't permit horizontal alignment. To inspect
  * whitespaces before and after comments, set the property
  * {@code validateComments} to true.
  * </p>
@@ -276,7 +276,7 @@ public class SingleSpaceSeparatorCheck extends AbstractCheck {
      *
      * @param line Unicode code point array of line in the file to examine.
      * @param columnNo The column position in the {@code line} to examine.
-     * @return {@code true} if the previous text is a end comment block.
+     * @return {@code true} if the previous text is an end comment block.
      */
     private static boolean isBlockCommentEnd(int[] line, int columnNo) {
         final int[] strippedLine = CodePointUtil

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal;
 
@@ -61,7 +61,7 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
 
     // Javadoc checks are not compatible with SuppressionXpathFilter
     // till https://github.com/checkstyle/checkstyle/issues/5770
-    // then all of them should be added to the list of incompatible checks
+    // then all of them should be added to #INCOMPATIBLE_CHECK_NAMES
     // and this field should be removed
     public static final Set<String> INCOMPATIBLE_JAVADOC_CHECK_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
@@ -242,7 +242,7 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             }
         }
 
-        // Ensure that all lists are up to date
+        // Ensure that all lists are up-to-date
         final Set<String> allChecks = new HashSet<>(simpleCheckNames);
         allChecks.removeAll(INCOMPATIBLE_JAVADOC_CHECK_NAMES);
         allChecks.removeAll(INCOMPATIBLE_CHECK_NAMES);
@@ -279,7 +279,7 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
                         .that(Files.exists(javaPath))
                         .isTrue();
 
-                // input files should named correctly
+                // input files should be named correctly
                 validateInputDirectory(dir);
             }
         }

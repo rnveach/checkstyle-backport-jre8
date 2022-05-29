@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -97,7 +97,7 @@ public class PackageObjectFactory implements ModuleFactory {
     /** Map of Checkstyle module names to their fully qualified names. */
     private static final Map<String, String> NAME_TO_FULL_MODULE_NAME = new HashMap<>();
 
-    /** A list of package names to prepend to class names. */
+    /** Package names to prepend to class names. */
     private final Set<String> packages;
 
     /** The class loader used to load Checkstyle core and custom modules. */
@@ -116,7 +116,7 @@ public class PackageObjectFactory implements ModuleFactory {
     /**
      * Creates a new {@code PackageObjectFactory} instance.
      *
-     * @param packageNames the list of package names to use
+     * @param packageNames package names to use
      * @param moduleClassLoader class loader used to load Checkstyle
      *          core and custom modules
      */
@@ -127,7 +127,7 @@ public class PackageObjectFactory implements ModuleFactory {
     /**
      * Creates a new {@code PackageObjectFactory} instance.
      *
-     * @param packageNames the list of package names to use
+     * @param packageNames package names to use
      * @param moduleClassLoader class loader used to load Checkstyle
      *          core and custom modules
      * @param moduleLoadOption loading option

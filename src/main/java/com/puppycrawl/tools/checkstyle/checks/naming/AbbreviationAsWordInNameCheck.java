@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.naming;
 
@@ -67,8 +67,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * Default value is {@code 3}.
  * </li>
  * <li>
- * Property {@code allowedAbbreviations} - Specify list of abbreviations that must be skipped for
- * checking. Abbreviations should be separated by comma.
+ * Property {@code allowedAbbreviations} - Specify abbreviations that must be skipped for checking.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code ""}.
  * </li>
@@ -333,8 +332,7 @@ public class AbbreviationAsWordInNameCheck extends AbstractCheck {
             DEFAULT_ALLOWED_ABBREVIATIONS_LENGTH;
 
     /**
-     * Specify list of abbreviations that must be skipped for checking. Abbreviations
-     * should be separated by comma.
+     * Specify abbreviations that must be skipped for checking.
      */
     private Set<String> allowedAbbreviations = new HashSet<>();
 
@@ -407,11 +405,10 @@ public class AbbreviationAsWordInNameCheck extends AbstractCheck {
     }
 
     /**
-     * Setter to specify list of abbreviations that must be skipped for checking.
-     * Abbreviations should be separated by comma.
+     * Setter to specify abbreviations that must be skipped for checking.
      *
-     * @param allowedAbbreviations an string of abbreviations that must be
-     *        skipped from checking, each abbreviation separated by comma.
+     * @param allowedAbbreviations abbreviations that must be
+     *        skipped from checking.
      */
     public void setAllowedAbbreviations(String... allowedAbbreviations) {
         if (allowedAbbreviations != null) {

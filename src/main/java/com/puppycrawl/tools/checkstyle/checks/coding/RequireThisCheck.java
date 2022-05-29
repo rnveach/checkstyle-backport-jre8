@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.coding;
 
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.BitSet;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +28,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -266,47 +264,44 @@ public class RequireThisCheck extends AbstractCheck {
     public static final String MSG_VARIABLE = "require.this.variable";
 
     /** Set of all declaration tokens. */
-    private static final Set<Integer> DECLARATION_TOKENS = Collections.unmodifiableSet(
-        Arrays.stream(new Integer[] {
-            TokenTypes.VARIABLE_DEF,
-            TokenTypes.CTOR_DEF,
-            TokenTypes.METHOD_DEF,
-            TokenTypes.CLASS_DEF,
-            TokenTypes.ENUM_DEF,
-            TokenTypes.ANNOTATION_DEF,
-            TokenTypes.INTERFACE_DEF,
-            TokenTypes.PARAMETER_DEF,
-            TokenTypes.TYPE_ARGUMENT,
-            TokenTypes.RECORD_DEF,
-            TokenTypes.RECORD_COMPONENT_DEF,
-        }).collect(Collectors.toSet()));
+    private static final BitSet DECLARATION_TOKENS = TokenUtil.asBitSet(
+        TokenTypes.VARIABLE_DEF,
+        TokenTypes.CTOR_DEF,
+        TokenTypes.METHOD_DEF,
+        TokenTypes.CLASS_DEF,
+        TokenTypes.ENUM_DEF,
+        TokenTypes.ANNOTATION_DEF,
+        TokenTypes.INTERFACE_DEF,
+        TokenTypes.PARAMETER_DEF,
+        TokenTypes.TYPE_ARGUMENT,
+        TokenTypes.RECORD_DEF,
+        TokenTypes.RECORD_COMPONENT_DEF
+    );
     /** Set of all assign tokens. */
-    private static final Set<Integer> ASSIGN_TOKENS = Collections.unmodifiableSet(
-        Arrays.stream(new Integer[] {
-            TokenTypes.ASSIGN,
-            TokenTypes.PLUS_ASSIGN,
-            TokenTypes.STAR_ASSIGN,
-            TokenTypes.DIV_ASSIGN,
-            TokenTypes.MOD_ASSIGN,
-            TokenTypes.SR_ASSIGN,
-            TokenTypes.BSR_ASSIGN,
-            TokenTypes.SL_ASSIGN,
-            TokenTypes.BAND_ASSIGN,
-            TokenTypes.BXOR_ASSIGN,
-        }).collect(Collectors.toSet()));
+    private static final BitSet ASSIGN_TOKENS = TokenUtil.asBitSet(
+        TokenTypes.ASSIGN,
+        TokenTypes.PLUS_ASSIGN,
+        TokenTypes.STAR_ASSIGN,
+        TokenTypes.DIV_ASSIGN,
+        TokenTypes.MOD_ASSIGN,
+        TokenTypes.SR_ASSIGN,
+        TokenTypes.BSR_ASSIGN,
+        TokenTypes.SL_ASSIGN,
+        TokenTypes.BAND_ASSIGN,
+        TokenTypes.BXOR_ASSIGN
+    );
     /** Set of all compound assign tokens. */
-    private static final Set<Integer> COMPOUND_ASSIGN_TOKENS = Collections.unmodifiableSet(
-        Arrays.stream(new Integer[] {
-            TokenTypes.PLUS_ASSIGN,
-            TokenTypes.STAR_ASSIGN,
-            TokenTypes.DIV_ASSIGN,
-            TokenTypes.MOD_ASSIGN,
-            TokenTypes.SR_ASSIGN,
-            TokenTypes.BSR_ASSIGN,
-            TokenTypes.SL_ASSIGN,
-            TokenTypes.BAND_ASSIGN,
-            TokenTypes.BXOR_ASSIGN,
-        }).collect(Collectors.toSet()));
+    private static final BitSet COMPOUND_ASSIGN_TOKENS = TokenUtil.asBitSet(
+        TokenTypes.PLUS_ASSIGN,
+        TokenTypes.STAR_ASSIGN,
+        TokenTypes.DIV_ASSIGN,
+        TokenTypes.MOD_ASSIGN,
+        TokenTypes.SR_ASSIGN,
+        TokenTypes.BSR_ASSIGN,
+        TokenTypes.SL_ASSIGN,
+        TokenTypes.BAND_ASSIGN,
+        TokenTypes.BXOR_ASSIGN
+    );
 
     /** Frame for the currently processed AST. */
     private final Deque<AbstractFrame> current = new ArrayDeque<>();
@@ -324,7 +319,7 @@ public class RequireThisCheck extends AbstractCheck {
     /**
      * Setter to control whether to check references to fields.
      *
-     * @param checkFields should we check fields usage or not.
+     * @param checkFields should we check fields usage or not
      */
     public void setCheckFields(boolean checkFields) {
         this.checkFields = checkFields;
@@ -333,7 +328,7 @@ public class RequireThisCheck extends AbstractCheck {
     /**
      * Setter to control whether to check references to methods.
      *
-     * @param checkMethods should we check methods usage or not.
+     * @param checkMethods should we check methods usage or not
      */
     public void setCheckMethods(boolean checkMethods) {
         this.checkMethods = checkMethods;
@@ -342,7 +337,7 @@ public class RequireThisCheck extends AbstractCheck {
     /**
      * Setter to control whether to check only overlapping by variables or arguments.
      *
-     * @param validateOnlyOverlapping should we check only overlapping by variables or arguments.
+     * @param validateOnlyOverlapping should we check only overlapping by variables or arguments
      */
     public void setValidateOnlyOverlapping(boolean validateOnlyOverlapping) {
         this.validateOnlyOverlapping = validateOnlyOverlapping;
@@ -822,14 +817,8 @@ public class RequireThisCheck extends AbstractCheck {
         final Set<DetailAST> returnsInsideBlock = getAllTokensOfType(definitionToken,
             TokenTypes.LITERAL_RETURN, blockEndToken.getLineNo());
 
-        boolean returnedVariable = false;
-        for (DetailAST returnToken : returnsInsideBlock) {
-            returnedVariable = isAstInside(returnToken, ident);
-            if (returnedVariable) {
-                break;
-            }
-        }
-        return returnedVariable;
+        return returnsInsideBlock.stream()
+            .anyMatch(returnToken -> isAstInside(returnToken, ident));
     }
 
     /**
@@ -1164,7 +1153,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if token is related to Definition Tokens.
      */
     private static boolean isDeclarationToken(int parentType) {
-        return DECLARATION_TOKENS.contains(parentType);
+        return DECLARATION_TOKENS.get(parentType);
     }
 
     /**
@@ -1174,7 +1163,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if token is related to assign tokens.
      */
     private static boolean isAssignToken(int tokenType) {
-        return ASSIGN_TOKENS.contains(tokenType);
+        return ASSIGN_TOKENS.get(tokenType);
     }
 
     /**
@@ -1184,7 +1173,7 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if token is related to compound assign tokens.
      */
     private static boolean isCompoundAssignToken(int tokenType) {
-        return COMPOUND_ASSIGN_TOKENS.contains(tokenType);
+        return COMPOUND_ASSIGN_TOKENS.get(tokenType);
     }
 
     /**

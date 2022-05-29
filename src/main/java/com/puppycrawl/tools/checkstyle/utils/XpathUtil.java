@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,20 +15,19 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.puppycrawl.tools.checkstyle.AstTreeStringPrinter;
 import com.puppycrawl.tools.checkstyle.JavaParser;
@@ -53,7 +52,7 @@ import net.sf.saxon.trans.XPathException;
 public final class XpathUtil {
 
     /**
-     * List of token types which support text attribute.
+     * Token types which support text attribute.
      * These token types were selected based on analysis that all others do not match required
      * criteria - text attribute of the token must be useful and help to retrieve more precise
      * results.
@@ -104,11 +103,11 @@ public final class XpathUtil {
      * Only these tokens support text attribute because they make our xpath queries more accurate.
      * These token types are listed below.
      * */
-    private static final Set<Integer> TOKEN_TYPES_WITH_TEXT_ATTRIBUTE = Stream.of(
+    private static final BitSet TOKEN_TYPES_WITH_TEXT_ATTRIBUTE = TokenUtil.asBitSet(
             TokenTypes.IDENT, TokenTypes.STRING_LITERAL, TokenTypes.CHAR_LITERAL,
             TokenTypes.NUM_LONG, TokenTypes.NUM_INT, TokenTypes.NUM_DOUBLE, TokenTypes.NUM_FLOAT,
             TokenTypes.TEXT_BLOCK_CONTENT, TokenTypes.COMMENT_CONTENT
-        ).collect(Collectors.toSet());
+        );
 
     /**
      * This regexp is used to convert new line to newline tag.
@@ -156,7 +155,7 @@ public final class XpathUtil {
      * @return true if element supports {@code @text} attribute, false otherwise
      */
     public static boolean supportsTextAttribute(DetailAST ast) {
-        return TOKEN_TYPES_WITH_TEXT_ATTRIBUTE.contains(ast.getType());
+        return TOKEN_TYPES_WITH_TEXT_ATTRIBUTE.get(ast.getType());
     }
 
     /**

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -157,12 +157,12 @@ public final class JavaParser {
         while (curNode != null) {
             lastNode = curNode;
 
-            if (((DetailAstImpl) curNode).getHiddenBefore() != null) {
+            final List<Token> hiddenBefore = ((DetailAstImpl) curNode).getHiddenBefore();
+            if (hiddenBefore != null) {
                 DetailAST currentSibling = curNode;
 
-                final List<Token> commentsList = ((DetailAstImpl) curNode).getHiddenBefore();
                 final ListIterator<Token> reverseCommentsIterator =
-                        commentsList.listIterator(commentsList.size());
+                        hiddenBefore.listIterator(hiddenBefore.size());
 
                 while (reverseCommentsIterator.hasPrevious()) {
                     final DetailAST newCommentNode =
@@ -181,15 +181,18 @@ public final class JavaParser {
             }
             curNode = toVisit;
         }
-        if (lastNode != null && ((DetailAstImpl) lastNode).getHiddenAfter() != null) {
-            DetailAST currentSibling = lastNode;
-            for (Token token: ((DetailAstImpl) lastNode).getHiddenAfter()) {
-                final DetailAST newCommentNode =
-                        createCommentAstFromToken((CommonToken) token);
+        if (lastNode != null) {
+            final List<Token> hiddenAfter = ((DetailAstImpl) lastNode).getHiddenAfter();
+            if (hiddenAfter != null) {
+                DetailAST currentSibling = lastNode;
+                for (Token token : hiddenAfter) {
+                    final DetailAST newCommentNode =
+                            createCommentAstFromToken((CommonToken) token);
 
-                ((DetailAstImpl) currentSibling).addNextSibling(newCommentNode);
+                    ((DetailAstImpl) currentSibling).addNextSibling(newCommentNode);
 
-                currentSibling = newCommentNode;
+                    currentSibling = newCommentNode;
+                }
             }
         }
         return root;

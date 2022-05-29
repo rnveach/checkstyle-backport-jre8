@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.api;
 
@@ -109,7 +109,7 @@ public final class FullIdent {
     }
 
     /**
-     * Checks an `ARRAY_DECLARATOR` ast to verify that it is not a
+     * Checks an `ARRAY_DECLARATOR` ast to verify that it is not an
      * array initialization, i.e. 'new int [2][2]'. We do this by
      * making sure that no 'EXPR' token exists in this branch.
      *

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal.utils;
 
@@ -72,7 +72,7 @@ public final class CheckUtil {
     }
 
     /**
-     * Retrieves a list of class names, removing 'Check' from the end if the class is
+     * Retrieves a set of class names, removing 'Check' from the end if the class is
      * a checkstyle check.
      *
      * @param checks class instances.
@@ -199,7 +199,7 @@ public final class CheckUtil {
     }
 
     /**
-     * Get's the check's messages.
+     * Gets the check's messages.
      *
      * @param module class to examine.
      * @param deepScan scan subclasses.
@@ -247,7 +247,7 @@ public final class CheckUtil {
      * Should the class be deep scanned for messages.
      *
      * @param superModule The class to examine.
-     * @return {@code true} if the class should be deep scanned.
+     * @return {@code true} if the class should be deeply scanned.
      */
     private static boolean shouldScanDeepClassForMessages(Class<?> superModule) {
         return superModule == AbstractNameCheck.class

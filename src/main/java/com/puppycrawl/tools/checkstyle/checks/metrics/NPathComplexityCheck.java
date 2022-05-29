@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.metrics;
 
@@ -37,7 +37,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <p>
  * The NPATH metric computes the number of possible execution paths through a
  * function(method). It takes into account the nesting of conditional statements
- * and multi-part boolean expressions (A &amp;&amp; B, C || D, E ? F :G and
+ * and multipart boolean expressions (A &amp;&amp; B, C || D, E ? F :G and
  * their combinations).
  * </p>
  * <p>

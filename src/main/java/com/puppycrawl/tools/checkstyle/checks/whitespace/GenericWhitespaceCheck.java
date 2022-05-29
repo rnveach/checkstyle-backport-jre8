@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
@@ -41,7 +41,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * <li> should be preceded with whitespace only
  *   in generic methods definitions.</li>
  * <li> should not be preceded with whitespace
- *   when it is precede method name or constructor.</li>
+ *   when it is preceded method name or constructor.</li>
  * <li> should not be preceded with whitespace when following type name.</li>
  * <li> should not be followed with whitespace in all cases.</li>
  * </ul>

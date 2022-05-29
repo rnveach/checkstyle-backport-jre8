@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.indentation;
 
-import java.util.Arrays;
+import java.util.BitSet;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
@@ -34,7 +34,7 @@ public class SlistHandler extends BlockParentHandler {
     /**
      * Parent token types.
      */
-    private static final int[] PARENT_TOKEN_TYPES = {
+    private static final BitSet PARENT_TOKEN_TYPES = TokenUtil.asBitSet(
         TokenTypes.CTOR_DEF,
         TokenTypes.METHOD_DEF,
         TokenTypes.STATIC_INIT,
@@ -47,13 +47,8 @@ public class SlistHandler extends BlockParentHandler {
         TokenTypes.LITERAL_TRY,
         TokenTypes.LITERAL_CATCH,
         TokenTypes.LITERAL_FINALLY,
-        TokenTypes.COMPACT_CTOR_DEF,
-    };
-
-    static {
-        // Array sorting for binary search
-        Arrays.sort(PARENT_TOKEN_TYPES);
-    }
+        TokenTypes.COMPACT_CTOR_DEF
+    );
 
     /**
      * Construct an instance of this handler with the given indentation check,
@@ -120,7 +115,7 @@ public class SlistHandler extends BlockParentHandler {
      */
     private boolean hasBlockParent() {
         final int parentType = getMainAst().getParent().getType();
-        return Arrays.binarySearch(PARENT_TOKEN_TYPES, parentType) >= 0;
+        return PARENT_TOKEN_TYPES.get(parentType);
     }
 
     @Override

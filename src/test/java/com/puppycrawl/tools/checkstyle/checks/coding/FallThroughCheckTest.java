@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.coding;
 
@@ -73,6 +73,27 @@ public class FallThroughCheckTest extends AbstractModuleTestSupport {
         verifyWithInlineConfigParser(
                 getNonCompilablePath("InputFallThrough.java"),
                expected);
+    }
+
+    @Test
+    public void testStringSwitch() throws Exception {
+        final String[] expected = {
+            "21:9: " + getCheckMessage(MSG_FALL_THROUGH),
+        };
+        verifyWithInlineConfigParser(getPath("InputFallThroughStringSwitch.java"), expected);
+    }
+
+    @Test
+    public void testCharacterSwitch() throws Exception {
+        final String[] expected = {
+            "19:13: " + getCheckMessage(MSG_FALL_THROUGH),
+            "30:13: " + getCheckMessage(MSG_FALL_THROUGH),
+            "38:13: " + getCheckMessage(MSG_FALL_THROUGH),
+            "44:17: " + getCheckMessage(MSG_FALL_THROUGH),
+            "48:13: " + getCheckMessage(MSG_FALL_THROUGH),
+            "63:13: " + getCheckMessage(MSG_FALL_THROUGH),
+        };
+        verifyWithInlineConfigParser(getPath("InputFallThroughCharacterSwitch.java"), expected);
     }
 
     @Test

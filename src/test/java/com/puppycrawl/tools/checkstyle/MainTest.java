@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -82,7 +82,7 @@ public class MainTest {
                   + "                  [-w=<tabWidth>] [-e=<exclude>]... [-x=<excludeRegex>]... "
                   + "<files>...%n"
                   + "Checkstyle verifies that the specified source code files adhere to the"
-                  + " specified rules. By default%n"
+                  + " specified rules. By default,%n"
                   + "violations are reported to standard out in plain format. Checkstyle requires"
                   + " a configuration XML%n"
                   + "file that configures the checks to apply.%n"
@@ -330,7 +330,7 @@ public class MainTest {
             @SysErr Capturable systemErr, @SysOut Capturable systemOut) throws IOException {
         final File file = File.createTempFile(
                 "testExistingTargetFileButWithoutReadAccess", null, temporaryFolder);
-        // skip execution if file is still readable, it is possible on some windows machines
+        // skip execution if file is still readable, it is possible on some Windows machines
         // see https://github.com/checkstyle/checkstyle/issues/7032 for details
         assumeTrue(file.setReadable(false), "file is still readable");
 

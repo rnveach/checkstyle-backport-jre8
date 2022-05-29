@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.filters;
 
@@ -45,8 +45,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * from the checks which implement FileSetCheck interface. In other words, the
  * checks which have Checker as a parent module. The filter knows nothing about
  * AST, it treats only plain text comments and extracts the information required
- * for suppression from the plain text comments. Currently the filter supports
- * only single line comments.
+ * for suppression from the plain text comments. Currently, the filter supports
+ * only single-line comments.
  * </p>
  * <p>
  * Please, be aware of the fact that, it is not recommended to use the filter
@@ -323,7 +323,7 @@ public class SuppressWithPlainTextCommentFilter extends AutomaticBean implements
     /** Comment format which turns checkstyle reporting on. */
     private static final String DEFAULT_ON_FORMAT = "// CHECKSTYLE:ON";
 
-    /** Default check format to suppress. By default the filter suppress all checks. */
+    /** Default check format to suppress. By default, the filter suppress all checks. */
     private static final String DEFAULT_CHECK_FORMAT = ".*";
 
     /** Specify comment pattern to trigger filter to begin suppression. */

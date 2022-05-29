@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
@@ -28,7 +28,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
 /**
  * <p>Checks that chosen statements are not line-wrapped.
- * By default this Check restricts wrapping import and package statements,
+ * By default, this Check restricts wrapping import and package statements,
  * but it's possible to check any statement.
  * </p>
  * <ul>
@@ -124,20 +124,20 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * Example:
  * </p>
  * <pre>
- * public class // violation, class definition not wrapped in a single line
+ * public class // violation, class definition not wrapped in a single-line
  *   Foo {
  *
  *   public Foo() { // OK
  *   }
  *
- *   public static void // violation, method definition not wrapped in a single line
+ *   public static void // violation, method definition not wrapped in a single-line
  *     doSomething() {
  *   }
  * }
  *
  * public class Bar { // OK
  *
- *   public // violation, constructor definition not wrapped in a single line
+ *   public // violation, constructor definition not wrapped in a single-line
  *     Bar() {
  *   }
  *

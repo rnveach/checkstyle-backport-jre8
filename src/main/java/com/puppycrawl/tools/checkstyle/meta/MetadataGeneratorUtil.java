@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.meta;
 
@@ -96,9 +96,10 @@ public final class MetadataGeneratorUtil {
                 validFiles.addAll(
                         files.map(Path::toFile)
                         .filter(file -> {
-                            return file.getName().endsWith("SuppressWarningsHolder.java")
-                                    || file.getName().endsWith("Check.java")
-                                    || file.getName().endsWith("Filter.java");
+                            final String fileName = file.getName();
+                            return fileName.endsWith("SuppressWarningsHolder.java")
+                                    || fileName.endsWith("Check.java")
+                                    || fileName.endsWith("Filter.java");
                         })
                         .collect(Collectors.toList()));
             }

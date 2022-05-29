@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.api;
 
@@ -52,7 +52,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * A Java Bean that implements the component lifecycle interfaces by
  * calling the bean's setters for all configuration attributes.
  */
-// -@cs[AbstractClassName] We can not brake compatibility with previous versions.
+// -@cs[AbstractClassName] We can not break compatibility with previous versions.
 public abstract class AutomaticBean
     implements Configurable, Contextualizable {
 
@@ -233,7 +233,7 @@ public abstract class AutomaticBean
         catch (final InvocationTargetException | IllegalAccessException
                 | NoSuchMethodException ex) {
             // There is no way to catch IllegalAccessException | NoSuchMethodException
-            // as we do PropertyUtils.getPropertyDescriptor before beanUtils.copyProperty
+            // as we do PropertyUtils.getPropertyDescriptor before beanUtils.copyProperty,
             // so we have to join these exceptions with InvocationTargetException
             // to satisfy UTs coverage
             final String message = String.format(Locale.ROOT,
@@ -294,7 +294,7 @@ public abstract class AutomaticBean
         }
     }
 
-    /** A converter that converts strings to patterns. */
+    /** A converter that converts a string to a pattern. */
     private static class PatternConverter implements Converter {
 
         @SuppressWarnings("unchecked")
@@ -353,7 +353,7 @@ public abstract class AutomaticBean
     /**
      * A converter that does not care whether the array elements contain String
      * characters like '*' or '_'. The normal ArrayConverter class has problems
-     * with this characters.
+     * with these characters.
      */
     private static class RelaxedStringArrayConverter implements Converter {
 

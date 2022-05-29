@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,11 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.meta;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -117,21 +118,22 @@ public final class XmlMetaWriter {
      */
     private static void createPropertySection(ModuleDetails moduleDetails, Element checkModule,
                                               Document doc) {
-        if (!moduleDetails.getProperties().isEmpty()) {
+        final List<ModulePropertyDetails> moduleProperties = moduleDetails.getProperties();
+        if (!moduleProperties.isEmpty()) {
             final Element properties = doc.createElement("properties");
             checkModule.appendChild(properties);
-            for (ModulePropertyDetails modulePropertyDetails : moduleDetails.getProperties()) {
+            for (ModulePropertyDetails modulePropertyDetails : moduleProperties) {
                 final Element property = doc.createElement("property");
                 properties.appendChild(property);
                 property.setAttribute(XML_TAG_NAME, modulePropertyDetails.getName());
                 property.setAttribute("type", modulePropertyDetails.getType());
-                if (modulePropertyDetails.getDefaultValue() != null) {
-                    property.setAttribute("default-value",
-                            modulePropertyDetails.getDefaultValue());
+                final String defaultValue = modulePropertyDetails.getDefaultValue();
+                if (defaultValue != null) {
+                    property.setAttribute("default-value", defaultValue);
                 }
-                if (modulePropertyDetails.getValidationType() != null) {
-                    property.setAttribute("validation-type",
-                            modulePropertyDetails.getValidationType());
+                final String validationType = modulePropertyDetails.getValidationType();
+                if (validationType != null) {
+                    property.setAttribute("validation-type", validationType);
                 }
                 final Element propertyDesc = doc.createElement(XML_TAG_DESCRIPTION);
                 propertyDesc.appendChild(doc.createCDATASection(

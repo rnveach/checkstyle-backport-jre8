@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.grammar.javadoc;
 
@@ -40,9 +40,9 @@ public class GeneratedJavadocTokenTypesTest {
     /**
      * This method checks that the numbers generated for tokens in <tt>JavadocLexer.g4</tt> don't
      * change with the lexer grammar itself.
-     * <br>ANTLR maps all the lexer elements to compile time constants used internally by ANTLR.
+     * <br>ANTLR maps all the lexer elements to compile-time constants used internally by ANTLR.
      * Compatibility damage is incurred <i>(with respect to the previous checkstyle versions)
-     * </i> if these compile time constants keep changing with the grammar.
+     * </i> if these compile-time constants keep changing with the grammar.
      *
      * @see "https://github.com/checkstyle/checkstyle/issues/5139"
      * @see "https://github.com/checkstyle/checkstyle/issues/5186"
@@ -369,9 +369,9 @@ public class GeneratedJavadocTokenTypesTest {
     /**
      * This method checks that the numbers generated for rules in <tt>JavadocParser.g4</tt> don't
      * change with the Parser grammar itself.
-     * <br>ANTLR maps all the parser rules to compile time constants used internally by ANTLR.
+     * <br>ANTLR maps all the parser rules to compile-time constants used internally by ANTLR.
      * Compatibility damage is incurred <i>(with respect to the previous checkstyle versions)
-     * </i> if these compile time constants keep changing with the grammar.
+     * </i> if these compile-time constants keep changing with the grammar.
      *
      * @see "https://github.com/checkstyle/checkstyle/issues/5139"
      * @see "https://github.com/checkstyle/checkstyle/issues/5186"

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.internal.utils;
 
@@ -52,7 +52,7 @@ public final class XdocUtil {
     /**
      * Gets xdocs file paths.
      *
-     * @return a list of xdocs file paths.
+     * @return a set of xdocs file paths.
      * @throws IOException if an I/O error occurs.
      */
     public static Set<Path> getXdocsFilePaths() throws IOException {
@@ -69,8 +69,8 @@ public final class XdocUtil {
     /**
      * Gets xdocs documentation file paths.
      *
-     * @param files list of all xdoc files
-     * @return a list of xdocs config file paths.
+     * @param files set of all xdoc files
+     * @return a set of xdocs config file paths.
      */
     public static Set<Path> getXdocsConfigFilePaths(Set<Path> files) {
         final Set<Path> xdocs = new HashSet<>();
@@ -86,8 +86,8 @@ public final class XdocUtil {
     /**
      * Gets xdocs style file paths.
      *
-     * @param files list of all xdoc files
-     * @return a list of xdocs style file paths.
+     * @param files set of all xdoc files
+     * @return a set of xdocs style file paths.
      */
     public static Set<Path> getXdocsStyleFilePaths(Set<Path> files) {
         final Set<Path> xdocs = new HashSet<>();

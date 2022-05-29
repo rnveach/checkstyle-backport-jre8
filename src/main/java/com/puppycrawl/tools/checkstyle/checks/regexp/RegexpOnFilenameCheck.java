@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.regexp;
 
@@ -42,7 +42,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * The fileExtensions property first picks only files that match any of the
  * specific extensions supplied. Once files are matched against the
  * fileExtensions, the match property is then used in conjunction with the
- * patterns to determine if the check is looking for a match or mis-match on
+ * patterns to determine if the check is looking for a match or mismatch on
  * those files. If the fileNamePattern is supplied, the matching is only applied
  * to the fileNamePattern and not the folderPattern. If no fileNamePattern is
  * supplied, then matching is applied to the folderPattern only and will result
@@ -82,7 +82,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * Default value is {@code null}.</li>
  *
  * <li>
- * Property {@code match} - Control whether to look for a match or mis-match on the file name, if
+ * Property {@code match} - Control whether to look for a match or mismatch on the file name, if
  * the fileNamePattern is supplied, otherwise it is applied on the folderPattern.
  * Type is {@code boolean}.
  * Default value is {@code true}.</li>
@@ -278,7 +278,7 @@ public class RegexpOnFilenameCheck extends AbstractFileSetCheck {
     /** Specify the regular expression to match the file name against. */
     private Pattern fileNamePattern;
     /**
-     * Control whether to look for a match or mis-match on the file name,
+     * Control whether to look for a match or mismatch on the file name,
      * if the fileNamePattern is supplied, otherwise it is applied on the folderPattern.
      */
     private boolean match = true;
@@ -304,7 +304,7 @@ public class RegexpOnFilenameCheck extends AbstractFileSetCheck {
     }
 
     /**
-     * Setter to control whether to look for a match or mis-match on the file name,
+     * Setter to control whether to look for a match or mismatch on the file name,
      * if the fileNamePattern is supplied, otherwise it is applied on the folderPattern.
      *
      * @param match check's option for matching file names.

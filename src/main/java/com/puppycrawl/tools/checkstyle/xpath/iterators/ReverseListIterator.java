@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.xpath.iterators;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.puppycrawl.tools.checkstyle.xpath.AbstractNode;
 import net.sf.saxon.om.NodeInfo;
 import net.sf.saxon.tree.iter.AxisIterator;
 
@@ -33,7 +32,7 @@ public class ReverseListIterator implements AxisIterator {
     /**
      * List of nodes.
      */
-    private final List<AbstractNode> items;
+    private final List<? extends NodeInfo> items;
     /**
      * Current index.
      */
@@ -44,7 +43,7 @@ public class ReverseListIterator implements AxisIterator {
      *
      * @param items the list of nodes.
      */
-    public ReverseListIterator(List<AbstractNode> items) {
+    public ReverseListIterator(List<? extends NodeInfo> items) {
         if (items == null) {
             this.items = null;
             index = -1;

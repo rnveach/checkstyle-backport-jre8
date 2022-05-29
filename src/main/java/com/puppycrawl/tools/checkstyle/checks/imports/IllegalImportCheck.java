@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.imports;
 
@@ -326,7 +326,7 @@ public class IllegalImportCheck
      * then list of packages will be interpreted as regular expressions.
      * Note, all properties for match will be used.
      *
-     * @param from array of illegal packages
+     * @param from illegal packages
      * @noinspection WeakerAccess
      */
     public final void setIllegalPkgs(String... from) {
@@ -343,7 +343,7 @@ public class IllegalImportCheck
      * then list of class names will be interpreted as regular expressions.
      * Note, all properties for match will be used.
      *
-     * @param from array of illegal classes
+     * @param from illegal classes
      */
     public void setIllegalClasses(String... from) {
         illegalClasses = from.clone();
@@ -387,10 +387,9 @@ public class IllegalImportCheck
             imp = FullIdent.createFullIdent(
                 ast.getFirstChild().getNextSibling());
         }
-        if (isIllegalImport(imp.getText())) {
-            log(ast,
-                MSG_KEY,
-                imp.getText());
+        final String importText = imp.getText();
+        if (isIllegalImport(importText)) {
+            log(ast, MSG_KEY, importText);
         }
     }
 

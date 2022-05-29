@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,13 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
@@ -54,7 +55,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * Default value is {@code null}.
  * </li>
  * <li>
- * Property {@code skipAnnotations} - specify the list of annotations that allow missed
+ * Property {@code skipAnnotations} - specify annotations that allow missed
  * documentation. Only short names are allowed, e.g. {@code Generated}.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code Generated}.
@@ -175,10 +176,11 @@ public class MissingJavadocTypeCheck extends AbstractCheck {
     private Scope excludeScope;
 
     /**
-     * Specify the list of annotations that allow missed documentation.
+     * Specify annotations that allow missed documentation.
      * Only short names are allowed, e.g. {@code Generated}.
      */
-    private List<String> skipAnnotations = Collections.singletonList("Generated");
+    private Set<String> skipAnnotations = Collections.unmodifiableSet(
+            Arrays.stream(new String[] {"Generated"}).collect(Collectors.toSet()));
 
     /**
      * Setter to specify the visibility scope where Javadoc comments are checked.
@@ -199,13 +201,14 @@ public class MissingJavadocTypeCheck extends AbstractCheck {
     }
 
     /**
-     * Setter to specify the list of annotations that allow missed documentation.
+     * Setter to specify annotations that allow missed documentation.
      * Only short names are allowed, e.g. {@code Generated}.
      *
      * @param userAnnotations user's value.
      */
     public void setSkipAnnotations(String... userAnnotations) {
-        skipAnnotations = Arrays.asList(userAnnotations);
+        skipAnnotations = Collections
+                .unmodifiableSet(Arrays.stream(userAnnotations).collect(Collectors.toSet()));
     }
 
     @Override

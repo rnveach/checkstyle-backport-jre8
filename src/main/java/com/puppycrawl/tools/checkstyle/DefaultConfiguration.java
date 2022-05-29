@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle;
 
@@ -139,6 +139,7 @@ public final class DefaultConfiguration implements Configuration {
      * @param value the value of the property.
      * @deprecated This shall be removed in future releases. Please use
      *      {@code addProperty(String propertyName, String value)} instead.
+     * @noinspection DeprecatedIsStillUsed
      */
     @Deprecated
     public void addAttribute(String attributeName, String value) {
@@ -153,12 +154,14 @@ public final class DefaultConfiguration implements Configuration {
      */
     public void addProperty(String propertyName, String value) {
         final String current = propertyMap.get(propertyName);
+        final String newValue;
         if (current == null) {
-            propertyMap.put(propertyName, value);
+            newValue = value;
         }
         else {
-            propertyMap.put(propertyName, current + "," + value);
+            newValue = current + "," + value;
         }
+        propertyMap.put(propertyName, newValue);
     }
 
     /**

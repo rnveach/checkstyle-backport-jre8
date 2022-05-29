@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////////////////////////////////
-// checkstyle: Checks Java source code for adherence to a set of rules.
+///////////////////////////////////////////////////////////////////////////////////////////////
+// checkstyle: Checks Java source code and other text files for adherence to a set of rules.
 // Copyright (C) 2001-2022 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 package com.puppycrawl.tools.checkstyle.checks.design;
 
@@ -34,6 +34,7 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FullIdent;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
+import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
 /**
@@ -62,7 +63,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * </p>
  * <p>
  * <b>ignoreAnnotationCanonicalNames</b>- the list of annotations which ignore
- * variables in consideration. If user will provide short annotation name that
+ * variables in consideration. If user want to provide short annotation name that
  * type will match to any named the same type without consideration of package.
  * </p>
  * <p>
@@ -78,7 +79,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * <ul>
  * <li>It's declared as final</li>
  * <li>Has either a primitive type or instance of class user defined to be immutable
- * (such as String, ImmutableCollection from Guava and etc)</li>
+ * (such as String, ImmutableCollection from Guava, etc.)</li>
  * </ul>
  * <p>
  * Classes known to be immutable are listed in <b>immutableClassCanonicalNames</b>
@@ -140,7 +141,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * java.net.InetSocketAddress, java.net.URI, java.net.URL, java.util.Locale, java.util.UUID}.
  * </li>
  * <li>
- * Property {@code ignoreAnnotationCanonicalNames} - Specify the list of annotations canonical
+ * Property {@code ignoreAnnotationCanonicalNames} - Specify annotations canonical
  * names which ignore variables in consideration.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code com.google.common.annotations.VisibleForTesting,
@@ -415,7 +416,7 @@ public class VisibilityModifierCheck
     public static final String MSG_KEY = "variable.notPrivate";
 
     /** Default immutable types canonical names. */
-    private static final List<String> DEFAULT_IMMUTABLE_TYPES = Collections.unmodifiableList(
+    private static final Set<String> DEFAULT_IMMUTABLE_TYPES = Collections.unmodifiableSet(
         Arrays.stream(new String[] {
             "java.lang.String",
             "java.lang.Integer",
@@ -437,15 +438,15 @@ public class VisibilityModifierCheck
             "java.net.Inet4Address",
             "java.net.Inet6Address",
             "java.net.InetSocketAddress",
-        }).collect(Collectors.toList()));
+        }).collect(Collectors.toSet()));
 
     /** Default ignore annotations canonical names. */
-    private static final List<String> DEFAULT_IGNORE_ANNOTATIONS = Collections.unmodifiableList(
+    private static final Set<String> DEFAULT_IGNORE_ANNOTATIONS = Collections.unmodifiableSet(
         Arrays.stream(new String[] {
             "org.junit.Rule",
             "org.junit.ClassRule",
             "com.google.common.annotations.VisibleForTesting",
-        }).collect(Collectors.toList()));
+        }).collect(Collectors.toSet()));
 
     /** Name for 'public' access modifier. */
     private static final String PUBLIC_ACCESS_MODIFIER = "public";
@@ -477,20 +478,19 @@ public class VisibilityModifierCheck
      */
     private Pattern publicMemberPattern = Pattern.compile("^serialVersionUID$");
 
-    /** List of ignore annotations short names. */
-    private final List<String> ignoreAnnotationShortNames =
+    /** Set of ignore annotations short names. */
+    private Set<String> ignoreAnnotationShortNames =
             getClassShortNames(DEFAULT_IGNORE_ANNOTATIONS);
 
-    /** List of immutable classes short names. */
-    private final List<String> immutableClassShortNames =
+    /** Set of immutable classes short names. */
+    private Set<String> immutableClassShortNames =
         getClassShortNames(DEFAULT_IMMUTABLE_TYPES);
 
     /**
-     * Specify the list of annotations canonical names which ignore variables in
+     * Specify annotations canonical names which ignore variables in
      * consideration.
      */
-    private List<String> ignoreAnnotationCanonicalNames =
-        new ArrayList<>(DEFAULT_IGNORE_ANNOTATIONS);
+    private Set<String> ignoreAnnotationCanonicalNames = DEFAULT_IGNORE_ANNOTATIONS;
 
     /** Control whether protected members are allowed. */
     private boolean protectedAllowed;
@@ -505,16 +505,17 @@ public class VisibilityModifierCheck
     private boolean allowPublicFinalFields;
 
     /** Specify immutable classes canonical names. */
-    private List<String> immutableClassCanonicalNames = new ArrayList<>(DEFAULT_IMMUTABLE_TYPES);
+    private Set<String> immutableClassCanonicalNames = DEFAULT_IMMUTABLE_TYPES;
 
     /**
-     * Setter to specify the list of annotations canonical names which ignore variables
+     * Setter to specify annotations canonical names which ignore variables
      * in consideration.
      *
      * @param annotationNames array of ignore annotations canonical names.
      */
     public void setIgnoreAnnotationCanonicalNames(String... annotationNames) {
-        ignoreAnnotationCanonicalNames = Arrays.asList(annotationNames);
+        ignoreAnnotationCanonicalNames = Collections
+                .unmodifiableSet(Arrays.stream(annotationNames).collect(Collectors.toSet()));
     }
 
     /**
@@ -569,7 +570,8 @@ public class VisibilityModifierCheck
      * @param classNames array of immutable types canonical names.
      */
     public void setImmutableClassCanonicalNames(String... classNames) {
-        immutableClassCanonicalNames = Arrays.asList(classNames);
+        immutableClassCanonicalNames = Collections
+                .unmodifiableSet(Arrays.stream(classNames).collect(Collectors.toSet()));
     }
 
     @Override
@@ -592,15 +594,8 @@ public class VisibilityModifierCheck
 
     @Override
     public void beginTree(DetailAST rootAst) {
-        immutableClassShortNames.clear();
-        final List<String> classShortNames =
-                getClassShortNames(immutableClassCanonicalNames);
-        immutableClassShortNames.addAll(classShortNames);
-
-        ignoreAnnotationShortNames.clear();
-        final List<String> annotationShortNames =
-                getClassShortNames(ignoreAnnotationCanonicalNames);
-        ignoreAnnotationShortNames.addAll(annotationShortNames);
+        immutableClassShortNames = getClassShortNames(immutableClassCanonicalNames);
+        ignoreAnnotationShortNames = getClassShortNames(ignoreAnnotationCanonicalNames);
     }
 
     @Override
@@ -664,7 +659,7 @@ public class VisibilityModifierCheck
 
     /**
      * Checks imported type. If type's canonical name was not specified in
-     * <b>immutableClassCanonicalNames</b>, but it's short name collides with one from
+     * <b>immutableClassCanonicalNames</b>, but its short name collides with one from
      * <b>immutableClassShortNames</b> - removes it from the last one.
      *
      * @param importAst {@link TokenTypes#IMPORT Import}
@@ -823,7 +818,7 @@ public class VisibilityModifierCheck
     /**
      * Checks if current field is immutable:
      * has final modifier and either a primitive type or instance of class
-     * known to be immutable (such as String, ImmutableCollection from Guava and etc).
+     * known to be immutable (such as String, ImmutableCollection from Guava, etc.).
      * Classes known to be immutable are listed in
      * {@link VisibilityModifierCheck#immutableClassCanonicalNames}
      *
@@ -893,27 +888,24 @@ public class VisibilityModifierCheck
     private static List<String> getTypeArgsClassNames(DetailAST typeArgs) {
         final List<String> typeClassNames = new ArrayList<>();
         DetailAST type = typeArgs.findFirstToken(TokenTypes.TYPE_ARGUMENT);
-        boolean isCanonicalName = isCanonicalName(type);
-        String typeName = getTypeName(type, isCanonicalName);
-        typeClassNames.add(typeName);
-        DetailAST sibling = type.getNextSibling();
-        while (sibling.getType() == TokenTypes.COMMA) {
-            type = sibling.getNextSibling();
-            isCanonicalName = isCanonicalName(type);
-            typeName = getTypeName(type, isCanonicalName);
+        DetailAST sibling;
+        do {
+            final boolean isCanonicalName = isCanonicalName(type);
+            final String typeName = getTypeName(type, isCanonicalName);
             typeClassNames.add(typeName);
             sibling = type.getNextSibling();
-        }
+            type = sibling.getNextSibling();
+        } while (sibling.getType() == TokenTypes.COMMA);
         return typeClassNames;
     }
 
     /**
-     * Checks whether all of generic type arguments are immutable.
+     * Checks whether all generic type arguments are immutable.
      * If at least one argument is mutable, we assume that the whole list of type arguments
      * is mutable.
      *
      * @param typeArgsClassNames type arguments class names.
-     * @return true if all of generic type arguments are immutable.
+     * @return true if all generic type arguments are immutable.
      */
     private boolean areImmutableTypeArguments(List<String> typeArgsClassNames) {
         return typeArgsClassNames.stream().noneMatch(
@@ -1018,20 +1010,15 @@ public class VisibilityModifierCheck
     }
 
     /**
-     * Gets the list with short names classes.
-     * These names are taken from array of classes canonical names.
+     * Converts canonical class names to short names.
      *
-     * @param canonicalClassNames canonical class names.
-     * @return the list of short names of classes.
+     * @param canonicalClassNames the set of canonical class names.
+     * @return the set of short names of classes.
      */
-    private static List<String> getClassShortNames(List<String> canonicalClassNames) {
-        final List<String> shortNames = new ArrayList<>();
-        for (String canonicalClassName : canonicalClassNames) {
-            final String shortClassName = canonicalClassName
-                    .substring(canonicalClassName.lastIndexOf('.') + 1);
-            shortNames.add(shortClassName);
-        }
-        return shortNames;
+    private static Set<String> getClassShortNames(Set<String> canonicalClassNames) {
+        return canonicalClassNames.stream()
+            .map(CommonUtil::baseClassName)
+            .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
