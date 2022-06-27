@@ -31,8 +31,6 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
 /**
  * Default implementation of the Configuration interface.
- *
- * @noinspection SerializableHasSerializationMethods
  */
 public final class DefaultConfiguration implements Configuration {
 
@@ -139,7 +137,6 @@ public final class DefaultConfiguration implements Configuration {
      * @param value the value of the property.
      * @deprecated This shall be removed in future releases. Please use
      *      {@code addProperty(String propertyName, String value)} instead.
-     * @noinspection DeprecatedIsStillUsed
      */
     @Deprecated
     public void addAttribute(String attributeName, String value) {

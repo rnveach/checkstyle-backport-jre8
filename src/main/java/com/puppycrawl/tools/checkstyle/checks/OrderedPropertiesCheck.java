@@ -123,7 +123,6 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
      *
      * @param file the file to be processed
      * @param fileText the contents of the file.
-     * @noinspection EnumerationCanBeIteration
      */
     @Override
     protected void processFiltered(File file, FileText fileText) {
@@ -138,11 +137,11 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
         String previousProp = "";
         int startLineNo = 0;
 
-        final Enumeration<Object> keys = properties.keys();
+        final Enumeration<Object> propertyIterator = properties.keys();
 
-        while (keys.hasMoreElements()) {
+        while (propertyIterator.hasMoreElements()) {
 
-            final String propKey = (String) keys.nextElement();
+            final String propKey = (String) propertyIterator.nextElement();
 
             if (String.CASE_INSENSITIVE_ORDER.compare(previousProp, propKey) > 0) {
 
@@ -213,7 +212,9 @@ public class OrderedPropertiesCheck extends AbstractFileSetCheck {
     /**
      * Private property implementation that keeps order of properties like in file.
      *
-     * @noinspection ClassExtendsConcreteCollection, SerializableHasSerializationMethods
+     * @noinspection ClassExtendsConcreteCollection
+     * @noinspectionreason ClassExtendsConcreteCollection - we require order from
+     *      file to be maintained by {@code put} method
      */
     private static class SequencedProperties extends Properties {
 

@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.3</version>
+  <version>10.3.1</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -64,10 +64,10 @@
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.0</maven.site.plugin.version>
     <maven.spotbugs.plugin.version>4.7.0.0</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.16.0</maven.pmd.plugin.version>
-    <pmd.version>6.45.0</pmd.version>
+    <maven.pmd.plugin.version>3.17.0</maven.pmd.plugin.version>
+    <pmd.version>6.46.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
-    <mockito.version>4.6.0</mockito.version>
+    <mockito.version>4.6.1</mockito.version>
     <saxon.version>11.3</saxon.version>
     <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
@@ -76,11 +76,12 @@
     </maven.sevntu-checkstyle-check.checkstyle.version>
     <maven.versions.plugin.version>2.11.0</maven.versions.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.8.0</pitest.plugin.version>
+    <pitest.plugin.version>1.9.0</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
+    <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
-    <pitest.junit5.plugin.version>0.15</pitest.junit5.plugin.version>
+    <pitest.junit5.plugin.version>1.0.0</pitest.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
     <junit.version>5.8.2</junit.version>
     <forbiddenapis.version>3.3</forbiddenapis.version>
@@ -308,6 +309,10 @@
             <tags>
               <tag>
                 <name>noinspection</name>
+                <placement>X</placement>
+              </tag>
+              <tag>
+                <name>noinspectionreason</name>
                 <placement>X</placement>
               </tag>
             </tags>
@@ -1156,7 +1161,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <executions>
           <execution>
             <id>enforce-versions</id>
@@ -1345,11 +1350,31 @@
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
             </manifest>
           </archive>
+          <excludes>
+            <exclude>**/Input*.*</exclude>
+            <exclude>**/Expected*.*</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generate test sources as well as main sources. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>test-jar</goal>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
@@ -1824,6 +1849,7 @@
             <excludedLink>https://paypal.com/</excludedLink>
             <!-- temporal suppress till plugin update link in his source -->
             <excludedLink>http://www.mojohaus.org/exec-maven-plugin</excludedLink>
+            <excludedLink>http://www.mojohaus.org/versions-maven-plugin</excludedLink>
             <!-- SSL -->
             <excludedLink>https://travis-ci.org/</excludedLink>
             <excludedLink>https://travis-ci.org/checkstyle/checkstyle</excludedLink>
@@ -1925,6 +1951,8 @@
             <excludedLink>https://travis-ci.com/</excludedLink>
             <!-- permanent 403 -->
             <excludedLink>https://docs.github.com/en/rest/checks</excludedLink>
+            <!-- until https://github.com/checkstyle/checkstyle/issues/11754 -->
+            <excludedLink>https://checkstyle.sourceforge.io/version/6.18</excludedLink>
           </excludedLinks>
         </configuration>
       </plugin>
@@ -1951,6 +1979,7 @@
         <linkcheck.skip>true</linkcheck.skip>
         <jdepend.skip>true</jdepend.skip>
         <modernizer.skip>true</modernizer.skip>
+        <tidy.skip>true</tidy.skip>
       </properties>
       <build>
         <plugins>
@@ -2176,6 +2205,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2220,6 +2250,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2264,13 +2295,14 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
     <profile>
-      <id>pitest-coding</id>
+      <id>pitest-coding-1</id>
       <properties>
         <jacoco.skip>true</jacoco.skip>
       </properties>
@@ -2295,10 +2327,55 @@
                 <mutator>VOID_METHOD_CALLS</mutator>
               </mutators>
               <targetClasses>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AbstractSuperCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalThrowsCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperCloneCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperFinalizeCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.PackageDeclarationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck</param>
               </targetClasses>
               <targetTests>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalThrowsCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperCloneCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperFinalizeCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.PackageDeclarationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheckTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>
@@ -2308,6 +2385,155 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>pitest-coding-2</id>
+      <properties>
+        <jacoco.skip>true</jacoco.skip>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.plugin.version}</version>
+            <configuration>
+              <mutators>
+                <mutator>CONDITIONALS_BOUNDARY</mutator>
+                <mutator>CONSTRUCTOR_CALLS</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>INCREMENTS</mutator>
+                <mutator>INVERT_NEGS</mutator>
+                <mutator>MATH</mutator>
+                <mutator>NEGATE_CONDITIONALS</mutator>
+                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>RETURN_VALS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>VOID_METHOD_CALLS</mutator>
+              </mutators>
+              <targetClasses>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalInstantiationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenTextCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInTryWithResourcesCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoArrayTrailingCommaCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoCloneCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoEnumTrailingCommaCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoFinalizerCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OverloadMethodsDeclarationOrderCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheck</param>
+              </targetClasses>
+              <targetTests>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalInstantiationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenTextCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInTryWithResourcesCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoArrayTrailingCommaCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoCloneCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoEnumTrailingCommaCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoFinalizerCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OverloadMethodsDeclarationOrderCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheckTest</param>
+              </targetTests>
+              <excludedTestClasses>
+                <param>*.Input*</param>
+              </excludedTestClasses>
+              <coverageThreshold>100</coverageThreshold>
+              <mutationThreshold>99</mutationThreshold>
+              <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
+              <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
+              <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>pitest-coding-require-this-check</id>
+      <properties>
+        <jacoco.skip>true</jacoco.skip>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.plugin.version}</version>
+            <configuration>
+              <mutators>
+                <mutator>CONDITIONALS_BOUNDARY</mutator>
+                <mutator>CONSTRUCTOR_CALLS</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>INCREMENTS</mutator>
+                <mutator>INVERT_NEGS</mutator>
+                <mutator>MATH</mutator>
+                <mutator>NEGATE_CONDITIONALS</mutator>
+                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>RETURN_VALS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>VOID_METHOD_CALLS</mutator>
+              </mutators>
+              <targetClasses>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck</param>
+              </targetClasses>
+              <targetTests>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheckTest</param>
+              </targetTests>
+              <excludedTestClasses>
+                <param>*.Input*</param>
+              </excludedTestClasses>
+              <coverageThreshold>100</coverageThreshold>
+              <mutationThreshold>98</mutationThreshold>
+              <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
+              <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
+              <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2352,6 +2578,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2396,6 +2623,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2440,6 +2668,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2485,6 +2714,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2521,6 +2751,8 @@
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.javadoc.*</param>
+                <!-- JavadocMetadataScraper extends AbstractJavadocCheck -->
+                <param>com.puppycrawl.tools.checkstyle.meta.JavadocMetadataScraperTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>
@@ -2539,6 +2771,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2583,6 +2816,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2627,6 +2861,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2671,6 +2906,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2715,6 +2951,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2759,6 +2996,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2803,12 +3041,13 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-   <!-- Non-checks code profiles -->
+    <!-- Non-checks code profiles -->
     <profile>
       <id>pitest-ant</id>
       <properties>
@@ -2848,6 +3087,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2889,6 +3129,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -2974,6 +3215,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3036,6 +3278,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3077,6 +3320,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3170,6 +3414,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3227,6 +3472,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3273,6 +3519,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3382,6 +3629,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3426,6 +3674,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3500,6 +3749,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
@@ -3545,6 +3795,7 @@
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
+              <outputFormats>${pitest.plugin.output.formats}</outputFormats>
             </configuration>
           </plugin>
         </plugins>
