@@ -1033,6 +1033,9 @@ public class XdocsPagesTest {
      * @param fieldClass The bean property's type
      * @param instance The class instance to work with
      * @return String form of property's default value
+     * @noinspection IfStatementWithTooManyBranches
+     * @noinspectionreason IfStatementWithTooManyBranches - complex nature of getting properties
+     *      from XML files requires giant if/else statement
      */
     private static String getModulePropertyExpectedValue(String sectionName, String propertyName,
             Field field, Class<?> fieldClass, Object instance) throws Exception {
@@ -1041,7 +1044,6 @@ public class XdocsPagesTest {
         if (field != null) {
             final Object value = field.get(instance);
 
-            // noinspection IfStatementWithTooManyBranches
             if ("Checker".equals(sectionName) && "localeCountry".equals(propertyName)) {
                 result = "default locale country for the Java Virtual Machine";
             }
@@ -1547,6 +1549,10 @@ public class XdocsPagesTest {
             styleChecks.remove("SuppressionXpathSingleFilter");
             styleChecks.remove("TreeWalker");
             styleChecks.remove("Checker");
+            styleChecks.remove("SuppressWithNearbyCommentFilter");
+            styleChecks.remove("SuppressionCommentFilter");
+            styleChecks.remove("SuppressWarningsFilter");
+            styleChecks.remove("SuppressWarningsHolder");
 
             assertWithMessage(
                     fileName + " requires the following check(s) to appear: " + styleChecks)

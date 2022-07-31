@@ -309,9 +309,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
                 break;
             case TokenTypes.EXPR:
                 // Switch labeled expression has no slist
-                if (ast.getParent().getType() == TokenTypes.SWITCH_RULE
-                    && ast.getParent().getParent().findFirstToken(TokenTypes.SWITCH_RULE)
-                        == ast.getParent()) {
+                if (ast.getParent().getType() == TokenTypes.SWITCH_RULE) {
                     storePrevScopeUninitializedVariableData();
                 }
                 break;
@@ -324,6 +322,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     public void leaveToken(DetailAST ast) {
         Map<String, FinalVariableCandidate> scope = null;
         final Deque<DetailAST> prevScopeUninitializedVariableData;
+        final DetailAST parentAst = ast.getParent();
         switch (ast.getType()) {
             case TokenTypes.OBJBLOCK:
             case TokenTypes.CTOR_DEF:
@@ -333,9 +332,9 @@ public class FinalLocalVariableCheck extends AbstractCheck {
                 break;
             case TokenTypes.EXPR:
                 // Switch labeled expression has no slist
-                if (ast.getParent().getType() == TokenTypes.SWITCH_RULE) {
+                if (parentAst.getType() == TokenTypes.SWITCH_RULE) {
                     prevScopeUninitializedVariableData = prevScopeUninitializedVariables.peek();
-                    if (shouldUpdateUninitializedVariables(ast.getParent())) {
+                    if (shouldUpdateUninitializedVariables(parentAst)) {
                         updateAllUninitializedVariables(prevScopeUninitializedVariableData);
                     }
                 }
@@ -343,15 +342,13 @@ public class FinalLocalVariableCheck extends AbstractCheck {
             case TokenTypes.SLIST:
                 prevScopeUninitializedVariableData = prevScopeUninitializedVariables.peek();
                 boolean containsBreak = false;
-                if (ast.getParent().getType() != TokenTypes.CASE_GROUP
-                    || findLastChildWhichContainsSpecifiedToken(ast.getParent().getParent(),
-                            TokenTypes.CASE_GROUP, TokenTypes.SLIST) == ast.getParent()) {
+                if (parentAst.getType() != TokenTypes.CASE_GROUP
+                    || findLastCaseGroupWhichContainsSlist(parentAst.getParent()) == parentAst) {
                     containsBreak = scopeStack.peek().containsBreak;
                     scope = scopeStack.pop().scope;
                     prevScopeUninitializedVariables.pop();
                 }
-                final DetailAST parent = ast.getParent();
-                if (containsBreak || shouldUpdateUninitializedVariables(parent)) {
+                if (containsBreak || shouldUpdateUninitializedVariables(parentAst)) {
                     updateAllUninitializedVariables(prevScopeUninitializedVariableData);
                 }
                 updateCurrentScopeAssignedVariables();
@@ -458,6 +455,8 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * @param prevScopeUninitializedVariableData variable for previous stack of uninitialized
      *     variables
      * @noinspection MethodParameterNamingConvention
+     * @noinspectionreason MethodParameterNamingConvention - complicated check
+     *      requires descriptive naming
      */
     private void updateAllUninitializedVariables(
             Deque<DetailAST> prevScopeUninitializedVariableData) {
@@ -503,7 +502,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     /**
-     * If token is LITERAL_IF and there is an {@code else} following or token is CASE_GROUP or
+     * If there is an {@code else} following or token is CASE_GROUP or
      * SWITCH_RULE and there is another {@code case} following, then update the
      * uninitialized variables.
      *
@@ -511,18 +510,8 @@ public class FinalLocalVariableCheck extends AbstractCheck {
      * @return true if should be updated, else false
      */
     private static boolean shouldUpdateUninitializedVariables(DetailAST ast) {
-        return isIfTokenWithAnElseFollowing(ast) || isCaseTokenWithAnotherCaseFollowing(ast);
-    }
-
-    /**
-     * If token is LITERAL_IF and there is an {@code else} following.
-     *
-     * @param ast token to be checked
-     * @return true if token is LITERAL_IF and there is an {@code else} following, else false
-     */
-    private static boolean isIfTokenWithAnElseFollowing(DetailAST ast) {
-        return ast.getType() == TokenTypes.LITERAL_IF
-                && ast.getLastChild().getType() == TokenTypes.LITERAL_ELSE;
+        return ast.getLastChild().getType() == TokenTypes.LITERAL_ELSE
+            || isCaseTokenWithAnotherCaseFollowing(ast);
     }
 
     /**
@@ -535,8 +524,7 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     private static boolean isCaseTokenWithAnotherCaseFollowing(DetailAST ast) {
         boolean result = false;
         if (ast.getType() == TokenTypes.CASE_GROUP) {
-            result = findLastChildWhichContainsSpecifiedToken(
-                    ast.getParent(), TokenTypes.CASE_GROUP, TokenTypes.SLIST) != ast;
+            result = findLastCaseGroupWhichContainsSlist(ast.getParent()) != ast;
         }
         else if (ast.getType() == TokenTypes.SWITCH_RULE) {
             result = ast.getNextSibling().getType() == TokenTypes.SWITCH_RULE;
@@ -545,21 +533,17 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     /**
-     * Returns the last child token that makes a specified type and contains containType in
-     * its branch.
+     * Returns the last token of type {@link TokenTypes#CASE_GROUP} which contains
+     * {@link TokenTypes#SLIST}.
      *
-     * @param ast token to be tested
-     * @param childType the token type to match
-     * @param containType the token type which has to be present in the branch
+     * @param literalSwitchAst ast node of type {@link TokenTypes#LITERAL_SWITCH}
      * @return the matching token, or null if no match
      */
-    private static DetailAST findLastChildWhichContainsSpecifiedToken(DetailAST ast, int childType,
-                                                              int containType) {
+    private static DetailAST findLastCaseGroupWhichContainsSlist(DetailAST literalSwitchAst) {
         DetailAST returnValue = null;
-        for (DetailAST astIterator = ast.getFirstChild(); astIterator != null;
-                astIterator = astIterator.getNextSibling()) {
-            if (astIterator.getType() == childType
-                    && astIterator.findFirstToken(containType) != null) {
+        for (DetailAST astIterator = literalSwitchAst.getFirstChild(); astIterator != null;
+             astIterator = astIterator.getNextSibling()) {
+            if (astIterator.findFirstToken(TokenTypes.SLIST) != null) {
                 returnValue = astIterator;
             }
         }
@@ -675,7 +659,9 @@ public class FinalLocalVariableCheck extends AbstractCheck {
                 // if the variable is declared outside the loop and initialized inside
                 // the loop, then it cannot be declared final, as it can be initialized
                 // more than once in this case
-                if (isInTheSameLoop(variable, ast) || !isUseOfExternalVariableInsideLoop(ast)) {
+                final DetailAST currAstLoopAstParent = getLoopAstParent(ast);
+                final DetailAST currVarLoopAstParent = getLoopAstParent(variable);
+                if (currAstLoopAstParent == currVarLoopAstParent) {
                     final FinalVariableCandidate candidate = scopeData.scope.get(ast.getText());
                     shouldRemove = candidate.alreadyAssigned;
                 }
@@ -687,27 +673,20 @@ public class FinalLocalVariableCheck extends AbstractCheck {
     }
 
     /**
-     * Checks whether a variable which is declared outside loop is used inside loop.
-     * For example:
-     * <p>
-     * {@code
-     * int x;
-     * for (int i = 0, j = 0; i < j; i++) {
-     *     x = 5;
-     * }
-     * }
-     * </p>
+     * Get the ast node of type {@link FinalVariableCandidate#LOOP_TYPES} that is the ancestor
+     * of the current ast node, if there is no such node, null is returned.
      *
-     * @param variable variable.
-     * @return true if a variable which is declared outside loop is used inside loop.
+     * @param ast ast node
+     * @return ast node of type {@link FinalVariableCandidate#LOOP_TYPES} that is the ancestor
+     *         of the current ast node, null if no such node exists
      */
-    private static boolean isUseOfExternalVariableInsideLoop(DetailAST variable) {
-        DetailAST loop2 = variable.getParent();
-        while (loop2 != null
-            && !isLoopAst(loop2.getType())) {
-            loop2 = loop2.getParent();
+    private static DetailAST getLoopAstParent(DetailAST ast) {
+        DetailAST loopAstParent = ast.getParent();
+        while (loopAstParent != null
+            && !isLoopAst(loopAstParent.getType())) {
+            loopAstParent = loopAstParent.getParent();
         }
-        return loop2 != null;
+        return loopAstParent;
     }
 
     /**
@@ -797,25 +776,6 @@ public class FinalLocalVariableCheck extends AbstractCheck {
         final DetailAST classOrMethodOfAst2 =
             findFirstUpperNamedBlock(ast2);
         return classOrMethodOfAst1 == classOrMethodOfAst2 && ast1.getText().equals(ast2.getText());
-    }
-
-    /**
-     * Check if both the variables are in the same loop.
-     *
-     * @param ast1 variable to compare.
-     * @param ast2 variable to compare.
-     * @return true if both the variables are in the same loop.
-     */
-    private static boolean isInTheSameLoop(DetailAST ast1, DetailAST ast2) {
-        DetailAST loop1 = ast1.getParent();
-        while (loop1 != null && !isLoopAst(loop1.getType())) {
-            loop1 = loop1.getParent();
-        }
-        DetailAST loop2 = ast2.getParent();
-        while (loop2 != null && !isLoopAst(loop2.getType())) {
-            loop2 = loop2.getParent();
-        }
-        return loop1 != null && loop1 == loop2;
     }
 
     /**

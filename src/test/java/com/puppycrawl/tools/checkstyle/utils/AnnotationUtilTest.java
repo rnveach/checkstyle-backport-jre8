@@ -232,30 +232,6 @@ public class AnnotationUtilTest {
     }
 
     @Test
-    public void testContainsAnnotationListWithEmptyAnnotationNode() {
-        final DetailAstImpl ast = new DetailAstImpl();
-        final DetailAstImpl modifiersAst = create(
-                TokenTypes.MODIFIERS,
-                create(
-                        TokenTypes.ANNOTATION,
-                        create(
-                                TokenTypes.DOT,
-                                create(
-                                        TokenTypes.IDENT,
-                                        "Override")
-                        )
-                )
-        );
-        ast.addChild(modifiersAst);
-        final Set<String> annotations = Collections.unmodifiableSet(
-                Arrays.stream(new String[] {"Override"}).collect(Collectors.toSet()));
-        final boolean result = AnnotationUtil.containsAnnotation(ast, annotations);
-        assertWithMessage("The dot-ident variation should also work")
-                .that(result)
-                .isTrue();
-    }
-
-    @Test
     public void testContainsAnnotationListWithNoMatchingAnnotation() {
         final DetailAstImpl ast = new DetailAstImpl();
         final DetailAstImpl modifiersAst = create(

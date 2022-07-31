@@ -27,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.EventObject;
 import java.util.List;
@@ -59,6 +60,8 @@ import net.sf.saxon.trans.XPathException;
  * Original&nbsp;Source&nbsp;Location</a>
  *
  * @noinspection ThisEscapedInObjectConstruction
+ * @noinspectionreason ThisEscapedInObjectConstruction - only reference is used and not
+ *      accessed until initialized
  */
 public final class TreeTable extends JTable {
 
@@ -107,7 +110,8 @@ public final class TreeTable extends JTable {
         // the table.
         if (tree.getRowHeight() < 1) {
             // Metal looks better like this.
-            setRowHeight(getRowHeight());
+            final int height = getRowHeight();
+            setRowHeight(height);
         }
 
         setColumnsInitialWidth();
@@ -344,11 +348,11 @@ public final class TreeTable extends JTable {
     }
 
     /**
-     * Sets line position list.
+     * Sets line positions.
      *
-     * @param linePositionList Line position list.
+     * @param linePositionList positions of lines.
      */
-    public void setLinePositionList(List<Integer> linePositionList) {
+    public void setLinePositionList(Collection<Integer> linePositionList) {
         this.linePositionList = new ArrayList<>(linePositionList);
     }
 

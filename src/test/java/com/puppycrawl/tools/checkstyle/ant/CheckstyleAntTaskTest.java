@@ -31,7 +31,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -625,6 +628,27 @@ public class CheckstyleAntTaskTest extends AbstractPathTestSupport {
     }
 
     @Test
+    public void testDefaultLoggerWithNullToFile() throws IOException {
+        final CheckstyleAntTask.Formatter formatter = new CheckstyleAntTask.Formatter();
+        formatter.setTofile(null);
+        assertWithMessage("Listener instance has unexpected type")
+            .that(formatter.createListener(null))
+            .isInstanceOf(DefaultLogger.class);
+    }
+
+    @Test
+    public void testXmlLoggerWithNullToFile() throws IOException {
+        final CheckstyleAntTask.FormatterType formatterType = new CheckstyleAntTask.FormatterType();
+        formatterType.setValue("xml");
+        final CheckstyleAntTask.Formatter formatter = new CheckstyleAntTask.Formatter();
+        formatter.setType(formatterType);
+        formatter.setTofile(null);
+        assertWithMessage("Listener instance has unexpected type")
+            .that(formatter.createListener(null))
+            .isInstanceOf(XMLLogger.class);
+    }
+
+    @Test
     public void testSetClasspath() {
         final CheckstyleAntTask antTask = new CheckstyleAntTask();
         final Project project = new Project();
@@ -780,8 +804,50 @@ public class CheckstyleAntTaskTest extends AbstractPathTestSupport {
                         .startsWith("Unable to process files:");
     }
 
+    @Test
+    public void testLoggedTime() throws IOException {
+        final CheckstyleAntTaskLogStub antTask = new CheckstyleAntTaskLogStub();
+        antTask.setConfig(getPath(CONFIG_FILE));
+        antTask.setProject(new Project());
+        antTask.setFile(new File(getPath(FLAWLESS_INPUT)));
+        final long startTime = System.currentTimeMillis();
+        antTask.execute();
+        final long endTime = System.currentTimeMillis();
+        final long testingTime = endTime - startTime;
+        final List<MessageLevelPair> loggedMessages = antTask.getLoggedMessages();
+
+        assertLoggedTime(loggedMessages, testingTime, "Total execution");
+        assertLoggedTime(loggedMessages, testingTime, "To locate the files");
+        assertLoggedTime(loggedMessages, testingTime, "To process the files");
+    }
+
+    private static void assertLoggedTime(List<MessageLevelPair> loggedMessages,
+                                         long testingTime, String expectedMsg) {
+
+        final Optional<MessageLevelPair> optionalMessageLevelPair = loggedMessages.stream()
+            .filter(msg -> msg.getMsg().startsWith(expectedMsg))
+            .findFirst();
+
+        assertWithMessage("Message should be present.")
+            .that(optionalMessageLevelPair.isPresent())
+            .isTrue();
+
+        final long actualTime = getNumberFromLine(optionalMessageLevelPair.get().getMsg());
+
+        assertWithMessage("Logged time in '" + expectedMsg + "' "
+                              + "must be less than the testing time")
+            .that(actualTime)
+            .isAtMost(testingTime);
+    }
+
     private static List<String> readWholeFile(File outputFile) throws IOException {
         return Files.readAllLines(outputFile.toPath(), StandardCharsets.UTF_8);
+    }
+
+    private static long getNumberFromLine(String line) {
+        final Matcher matcher = Pattern.compile("(\\d+)").matcher(line);
+        matcher.find();
+        return Long.parseLong(matcher.group(1));
     }
 
 }

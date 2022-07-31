@@ -175,9 +175,9 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
     @Test
     public void testWithAnonymousClass() throws Exception {
         final String[] expected = {
-            "28:25: " + getCheckMessage(MSG_METHOD, "doSideEffect", ""),
-            "32:24: " + getCheckMessage(MSG_VARIABLE, "bar", "InputRequireThisAnonymousEmpty."),
-            "55:17: " + getCheckMessage(MSG_VARIABLE, "foobar", ""),
+            "29:25: " + getCheckMessage(MSG_METHOD, "doSideEffect", ""),
+            "33:24: " + getCheckMessage(MSG_VARIABLE, "bar", "InputRequireThisAnonymousEmpty."),
+            "56:17: " + getCheckMessage(MSG_VARIABLE, "foobar", ""),
         };
         verifyWithInlineConfigParser(
                 getPath("InputRequireThisAnonymousEmpty.java"),
@@ -330,6 +330,7 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
             "46:21: " + getCheckMessage(MSG_VARIABLE, "z", ""),
             "71:29: " + getCheckMessage(MSG_VARIABLE, "a", ""),
             "71:34: " + getCheckMessage(MSG_VARIABLE, "b", ""),
+            "81:17: " + getCheckMessage(MSG_VARIABLE, "thread", ""),
         };
         verifyWithInlineConfigParser(
                 getPath("InputRequireThisAllowLambdaParameters.java"), expected);
@@ -387,7 +388,9 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
 
     @Test
     public void testExtendedMethod() throws Exception {
-        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        final String[] expected = {
+            "31:9: " + getCheckMessage(MSG_VARIABLE, "EXPR", ""),
+        };
         verifyWithInlineConfigParser(
                 getPath("InputRequireThisExtendedMethod.java"), expected);
     }
@@ -441,6 +444,14 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
         verifyWithInlineConfigParser(
                 getNonCompilablePath("InputRequireThisRecordDefault.java"),
                 expected);
+    }
+
+    @Test
+    public void testLocalClassesInsideLambdas() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        verifyWithInlineConfigParser(
+            getPath("InputRequireThisLocalClassesInsideLambdas.java"),
+            expected);
     }
 
     @Test

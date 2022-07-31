@@ -24,6 +24,7 @@ import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -336,27 +337,21 @@ public final class ConfigurationLoader {
      * <p>Code copied from ant -
      * http://cvs.apache.org/viewcvs/jakarta-ant/src/main/org/apache/tools/ant/ProjectHelper.java
      *
-     * @param value The string to be scanned for property references.
-     *              May be {@code null}, in which case this
-     *              method returns immediately with no effect.
+     * @param value The string to be scanned for property references. Must
+     *              not be {@code null}.
      * @param props Mapping (String to String) of property names to their
      *              values. Must not be {@code null}.
      * @param defaultValue default to use if one of the properties in value
      *              cannot be resolved from props.
      *
-     * @return the original string with the properties replaced, or
-     *         {@code null} if the original string is {@code null}.
+     * @return the original string with the properties replaced.
      * @throws CheckstyleException if the string contains an opening
      *                           {@code ${} without a closing
      *                           {@code }}
-     * @noinspection MethodWithMultipleReturnPoints
      */
     private static String replaceProperties(
             String value, PropertyResolver props, String defaultValue)
             throws CheckstyleException {
-        if (value == null) {
-            return null;
-        }
 
         final List<String> fragments = new ArrayList<>();
         final List<String> propertyRefs = new ArrayList<>();
@@ -387,18 +382,18 @@ public final class ConfigurationLoader {
 
     /**
      * Parses a string containing {@code ${xxx}} style property
-     * references into two lists. The first list is a collection
+     * references into two collections. The first one is a collection
      * of text fragments, while the other is a set of string property names.
-     * {@code null} entries in the first list indicate a property
-     * reference from the second list.
+     * {@code null} entries in the first collection indicate a property
+     * reference from the second collection.
      *
      * <p>Code copied from ant -
      * http://cvs.apache.org/viewcvs/jakarta-ant/src/main/org/apache/tools/ant/ProjectHelper.java
      *
      * @param value     Text to parse. Must not be {@code null}.
-     * @param fragments List to add text fragments to.
+     * @param fragments Collection to add text fragments to.
      *                  Must not be {@code null}.
-     * @param propertyRefs List to add property names to.
+     * @param propertyRefs Collection to add property names to.
      *                     Must not be {@code null}.
      *
      * @throws CheckstyleException if the string contains an opening
@@ -406,8 +401,8 @@ public final class ConfigurationLoader {
      *                           {@code }}
      */
     private static void parsePropertyString(String value,
-                                           List<String> fragments,
-                                           List<String> propertyRefs)
+                                           Collection<String> fragments,
+                                           Collection<String> propertyRefs)
             throws CheckstyleException {
         int prev = 0;
         // search for the next instance of $ from the 'prev' position
@@ -522,15 +517,19 @@ public final class ConfigurationLoader {
             }
             else if (PROPERTY.equals(qName)) {
                 // extract value and name
+                final String attributesValue = attributes.getValue(VALUE);
+
                 final String value;
                 try {
-                    value = replaceProperties(attributes.getValue(VALUE),
+                    value = replaceProperties(attributesValue,
                         overridePropsResolver, attributes.getValue(DEFAULT));
                 }
                 catch (final CheckstyleException ex) {
-                    // -@cs[IllegalInstantiation] SAXException is in the overridden method signature
+                    // -@cs[IllegalInstantiation] SAXException is in the overridden
+                    // method signature
                     throw new SAXException(ex);
                 }
+
                 final String name = attributes.getValue(NAME);
 
                 // add to attributes of configuration

@@ -236,28 +236,55 @@ public class JavadocStyleCheckTest
     }
 
     @Test
-    public void testHtml() throws Exception {
+    public void testHtml1() throws Exception {
         final String[] expected = {
-            "56:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>This guy is missing end of bold tag // violation"),
-            "59:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag "
-                    + "shouldn't be here // violation"),
-            "60:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
-            "61:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
-            "66:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "71:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "76:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "77: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
-            "92:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img> // violation"),
-            "161:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote> // violation"),
-            "293:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
-            "314:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
-            "331:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
+            "55:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
+                "<b>This guy is missing end of bold tag // violation"),
+            "58:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag "
+                + "shouldn't be here // violation"),
+            "59:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
+            "60:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
+            "65:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
+            "70:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
+            "75:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
+            "76: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
+            "91:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img> // violation"),
+        };
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleHtml1.java"), expected);
+    }
+
+    @Test
+    public void testHtml2() throws Exception {
+        final String[] expected = {
+            "67:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote> // violation"),
+        };
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleHtml2.java"), expected);
+    }
+
+    @Test
+    public void testHtml3() throws Exception {
+        final String[] expected = {
+            "102:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+        };
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleHtml3.java"), expected);
+    }
+
+    @Test
+    public void testHtml4() throws Exception {
+        final String[] expected = {
+            "28:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
+            "45:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
                     "<b>Note:<b> it's unterminated tag.</p> // violation"),
         };
 
         verifyWithInlineConfigParser(
-                getPath("InputJavadocStyle4.java"), expected);
+            getPath("InputJavadocStyleHtml4.java"), expected);
     }
 
     @Test
@@ -348,17 +375,41 @@ public class JavadocStyleCheckTest
     }
 
     @Test
-    public void testEmptyJavadoc() throws Exception {
+    public void testEmptyJavadoc1() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleEmptyJavadoc1.java"), expected);
+    }
+
+    @Test
+    public void testEmptyJavadoc2() throws Exception {
         final String[] expected = {
-            "175: " + getCheckMessage(MSG_EMPTY),
-            "179: " + getCheckMessage(MSG_EMPTY),
-            "184: " + getCheckMessage(MSG_EMPTY),
-            "189: " + getCheckMessage(MSG_EMPTY),
-            "193: " + getCheckMessage(MSG_EMPTY),
+            "75: " + getCheckMessage(MSG_EMPTY),
+            "79: " + getCheckMessage(MSG_EMPTY),
+            "84: " + getCheckMessage(MSG_EMPTY),
+            "89: " + getCheckMessage(MSG_EMPTY),
+            "93: " + getCheckMessage(MSG_EMPTY),
         };
 
         verifyWithInlineConfigParser(
-                getPath("InputJavadocStyle8.java"), expected);
+            getPath("InputJavadocStyleEmptyJavadoc2.java"), expected);
+    }
+
+    @Test
+    public void testEmptyJavadoc3() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleEmptyJavadoc3.java"), expected);
+    }
+
+    @Test
+    public void testEmptyJavadoc4() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyWithInlineConfigParser(
+            getPath("InputJavadocStyleEmptyJavadoc4.java"), expected);
     }
 
     @Test

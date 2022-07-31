@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.3.1</version>
+  <version>10.3.2</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,12 +63,12 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.0</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.7.0.0</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.7.1.1</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.17.0</maven.pmd.plugin.version>
-    <pmd.version>6.46.0</pmd.version>
+    <pmd.version>6.47.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
     <mockito.version>4.6.1</mockito.version>
-    <saxon.version>11.3</saxon.version>
+    <saxon.version>11.4</saxon.version>
     <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
     <maven.sevntu-checkstyle-check.checkstyle.version>
@@ -76,14 +76,15 @@
     </maven.sevntu-checkstyle-check.checkstyle.version>
     <maven.versions.plugin.version>2.11.0</maven.versions.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.9.0</pitest.plugin.version>
+    <pitest.plugin.version>1.9.3</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
     <pitest.junit5.plugin.version>1.0.0</pitest.junit5.plugin.version>
+    <pitest.accelerator.junit5.plugin.version>1.0.0</pitest.accelerator.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
-    <junit.version>5.8.2</junit.version>
+    <junit.version>5.9.0</junit.version>
     <forbiddenapis.version>3.3</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
   </properties>
@@ -181,7 +182,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.10</version>
+      <version>3.10.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -251,7 +252,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.2</version>
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
@@ -267,7 +268,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -284,6 +285,11 @@
           <artifactId>pitest-maven</artifactId>
           <version>${pitest.plugin.version}</version>
           <dependencies>
+            <dependency>
+              <groupId>com.groupcdg.pitest</groupId>
+              <artifactId>pitest-accelerator-junit5</artifactId>
+              <version>${pitest.accelerator.junit5.plugin.version}</version>
+            </dependency>
             <dependency>
               <groupId>org.pitest</groupId>
               <artifactId>pitest-junit5-plugin</artifactId>
@@ -549,7 +555,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -636,7 +642,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>2.5.2</version>
+        <version>3.0.1</version>
       </plugin>
 
       <plugin>
@@ -668,7 +674,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.8.2</version>
+        <version>3.0.0</version>
         <configuration>
           <altDeploymentRepository>internal.repo::default::file://${cs.maven.directory}</altDeploymentRepository>
         </configuration>
@@ -861,7 +867,7 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.90</minimum>
+                      <minimum>0.89</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
@@ -1624,7 +1630,7 @@
                 <!-- test needs to be updated -->
                 <exclude>**/SuppressionCommentFilterTest.class</exclude>
 
-                <!-- remain test methods should be updated -->
+                <!-- due to https://github.com/checkstyle/checkstyle/issues/11846 -->
                 <exclude>**/EmptyLineSeparatorCheckTest.class</exclude>
 
                 <!-- content header is conflicting with Input inline header -->
@@ -1646,9 +1652,6 @@
 
                 <!-- this class contain forbidden verify method -->
                 <exclude>**/AbstractModuleTestSupport.class</exclude>
-
-                <!-- test should be updated -->
-                <exclude>**/CommentsIndentationCheckTest.class</exclude>
 
                 <!-- test need to be updated -->
                 <exclude>**/SuppressionFilterTest.class</exclude>
@@ -1704,7 +1707,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.0</version>
       </plugin>
 
       <plugin>
@@ -1946,6 +1949,8 @@
             <excludedLink>http://maven.apache.org/plugins/maven-eclipse-plugin/</excludedLink>
             <excludedLink>http://maven.apache.org/plugins/maven-install-plugin/</excludedLink>
             <excludedLink>http://maven.apache.org/plugins/maven-linkcheck-plugin/</excludedLink>
+            <!-- until new plugins are released to generate link with trailing '/' -->
+            <excludedLink>https://www.mojohaus.org/exec-maven-plugin</excludedLink>
             <!-- permanent 403 -->
             <excludedLink>https://www.ej-technologies.com/*</excludedLink>
             <excludedLink>https://travis-ci.com/</excludedLink>
@@ -2135,15 +2140,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.ArrayTypeStyleCheck*</param>
@@ -2202,7 +2225,7 @@
                 <param>destroy</param>
               </excludedMethods>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2227,15 +2250,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.annotation.*</param>
@@ -2247,7 +2288,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>99</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2272,15 +2313,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.blocks.*</param>
@@ -2292,7 +2351,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2317,15 +2376,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AbstractSuperCheck</param>
@@ -2382,7 +2459,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>99</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2407,15 +2484,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</param>
@@ -2485,7 +2580,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>99</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2510,15 +2605,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck</param>
@@ -2555,15 +2668,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.design.*</param>
@@ -2575,7 +2706,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>99</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2600,15 +2731,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.header.*</param>
@@ -2619,7 +2768,7 @@
               <excludedTestClasses>
                 <param>*.Input*</param>
               </excludedTestClasses>
-              <coverageThreshold>98</coverageThreshold>
+              <coverageThreshold>100</coverageThreshold>
               <mutationThreshold>97</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
@@ -2645,15 +2794,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.imports.*</param>
@@ -2665,7 +2832,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>97</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2736,16 +2903,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <!-- result in 64 extra survived items, too much to keep in ignore list -->
-                <!-- <mutator>REMOVE_CONDITIONALS</mutator> -->
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.javadoc.*</param>
@@ -2793,15 +2977,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.metrics.*</param>
@@ -2813,7 +3015,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>97</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2838,15 +3040,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.modifier.*</param>
@@ -2883,15 +3103,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.naming.*</param>
@@ -2928,15 +3166,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.regexp.*</param>
@@ -2973,15 +3229,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.sizes.*</param>
@@ -2993,7 +3267,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>99</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3018,15 +3292,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.whitespace.*</param>
@@ -3038,7 +3330,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>99</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3064,15 +3356,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.ant.*</param>
@@ -3083,8 +3393,8 @@
               <excludedTestClasses>
                 <param>*.Input*</param>
               </excludedTestClasses>
-              <coverageThreshold>99</coverageThreshold>
-              <mutationThreshold>96</mutationThreshold>
+              <coverageThreshold>100</coverageThreshold>
+              <mutationThreshold>92</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3109,15 +3419,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.PackageNamesLoader*</param>
@@ -3126,7 +3454,7 @@
                 <param>com.puppycrawl.tools.checkstyle.PackageNamesLoaderTest</param>
               </targetTests>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>91</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3151,15 +3479,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.AuditEventDefaultFormatter*</param>
@@ -3211,8 +3557,8 @@
                 <!-- This test is the primary user of metadataGeneratorLogger -->
                 <param>com.puppycrawl.tools.checkstyle.meta.MetadataGeneratorUtilTest</param>
               </targetTests>
-              <coverageThreshold>99</coverageThreshold>
-              <mutationThreshold>95</mutationThreshold>
+              <coverageThreshold>100</coverageThreshold>
+              <mutationThreshold>77</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3237,15 +3583,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.DetailAstImpl*</param>
@@ -3275,7 +3639,7 @@
                 </avoidCallsTo>
               </avoidCallsTo>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>97</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3300,15 +3664,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.Main*</param>
@@ -3317,7 +3699,7 @@
                 <param>com.puppycrawl.tools.checkstyle.MainTest</param>
               </targetTests>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>98</mutationThreshold>
+              <mutationThreshold>99</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3342,15 +3724,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.JavadocDetailNodeParser*</param>
@@ -3411,7 +3811,7 @@
                 </avoidCallsTo>
               </avoidCallsTo>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>99</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3436,15 +3836,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.api.*</param>
@@ -3469,7 +3887,7 @@
                 <param>destroy</param>
               </excludedMethods>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>96</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3494,15 +3912,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.filefilters.*</param>
@@ -3516,7 +3952,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <mutationThreshold>95</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3541,16 +3977,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <!-- result in 58 extra survived items, too much to keep in ignore list -->
-                <!-- <mutator>REMOVE_CONDITIONALS</mutator> -->
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.utils.*</param>
@@ -3625,8 +4078,8 @@
               <excludedTestClasses>
                 <param>*.Input*</param>
               </excludedTestClasses>
-              <coverageThreshold>99</coverageThreshold>
-              <mutationThreshold>100</mutationThreshold>
+              <coverageThreshold>100</coverageThreshold>
+              <mutationThreshold>96</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3722,15 +4175,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.xpath.*</param>
@@ -3746,7 +4217,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>96</mutationThreshold>
+              <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3771,15 +4242,33 @@
               <mutators>
                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                 <mutator>CONSTRUCTOR_CALLS</mutator>
-                <mutator>FALSE_RETURNS</mutator>
                 <mutator>INCREMENTS</mutator>
+                <!-- Read reason of disablement at https://github.com/checkstyle/checkstyle/issues/11895 -->
+                <!-- <mutator>INLINE_CONSTS</mutator> -->
                 <mutator>INVERT_NEGS</mutator>
                 <mutator>MATH</mutator>
                 <mutator>NEGATE_CONDITIONALS</mutator>
-                <mutator>REMOVE_CONDITIONALS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_EQUAL_IF</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_ELSE</mutator>
+                <mutator>REMOVE_CONDITIONALS_ORDER_IF</mutator>
                 <mutator>RETURN_VALS</mutator>
-                <mutator>TRUE_RETURNS</mutator>
                 <mutator>VOID_METHOD_CALLS</mutator>
+                <mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>
+                <mutator>EXPERIMENTAL_BIG_DECIMAL</mutator>
+                <mutator>EXPERIMENTAL_BIG_INTEGER</mutator>
+                <mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>
+                <mutator>EXPERIMENTAL_NAKED_RECEIVER</mutator>
+                <mutator>REMOVE_INCREMENTS</mutator>
+                <mutator>EXPERIMENTAL_RETURN_VALUES_MUTATOR</mutator>
+                <mutator>EXPERIMENTAL_SWITCH</mutator>
+                <mutator>REMOVE_SWITCH</mutator>
+                <mutator>FALSE_RETURNS</mutator>
+                <mutator>TRUE_RETURNS</mutator>
+                <mutator>EMPTY_RETURNS</mutator>
+                <mutator>NULL_RETURNS</mutator>
+                <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.JavaAstVisitor</param>

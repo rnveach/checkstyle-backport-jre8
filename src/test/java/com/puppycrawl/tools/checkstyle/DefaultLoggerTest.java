@@ -42,6 +42,7 @@ import org.junitpioneer.jupiter.DefaultLocale;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean;
 import com.puppycrawl.tools.checkstyle.api.AutomaticBean.OutputStreamOptions;
+import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.api.Violation;
 import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
 
@@ -205,6 +206,25 @@ public class DefaultLoggerTest {
     }
 
     @Test
+    public void testAddErrorIgnoreSeverityLevel() {
+        final OutputStream infoStream = new ByteArrayOutputStream();
+        final OutputStream errorStream = new ByteArrayOutputStream();
+        final DefaultLogger defaultLogger = new DefaultLogger(
+            infoStream, AutomaticBean.OutputStreamOptions.CLOSE,
+            errorStream, AutomaticBean.OutputStreamOptions.CLOSE);
+        defaultLogger.finishLocalSetup();
+        defaultLogger.auditStarted(null);
+        final Violation ignorableViolation = new Violation(1, 2, "bundle", "key",
+                                                           null, SeverityLevel.IGNORE, null,
+                                                           getClass(), "customViolation");
+        defaultLogger.addError(new AuditEvent(this, "fileName", ignorableViolation));
+        defaultLogger.auditFinished(null);
+        assertWithMessage("No violation was expected")
+            .that(errorStream.toString())
+            .isEmpty();
+    }
+
+    @Test
     public void testFinishLocalSetup() {
         final OutputStream infoStream = new ByteArrayOutputStream();
         final DefaultLogger dl = new DefaultLogger(infoStream,
@@ -323,6 +343,24 @@ public class DefaultLoggerTest {
         assertWithMessage("Violation should contain exception message")
                 .that(errorOutput)
                 .contains("java.lang.IllegalStateException: upsss");
+    }
+
+    @Test
+    public void testStreamsNotClosedByLogger() throws IOException {
+        try (MockByteArrayOutputStream infoStream = new MockByteArrayOutputStream();
+             MockByteArrayOutputStream errorStream = new MockByteArrayOutputStream()) {
+            final DefaultLogger defaultLogger = new DefaultLogger(
+                infoStream, OutputStreamOptions.NONE,
+                errorStream, OutputStreamOptions.NONE);
+            defaultLogger.auditStarted(null);
+            defaultLogger.auditFinished(null);
+            assertWithMessage("Info stream should be open")
+                .that(infoStream.closedCount)
+                .isEqualTo(0);
+            assertWithMessage("Error stream should be open")
+                .that(errorStream.closedCount)
+                .isEqualTo(0);
+        }
     }
 
     private static Constructor<?> getConstructor() throws Exception {

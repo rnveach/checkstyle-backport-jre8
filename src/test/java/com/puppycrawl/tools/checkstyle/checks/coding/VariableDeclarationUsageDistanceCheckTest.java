@@ -85,6 +85,7 @@ public class VariableDeclarationUsageDistanceCheckTest extends
         final String[] expected = {
             "17:9: " + getCheckMessage(MSG_KEY, "first", 5, 1),
             "29:9: " + getCheckMessage(MSG_KEY, "allInvariants", 2, 1),
+            "59:9: " + getCheckMessage(MSG_KEY, "a", 2, 1),
         };
         verifyWithInlineConfigParser(
                 getPath("InputVariableDeclarationUsageDistanceGeneral2.java"), expected);
@@ -243,6 +244,14 @@ public class VariableDeclarationUsageDistanceCheckTest extends
 
         verifyWithInlineConfigParser(
                 getPath("InputVariableDeclarationUsageDistanceDefault.java"), expected);
+    }
+
+    @Test
+    public void testDefaultConfiguration2() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyWithInlineConfigParser(
+            getPath("InputVariableDeclarationUsageDistanceDefault2.java"), expected);
     }
 
     @Test

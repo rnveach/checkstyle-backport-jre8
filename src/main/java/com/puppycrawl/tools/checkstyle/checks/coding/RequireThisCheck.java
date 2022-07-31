@@ -383,9 +383,7 @@ public class RequireThisCheck extends AbstractCheck {
             while (curNode != null && toVisit == null) {
                 endCollectingDeclarations(frameStack, curNode);
                 toVisit = curNode.getNextSibling();
-                if (toVisit == null) {
-                    curNode = curNode.getParent();
-                }
+                curNode = curNode.getParent();
             }
             curNode = toVisit;
         }
@@ -553,8 +551,7 @@ public class RequireThisCheck extends AbstractCheck {
                 break;
             case TokenTypes.PARAMETER_DEF:
                 if (!CheckUtil.isReceiverParameter(ast)
-                        && !isLambdaParameter(ast)
-                        && ast.getParent().getType() != TokenTypes.LITERAL_CATCH) {
+                        && !isLambdaParameter(ast)) {
                     final DetailAST parameterIdent = ast.findFirstToken(TokenTypes.IDENT);
                     frame.addIdent(parameterIdent);
                 }
@@ -592,8 +589,6 @@ public class RequireThisCheck extends AbstractCheck {
                 break;
             case TokenTypes.LITERAL_CATCH:
                 final AbstractFrame catchFrame = new CatchFrame(frame, ast);
-                catchFrame.addIdent(ast.findFirstToken(TokenTypes.PARAMETER_DEF).findFirstToken(
-                        TokenTypes.IDENT));
                 frameStack.addFirst(catchFrame);
                 break;
             case TokenTypes.LITERAL_FOR:
@@ -852,37 +847,26 @@ public class RequireThisCheck extends AbstractCheck {
      */
     private boolean canBeReferencedFromStaticContext(DetailAST ident) {
         AbstractFrame variableDeclarationFrame = findFrame(ident, false);
-        boolean staticInitializationBlock = false;
         while (variableDeclarationFrame.getType() == FrameType.BLOCK_FRAME
-                || variableDeclarationFrame.getType() == FrameType.FOR_FRAME) {
-            final DetailAST blockFrameNameIdent = variableDeclarationFrame.getFrameNameIdent();
-            final DetailAST definitionToken = blockFrameNameIdent.getParent();
-            if (definitionToken.getType() == TokenTypes.STATIC_INIT) {
-                staticInitializationBlock = true;
-                break;
-            }
+            || variableDeclarationFrame.getType() == FrameType.FOR_FRAME) {
             variableDeclarationFrame = variableDeclarationFrame.getParent();
         }
 
         boolean staticContext = false;
-        if (staticInitializationBlock) {
-            staticContext = true;
+
+        if (variableDeclarationFrame.getType() == FrameType.CLASS_FRAME) {
+            final DetailAST codeBlockDefinition = getCodeBlockDefinitionToken(ident);
+            if (codeBlockDefinition != null) {
+                final DetailAST modifiers = codeBlockDefinition.getFirstChild();
+                staticContext = codeBlockDefinition.getType() == TokenTypes.STATIC_INIT
+                    || modifiers.findFirstToken(TokenTypes.LITERAL_STATIC) != null;
+            }
         }
         else {
-            if (variableDeclarationFrame.getType() == FrameType.CLASS_FRAME) {
-                final DetailAST codeBlockDefinition = getCodeBlockDefinitionToken(ident);
-                if (codeBlockDefinition != null) {
-                    final DetailAST modifiers = codeBlockDefinition.getFirstChild();
-                    staticContext = codeBlockDefinition.getType() == TokenTypes.STATIC_INIT
-                        || modifiers.findFirstToken(TokenTypes.LITERAL_STATIC) != null;
-                }
-            }
-            else {
-                final DetailAST frameNameIdent = variableDeclarationFrame.getFrameNameIdent();
-                final DetailAST definitionToken = frameNameIdent.getParent();
-                staticContext = definitionToken.findFirstToken(TokenTypes.MODIFIERS)
-                        .findFirstToken(TokenTypes.LITERAL_STATIC) != null;
-            }
+            final DetailAST frameNameIdent = variableDeclarationFrame.getFrameNameIdent();
+            final DetailAST definitionToken = frameNameIdent.getParent();
+            staticContext = definitionToken.findFirstToken(TokenTypes.MODIFIERS)
+                .findFirstToken(TokenTypes.LITERAL_STATIC) != null;
         }
         return !staticContext;
     }
@@ -898,7 +882,6 @@ public class RequireThisCheck extends AbstractCheck {
         DetailAST parent = ident.getParent();
         while (parent != null
                && parent.getType() != TokenTypes.METHOD_DEF
-               && parent.getType() != TokenTypes.CTOR_DEF
                && parent.getType() != TokenTypes.STATIC_INIT) {
             parent = parent.getParent();
         }
@@ -930,17 +913,11 @@ public class RequireThisCheck extends AbstractCheck {
      * @return true if the field usage frame is inside constructor frame.
      */
     private static boolean isInsideConstructorFrame(AbstractFrame frame) {
-        boolean assignmentInConstructor = false;
         AbstractFrame fieldUsageFrame = frame;
-        if (fieldUsageFrame.getType() == FrameType.BLOCK_FRAME) {
-            while (fieldUsageFrame.getType() == FrameType.BLOCK_FRAME) {
-                fieldUsageFrame = fieldUsageFrame.getParent();
-            }
-            if (fieldUsageFrame.getType() == FrameType.CTOR_FRAME) {
-                assignmentInConstructor = true;
-            }
+        while (fieldUsageFrame.getType() == FrameType.BLOCK_FRAME) {
+            fieldUsageFrame = fieldUsageFrame.getParent();
         }
-        return assignmentInConstructor;
+        return fieldUsageFrame.getType() == FrameType.CTOR_FRAME;
     }
 
     /**
@@ -975,10 +952,10 @@ public class RequireThisCheck extends AbstractCheck {
     private boolean isOverlappingByLocalVariable(DetailAST ast) {
         boolean overlapping = false;
         final DetailAST parent = ast.getParent();
-        final DetailAST sibling = ast.getNextSibling();
-        if (sibling != null && isAssignToken(parent.getType())) {
+        if (isAssignToken(parent.getType())) {
             final ClassFrame classFrame = (ClassFrame) findFrame(ast, true);
-            final Set<DetailAST> exprIdents = getAllTokensOfType(sibling, TokenTypes.IDENT);
+            final Set<DetailAST> exprIdents =
+                getAllTokensOfType(ast.getNextSibling(), TokenTypes.IDENT);
             overlapping = classFrame.containsFieldOrVariableDef(exprIdents, ast);
         }
         return overlapping;

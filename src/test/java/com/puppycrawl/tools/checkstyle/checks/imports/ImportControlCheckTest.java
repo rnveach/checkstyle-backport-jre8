@@ -231,6 +231,15 @@ public class ImportControlCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testWithoutRegexAndWithStrategyOnMismatch() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+
+        verifyWithInlineConfigParser(
+            getPath("InputImportControlWithoutRegexAndWithStrategyOnMismatch.java"),
+            expected);
+    }
+
+    @Test
     public void testPkgRegExpInParent() throws Exception {
         final String[] expected = {"13:1: " + getCheckMessage(MSG_DISALLOWED, "java.io.File")};
 
@@ -401,6 +410,16 @@ public class ImportControlCheckTest extends AbstractModuleTestSupport {
 
         verifyWithInlineConfigParser(
                 getPath("InputImportControlFileName.java"), expected);
+    }
+
+    @Test
+    public void testWithRegex() throws Exception {
+        final String[] expected = {
+            "11:1: " + getCheckMessage(MSG_DISALLOWED, "java.io.File"),
+        };
+
+        verifyWithInlineConfigParser(
+            getPath("InputImportControlWithRegex.java"), expected);
     }
 
     @Test

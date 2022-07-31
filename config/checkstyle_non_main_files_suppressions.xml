@@ -74,9 +74,6 @@
   <suppress id="lineLength"
          files="src[\\/]test[\\/]resources[\\/].*[\\/]checks[\\/]translation[\\/]Expected.*\.xml"/>
 
-  <!-- it contains list of html text, no way to wrap -->
-  <suppress id="lineLength"
-         files=".ci[\\/]pitest-survival-check-html.sh"/>
   <!-- property names a too long, nothing we can do -->
   <suppress id="lineLength"
          files="config[\\/]org.eclipse.jdt.core.prefs"/>
@@ -89,6 +86,9 @@
 
   <!-- this file cannot be line wrapped, It contains a list of suppressions -->
   <suppress id="lineLength" files=".ci[\\/]pitest-suppressions[\\/].*"/>
+
+  <!-- this file cannot be line wrapped, it contains cdg pitest licence -->
+  <suppress id="lineLength" files="cdg-pitest-licence.txt"/>
 
   <!-- apply check numberOfTestCasesInXpath only for files in suppressionxpathfilter directory -->
   <suppress id="numberOfTestCasesInXpath"
