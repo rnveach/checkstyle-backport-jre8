@@ -563,13 +563,13 @@ public final class AnnotationUseStyleCheck extends AbstractCheck {
         // comma can be null if array is empty
         final DetailAST comma = rCurly.getPreviousSibling();
 
-        if (trailingArrayComma == TrailingArrayCommaOption.ALWAYS) {
-            if (comma == null || comma.getType() != TokenTypes.COMMA) {
-                log(rCurly, MSG_KEY_ANNOTATION_TRAILING_COMMA_MISSING);
+        if (trailingArrayComma == TrailingArrayCommaOption.NEVER) {
+            if (comma != null && comma.getType() == TokenTypes.COMMA) {
+                log(comma, MSG_KEY_ANNOTATION_TRAILING_COMMA_PRESENT);
             }
         }
-        else if (comma != null && comma.getType() == TokenTypes.COMMA) {
-            log(comma, MSG_KEY_ANNOTATION_TRAILING_COMMA_PRESENT);
+        else if (comma == null || comma.getType() != TokenTypes.COMMA) {
+            log(rCurly, MSG_KEY_ANNOTATION_TRAILING_COMMA_MISSING);
         }
     }
 
@@ -583,13 +583,13 @@ public final class AnnotationUseStyleCheck extends AbstractCheck {
         if (closingParens != ClosingParensOption.IGNORE) {
             final DetailAST paren = ast.getLastChild();
 
-            if (closingParens == ClosingParensOption.ALWAYS) {
-                if (paren.getType() != TokenTypes.RPAREN) {
-                    log(ast, MSG_KEY_ANNOTATION_PARENS_MISSING);
+            if (closingParens == ClosingParensOption.NEVER) {
+                if (paren.getPreviousSibling().getType() == TokenTypes.LPAREN) {
+                    log(ast, MSG_KEY_ANNOTATION_PARENS_PRESENT);
                 }
             }
-            else if (paren.getPreviousSibling().getType() == TokenTypes.LPAREN) {
-                log(ast, MSG_KEY_ANNOTATION_PARENS_PRESENT);
+            else if (paren.getType() != TokenTypes.RPAREN) {
+                log(ast, MSG_KEY_ANNOTATION_PARENS_MISSING);
             }
         }
     }

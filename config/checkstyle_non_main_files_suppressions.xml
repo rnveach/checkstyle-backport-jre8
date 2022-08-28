@@ -72,6 +72,8 @@
   <suppress id="lineLength"
          files="src[\\/]test[\\/]resources[\\/].*[\\/]ant[\\/]checkstyleanttask[\\/]ExpectedCheckstyleAntTaskXmlOutput\.xml"/>
   <suppress id="lineLength"
+            files="src[\\/]test[\\/]resources[\\/].*[\\/]ant[\\/]checkstyleanttask[\\/]ExpectedCheckstyleAntTaskSarifOutput\.sarif"/>
+  <suppress id="lineLength"
          files="src[\\/]test[\\/]resources[\\/].*[\\/]checks[\\/]translation[\\/]Expected.*\.xml"/>
 
   <!-- property names a too long, nothing we can do -->
@@ -86,6 +88,9 @@
 
   <!-- this file cannot be line wrapped, It contains a list of suppressions -->
   <suppress id="lineLength" files=".ci[\\/]pitest-suppressions[\\/].*"/>
+
+  <!-- this file cannot be line wrapped, It contains a list of suppressions -->
+  <suppress id="lineLength" files=".ci[\\/]error-prone-suppressions[\\/].*"/>
 
   <!-- this file cannot be line wrapped, it contains cdg pitest licence -->
   <suppress id="lineLength" files="cdg-pitest-licence.txt"/>
