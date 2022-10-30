@@ -187,16 +187,16 @@ public class MainTest {
     @TempDir
     public File temporaryFolder;
 
-    private final Violation auditStartMessage = new Violation(1,
-            Definitions.CHECKSTYLE_BUNDLE, "DefaultLogger.auditStarted", null, null,
-            getClass(), null);
+    private final LocalizedMessage auditStartMessage = new LocalizedMessage(
+            Definitions.CHECKSTYLE_BUNDLE, getClass(),
+            "DefaultLogger.auditStarted");
 
-    private final Violation auditFinishMessage = new Violation(1,
-            Definitions.CHECKSTYLE_BUNDLE, "DefaultLogger.auditFinished", null, null,
-            getClass(), null);
+    private final LocalizedMessage auditFinishMessage = new LocalizedMessage(
+            Definitions.CHECKSTYLE_BUNDLE, getClass(),
+            "DefaultLogger.auditFinished");
 
-    private final String noViolationsOutput = auditStartMessage.getViolation() + EOL
-                    + auditFinishMessage.getViolation() + EOL;
+    private final String noViolationsOutput = auditStartMessage.getMessage() + EOL
+                    + auditFinishMessage.getMessage() + EOL;
 
     private static String getPath(String filename) {
         return "src/test/resources/com/puppycrawl/tools/checkstyle/main/" + filename;
@@ -389,8 +389,8 @@ public class MainTest {
                 getPath("InputMain.java"));
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
-                auditFinishMessage.getViolation()));
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
+                auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo("");
@@ -472,8 +472,8 @@ public class MainTest {
                 getPath("InputMain.java"));
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
-                auditFinishMessage.getViolation()));
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
+                auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo("");
@@ -495,14 +495,14 @@ public class MainTest {
         final String expectedPath = getFilePath("InputMain.java");
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
                     "[WARN] " + expectedPath + ":3:14: "
                         + invalidPatternMessageMain.getViolation()
                         + " [TypeName]",
                     "[WARN] " + expectedPath + ":5:7: "
                         + invalidPatternMessageMainInner.getViolation()
                         + " [TypeName]",
-                    auditFinishMessage.getViolation()));
+                    auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo("");
@@ -557,12 +557,12 @@ public class MainTest {
         final String expectedPath = getFilePath("InputMain.java");
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
                     "[ERROR] " + expectedPath + ":3:14: "
                         + invalidPatternMessageMain.getViolation() + " [TypeName]",
                     "[ERROR] " + expectedPath + ":5:7: "
                         + invalidPatternMessageMainInner.getViolation() + " [TypeName]",
-                    auditFinishMessage.getViolation()));
+                    auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo(addEndOfLine(errorCounterTwoMessage.getViolation()));
@@ -590,10 +590,10 @@ public class MainTest {
         final String expectedPath = getFilePath("InputMain1.java");
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
                     "[ERROR] " + expectedPath + ":3:14: "
                         + invalidPatternMessageMain.getViolation() + " [TypeName]",
-                    auditFinishMessage.getViolation()));
+                    auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo(addEndOfLine(errorCounterTwoMessage.getViolation()));
@@ -613,9 +613,9 @@ public class MainTest {
         final String expectedPath = getFilePath("InputMain1.java");
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
                 "[ERROR] " + expectedPath + ":1: " + message.getViolation() + " [JavadocPackage]",
-                auditFinishMessage.getViolation()));
+                auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo(addEndOfLine(errorCounterTwoMessage.getViolation()));
@@ -672,8 +672,8 @@ public class MainTest {
                 "-p", getPath("InputMainMycheckstyle.properties"), getPath("InputMain.java"));
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
-                auditFinishMessage.getViolation()));
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
+                auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo("");
@@ -687,8 +687,8 @@ public class MainTest {
 
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
-            .isEqualTo(addEndOfLine(auditStartMessage.getViolation(),
-                auditFinishMessage.getViolation()));
+            .isEqualTo(addEndOfLine(auditStartMessage.getMessage(),
+                auditFinishMessage.getMessage()));
         assertWithMessage("Unexpected system error log")
             .that(systemErr.getCapturedData())
             .isEqualTo("");
@@ -815,7 +815,7 @@ public class MainTest {
                 getPath(""));
         final String expectedPath = getFilePath("") + File.separator;
         final StringBuilder sb = new StringBuilder(28);
-        sb.append(auditStartMessage.getViolation())
+        sb.append(auditStartMessage.getMessage())
                 .append(EOL);
         final String format = "[WARN] " + expectedPath + outputValues[0][0] + ".java:"
                 + outputValues[0][1] + ": ";
@@ -826,7 +826,7 @@ public class MainTest {
             final String line = format + violation + " [FileLength]";
             sb.append(line).append(EOL);
         }
-        sb.append(auditFinishMessage.getViolation())
+        sb.append(auditFinishMessage.getMessage())
                 .append(EOL);
         assertWithMessage("Unexpected output log")
             .that(systemOut.getCapturedData())
@@ -1742,19 +1742,20 @@ public class MainTest {
         assertMainReturnCode(-2, "-c", getPath("InputMainConfig-custom-simple-root-module.xml"),
                 getPath("InputMain.java"));
         final String checkstylePackage = "com.puppycrawl.tools.checkstyle.";
-        final Violation unableToInstantiateExceptionMessage = new Violation(1,
+        final LocalizedMessage unableToInstantiateExceptionMessage = new LocalizedMessage(
                 Definitions.CHECKSTYLE_BUNDLE,
+                getClass(),
                 "PackageObjectFactory.unableToInstantiateExceptionMessage",
-                new String[] {"TestRootModuleChecker", checkstylePackage
+                "TestRootModuleChecker",
+                checkstylePackage
                         + "TestRootModuleChecker, "
                         + "TestRootModuleCheckerCheck, " + checkstylePackage
-                        + "TestRootModuleCheckerCheck"},
-                null, getClass(), null);
+                        + "TestRootModuleCheckerCheck");
         assertWithMessage(
                 "Unexpected system error log")
                         .that(systemErr.getCapturedData()
                                 .startsWith(checkstylePackage + "api.CheckstyleException: "
-                                        + unableToInstantiateExceptionMessage.getViolation()))
+                                        + unableToInstantiateExceptionMessage.getMessage()))
                         .isTrue();
         assertWithMessage("Invalid checker state")
                 .that(TestRootModuleChecker.isProcessed())
@@ -1880,11 +1881,11 @@ public class MainTest {
      * Print stream that shouldn't be closed. The purpose of this class is to ensure that
      * {@code System.out} and {@code System.err} are not closed by Checkstyle.
      */
-    private static class ShouldNotBeClosedStream extends PrintStream {
+    private static final class ShouldNotBeClosedStream extends PrintStream {
 
         private boolean isClosed;
 
-        /* package */ ShouldNotBeClosedStream() throws UnsupportedEncodingException {
+        private ShouldNotBeClosedStream() throws UnsupportedEncodingException {
             super(new ByteArrayOutputStream(), false, StandardCharsets.UTF_8.name());
         }
 

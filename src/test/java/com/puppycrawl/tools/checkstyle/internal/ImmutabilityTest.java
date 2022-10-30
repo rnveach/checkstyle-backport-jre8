@@ -199,7 +199,7 @@ public class ImmutabilityTest {
         .importPackages("com.puppycrawl.tools.checkstyle")
         .that(new DescribedPredicate<JavaClass>("are checkstyle modules") {
             @Override
-            public boolean apply(JavaClass input) {
+            public boolean test(JavaClass input) {
                 final Class<?> clazz = input.reflect();
                 return ModuleReflectionUtil.isValidCheckstyleClass(clazz)
                     && (ModuleReflectionUtil.isCheckstyleTreeWalkerCheck(clazz)
@@ -418,7 +418,7 @@ public class ImmutabilityTest {
         }
 
         @Override
-        public boolean apply(JavaField input) {
+        public boolean test(JavaField input) {
             return isModuleProperty(input);
         }
     }
@@ -432,7 +432,7 @@ public class ImmutabilityTest {
         }
 
         @Override
-        public boolean apply(JavaClass input) {
+        public boolean test(JavaClass input) {
             final Set<JavaField> fields = input.getFields();
             return fields.stream()
                 .filter(javaField -> {

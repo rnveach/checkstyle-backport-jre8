@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.3.4</version>
+  <version>10.4</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,11 +63,11 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.7.1.1</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.7.2.1</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.19.0</maven.pmd.plugin.version>
-    <pmd.version>6.49.0</pmd.version>
+    <pmd.version>6.50.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
-    <mockito.version>4.8.0</mockito.version>
+    <mockito.version>4.8.1</mockito.version>
     <saxon.version>11.4</saxon.version>
     <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
@@ -77,16 +77,16 @@
     <maven.versions.plugin.version>2.12.0</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.9.5</pitest.plugin.version>
+    <pitest.plugin.version>1.9.8</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
-    <pitest.junit5.plugin.version>1.0.0</pitest.junit5.plugin.version>
-    <pitest.accelerator.junit5.plugin.version>1.0.2</pitest.accelerator.junit5.plugin.version>
+    <pitest.junit5.plugin.version>1.1.0</pitest.junit5.plugin.version>
+    <pitest.accelerator.junit5.plugin.version>1.0.4</pitest.accelerator.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
     <junit.version>5.9.1</junit.version>
-    <forbiddenapis.version>3.3</forbiddenapis.version>
+    <forbiddenapis.version>3.4</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
     <error-prone.version>2.15.0</error-prone.version>
     <checkerframework.version>3.25.0</checkerframework.version>
@@ -159,7 +159,7 @@
     <dependency>
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit-junit5</artifactId>
-      <version>0.23.1</version>
+      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -215,7 +215,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.2</version>
+      <version>2.0.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -296,7 +296,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.pitest</groupId>
@@ -532,7 +532,6 @@
               <maxAllowedViolations>0</maxAllowedViolations>
               <violationSeverity>error</violationSeverity>
               <cacheFile>${project.build.directory}/cachefile_sevntu</cacheFile>
-              <propertyExpansion>project.basedir=${project.basedir}</propertyExpansion>
               <sourceDirectories>
                 <sourceDirectory>${project.basedir}/src</sourceDirectory>
               </sourceDirectories>
@@ -558,7 +557,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tidy-maven-plugin</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
         <executions>
           <execution>
             <id>validate</id>
@@ -1306,21 +1305,12 @@
             <configuration>
               <target>
                 <property name="mvn.project.build.directory" value="${project.build.directory}" />
-                <property name="mvn.project.version" value="${project.version}" />
                 <property name="mvn.runtime_classpath" refid="maven.runtime.classpath" />
-                <property name="project.basedir" value="${project.basedir}" />
                 <ant antfile="config/ant-phase-verify.xml" />
               </target>
             </configuration>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.ant</groupId>
-            <artifactId>ant-nodeps</artifactId>
-            <version>1.8.1</version>
-          </dependency>
-        </dependencies>
       </plugin>
 
       <!-- Ensure the manifest has all the gory details -->
@@ -1937,6 +1927,11 @@
             <!-- permanent 403 -->
             <excludedLink>https://docs.github.com/en/rest/checks</excludedLink>
             <excludedLink>https://www.ietf.org/rfc/rfc4627.txt</excludedLink>
+            <excludedLink>https://liberapay.com/assets/widgets/donate.svg</excludedLink>
+            <excludedLink>https://maven-doccheck.sourceforge.net/</excludedLink>
+            <excludedLink>http://jdee.sourceforge.net/</excludedLink>
+            <excludedLink>https://qalab.sourceforge.net/</excludedLink>
+            <excludedLink>https://saxon.sourceforge.net/saxon7.1/expressions.html</excludedLink>
             <!-- until https://github.com/checkstyle/checkstyle/issues/11754 -->
             <excludedLink>https://checkstyle.sourceforge.io/version/6.18</excludedLink>
           </excludedLinks>
@@ -2213,7 +2208,7 @@
 
     <!-- Start Checker Framework profiles -->
     <profile>
-      <id>checker-framework-nullness-optional-interning</id>
+      <id>checker-nullness-optional-interning</id>
       <build>
         <plugins>
           <plugin>
@@ -2272,7 +2267,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-methods-resource-fenum</id>
+      <id>checker-methods-resource-fenum</id>
       <build>
         <plugins>
           <plugin>
@@ -2331,7 +2326,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-lock-tainting</id>
+      <id>checker-lock-tainting</id>
       <build>
         <plugins>
           <plugin>
@@ -2389,7 +2384,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-index</id>
+      <id>checker-index</id>
       <build>
         <plugins>
           <plugin>
@@ -2446,7 +2441,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-formatter</id>
+      <id>checker-formatter</id>
       <build>
         <plugins>
           <plugin>
@@ -2504,7 +2499,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-signature-gui-units-init</id>
+      <id>checker-signature-gui-units-init</id>
       <build>
         <plugins>
           <plugin>
@@ -2564,7 +2559,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-regex-property-key-compiler-message</id>
+      <id>checker-regex-property-key-compiler-message</id>
       <build>
         <plugins>
           <plugin>
@@ -2623,7 +2618,7 @@
     </profile>
 
     <profile>
-      <id>checker-framework-purity-value-returns</id>
+      <id>checker-purity-value-returns</id>
       <build>
         <plugins>
           <plugin>
@@ -4032,6 +4027,7 @@
                 <param>com.puppycrawl.tools.checkstyle.DefaultContext*</param>
                 <param>com.puppycrawl.tools.checkstyle.DefaultLogger*</param>
                 <param>com.puppycrawl.tools.checkstyle.Definitions*</param>
+                <param>com.puppycrawl.tools.checkstyle.LocalizedMessage*</param>
                 <param>com.puppycrawl.tools.checkstyle.XMLLogger*</param>
                 <param>com.puppycrawl.tools.checkstyle.SarifLogger*</param>
                 <param>com.puppycrawl.tools.checkstyle.MetadataGeneratorLogger*</param>
@@ -4060,6 +4056,7 @@
                 <param>com.puppycrawl.tools.checkstyle.DefaultConfigurationTest</param>
                 <param>com.puppycrawl.tools.checkstyle.DefaultLoggerTest</param>
                 <param>com.puppycrawl.tools.checkstyle.DefinitionsTest</param>
+                <param>com.puppycrawl.tools.checkstyle.LocalizedMessageTest</param>
                 <param>com.puppycrawl.tools.checkstyle.XMLLoggerTest</param>
                 <param>com.puppycrawl.tools.checkstyle.SarifLoggerTest</param>
                 <param>com.puppycrawl.tools.checkstyle.MetadataGeneratorLoggerTest</param>
