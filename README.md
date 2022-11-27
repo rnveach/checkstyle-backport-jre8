@@ -1,7 +1,7 @@
 checkstyle-backport-jre8
 ========================
 
-The latest release version can be found at
+The latest non-backport release version can be found at
 [GitHub releases](https://github.com/checkstyle/checkstyle/releases/)
 or at [Maven repo](https://repo1.maven.org/maven2/com/puppycrawl/tools/checkstyle/).
 

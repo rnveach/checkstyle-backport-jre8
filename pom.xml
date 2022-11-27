@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.4</version>
+  <version>10.5.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -67,17 +67,17 @@
     <maven.pmd.plugin.version>3.19.0</maven.pmd.plugin.version>
     <pmd.version>6.50.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
-    <mockito.version>4.8.1</mockito.version>
+    <mockito.version>4.9.0</mockito.version>
     <saxon.version>11.4</saxon.version>
     <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
     <maven.sevntu.checkstyle.plugin.version>1.41.0</maven.sevntu.checkstyle.plugin.version>
     <maven.sevntu-checkstyle-check.checkstyle.version>
       9.1
     </maven.sevntu-checkstyle-check.checkstyle.version>
-    <maven.versions.plugin.version>2.12.0</maven.versions.plugin.version>
+    <maven.versions.plugin.version>2.13.0</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.9.8</pitest.plugin.version>
+    <pitest.plugin.version>1.9.9</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
@@ -89,14 +89,14 @@
     <forbiddenapis.version>3.4</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
     <error-prone.version>2.15.0</error-prone.version>
-    <checkerframework.version>3.25.0</checkerframework.version>
+    <checkerframework.version>3.27.0</checkerframework.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.6.3</version>
+      <version>4.7.0</version>
     </dependency>
     <dependency>
       <groupId>org.antlr</groupId>
@@ -191,7 +191,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.10.1</version>
+      <version>3.11.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -215,7 +215,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.3</version>
+      <version>2.0.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -619,7 +619,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0</version>
       </plugin>
 
       <plugin>
@@ -1441,7 +1441,10 @@
                 <exclude>markdownlint.rb</exclude>
                 <exclude>signatures.txt</exclude>
                 <exclude>signatures-test.txt</exclude>
+                <exclude>StarterRuleSet-AllRulesByCategory.groovy.txt</exclude>
                 <exclude>archunit-store/**</exclude>
+                <exclude>jsoref-spellchecker/**</exclude>
+                <exclude>projects-to-test/**</exclude>
               </excludes>
             </validationSet>
             <validationSet>
@@ -1612,9 +1615,6 @@
                 <exclude>**/SuppressWarningsHolderTest.class</exclude>
 
                 <!-- test should be updated -->
-                <exclude>**/ImportControlCheckTest.class</exclude>
-
-                <!-- test should be updated -->
                 <exclude>**/AbstractCheckTest.class</exclude>
 
                 <!-- tests need to be updated -->
@@ -1625,9 +1625,6 @@
 
                 <!-- test need to be updated -->
                 <exclude>**/SuppressionFilterTest.class</exclude>
-
-                <!-- tests should be updated -->
-                <exclude>**/WriteTagCheckTest.class</exclude>
 
                 <!-- tests should be updated -->
                 <exclude>**/AbstractJavadocCheckTest.class</exclude>
@@ -1643,7 +1640,7 @@
       <plugin>
         <groupId>edu.illinois</groupId>
         <artifactId>nondex-maven-plugin</artifactId>
-        <version>1.1.2</version>
+        <version>2.1</version>
       </plugin>
 
       <plugin>
@@ -2261,7 +2258,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2320,7 +2317,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2378,7 +2375,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2435,7 +2432,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2493,7 +2490,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2553,7 +2550,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2612,7 +2609,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -2671,7 +2668,7 @@
         <dependency>
           <groupId>org.checkerframework</groupId>
           <artifactId>checker</artifactId>
-          <version>3.25.0</version>
+          <version>${checkerframework.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -4387,6 +4384,10 @@
                 <param>com.puppycrawl.tools.checkstyle.filters.SuppressWithPlainTextCommentFilterTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheckTest</param>
+                <!-- kills mutation in AutomaticBean -->
+                <param>com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheckTest</param>
+                <!-- kills mutation in AutomaticBean -->
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>
