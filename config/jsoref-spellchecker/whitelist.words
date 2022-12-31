@@ -15,6 +15,7 @@ ACEM
 Acheckstyle
 acm
 Aconfig
+actionlint
 adb
 addons
 adf
@@ -639,6 +640,7 @@ ioe
 ioffset
 IPonr
 IPv
+isfalse
 isindex
 isrutf
 isset
@@ -862,6 +864,7 @@ missingjavadocmethod
 missingjavadocpackage
 missingjavadoctype
 missingoverride
+missingperiod
 missingswitchdefault
 missingtag
 mixin
@@ -1116,6 +1119,7 @@ propkey
 prot
 PROTECTE
 protonpack
+Psevntu
 Pstatic
 pubconstr
 pubifc
@@ -1179,6 +1183,7 @@ rfe
 rga
 Rgb
 rhs
+rhysd
 rickgiles
 rightcurly
 Rl
@@ -1259,6 +1264,7 @@ somename
 someoneelse
 sonarcloud
 sonarqube
+sonarsource
 sonatype
 Sopov
 sourcefile
@@ -1561,6 +1567,7 @@ xy
 XYzz
 xzvf
 yaml
+yamllint
 Yaroslavtsev
 yml
 youtrack
