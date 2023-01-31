@@ -19,15 +19,6 @@
   </mutation>
 
   <mutation unstable="false">
-    <sourceFile>ExplicitInitializationCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck</mutatedClass>
-    <mutatedMethod>isZero</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_5</mutator>
-    <description>RemoveSwitch 5 (case value 142)</description>
-    <lineContent>switch (type) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
     <sourceFile>FallThroughCheck.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheck</mutatedClass>
     <mutatedMethod>checkTry</mutatedMethod>
@@ -84,19 +75,28 @@
   <mutation unstable="false">
     <sourceFile>FinalLocalVariableCheck.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_2</mutator>
-    <description>RemoveSwitch 2 (case value 8)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>FinalLocalVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</mutatedClass>
     <mutatedMethod>updateUninitializedVariables</mutatedMethod>
     <mutator>org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator_EQUAL_IF</mutator>
     <description>removed conditional - replaced equality check with true</description>
     <lineContent>&amp;&amp; isSameVariables(storedVariable, variable)</lineContent>
+  </mutation>
+
+  <mutation unstable="false">
+    <sourceFile>FinalLocalVariableCheck.java</sourceFile>
+    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck$ScopeData</mutatedClass>
+    <mutatedMethod>findFinalVariableCandidateForAst</mutatedMethod>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator_EQUAL_IF</mutator>
+    <description>removed conditional - replaced equality check with true</description>
+    <lineContent>if (storedVariable != null &amp;&amp; isSameVariables(storedVariable, ast)) {</lineContent>
+  </mutation>
+
+  <mutation unstable="false">
+    <sourceFile>HiddenFieldCheck.java</sourceFile>
+    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck$FieldFrame</mutatedClass>
+    <mutatedMethod>containsInstanceField</mutatedMethod>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.RemoveConditionalMutator_EQUAL_IF</mutator>
+    <description>removed conditional - replaced equality check with true</description>
+    <lineContent>return instanceFields.contains(field)</lineContent>
   </mutation>
 
   <mutation unstable="false">
@@ -169,204 +169,6 @@
     <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
     <description>Removed assignment to member variable query</description>
     <lineContent>this.query = query;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_10</mutator>
-    <description>RemoveSwitch 10 (case value 102)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_11</mutator>
-    <description>RemoveSwitch 11 (case value 103)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_12</mutator>
-    <description>RemoveSwitch 12 (case value 104)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_13</mutator>
-    <description>RemoveSwitch 13 (case value 105)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_14</mutator>
-    <description>RemoveSwitch 14 (case value 106)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_15</mutator>
-    <description>RemoveSwitch 15 (case value 107)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_16</mutator>
-    <description>RemoveSwitch 16 (case value 108)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_2</mutator>
-    <description>RemoveSwitch 2 (case value 26)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_7</mutator>
-    <description>RemoveSwitch 7 (case value 99)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_8</mutator>
-    <description>RemoveSwitch 8 (case value 100)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>leaveToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_9</mutator>
-    <description>RemoveSwitch 9 (case value 101)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_10</mutator>
-    <description>RemoveSwitch 10 (case value 102)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_11</mutator>
-    <description>RemoveSwitch 11 (case value 103)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_12</mutator>
-    <description>RemoveSwitch 12 (case value 104)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_13</mutator>
-    <description>RemoveSwitch 13 (case value 105)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_14</mutator>
-    <description>RemoveSwitch 14 (case value 106)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_15</mutator>
-    <description>RemoveSwitch 15 (case value 107)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_16</mutator>
-    <description>RemoveSwitch 16 (case value 108)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_2</mutator>
-    <description>RemoveSwitch 2 (case value 26)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_7</mutator>
-    <description>RemoveSwitch 7 (case value 99)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_8</mutator>
-    <description>RemoveSwitch 8 (case value 100)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>ModifiedControlVariableCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</mutatedClass>
-    <mutatedMethod>visitToken</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchMutator_9</mutator>
-    <description>RemoveSwitch 9 (case value 101)</description>
-    <lineContent>switch (ast.getType()) {</lineContent>
   </mutation>
 
   <mutation unstable="false">
@@ -601,5 +403,23 @@
     <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
     <description>replaced call to com/puppycrawl/tools/checkstyle/api/DetailAST::getParent with receiver</description>
     <lineContent>if (TokenUtil.isTypeDeclaration(parentAst.getParent().getType())) {</lineContent>
+  </mutation>
+
+  <mutation unstable="false">
+    <sourceFile>UnusedLocalVariableCheck.java</sourceFile>
+    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck$TypeDeclDesc</mutatedClass>
+    <mutatedMethod>getUpdatedCopyOfVarStack</mutatedMethod>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
+    <description>replaced call to com/puppycrawl/tools/checkstyle/api/DetailAST::getLastChild with receiver</description>
+    <lineContent>final DetailAST updatedScope = literalNewAst.getLastChild();</lineContent>
+  </mutation>
+
+  <mutation unstable="false">
+    <sourceFile>UnusedLocalVariableCheck.java</sourceFile>
+    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck$TypeDeclDesc</mutatedClass>
+    <mutatedMethod>lambda$getUpdatedCopyOfVarStack$0</mutatedMethod>
+    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
+    <description>removed call to com/puppycrawl/tools/checkstyle/checks/coding/UnusedLocalVariableCheck$VariableDesc::getTypeAst</description>
+    <lineContent>instVar.getTypeAst(), updatedScope);</lineContent>
   </mutation>
 </suppressedMutations>

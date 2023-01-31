@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -442,9 +442,21 @@ public class ParenPadCheckTest
         final String[] expected = {
             "20:37: " + getCheckMessage(MSG_WS_PRECEDED, ")"),
             "21:61: " + getCheckMessage(MSG_WS_PRECEDED, ")"),
+            "22:13: " + getCheckMessage(MSG_WS_FOLLOWED, "("),
         };
         verifyWithInlineConfigParser(
                 getPath("InputParenPadTryWithResources.java"), expected);
+    }
+
+    @Test
+    public void testTryWithResourcesAndSuppression() throws Exception {
+        final String[] expectedFiltered = CommonUtil.EMPTY_STRING_ARRAY;
+        final String[] expectedUnfiltered = {
+            "23:13: " + getCheckMessage(MSG_WS_FOLLOWED, "("),
+        };
+        verifyFilterWithInlineConfigParser(
+                getPath("InputParenPadTryWithResourcesAndSuppression.java"), expectedUnfiltered,
+                expectedFiltered);
     }
 
     @Test

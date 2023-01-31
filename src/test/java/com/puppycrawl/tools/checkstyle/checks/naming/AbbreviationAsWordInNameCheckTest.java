@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -483,6 +483,16 @@ public class AbbreviationAsWordInNameCheckTest extends AbstractModuleTestSupport
 
         verifyWithInlineConfigParser(
                 getPath("InputAbbreviationAsWordInNameTypeSnakeStyle.java"), expected);
+    }
+
+    @Test
+    public void testAnnotation() throws Exception {
+        final String[] expected = {
+            "16:12: " + getWarningMessage("readMETHOD", 4),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputAbbreviationAsWordInNameAnnotation.java"), expected);
     }
 
 }

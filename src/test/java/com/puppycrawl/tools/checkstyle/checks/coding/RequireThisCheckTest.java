@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -253,6 +253,17 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testValidateOnlyOverlappingFalseLeaves() throws Exception {
+        final String[] expected = {
+            "26:31: " + getCheckMessage(MSG_METHOD, "id", ""),
+            "36:16: " + getCheckMessage(MSG_VARIABLE, "_a", ""),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputRequireThisValidateOnlyOverlappingFalseLeaves.java"),
+                expected);
+    }
+
+    @Test
     public void testValidateOnlyOverlappingTrue() throws Exception {
         final String[] expected = {
             "29:9: " + getCheckMessage(MSG_VARIABLE, "field1", ""),
@@ -499,8 +510,14 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
             expected);
     }
 
+    /**
+     * We cannot confirm the type of the private class unless using reflection.
+     * Until <a href="https://github.com/checkstyle/checkstyle/issues/12666">#12666</a>.
+     *
+     * @throws Exception when code tested throws an exception.
+     */
     @Test
-    public void testUnusedMethod() throws Exception {
+    public void testUnusedMethodCatch() throws Exception {
         final DetailAstImpl ident = new DetailAstImpl();
         ident.setText("testName");
 
@@ -516,6 +533,27 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
         assertWithMessage("expected catch frame type")
             .that(TestUtil.invokeMethod(o, "getType").toString())
             .isEqualTo("CATCH_FRAME");
+    }
+
+    /**
+     * We cannot confirm the type of the private class unless using reflection.
+     * Until <a href="https://github.com/checkstyle/checkstyle/issues/12666">#12666</a>.
+     *
+     * @throws Exception when code tested throws an exception.
+     */
+    @Test
+    public void testUnusedMethodFor() throws Exception {
+        final DetailAstImpl ident = new DetailAstImpl();
+        ident.setText("testName");
+
+        final Class<?> cls = Class.forName(RequireThisCheck.class.getName() + "$ForFrame");
+        final Constructor<?> constructor = cls.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+        final Object o = constructor.newInstance(null, ident);
+
+        assertWithMessage("expected for frame type")
+            .that(TestUtil.invokeMethod(o, "getType").toString())
+            .isEqualTo("FOR_FRAME");
     }
 
     /**

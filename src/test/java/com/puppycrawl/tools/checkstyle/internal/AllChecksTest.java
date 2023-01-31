@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -507,8 +507,8 @@ public class AllChecksTest extends AbstractModuleTestSupport {
         moduleNames.removeAll(INTERNAL_MODULES);
         for (String moduleName : moduleNames) {
             assertWithMessage("checkstyle_checks.xml is missing module: " + moduleName)
-                    .that(configChecks.contains(moduleName))
-                    .isTrue();
+                    .that(configChecks)
+                    .contains(moduleName);
         }
     }
 
@@ -570,8 +570,8 @@ public class AllChecksTest extends AbstractModuleTestSupport {
 
                 assertWithMessage("property '" + key + "' isn't used by any check in package '"
                                       + entry.getKey() + "'")
-                        .that(entry.getValue().contains(key.toString()))
-                        .isTrue();
+                        .that(entry.getValue())
+                        .contains(key.toString());
             }
         }
     }

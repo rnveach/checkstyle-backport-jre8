@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -331,11 +331,11 @@ public class PropertyCacheFileTest extends AbstractPathTestSupport {
     }
 
     /**
-     * Temp comment.
-     * until #11589
+     * Test functionality when toByteArray throws an exception.
      *
      * @noinspection ResultOfMethodCallIgnored
-     * @noinspectionreason ResultOfMethodCallIgnored - temporary suppression until #11589
+     * @noinspectionreason ResultOfMethodCallIgnored - Setup for mockito to only
+     *                     mock toByteArray to throw exception.
      */
     @Test
     public void testNonExistentResource() throws IOException {

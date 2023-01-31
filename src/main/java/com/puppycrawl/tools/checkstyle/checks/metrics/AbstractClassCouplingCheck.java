@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -161,7 +161,6 @@ public abstract class AbstractClassCouplingCheck extends AbstractCheck {
     public void setExcludeClassesRegexps(String... from) {
         Arrays.stream(from)
                 .map(CommonUtil::createPattern)
-                .distinct()
                 .forEach(excludeClassesRegexps::add);
     }
 

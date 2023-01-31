@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -137,6 +137,16 @@ public class EmptyLineSeparatorCheckTest
         final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
         verifyWithInlineConfigParser(
                 getPath("InputEmptyLineSeparatorImportSeparatedFromPackage.java"),
+            expected);
+    }
+
+    @Test
+    public void testStaticImport() throws Exception {
+        final String[] expected = {
+            "17:1: " + getCheckMessage(MSG_SHOULD_BE_SEPARATED, "CLASS_DEF"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputEmptyLineSeparatorStaticImport.java"),
             expected);
     }
 
@@ -590,6 +600,34 @@ public class EmptyLineSeparatorCheckTest
         };
         verifyWithInlineConfigParser(
                 getPath("InputEmptyLineSeparatorWithEmoji.java"),
+                expected);
+    }
+
+    @Test
+    public void testMultipleLines() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        verifyWithInlineConfigParser(
+                getPath("InputEmptyLineSeparatorMultipleLines.java"),
+                expected);
+    }
+
+    @Test
+    public void testMultipleLines2() throws Exception {
+        final String[] expected = {
+            "15:1: " + getCheckMessage(MSG_SHOULD_BE_SEPARATED, "CLASS_DEF"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputEmptyLineSeparatorMultipleLines2.java"),
+                expected);
+    }
+
+    @Test
+    public void testMultipleLines3() throws Exception {
+        final String[] expected = {
+            "24:5: " + getCheckMessage(MSG_SHOULD_BE_SEPARATED, "VARIABLE_DEF"),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputEmptyLineSeparatorMultipleLines3.java"),
                 expected);
     }
 

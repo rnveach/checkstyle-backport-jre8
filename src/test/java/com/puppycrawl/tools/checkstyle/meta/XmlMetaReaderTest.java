@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -97,7 +97,7 @@ public class XmlMetaReaderTest extends AbstractPathTestSupport {
             assertThat(violationMessageKeys).hasSize(2);
             assertThat(violationMessageKeys.get(0)).isEqualTo("test.key1");
             assertThat(violationMessageKeys.get(1)).isEqualTo("test.key2");
-            assertThat(result.getProperties().isEmpty()).isTrue();
+            assertThat(result.getProperties()).isEmpty();
         }
     }
 
@@ -110,7 +110,7 @@ public class XmlMetaReaderTest extends AbstractPathTestSupport {
                 "com.puppycrawl.tools.checkstyle.filters.SomeFilter",
                 "com.puppycrawl.tools.checkstyle.TreeWalker");
             assertThat(result.getName()).isEqualTo("SomeFilter");
-            assertThat(result.getViolationMessageKeys().isEmpty()).isTrue();
+            assertThat(result.getViolationMessageKeys()).isEmpty();
             final List<ModulePropertyDetails> props = result.getProperties();
             assertThat(props).hasSize(1);
             final ModulePropertyDetails prop1 = props.get(0);
@@ -130,7 +130,7 @@ public class XmlMetaReaderTest extends AbstractPathTestSupport {
                 "com.puppycrawl.tools.checkstyle.filefilters.FileFilter",
                 "com.puppycrawl.tools.checkstyle.Checker");
             assertThat(result.getName()).isEqualTo("FileFilter");
-            assertThat(result.getViolationMessageKeys().isEmpty()).isTrue();
+            assertThat(result.getViolationMessageKeys()).isEmpty();
             final List<ModulePropertyDetails> props = result.getProperties();
             assertThat(props).hasSize(1);
             final ModulePropertyDetails prop1 = props.get(0);

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -299,6 +299,8 @@ public class RightCurlyCheckTest extends AbstractModuleTestSupport {
             "223:39: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 39),
             "231:24: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 24),
             "243:30: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 30),
+            "249:29: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 29),
+            "249:38: " + getCheckMessage(MSG_KEY_LINE_ALONE, "}", 38),
         };
         verifyWithInlineConfigParser(
                 getPath("InputRightCurlyTestAloneOrSingleline.java"), expected);

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -212,7 +212,7 @@ public final class ExecutableStatementCountCheck
      */
     private void visitSlist(DetailAST ast) {
         final DetailAST contextAST = context.getAST();
-        DetailAST parent = ast.getParent();
+        DetailAST parent = ast;
         while (parent != null && !isContainerNode(parent)) {
             parent = parent.getParent();
         }
@@ -252,7 +252,6 @@ public final class ExecutableStatementCountCheck
          */
         private Context(DetailAST ast) {
             this.ast = ast;
-            count = 0;
         }
 
         /**

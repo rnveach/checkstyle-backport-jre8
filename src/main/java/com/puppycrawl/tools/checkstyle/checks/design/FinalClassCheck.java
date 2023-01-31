@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -171,7 +171,7 @@ public class FinalClassCheck
             case TokenTypes.INTERFACE_DEF:
             case TokenTypes.RECORD_DEF:
                 final TypeDeclarationDescription description = new TypeDeclarationDescription(
-                    extractQualifiedTypeName(ast), typeDeclarations.size(), ast);
+                    extractQualifiedTypeName(ast), 0, ast);
                 typeDeclarations.push(description);
                 break;
 

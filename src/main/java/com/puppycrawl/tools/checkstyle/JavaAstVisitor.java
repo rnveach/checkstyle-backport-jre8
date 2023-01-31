@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -558,9 +558,8 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
         for (ParserRuleContext extendedContext : ctx.extended) {
             final DetailAstImpl dot = create(extendedContext.start);
             DetailAstPair.makeAstRoot(currentAST, dot);
-            final List<ParseTree> childList = extendedContext
-                    .children.subList(1, extendedContext.children.size());
-            childList.forEach(child -> DetailAstPair.addAstChild(currentAST, visit(child)));
+            extendedContext.children
+                .forEach(child -> DetailAstPair.addAstChild(currentAST, visit(child)));
         }
 
         // Create imaginary 'TYPE' parent if specified
@@ -1336,7 +1335,7 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
             superSuffixParent = bop;
         }
         else {
-            DetailAstImpl firstChild = superSuffixParent.getFirstChild();
+            DetailAstImpl firstChild = superSuffixParent;
             while (firstChild.getFirstChild() != null) {
                 firstChild = firstChild.getFirstChild();
             }
@@ -1967,10 +1966,10 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
 
     @Override
     public DetailAstImpl visitGuardedPattern(JavaLanguageParser.GuardedPatternContext ctx) {
-        final DetailAstImpl logicalAnd = create(ctx.LAND());
-        logicalAnd.addChild(visit(ctx.primaryPattern()));
-        logicalAnd.addChild(visit(ctx.expr()));
-        return logicalAnd;
+        final DetailAstImpl guardAstNode = flattenedTree(ctx.guard());
+        guardAstNode.addChild(visit(ctx.primaryPattern()));
+        guardAstNode.addChild(visit(ctx.expr()));
+        return guardAstNode;
     }
 
     @Override
@@ -2219,7 +2218,6 @@ public final class JavaAstVisitor extends JavaLanguageParserBaseVisitor<DetailAs
                     pair.child.setNextSibling(ast);
                 }
                 pair.child = ast;
-                pair.advanceChildToEnd();
             }
         }
     }

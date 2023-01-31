@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.6.0</version>
+  <version>10.7.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -64,7 +64,7 @@
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
     <maven.spotbugs.plugin.version>4.7.2.1</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.19.0</maven.pmd.plugin.version>
+    <maven.pmd.plugin.version>3.20.0</maven.pmd.plugin.version>
     <pmd.version>6.50.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
     <mockito.version>4.11.0</mockito.version>
@@ -96,7 +96,7 @@
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.7.0</version>
+      <version>4.7.1</version>
     </dependency>
     <dependency>
       <groupId>org.antlr</groupId>
@@ -122,7 +122,7 @@
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
-      <version>1.10.12</version>
+      <version>1.10.13</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -191,7 +191,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.12.3</version>
+      <version>3.12.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -274,7 +274,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.5.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
@@ -1575,15 +1575,8 @@
                 <!-- this class contain forbidden verify method -->
                 <exclude>**/AbstractModuleTestSupport.class</exclude>
 
-                <!-- test need to be updated -->
-                <exclude>**/SuppressionFilterTest.class</exclude>
-
                 <!-- tests should be updated -->
                 <exclude>**/AbstractJavadocCheckTest.class</exclude>
-
-                <!-- tests should be updated -->
-                <exclude>**/JavadocPackageCheckTest.class</exclude>
-
               </excludes>
             </configuration>
           </execution>
@@ -1626,7 +1619,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.4.2</version>
       </plugin>
 
       <plugin>
@@ -1980,22 +1973,11 @@
 
     <profile>
       <!-- To be used during development. Run the command -->
-      <!-- mvn -Passembly package -->
+      <!-- mvn -Passembly,no-validations package -->
       <id>assembly</id>
       <properties>
-        <skipTests>true</skipTests>
-        <checkstyle.ant.skip>true</checkstyle.ant.skip>
-        <pmd.skip>true</pmd.skip>
-        <spotbugs.skip>true</spotbugs.skip>
-        <xml.skip>true</xml.skip>
-        <forbiddenapis.skip>true</forbiddenapis.skip>
-        <jacoco.skip>true</jacoco.skip>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <linkcheck.skip>true</linkcheck.skip>
-        <jdepend.skip>true</jdepend.skip>
-        <modernizer.skip>true</modernizer.skip>
-        <!-- difference from "no-validations" -->
         <maven.site.skip>true</maven.site.skip>
+        <assembly.skipAssembly>true</assembly.skipAssembly>
       </properties>
 
       <build>
@@ -2728,9 +2710,6 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.NoCodeInFileCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.OrderedPropertiesCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.OuterTypeFilenameCheck*</param>
-                <param>
-                  com.puppycrawl.tools.checkstyle.checks.sizes.RecordComponentNumberCheck*
-                </param>
                 <param>com.puppycrawl.tools.checkstyle.checks.SuppressWarningsHolder*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.TodoCommentCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.TrailingCommentCheck*</param>
@@ -2750,9 +2729,6 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.NoCodeInFileCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.OrderedPropertiesCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.OuterTypeFilenameCheckTest</param>
-                <param>
-                  com.puppycrawl.tools.checkstyle.checks.sizes.RecordComponentNumberCheckTest
-                </param>
                 <param>com.puppycrawl.tools.checkstyle.checks.SuppressWarningsHolderTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.TodoCommentCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.TrailingCommentCheckTest</param>
@@ -2895,7 +2871,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>98</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -2947,29 +2923,29 @@
                 <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.AbstractSuperCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalThrowsCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperCloneCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperFinalizeCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.PackageDeclarationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AbstractSuperCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EmptyStatementCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalThrowsCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.VariableDeclarationUsageDistanceCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperCloneCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SuperFinalizeCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.PackageDeclarationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheckTest</param>
@@ -3053,36 +3029,36 @@
                 <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalInstantiationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenTextCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInTryWithResourcesCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoArrayTrailingCommaCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoCloneCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoEnumTrailingCommaCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoFinalizerCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.OverloadMethodsDeclarationOrderCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheck</param>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalInstantiationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.InnerAssignmentCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedForDepthCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NestedTryDepthCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTokenTextCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInTryWithResourcesCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OneStatementPerLineCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoArrayTrailingCommaCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoCloneCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoEnumTrailingCommaCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.NoFinalizerCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.OverloadMethodsDeclarationOrderCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.StringLiteralEqualityCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheck*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheckTest</param>
@@ -3172,7 +3148,7 @@
                 <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheckTest</param>
@@ -3181,7 +3157,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>98</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3242,7 +3218,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>98</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3542,7 +3518,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>97</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3786,7 +3762,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>98</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -3847,7 +3823,7 @@
                 <param>*.Input*</param>
               </excludedTestClasses>
               <coverageThreshold>100</coverageThreshold>
-              <mutationThreshold>99</mutationThreshold>
+              <mutationThreshold>100</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>
               <timeoutConstant>${pitest.plugin.timeout.constant}</timeoutConstant>
               <threads>${pitest.plugin.threads}</threads>
@@ -4034,7 +4010,7 @@
                 <param>com.puppycrawl.tools.checkstyle.PropertyCacheFile*</param>
                 <param>com.puppycrawl.tools.checkstyle.Checker*</param>
                 <param>com.puppycrawl.tools.checkstyle.ThreadModeSettings*</param>
-                <param>com.puppycrawl.tools.checkstyle.grammar.CrAwareLexerSimulator</param>
+                <param>com.puppycrawl.tools.checkstyle.grammar.CrAwareLexerSimulator*</param>
                 <!-- interfaces -->
                 <param>com.puppycrawl.tools.checkstyle.AuditEventFormatter</param>
                 <param>com.puppycrawl.tools.checkstyle.XdocsPropertyType</param>
@@ -4778,7 +4754,7 @@
                 <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
-                <param>com.puppycrawl.tools.checkstyle.JavaAstVisitor</param>
+                <param>com.puppycrawl.tools.checkstyle.JavaAstVisitor*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.grammar.*</param>

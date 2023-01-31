@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -619,16 +619,14 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @param emptyLines list of empty lines.
      * @return list of empty lines to log.
      */
-    private static List<Integer> getEmptyLinesToLog(List<Integer> emptyLines) {
+    private static List<Integer> getEmptyLinesToLog(Iterable<Integer> emptyLines) {
         final List<Integer> emptyLinesToLog = new ArrayList<>();
-        if (emptyLines.size() >= 2) {
-            int previousEmptyLineNo = emptyLines.get(0);
-            for (int emptyLineNo : emptyLines) {
-                if (previousEmptyLineNo + 1 == emptyLineNo) {
-                    emptyLinesToLog.add(previousEmptyLineNo);
-                }
-                previousEmptyLineNo = emptyLineNo;
+        int previousEmptyLineNo = -1;
+        for (int emptyLineNo : emptyLines) {
+            if (previousEmptyLineNo + 1 == emptyLineNo) {
+                emptyLinesToLog.add(previousEmptyLineNo);
             }
+            previousEmptyLineNo = emptyLineNo;
         }
         return emptyLinesToLog;
     }
@@ -677,7 +675,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @return true, if there is an element.
      */
     private static boolean isLineEmptyAfterPackage(DetailAST ast) {
-        DetailAST nextElement = ast.getNextSibling();
+        DetailAST nextElement = ast;
         final int lastChildLineNo = ast.getLastChild().getLineNo();
         while (nextElement.getLineNo() < lastChildLineNo + 1
                 && nextElement.getNextSibling() != null) {
@@ -693,7 +691,7 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      * @return Violation ast.
      */
     private static DetailAST getViolationAstForPackage(DetailAST ast) {
-        DetailAST nextElement = ast.getNextSibling();
+        DetailAST nextElement = ast;
         final int lastChildLineNo = ast.getLastChild().getLineNo();
         while (nextElement.getLineNo() < lastChildLineNo + 1) {
             nextElement = nextElement.getNextSibling();

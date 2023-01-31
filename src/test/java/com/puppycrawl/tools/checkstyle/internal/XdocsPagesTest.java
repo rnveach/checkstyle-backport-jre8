@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -609,14 +609,14 @@ public class XdocsPagesTest {
         if ("Checker".equals(sectionName)) {
             assertWithMessage(fileName + " section '" + sectionName
                     + "' should contain up to 'Package' sub-section")
-                    .that(subSectionPos >= 6)
-                    .isTrue();
+                    .that(subSectionPos)
+                    .isGreaterThan(5);
         }
         else {
             assertWithMessage(fileName + " section '" + sectionName
                     + "' should contain up to 'Parent' sub-section")
-                    .that(subSectionPos >= 7)
-                    .isTrue();
+                    .that(subSectionPos)
+                    .isGreaterThan(6);
         }
     }
 
@@ -716,9 +716,8 @@ public class XdocsPagesTest {
                 .that(div.getAttributes().getNamedItem("class").getNodeValue())
                 .isNotNull();
             assertWithMessage(wrapperMessage)
-                    .that(div.getAttributes().getNamedItem("class").getNodeValue()
-                                    .contains("wrapper"))
-                    .isTrue();
+                    .that(div.getAttributes().getNamedItem("class").getNodeValue())
+                    .contains("wrapper");
 
             final Node table = XmlUtil.getFirstChildElement(div);
             assertWithMessage(fileName + " section '" + sectionName
@@ -1259,9 +1258,8 @@ public class XdocsPagesTest {
             assertWithMessage(
                     fileName + " section '" + sectionName + "' could not find field "
                             + propertyName)
-                    .that(PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD
-                            .contains(sectionName + "." + propertyName))
-                    .isTrue();
+                    .that(PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD)
+                    .contains(sectionName + "." + propertyName);
 
             final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(instance,
                     propertyName);
@@ -1401,8 +1399,8 @@ public class XdocsPagesTest {
 
                 assertWithMessage(fileName + " section '" + sectionName
                             + "' should be in google_checks.xml or not reference 'Google Style'")
-                        .that(GOOGLE_MODULES.contains(sectionName))
-                        .isTrue();
+                        .that(GOOGLE_MODULES)
+                        .contains(sectionName);
             }
             else if ("Sun Style".equals(linkText)) {
                 hasSun = true;
@@ -1413,8 +1411,8 @@ public class XdocsPagesTest {
 
                 assertWithMessage(fileName + " section '" + sectionName
                             + "' should be in sun_checks.xml or not reference 'Sun Style'")
-                        .that(SUN_MODULES.contains(sectionName))
-                        .isTrue();
+                        .that(SUN_MODULES)
+                        .contains(sectionName);
             }
 
             assertWithMessage(fileName + " section '" + sectionName
@@ -1709,14 +1707,14 @@ public class XdocsPagesTest {
                 else if ("test".equals(configName)) {
                     assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' module '"
                                 + moduleName + "' should have matching " + configName + " url")
-                            .that(configUrl.startsWith("https://github.com/checkstyle/checkstyle/"
-                                            + "blob/master/src/it/java/com/" + styleName
-                                            + "/checkstyle/test/"))
-                            .isTrue();
+                            .that(configUrl)
+                            .startsWith("https://github.com/checkstyle/checkstyle/"
+                                    + "blob/master/src/it/java/com/" + styleName
+                                    + "/checkstyle/test/");
                     assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' module '"
                                 + moduleName + "' should have matching " + configName + " url")
-                            .that(configUrl.endsWith("/" + moduleName + "Test.java"))
-                            .isTrue();
+                            .that(configUrl)
+                            .endsWith("/" + moduleName + "Test.java");
 
                     assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' module '"
                                 + moduleName + "' should have a test that exists")

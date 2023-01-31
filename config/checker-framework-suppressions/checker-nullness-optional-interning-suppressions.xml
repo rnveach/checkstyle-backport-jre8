@@ -997,13 +997,6 @@
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/ant/CheckstyleAntTask.java</fileName>
     <specifier>initialization.field.uninitialized</specifier>
-    <message>the default constructor does not initialize field classpath</message>
-    <lineContent>private Path classpath;</lineContent>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/ant/CheckstyleAntTask.java</fileName>
-    <specifier>initialization.field.uninitialized</specifier>
     <message>the default constructor does not initialize field config</message>
     <lineContent>private String config;</lineContent>
   </checkerFrameworkError>
@@ -1608,7 +1601,7 @@
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/blocks/RightCurlyCheck.java</fileName>
     <specifier>argument</specifier>
     <message>incompatible argument for parameter rcurly of Details.</message>
-    <lineContent>return new Details(lcurly, rcurly, nextToken, shouldCheckLastRcurly);</lineContent>
+    <lineContent>return new Details(lcurly, rcurly, nextToken, false);</lineContent>
     <details>
       found   : @Initialized @Nullable DetailAST
       required: @Initialized @NonNull DetailAST
@@ -2089,17 +2082,6 @@
     <specifier>argument</specifier>
     <message>incompatible argument for parameter arg0 of push.</message>
     <lineContent>current.push(frames.get(ast));</lineContent>
-    <details>
-      found   : @Initialized @Nullable AbstractFrame
-      required: @Initialized @NonNull AbstractFrame
-    </details>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/RequireThisCheck.java</fileName>
-    <specifier>argument</specifier>
-    <message>incompatible argument for parameter arg1 of put.</message>
-    <lineContent>frames.put(ast, frameStack.poll());</lineContent>
     <details>
       found   : @Initialized @Nullable AbstractFrame
       required: @Initialized @NonNull AbstractFrame
@@ -2748,6 +2730,20 @@
       found   : @Initialized @Nullable DetailAST
       required: @Initialized @NonNull DetailAST
     </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/design/VisibilityModifierCheck.java</fileName>
+    <specifier>initialization.field.uninitialized</specifier>
+    <message>the default constructor does not initialize field ignoreAnnotationShortNames</message>
+    <lineContent>private Set&lt;String&gt; ignoreAnnotationShortNames;</lineContent>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/design/VisibilityModifierCheck.java</fileName>
+    <specifier>initialization.field.uninitialized</specifier>
+    <message>the default constructor does not initialize field immutableClassShortNames</message>
+    <lineContent>private Set&lt;String&gt; immutableClassShortNames;</lineContent>
   </checkerFrameworkError>
 
   <checkerFrameworkError unstable="false">
@@ -4304,6 +4300,13 @@
   </checkerFrameworkError>
 
   <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/metrics/NPathComplexityCheck.java</fileName>
+    <specifier>initialization.field.uninitialized</specifier>
+    <message>the default constructor does not initialize field currentRangeValue</message>
+    <lineContent>private BigInteger currentRangeValue;</lineContent>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/modifier/ModifierOrderCheck.java</fileName>
     <specifier>return</specifier>
     <message>incompatible types in return.</message>
@@ -4532,20 +4535,6 @@
     <specifier>not.interned</specifier>
     <message>attempting to use a non-@Interned comparison operand</message>
     <lineContent>while (currentNode.getNextSibling() == null &amp;&amp; currentNode.getParent() != ast) {</lineContent>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/SingleSpaceSeparatorCheck.java</fileName>
-    <specifier>not.interned</specifier>
-    <message>attempting to use a non-@Interned comparison operand</message>
-    <lineContent>while (currentNode.getNextSibling() == null &amp;&amp; currentNode.getParent() != parent) {</lineContent>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/whitespace/SingleSpaceSeparatorCheck.java</fileName>
-    <specifier>not.interned</specifier>
-    <message>attempting to use a non-@Interned comparison operand</message>
-    <lineContent>while (currentNode.getNextSibling() == null &amp;&amp; currentNode.getParent() != parent) {</lineContent>
   </checkerFrameworkError>
 
   <checkerFrameworkError unstable="false">

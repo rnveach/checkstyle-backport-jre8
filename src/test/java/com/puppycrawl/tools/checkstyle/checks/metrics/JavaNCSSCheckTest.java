@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2022 the original author or authors.
+// Copyright (C) 2001-2023 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -114,6 +114,18 @@ public class JavaNCSSCheckTest extends AbstractModuleTestSupport {
         };
         verifyWithInlineConfigParser(
                 getPath("InputJavaNCSSResolveMutation.java"),
+                expected);
+    }
+
+    @Test
+    public void testRecordMax() throws Exception {
+        final String[] expected = {
+            "14:1: " + getCheckMessage(MSG_CLASS, 152, 80),
+            "15:5: " + getCheckMessage(MSG_RECORD, 151, 150),
+        };
+
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputJavaNCSSRecordsMax.java"),
                 expected);
     }
 
