@@ -332,7 +332,7 @@ public class DefaultLoggerTest {
         return auditFinishMessage.getMessage();
     }
 
-    private static class MockByteArrayOutputStream extends ByteArrayOutputStream {
+    private static final class MockByteArrayOutputStream extends ByteArrayOutputStream {
 
         private int closedCount;
 
