@@ -710,7 +710,7 @@
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/PackageObjectFactory.java</fileName>
     <specifier>methodref.return</specifier>
     <message>Incompatible return type</message>
-    <lineContent>Collectors.mapping(Class::getCanonicalName, Collectors.toSet())));</lineContent>
+    <lineContent>Class::getCanonicalName,</lineContent>
     <details>
       found   : @Initialized @Nullable String
       required: @Initialized @NonNull String
@@ -1589,6 +1589,17 @@
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/blocks/RightCurlyCheck.java</fileName>
     <specifier>argument</specifier>
+    <message>incompatible argument for parameter nextToken of Details.</message>
+    <lineContent>return new Details(lcurly, rcurly, nextToken, true);</lineContent>
+    <details>
+      found   : @Initialized @Nullable DetailAST
+      required: @Initialized @NonNull DetailAST
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/blocks/RightCurlyCheck.java</fileName>
+    <specifier>argument</specifier>
     <message>incompatible argument for parameter rcurly of Details.</message>
     <lineContent>return new Details(lcurly, rcurly, getNextToken(ast), true);</lineContent>
     <details>
@@ -1613,6 +1624,17 @@
     <specifier>argument</specifier>
     <message>incompatible argument for parameter rcurly of Details.</message>
     <lineContent>return new Details(lcurly, rcurly, nextToken, shouldCheckLastRcurly);</lineContent>
+    <details>
+      found   : @Initialized @Nullable DetailAST
+      required: @Initialized @NonNull DetailAST
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/blocks/RightCurlyCheck.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter rcurly of Details.</message>
+    <lineContent>return new Details(lcurly, rcurly, nextToken, true);</lineContent>
     <details>
       found   : @Initialized @Nullable DetailAST
       required: @Initialized @NonNull DetailAST
