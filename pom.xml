@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.9.0</version>
+  <version>10.9.1</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
