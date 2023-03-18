@@ -3,7 +3,7 @@
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
   <versioning>
-    <release>10.9.1</release>
+    <release>10.9.2</release>
     <versions>
       <version>10.0</version>
       <version>10.1</version>
@@ -21,7 +21,8 @@
       <version>10.8.1</version>
       <version>10.9.0</version>
       <version>10.9.1</version>
+      <version>10.9.2</version>
     </versions>
-    <lastUpdated>20230316165801</lastUpdated>
+    <lastUpdated>20230318181534</lastUpdated>
   </versioning>
 </metadata>
