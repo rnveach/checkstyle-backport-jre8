@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.9.2</version>
+  <version>10.9.3</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -77,7 +77,7 @@
     <maven.versions.plugin.version>2.14.2</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.11.5</pitest.plugin.version>
+    <pitest.plugin.version>1.11.6</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
@@ -523,7 +523,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.1</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -570,7 +570,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
       </plugin>
 
       <plugin>
@@ -602,7 +602,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
         <configuration>
           <altDeploymentRepository>internal.repo::default::file://${cs.maven.directory}</altDeploymentRepository>
         </configuration>
@@ -656,6 +656,10 @@
                 <rule>
                   <element>CLASS</element>
                   <excludes>
+                    <!-- until https://github.com/checkstyle/checkstyle/issues/12873 -->
+                    <exclude>
+                      com.puppycrawl.tools.checkstyle.api.AutomaticBean*
+                    </exclude>
                     <!-- Parser related classes -->
                     <exclude>
                       com.puppycrawl.tools.checkstyle.grammar.java.JavaLanguageParser*
@@ -4011,6 +4015,7 @@
                 <mutator>PRIMITIVE_RETURNS</mutator>
               </mutators>
               <targetClasses>
+                <param>com.puppycrawl.tools.checkstyle.AbstractAutomaticBean*</param>
                 <param>com.puppycrawl.tools.checkstyle.AuditEventDefaultFormatter*</param>
                 <param>com.puppycrawl.tools.checkstyle.ConfigurationLoader*</param>
                 <param>com.puppycrawl.tools.checkstyle.DefaultConfiguration*</param>
@@ -4040,6 +4045,7 @@
                 <param>com.puppycrawl.tools.checkstyle.grammar.CommentListener*</param>
               </targetClasses>
               <targetTests>
+                <param>com.puppycrawl.tools.checkstyle.AbstractAutomaticBeanTest</param>
                 <param>com.puppycrawl.tools.checkstyle.AuditEventDefaultFormatterTest</param>
                 <param>com.puppycrawl.tools.checkstyle.XdocsPropertyTypeTest</param>
                 <param>com.puppycrawl.tools.checkstyle.ConfigurationLoaderTest</param>
@@ -4061,6 +4067,10 @@
                 <param>com.puppycrawl.tools.checkstyle.filefilters.BeforeExecutionExclusionFileFilterTest</param>
                 <!-- This test is the primary user of metadataGeneratorLogger -->
                 <param>com.puppycrawl.tools.checkstyle.meta.MetadataGeneratorUtilTest</param>
+                <!-- kills mutation in AbstractAutomaticBean -->
+                <param>com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheckTest</param>
+                <!-- kills mutation in AbstractAutomaticBean -->
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest</param>
               </targetTests>
               <coverageThreshold>100</coverageThreshold>
               <mutationThreshold>96</mutationThreshold>
@@ -4377,10 +4387,6 @@
                 <param>com.puppycrawl.tools.checkstyle.filters.SuppressWithPlainTextCommentFilterTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheckTest</param>
-                <!-- kills mutation in AutomaticBean -->
-                <param>com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheckTest</param>
-                <!-- kills mutation in AutomaticBean -->
-                <param>com.puppycrawl.tools.checkstyle.checks.coding.IllegalTypeCheckTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>
