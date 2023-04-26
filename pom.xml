@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.9.3</version>
+  <version>10.10.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -83,7 +83,7 @@
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
     <pitest.junit5.plugin.version>1.1.2</pitest.junit5.plugin.version>
-    <pitest.accelerator.junit5.plugin.version>1.0.4</pitest.accelerator.junit5.plugin.version>
+    <pitest.accelerator.junit5.plugin.version>1.0.5</pitest.accelerator.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
     <junit.version>5.9.2</junit.version>
     <forbiddenapis.version>3.4</forbiddenapis.version>
@@ -96,7 +96,7 @@
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.7.1</version>
+      <version>4.7.3</version>
     </dependency>
     <dependency>
       <groupId>org.antlr</groupId>
@@ -1099,7 +1099,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>enforce-versions</id>
@@ -1620,7 +1620,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.4.2</version>
+        <version>3.4.3</version>
       </plugin>
 
       <plugin>
@@ -1816,6 +1816,8 @@
             <excludedLink>http://dl.acm.org/*</excludedLink>
             <!-- permanent SSLException -->
             <excludedLink>https://git-scm.com</excludedLink>
+            <!-- too frequent to return 500 -->
+            <excludedLink>https://docs.oracle.com/javase/specs/jls/se17/html/jls-15.html#jls-15.28</excludedLink>
             <!-- I do not know how to resolve this "302 Found" response -->
             <excludedLink>https://plus.google.com/+CheckstyleJava</excludedLink>
             <!-- 302 redirect to
@@ -1861,6 +1863,7 @@
             <excludedLink>http://maven.apache.org/plugins/maven-eclipse-plugin/</excludedLink>
             <excludedLink>http://maven.apache.org/plugins/maven-install-plugin/</excludedLink>
             <excludedLink>http://maven.apache.org/plugins/maven-linkcheck-plugin/</excludedLink>
+            <excludedLink>http://www.mojohaus.org/build-helper-maven-plugin/</excludedLink>
             <!-- until new plugins are released to generate link with trailing '/' -->
             <excludedLink>https://www.mojohaus.org/exec-maven-plugin</excludedLink>
             <!-- permanent 403 -->

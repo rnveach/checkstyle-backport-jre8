@@ -415,9 +415,8 @@ public class MyClass {
         </p>
         <p>
           Rationale: Abstract classes are convenience base class implementations of
-          interfaces, not types as such. As such they should be named to indicate this.
-          Also, if names of classes starts with 'Abstract' it's very convenient that
-          they will have abstract modifier.
+          interfaces. For this reason, it should be made obvious that a given class
+          is abstract by prefacing the class name with 'Abstract'.
         </p>
       </subsection>
 
@@ -2099,7 +2098,7 @@ class MyClass {
         <source>
 class MyClass {
   public MyClass() {} // OK
-  public void MyClass() {} // violation,  method Name 'MyClass' must not
+  public void MyClass() {} // violation, method Name 'MyClass' must not
                            // equal the enclosing class name
 }
         </source>
@@ -2209,7 +2208,7 @@ class MyClass {
         <source>
 class MyClass {
   public &lt;T&gt; void method1() {} // OK
-  public &lt;a&gt; void method2() {} // violation,  name 'a' must match pattern '^[A-Z]$'
+  public &lt;a&gt; void method2() {} // violation, name 'a' must match pattern '^[A-Z]$'
   public &lt;K, V&gt; void method3() {} // OK
   public &lt;k, V&gt; void method4() {} // violation, name 'k' must match pattern '^[A-Z]$'
 }
