@@ -716,14 +716,14 @@ public class CustomImportOrderCheck extends AbstractCheck {
     /** Pattern used to separate groups of imports. */
     private static final Pattern GROUP_SEPARATOR_PATTERN = Pattern.compile("\\s*###\\s*");
 
+    /** Specify format of order declaration customizing by user. */
+    private static final String DEFAULT_CUSTOM_IMPORT_ORDER_RULES = "";
+
     /** Processed list of import order rules. */
     private final List<String> customOrderRules = new ArrayList<>();
 
     /** Contains objects with import attributes. */
     private final List<ImportDetails> importToGroupList = new ArrayList<>();
-
-    /** Specify format of order declaration customizing by user. */
-    private String customImportOrderRules = "";
 
     /** Specify RegExp for SAME_PACKAGE group imports. */
     private String samePackageDomainsRegExp = "";
@@ -747,7 +747,7 @@ public class CustomImportOrderCheck extends AbstractCheck {
     private boolean sortImportsInGroupAlphabetically;
 
     /** Number of first domains for SAME_PACKAGE group. */
-    private int samePackageMatchingDepth = 2;
+    private int samePackageMatchingDepth;
 
     /**
      * Setter to specify RegExp for STANDARD_JAVA_PACKAGE group imports.
@@ -807,13 +807,12 @@ public class CustomImportOrderCheck extends AbstractCheck {
      *        user value.
      */
     public final void setCustomImportOrderRules(final String inputCustomImportOrder) {
-        if (!customImportOrderRules.equals(inputCustomImportOrder)) {
+        if (!DEFAULT_CUSTOM_IMPORT_ORDER_RULES.equals(inputCustomImportOrder)) {
             for (String currentState : GROUP_SEPARATOR_PATTERN.split(inputCustomImportOrder)) {
                 addRulesToList(currentState);
             }
             customOrderRules.add(NON_GROUP_RULE_GROUP);
         }
-        customImportOrderRules = inputCustomImportOrder;
     }
 
     @Override
@@ -1269,7 +1268,7 @@ public class CustomImportOrderCheck extends AbstractCheck {
         int count = firstPackageDomainsCount;
 
         while (count > 0 && tokens.hasMoreTokens()) {
-            builder.append(tokens.nextToken()).append('.');
+            builder.append(tokens.nextToken());
             count--;
         }
         return builder.toString();

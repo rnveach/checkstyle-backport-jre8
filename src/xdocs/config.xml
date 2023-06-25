@@ -90,16 +90,16 @@
         <li>
           Root module <code>Checker</code> has child
           FileSetChecks <code>JavadocPackage</code> and <code>TreeWalker</code>. (Module <a
-          href="config_javadoc.html"> <code>JavadocPackage</code></a> checks that all packages
+          href="checks/javadoc/index.html"> <code>JavadocPackage</code></a> checks that all packages
           have package documentation.)
         </li>
         <li>
           Module <code>TreeWalker</code> has submodules
           <code>AvoidStarImport</code>, <code>ConstantName</code>,
           and <code>EmptyBlock</code>.  (Modules <a
-          href="config_imports.html"><code>AvoidStarImport</code></a>, <a
-          href="config_naming.html"><code>ConstantName</code></a>, and <a
-          href="config_blocks.html"><code>EmptyBlock</code></a> check that a Java source
+          href="checks/imports/index.html"><code>AvoidStarImport</code></a>, <a
+          href="checks/naming/index.html"><code>ConstantName</code></a>, and <a
+          href="checks/blocks/index.html"><code>EmptyBlock</code></a> check that a Java source
           file has no star imports, has valid constant names, and has no
           empty blocks, respectively.)
         </li>
@@ -840,7 +840,7 @@
         audit event, then the Checker reports the event.  If any Filter
         rejects an event, then the Checker does not report the
         event. For more information please visit
-        <a href="config_filters.html">filters page</a>.
+        <a href="filters/index.html">filters page</a>.
       </p>
 
     </section>
@@ -855,7 +855,7 @@
         If any Before Execution File Filter rejects a file, then Checker skips over
         the file and acts like it does not exist.
         For more information, please visit the
-        <a href="config_filefilters.html">file filters page</a>.
+        <a href="filefilters/index.html">file filters page</a>.
       </p>
 
     </section>

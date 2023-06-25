@@ -868,7 +868,7 @@ public class MainTest {
         };
 
         final List<File> result = TestUtil.invokeStaticMethod(Main.class, "listFiles",
-                fileMock, new ArrayList<Pattern>());
+                fileMock, new ArrayList<>());
         assertWithMessage("Invalid result size")
             .that(result)
             .isEmpty();
@@ -904,7 +904,7 @@ public class MainTest {
         };
 
         final List<File> result = TestUtil.invokeStaticMethod(Main.class, "listFiles",
-                fileMock, new ArrayList<Pattern>());
+                fileMock, new ArrayList<>());
         assertWithMessage("Invalid result size")
             .that(result)
             .isEmpty();

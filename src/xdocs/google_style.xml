@@ -162,7 +162,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#OuterTypeFilename">OuterTypeFilename</a>
+                  <a href="checks/misc/outertypefilename.html#OuterTypeFilename">OuterTypeFilename</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+OuterTypeFilename">
@@ -212,7 +212,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#FileTabCharacter">
+                  <a href="checks/whitespace/filetabcharacter.html#FileTabCharacter">
                     FileTabCharacter</a>
                 </td>
                 <td>
@@ -239,7 +239,9 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#IllegalTokenText">IllegalTokenText</a>
+                  <a href="checks/coding/illegaltokentext.html#IllegalTokenText">
+                    IllegalTokenText
+                  </a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+IllegalTokenText">
@@ -264,7 +266,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#AvoidEscapedUnicodeCharacters">
+                  <a href="checks/misc/avoidescapedunicodecharacters.html#AvoidEscapedUnicodeCharacters">
                     AvoidEscapedUnicodeCharacters</a>
                 </td>
                 <td>
@@ -292,7 +294,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#EmptyLineSeparator">
+                  <a href="checks/whitespace/emptylineseparator.html#EmptyLineSeparator">
                     EmptyLineSeparator</a>
                 </td>
                 <td>
@@ -334,13 +336,13 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_sizes.html#LineLength">LineLength</a>
+                  <a href="checks/sizes/linelength.html#LineLength">LineLength</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#NoLineWrap">NoLineWrap</a>
+                  <a href="checks/whitespace/nolinewrap.html#NoLineWrap">NoLineWrap</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+LineLength">
@@ -388,7 +390,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_imports.html#AvoidStarImport">AvoidStarImport</a>
+                  <a href="checks/imports/avoidstarimport.html#AvoidStarImport">AvoidStarImport</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+AvoidStarImport">
@@ -414,13 +416,13 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_sizes.html#LineLength">LineLength</a>
+                  <a href="checks/sizes/linelength.html#LineLength">LineLength</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#NoLineWrap">NoLineWrap</a>
+                  <a href="checks/whitespace/nolinewrap.html#NoLineWrap">NoLineWrap</a>
                   <br />
                 </td>
                 <td>
@@ -453,7 +455,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_imports.html#CustomImportOrder">
+                  <a href="checks/imports/customimportorder.html#CustomImportOrder">
                     CustomImportOrder</a>
                 </td>
                 <td>
@@ -520,7 +522,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_design.html#OneTopLevelClass">OneTopLevelClass</a>
+                  <a href="checks/design/onetoplevelclass.html#OneTopLevelClass">OneTopLevelClass</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+OneTopLevelClass">
@@ -561,7 +563,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#OverloadMethodsDeclarationOrder">
+                  <a href="checks/coding/overloadmethodsdeclarationorder.html#OverloadMethodsDeclarationOrder">
                     OverloadMethodsDeclarationOrder</a>
                 </td>
                 <td>
@@ -620,7 +622,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_blocks.html#NeedBraces">NeedBraces</a>
+                  <a href="checks/blocks/needbraces.html#NeedBraces">NeedBraces</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+NeedBraces">
@@ -646,12 +648,12 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_blocks.html#LeftCurly">LeftCurly</a>
+                  <a href="checks/blocks/leftcurly.html#LeftCurly">LeftCurly</a>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_blue.png" alt="" />
                   </span>
-                  <a href="config_blocks.html#RightCurly">RightCurly</a>
+                  <a href="checks/blocks/rightcurly.html#RightCurly">RightCurly</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+LeftCurly">
@@ -683,13 +685,13 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_blocks.html#EmptyBlock">EmptyBlock</a>
+                  <a href="checks/blocks/emptyblock.html#EmptyBlock">EmptyBlock</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_blocks.html#EmptyCatchBlock">EmptyCatchBlock</a>
+                  <a href="checks/blocks/emptycatchblock.html#EmptyCatchBlock">EmptyCatchBlock</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+EmptyBlock">
@@ -720,7 +722,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_misc.html#Indentation">Indentation</a>
+                  <a href="checks/misc/indentation.html#Indentation">Indentation</a>
                   <br />
                   The rule "A line is never broken adjacent to the arrow in a
                   lambda, except that a break may come immediately after the arrow
@@ -752,7 +754,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#OneStatementPerLine">
+                  <a href="checks/coding/onestatementperline.html#OneStatementPerLine">
                     OneStatementPerLine</a>
                 </td>
                 <td>
@@ -781,7 +783,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_sizes.html#LineLength">LineLength</a>
+                  <a href="checks/sizes/linelength.html#LineLength">LineLength</a>
                   <br />
                   We can detect URL with protocol type as http://, https:// etc.
                   <br />
@@ -831,19 +833,19 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#OperatorWrap">OperatorWrap</a>
+                  <a href="checks/whitespace/operatorwrap.html#OperatorWrap">OperatorWrap</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#SeparatorWrap">SeparatorWrap</a>
+                  <a href="checks/whitespace/separatorwrap.html#SeparatorWrap">SeparatorWrap</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#MethodParamPad">MethodParamPad</a>
+                  <a href="checks/whitespace/methodparampad.html#MethodParamPad">MethodParamPad</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+OperatorWrap">
@@ -881,7 +883,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#Indentation">Indentation</a>
+                  <a href="checks/misc/indentation.html#Indentation">Indentation</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+Indentation">
@@ -924,7 +926,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_whitespace.html#EmptyLineSeparator">
+                  <a href="checks/whitespace/emptylineseparator.html#EmptyLineSeparator">
                     EmptyLineSeparator</a>
                   <br />Blank lines between two consecutive fields are optional.
                   This exception is not satisfied
@@ -953,47 +955,47 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#WhitespaceAround">
+                  <a href="checks/whitespace/whitespacearound.html#WhitespaceAround">
                     WhitespaceAround</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#GenericWhitespace">
+                  <a href="checks/whitespace/genericwhitespace.html#GenericWhitespace">
                     GenericWhitespace</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#MethodParamPad">MethodParamPad</a>
+                  <a href="checks/whitespace/methodparampad.html#MethodParamPad">MethodParamPad</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#ParenPad">ParenPad</a>
+                  <a href="checks/whitespace/parenpad.html#ParenPad">ParenPad</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_blue.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#WhitespaceAfter">
+                  <a href="checks/whitespace/whitespaceafter.html#WhitespaceAfter">
                     WhitespaceAfter</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_blue.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#NoWhitespaceBefore">
+                  <a href="checks/whitespace/nowhitespacebefore.html#NoWhitespaceBefore">
                     NoWhitespaceBefore</a>
                   <br />
                   <br />
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_whitespace.html#NoWhitespaceBeforeCaseDefaultColon">
+                  <a href="checks/whitespace/nowhitespacebeforecasedefaultcolon.html#NoWhitespaceBeforeCaseDefaultColon">
                     NoWhitespaceBeforeCaseDefaultColon</a>
                   <br />
                   <br />
@@ -1139,7 +1141,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#MultipleVariableDeclarations">
+                  <a href="checks/coding/multiplevariabledeclarations.html#MultipleVariableDeclarations">
                     MultipleVariableDeclarations</a>
                 </td>
                 <td>
@@ -1167,7 +1169,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#VariableDeclarationUsageDistance">
+                  <a href="checks/coding/variabledeclarationusagedistance.html#VariableDeclarationUsageDistance">
                     VariableDeclarationUsageDistance</a>
                   <br />
                 </td>
@@ -1224,7 +1226,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#ArrayTypeStyle">ArrayTypeStyle</a>
+                  <a href="checks/misc/arraytypestyle.html#ArrayTypeStyle">ArrayTypeStyle</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+ArrayTypeStyle">
@@ -1265,7 +1267,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#Indentation">Indentation</a>
+                  <a href="checks/misc/indentation.html#Indentation">Indentation</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+Indentation">
@@ -1290,7 +1292,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#FallThrough">FallThrough</a>
+                  <a href="checks/coding/fallthrough.html#FallThrough">FallThrough</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+FallThrough">
@@ -1318,7 +1320,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_coding.html#MissingSwitchDefault">
+                  <a href="checks/coding/missingswitchdefault.html#MissingSwitchDefault">
                     MissingSwitchDefault</a>
                   <br />
                   "Exception: enum type may omit the default statement group"
@@ -1349,7 +1351,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_annotation.html#AnnotationLocation">
+                  <a href="checks/annotation/annotationlocation.html#AnnotationLocation">
                     AnnotationLocation</a>
                 </td>
                 <td>
@@ -1391,7 +1393,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#CommentsIndentation">
+                  <a href="checks/misc/commentsindentation.html#CommentsIndentation">
                     CommentsIndentation</a>
                 </td>
                 <td>
@@ -1419,7 +1421,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_modifier.html#ModifierOrder">ModifierOrder</a>
+                  <a href="checks/modifier/modifierorder.html#ModifierOrder">ModifierOrder</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+ModifierOrder">
@@ -1445,7 +1447,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_misc.html#UpperEll">UpperEll</a>
+                  <a href="checks/misc/upperell.html#UpperEll">UpperEll</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+UpperEll">
@@ -1519,7 +1521,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#PackageName">PackageName</a>
+                  <a href="checks/naming/packagename.html#PackageName">PackageName</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+PackageName">
@@ -1547,7 +1549,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_naming.html#TypeName">TypeName</a>
+                  <a href="checks/naming/typename.html#TypeName">TypeName</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+TypeName">
@@ -1575,7 +1577,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_naming.html#MethodName">MethodName</a>
+                  <a href="checks/naming/methodname.html#MethodName">MethodName</a>
                   <br/> No ability to distinguish verb at the beginning of name,
                   no way distinguish Test method from others so "_" is allowed in
                   names
@@ -1627,7 +1629,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#MemberName">MemberName</a>
+                  <a href="checks/naming/membername.html#MemberName">MemberName</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+MemberName">
@@ -1653,27 +1655,27 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#ParameterName">ParameterName</a>
+                  <a href="checks/naming/parametername.html#ParameterName">ParameterName</a>
                   <br/>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt=""/>
                   </span>
-                  <a href="config_naming.html#CatchParameterName">
+                  <a href="checks/naming/catchparametername.html#CatchParameterName">
                     CatchParameterName</a>
                   <br/>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt=""/>
                   </span>
-                  <a href="config_naming.html#LambdaParameterName">
+                  <a href="checks/naming/lambdaparametername.html#LambdaParameterName">
                     LambdaParameterName</a>
                   <br/>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt=""/>
                   </span>
-                  <a href="config_naming.html#RecordComponentName">
+                  <a href="checks/naming/recordcomponentname.html#RecordComponentName">
                     RecordComponentName</a>
                 </td>
                 <td>
@@ -1720,12 +1722,12 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#LocalVariableName">LocalVariableName</a>
+                  <a href="checks/naming/localvariablename.html#LocalVariableName">LocalVariableName</a>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#PatternVariableName">PatternVariableName</a>
+                  <a href="checks/naming/patternvariablename.html#PatternVariableName">PatternVariableName</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+LocalVariableName">
@@ -1756,13 +1758,13 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#MethodTypeParameterName">
+                  <a href="checks/naming/methodtypeparametername.html#MethodTypeParameterName">
                     MethodTypeParameterName</a>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#ClassTypeParameterName">
+                  <a href="checks/naming/classtypeparametername.html#ClassTypeParameterName">
                     ClassTypeParameterName</a>
                   <br/>
                   <span class="wrapper inline">
@@ -1770,12 +1772,12 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_naming.html#InterfaceTypeParameterName">
+                  <a href="checks/naming/interfacetypeparametername.html#InterfaceTypeParameterName">
                     InterfaceTypeParameterName</a>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_naming.html#RecordTypeParameterName">
+                  <a href="checks/naming/recordtypeparametername.html#RecordTypeParameterName">
                     RecordTypeParameterName</a>
                   <br/>
                 </td>
@@ -1823,7 +1825,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_naming.html#AbbreviationAsWordInName">
+                  <a href="checks/naming/abbreviationaswordinname.html#AbbreviationAsWordInName">
                     AbbreviationAsWordInName</a>
                   <br />
                   Non covered: Some words are ambiguously hyphenated in the
@@ -1898,7 +1900,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_blocks.html#EmptyBlock">EmptyBlock</a>
+                  <a href="checks/blocks/emptyblock.html#EmptyBlock">EmptyBlock</a>
                   with option=text.
                 </td>
                 <td>
@@ -1947,7 +1949,7 @@
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_coding.html#NoFinalizer">NoFinalizer</a>
+                  <a href="checks/coding/nofinalizer.html#NoFinalizer">NoFinalizer</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+NoFinalizer">
@@ -2008,14 +2010,14 @@
                         alt="" />
                   </span>
                   <br />
-                  <a href="config_javadoc.html#SingleLineJavadoc">
+                  <a href="checks/javadoc/singlelinejavadoc.html#SingleLineJavadoc">
                     SingleLineJavadoc</a>
                   Recent update for guide that clarify requirements will be
                   addressed at
                   <a href="https://github.com/checkstyle/checkstyle/issues/4052">
                     #4052</a>
                   <br />
-                  <a href="config_javadoc.html#InvalidJavadocPosition">
+                  <a href="checks/javadoc/invalidjavadocposition.html#InvalidJavadocPosition">
                     InvalidJavadocPosition</a>
                 </td>
                 <td>
@@ -2047,13 +2049,13 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#JavadocParagraph">JavadocParagraph</a>
+                  <a href="checks/javadoc/javadocparagraph.html#JavadocParagraph">JavadocParagraph</a>
                   <span class="wrapper inline">
                     <img
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#RequireEmptyLineBeforeBlockTagGroup">RequireEmptyLineBeforeBlockTagGroup</a>
+                  <a href="checks/javadoc/requireemptylinebeforeblocktaggroup.html#RequireEmptyLineBeforeBlockTagGroup">RequireEmptyLineBeforeBlockTagGroup</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+JavadocParagraph">
@@ -2084,20 +2086,20 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#AtclauseOrder">AtclauseOrder</a>
+                  <a href="checks/javadoc/atclauseorder.html#AtclauseOrder">AtclauseOrder</a>
                   <br/>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_javadoc.html#JavadocTagContinuationIndentation">
+                  <a href="checks/javadoc/javadoctagcontinuationindentation.html#JavadocTagContinuationIndentation">
                     JavadocTagContinuationIndentation</a>
                   <br/>
                   <br/>
                   <span class="wrapper inline">
                     <img src="images/ok_green.png" alt="" />
                   </span>
-                  <a href="config_javadoc.html#NonEmptyAtclauseDescription">
+                  <a href="checks/javadoc/nonemptyatclausedescription.html#NonEmptyAtclauseDescription">
                     NonEmptyAtclauseDescription</a>
                 </td>
                 <td>
@@ -2133,7 +2135,7 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#SummaryJavadoc">SummaryJavadoc</a>
+                  <a href="checks/javadoc/summaryjavadoc.html#SummaryJavadoc">SummaryJavadoc</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+SummaryJavadoc">
@@ -2161,19 +2163,19 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#MissingJavadocType">MissingJavadocType</a>
+                  <a href="checks/javadoc/missingjavadoctype.html#MissingJavadocType">MissingJavadocType</a>
                   <span class="wrapper inline">
                     <img
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#MissingJavadocMethod">MissingJavadocMethod</a>
+                  <a href="checks/javadoc/missingjavadocmethod.html#MissingJavadocMethod">MissingJavadocMethod</a>
                   <span class="wrapper inline">
                     <img
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#JavadocMethod">JavadocMethod</a>
+                  <a href="checks/javadoc/javadocmethod.html#JavadocMethod">JavadocMethod</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+MissingJavadocType">
@@ -2208,13 +2210,13 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#MissingJavadocMethod">MissingJavadocMethod</a>
+                  <a href="checks/javadoc/missingjavadocmethod.html#MissingJavadocMethod">MissingJavadocMethod</a>
                   <span class="wrapper inline">
                     <img
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#JavadocMethod">JavadocMethod</a>
+                  <a href="checks/javadoc/javadocmethod.html#JavadocMethod">JavadocMethod</a>
                 </td>
                 <td>
                   <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%20path%3A**%2Fgoogle_checks.xml+repo%3Acheckstyle%2Fcheckstyle+MissingJavadocMethod">
@@ -2245,13 +2247,13 @@
                         src="images/ok_green.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#MissingJavadocMethod">MissingJavadocMethod</a>
+                  <a href="checks/javadoc/missingjavadocmethod.html#MissingJavadocMethod">MissingJavadocMethod</a>
                   <span class="wrapper inline">
                     <img
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#JavadocMethod">JavadocMethod</a><br/>
+                  <a href="checks/javadoc/javadocmethod.html#JavadocMethod">JavadocMethod</a><br/>
                   Overrides are checked by presence of "@Override" annotation on
                   method.
                 </td>
@@ -2284,7 +2286,7 @@
                         src="images/ok_blue.png"
                         alt="" />
                   </span>
-                  <a href="config_javadoc.html#InvalidJavadocPosition">
+                  <a href="checks/javadoc/invalidjavadocposition.html#InvalidJavadocPosition">
                     InvalidJavadocPosition</a>
                 </td>
                 <td>
@@ -2301,48 +2303,48 @@
       <subsection name="Suppressions" id="Google_Suppressions">
         <p>
           It is possible to suppress some violations by embeded filters
-          <a href="config_filters.html#SuppressionFilter">
+          <a href="filters/suppressionfilter.html#SuppressionFilter">
             SuppressionFilter</a>,
-          <a href="config_filters.html#SuppressionXpathFilter">
+          <a href="filters/suppressionxpathfilter.html#SuppressionXpathFilter">
             SuppressionXpathFilter</a>,
-          <a href="config_filters.html#SuppressWithNearbyCommentFilter">
+          <a href="filters/suppresswithnearbycommentfilter.html#SuppressWithNearbyCommentFilter">
             SuppressWithNearbyCommentFilter</a>,
-          <a href="config_filters.html#SuppressionCommentFilter">
+          <a href="filters/suppressioncommentfilter.html#SuppressionCommentFilter">
             SuppressionCommentFilter</a>
           and
-          <a href="config_filters.html#SuppressWarningsFilter">
+          <a href="filters/suppresswarningsfilter.html#SuppressWarningsFilter">
             SuppressWarningsFilter</a>.
         </p>
         <p>
           Location of config file for
-          <a href="config_filters.html#SuppressionFilter">SuppressionFilter</a> can
+          <a href="filters/suppressionfilter.html#SuppressionFilter">SuppressionFilter</a> can
           be defined by system property <i>org.checkstyle.google.suppressionfilter.config</i>
           (default value is <i>checkstyle-suppressions.xml</i>).
         </p>
         <p>
           Location of config file for
-          <a href="config_filters.html#SuppressionXpathFilter">SuppressionXpathFilter</a>
+          <a href="filters/suppressionxpathfilter.html#SuppressionXpathFilter">SuppressionXpathFilter</a>
           can be defined by system property
           <i>org.checkstyle.google.suppressionxpathfilter.config</i> (default value is
           <i>checkstyle-xpath-suppressions.xml</i>).
         </p>
         <p>
           To suppress a check in the next line of code using
-          <a href="config_filters.html#SuppressWithNearbyCommentFilter">
+          <a href="filters/suppresswithnearbycommentfilter.html#SuppressWithNearbyCommentFilter">
             SuppressWithNearbyCommentFilter</a>precede the line of code with
           <i>// CHECKSTYLE.SUPPRESS: NameOfTheCheck</i> (replace <i>NameOfTheCheck</i> with
           the actual check to be suppressed).
         </p>
         <p>
           To suppress a check on a block of code using
-          <a href="config_filters.html#SuppressionCommentFilter">SuppressionCommentFilter</a>
+          <a href="filters/suppressioncommentfilter.html#SuppressionCommentFilter">SuppressionCommentFilter</a>
           add <i>// CHECKSTYLE.OFF: NameOfTheCheck</i> before the beginning of the code block and
           <i>// CHECKSTYLE.ON: NameOfTheCheck</i> after the end of the code block (replace
           <i>NameOfTheCheck</i> with the actual check to be suppressed).
         </p>
         <p>
           To suppress a check using
-          <a href="config_filters.html#SuppressWarningsFilter">SuppressWarningsFilter</a>
+          <a href="filters/suppresswarningsfilter.html#SuppressWarningsFilter">SuppressWarningsFilter</a>
           use Java's<i>@SuppressWarnings({"checkstyle:name_of_the_check", ...})</i> annotation.
           Each value passed in the array parameter must meet the format
           <i>checkstyle:name_of_the_check</i> where the <i>checkstyle:</i> is optional and

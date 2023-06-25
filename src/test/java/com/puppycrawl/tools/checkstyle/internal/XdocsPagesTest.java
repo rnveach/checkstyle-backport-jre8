@@ -85,7 +85,7 @@ public class XdocsPagesTest {
 
     private static final Path AVAILABLE_CHECKS_PATH = Paths.get("src/xdocs/checks.xml");
     private static final String LINK_TEMPLATE =
-            "(?s).*<a href=\"config_\\w+\\.html#%1$s\">(\\s)*%1$s</a>.*";
+            "(?s).*<a href=\"[^\"]+#%1$s\">([\\r\\n\\s])*%1$s([\\r\\n\\s])*</a>.*";
 
     private static final Pattern VERSION = Pattern.compile("\\d+\\.\\d+(\\.\\d+)?");
 
@@ -255,8 +255,8 @@ public class XdocsPagesTest {
         for (Path path : XdocUtil.getXdocsConfigFilePaths(XdocUtil.getXdocsFilePaths())) {
             final String fileName = path.getFileName().toString();
             if ("config_system_properties.xml".equals(fileName)
-                    || "config_filefilters.xml".equals(fileName)
-                    || "config_filters.xml".equals(fileName)) {
+                    || path.toString().contains("filefilters")
+                    || path.toString().contains("filters")) {
                 continue;
             }
 
@@ -285,6 +285,36 @@ public class XdocsPagesTest {
                         + " for this check in the file \"" + fileName + "\"")
                     .that(summaries.get(checkName))
                     .isEqualTo(firstSentence);
+            }
+        }
+    }
+
+    @Test
+    public void testCategoryIndexPageTableInSyncWithAllChecksPageTable() throws Exception {
+        final Map<String, String> summaries = readSummaries();
+        for (Path path : XdocUtil.getXdocsConfigFilePaths(XdocUtil.getXdocsFilePaths())) {
+            final String fileName = path.getFileName().toString();
+            if (!"index.xml".equals(fileName)
+                    || path.getParent().toString().contains("filters")) {
+                continue;
+            }
+
+            final String input = new String(Files.readAllBytes(path), UTF_8);
+            final Document document = XmlUtil.getRawXml(fileName, input, input);
+            final NodeList sources = document.getElementsByTagName("tr");
+
+            for (int position = 0; position < sources.getLength(); position++) {
+                final Node tableRow = sources.item(position);
+                final Iterator<Node> cells = XmlUtil
+                        .findChildElementsByTag(tableRow, "td").iterator();
+                final String checkName = XmlUtil.sanitizeXml(cells.next().getTextContent());
+                final String description = XmlUtil.sanitizeXml(cells.next().getTextContent());
+                assertWithMessage("The summary for check " + checkName
+                        + " in the file \"" + path + "\""
+                        + " should match the summary"
+                        + " for this check in the file \"" + AVAILABLE_CHECKS_PATH + "\"")
+                    .that(description)
+                    .isEqualTo(summaries.get(checkName));
             }
         }
     }
@@ -332,24 +362,34 @@ public class XdocsPagesTest {
                     .isNotNull();
 
                 final String sectionName;
+                final String nameString = name.getNodeValue();
+                final String idString = id.getNodeValue();
+                final String expectedId;
 
                 if ("google_style.xml".equals(fileName)) {
                     sectionName = "Google";
+                    expectedId = (sectionName + " " + nameString).replace(' ', '_');
                 }
                 else if ("sun_style.xml".equals(fileName)) {
                     sectionName = "Sun";
+                    expectedId = (sectionName + " " + nameString).replace(' ', '_');
+                }
+                else if (path.toString().contains("filters")
+                        || path.toString().contains("checks")) {
+                    // Checks and filters have their own xdocs files, so the section name
+                    // is the same as the section id.
+                    sectionName = XmlUtil.getNameAttributeOfNode(subSection.getParentNode());
+                    expectedId = nameString.replace(' ', '_');
                 }
                 else {
                     sectionName = XmlUtil.getNameAttributeOfNode(subSection.getParentNode());
+                    expectedId = (sectionName + " " + nameString).replace(' ', '_');
                 }
-
-                final String nameString = name.getNodeValue();
-                final String idString = id.getNodeValue();
 
                 assertWithMessage(fileName + " sub-section " + nameString + " for section "
                         + sectionName + " must match")
                     .that(idString)
-                    .isEqualTo((sectionName + " " + nameString).replace(' ', '_'));
+                    .isEqualTo(expectedId);
             }
         }
     }
@@ -465,8 +505,6 @@ public class XdocsPagesTest {
 
     @Test
     public void testAllCheckSections() throws Exception {
-        final ModuleFactory moduleFactory = TestUtil.getPackageObjectFactory();
-
         for (Path path : XdocUtil.getXdocsConfigFilePaths(XdocUtil.getXdocsFilePaths())) {
             final String fileName = path.getFileName().toString();
 
@@ -501,8 +539,6 @@ public class XdocsPagesTest {
                                             lastSectionName.toLowerCase(Locale.ENGLISH)) >= 0)
                                     .isTrue();
                 }
-
-                validateCheckSection(moduleFactory, fileName, sectionName, section);
 
                 lastSectionName = sectionName;
             }
@@ -1663,9 +1699,12 @@ public class XdocsPagesTest {
         while (itrChecks.hasNext()) {
             final Node module = itrChecks.next();
             final String moduleName = module.getTextContent().trim();
+            final String href = module.getAttributes().getNamedItem("href").getTextContent();
+            // until https://github.com/checkstyle/checkstyle/issues/13132
+            final boolean moduleIsConfig = href.startsWith("config_");
+            final boolean moduleIsCheck = href.startsWith("checks/");
 
-            if (!module.getAttributes().getNamedItem("href").getTextContent()
-                    .startsWith("config_")) {
+            if (!moduleIsConfig && !moduleIsCheck) {
                 continue;
             }
 

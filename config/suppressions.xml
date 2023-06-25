@@ -26,7 +26,7 @@
              files="AbstractCheckTest.java|AbstractClassNameCheckTest.java|
                     |AbstractJavadocCheckTest.java|
                     |AbstractViolationReporterTest.java|AbstractFileSetCheckTest.java|
-                    |AbstractAutomaticBeanTest.java"/>
+                    |AbstractAutomaticBeanTest.java|AbstractClassNameCheckExamplesTest.java"/>
 
   <!-- Tone down the checking for test code -->
   <suppress checks="ExecutableStatementCount|JavaNCSS"
@@ -101,6 +101,9 @@
   <suppress id="noIndentationConfigExamples" files="[\\/]src[\\/]xdocs[\\/]writingchecks.xml"/>
   <suppress id="noIndentationConfigExamples"
     files="[\\/]src[\\/]xdocs[\\/]beginning_development.xml"/>
+
+  <!-- Examples are not intended to be formatted -->
+  <suppress id="noConsecutiveLines" files="[\\/]emptylineseparator.xml"/>
 
   <!-- these are legacy use cases until #11166 -->
   <suppress id="noUsageOfGetFileContentsMethod" files="FallThroughCheck.java"/>

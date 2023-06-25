@@ -1,60 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressedMutations>
   <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to java/util/regex/Pattern::compile</description>
-    <lineContent>private Pattern specialImportsRegExp = Pattern.compile(&quot;^$&quot;);</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable specialImportsRegExp</description>
-    <lineContent>private Pattern specialImportsRegExp = Pattern.compile(&quot;^$&quot;);</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable samePackageMatchingDepth</description>
-    <lineContent>private int samePackageMatchingDepth = 2;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>getFirstDomainsFromIdent</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to java/lang/StringBuilder::append</description>
-    <lineContent>builder.append(tokens.nextToken()).append(&apos;.&apos;);</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>getFirstDomainsFromIdent</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
-    <description>replaced call to java/lang/StringBuilder::append with receiver</description>
-    <lineContent>builder.append(tokens.nextToken()).append(&apos;.&apos;);</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>CustomImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck</mutatedClass>
-    <mutatedMethod>setCustomImportOrderRules</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable customImportOrderRules</description>
-    <lineContent>customImportOrderRules = inputCustomImportOrder;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
     <sourceFile>FileImportControl.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.FileImportControl</mutatedClass>
     <mutatedMethod>&lt;init&gt;</mutatedMethod>
@@ -136,15 +82,6 @@
   </mutation>
 
   <mutation unstable="false">
-    <sourceFile>ImportOrderCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck</mutatedClass>
-    <mutatedMethod>setOption</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
-    <description>replaced call to java/lang/String::trim with receiver</description>
-    <lineContent>option = ImportOrderOption.valueOf(optionStr.trim().toUpperCase(Locale.ENGLISH));</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
     <sourceFile>PkgImportControl.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.PkgImportControl</mutatedClass>
     <mutatedMethod>&lt;init&gt;</mutatedMethod>
@@ -172,15 +109,6 @@
   </mutation>
 
   <mutation unstable="false">
-    <sourceFile>RedundantImportCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.RedundantImportCheck</mutatedClass>
-    <mutatedMethod>beginTree</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable pkgName</description>
-    <lineContent>pkgName = null;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
     <sourceFile>UnusedImportsCheck.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck</mutatedClass>
     <mutatedMethod>beginTree</mutatedMethod>
@@ -189,21 +117,4 @@
     <lineContent>collect = false;</lineContent>
   </mutation>
 
-  <mutation unstable="false">
-    <sourceFile>UnusedImportsCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck</mutatedClass>
-    <mutatedMethod>collectReferencesFromJavadoc</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
-    <description>replaced call to java/util/stream/Stream::filter with receiver</description>
-    <lineContent>.filter(JavadocTag::canReferenceImports)</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>UnusedImportsCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck</mutatedClass>
-    <mutatedMethod>processJavadocTag</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
-    <description>replaced call to java/lang/String::trim with receiver</description>
-    <lineContent>final String identifier = tag.getFirstArg().trim();</lineContent>
-  </mutation>
 </suppressedMutations>
