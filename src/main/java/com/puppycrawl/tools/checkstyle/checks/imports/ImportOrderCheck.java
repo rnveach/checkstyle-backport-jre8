@@ -282,7 +282,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * </li>
  * </ul>
  * <p>
- * Note: a <a href="https://checkstyle.org/config_filters.html#SuppressionXpathSingleFilter">
+ * Note: a
+ * <a href="https://checkstyle.org/filters/suppressionxpathsinglefilter.html#SuppressionXpathSingleFilter">
  * suppression xpath single filter</a> is needed because
  * IDEA has no blank line between "javax" and "java".
  * ImportOrder has a limitation by design to enforce an empty line between groups ("java", "javax").
@@ -664,6 +665,7 @@ public class ImportOrderCheck
      *
      * @param optionStr string to decode option from
      * @throws IllegalArgumentException if unable to decode
+     * @since 5.0
      */
     public void setOption(String optionStr) {
         option = ImportOrderOption.valueOf(optionStr.trim().toUpperCase(Locale.ENGLISH));
@@ -677,6 +679,7 @@ public class ImportOrderCheck
      * means one group for all type imports.
      *
      * @param packageGroups a comma-separated list of package names/prefixes.
+     * @since 3.2
      */
     public void setGroups(String... packageGroups) {
         groups = compilePatterns(packageGroups);
@@ -691,6 +694,7 @@ public class ImportOrderCheck
      * the property {@code option} is set to {@code top} or {@code bottom}.
      *
      * @param packageGroups a comma-separated list of package names/prefixes.
+     * @since 8.12
      */
     public void setStaticGroups(String... packageGroups) {
         staticGroups = compilePatterns(packageGroups);
@@ -703,6 +707,7 @@ public class ImportOrderCheck
      * @param ordered
      *            whether lexicographic ordering of imports within a group
      *            required or not.
+     * @since 3.2
      */
     public void setOrdered(boolean ordered) {
         this.ordered = ordered;
@@ -715,6 +720,7 @@ public class ImportOrderCheck
      *
      * @param separated
      *            whether groups should be separated by one blank line or comment.
+     * @since 3.2
      */
     public void setSeparated(boolean separated) {
         this.separated = separated;
@@ -729,6 +735,7 @@ public class ImportOrderCheck
      *
      * @param separatedStaticGroups
      *            whether groups should be separated by one blank line or comment.
+     * @since 8.12
      */
     public void setSeparatedStaticGroups(boolean separatedStaticGroups) {
         this.separatedStaticGroups = separatedStaticGroups;
@@ -742,6 +749,7 @@ public class ImportOrderCheck
      *
      * @param caseSensitive
      *            whether string comparison should be case-sensitive.
+     * @since 3.3
      */
     public void setCaseSensitive(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
@@ -752,6 +760,7 @@ public class ImportOrderCheck
      * <b>bottom</b> are sorted within the group.
      *
      * @param sortAlphabetically true or false.
+     * @since 6.5
      */
     public void setSortStaticImportsAlphabetically(boolean sortAlphabetically) {
         sortStaticImportsAlphabetically = sortAlphabetically;
@@ -762,6 +771,7 @@ public class ImportOrderCheck
      * imports or not.
      *
      * @param useContainerOrdering whether to use container ordering for static imports or not.
+     * @since 7.1
      */
     public void setUseContainerOrderingForStatic(boolean useContainerOrdering) {
         useContainerOrderingForStatic = useContainerOrdering;
@@ -786,7 +796,6 @@ public class ImportOrderCheck
     public void beginTree(DetailAST rootAST) {
         lastGroup = Integer.MIN_VALUE;
         lastImportLine = Integer.MIN_VALUE;
-        lastImport = "";
         lastImportStatic = false;
         beforeFirstImport = true;
         staticImportsApart =

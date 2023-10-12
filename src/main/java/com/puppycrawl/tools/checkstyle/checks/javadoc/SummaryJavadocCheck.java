@@ -282,6 +282,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      * Setter to specify the regexp for forbidden summary fragments.
      *
      * @param pattern a pattern.
+     * @since 6.0
      */
     public void setForbiddenSummaryFragments(Pattern pattern) {
         forbiddenSummaryFragments = pattern;
@@ -291,6 +292,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      * Setter to specify the period symbol at the end of first javadoc sentence.
      *
      * @param period period's value.
+     * @since 6.2
      */
     public void setPeriod(String period) {
         this.period = period;
@@ -358,7 +360,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
         return Arrays.stream(javadoc.getChildren())
             .filter(SummaryJavadocCheck::isInlineTagPresent)
             .findFirst()
-            .map(SummaryJavadocCheck::getInlineTagNodeWithinHtmlElement);
+            .map(SummaryJavadocCheck::getInlineTagNodeForAst);
     }
 
     /**
@@ -369,19 +371,19 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      */
     private static boolean isDefinedFirst(DetailNode inlineSummaryTag) {
         boolean isDefinedFirst = true;
-        DetailNode previousSibling = JavadocUtil.getPreviousSibling(inlineSummaryTag);
-        while (previousSibling != null && isDefinedFirst) {
-            switch (previousSibling.getType()) {
+        DetailNode currentAst = inlineSummaryTag;
+        while (currentAst != null && isDefinedFirst) {
+            switch (currentAst.getType()) {
                 case JavadocTokenTypes.TEXT:
-                    isDefinedFirst = previousSibling.getText().trim().isEmpty();
+                    isDefinedFirst = currentAst.getText().trim().isEmpty();
                     break;
                 case JavadocTokenTypes.HTML_ELEMENT:
-                    isDefinedFirst = !isTextPresentInsideHtmlTag(previousSibling);
+                    isDefinedFirst = !isTextPresentInsideHtmlTag(currentAst);
                     break;
                 default:
                     break;
             }
-            previousSibling = JavadocUtil.getPreviousSibling(previousSibling);
+            currentAst = JavadocUtil.getPreviousSibling(currentAst);
         }
         return isDefinedFirst;
     }
@@ -423,9 +425,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      * @return true, if the inline tag node is present.
      */
     private static boolean isInlineTagPresent(DetailNode ast) {
-        return ast.getType() == JavadocTokenTypes.JAVADOC_INLINE_TAG
-                || ast.getType() == JavadocTokenTypes.HTML_ELEMENT
-                && getInlineTagNodeWithinHtmlElement(ast) != null;
+        return getInlineTagNodeForAst(ast) != null;
     }
 
     /**
@@ -434,7 +434,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      * @param ast html tag node.
      * @return inline summary javadoc tag node or null if no node is found.
      */
-    private static DetailNode getInlineTagNodeWithinHtmlElement(DetailNode ast) {
+    private static DetailNode getInlineTagNodeForAst(DetailNode ast) {
         DetailNode node = ast;
         DetailNode result = null;
         // node can never be null as this method is called when there is a HTML_ELEMENT
@@ -444,14 +444,14 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
         else if (node.getType() == JavadocTokenTypes.HTML_TAG) {
             // HTML_TAG always has more than 2 children.
             node = node.getChildren()[1];
-            result = getInlineTagNodeWithinHtmlElement(node);
+            result = getInlineTagNodeForAst(node);
         }
         else if (node.getType() == JavadocTokenTypes.HTML_ELEMENT
                 // Condition for SINGLETON html element which cannot contain summary node
                 && node.getChildren()[0].getChildren().length > 1) {
             // Html elements have one tested tag before actual content inside it
             node = node.getChildren()[0].getChildren()[1];
-            result = getInlineTagNodeWithinHtmlElement(node);
+            result = getInlineTagNodeForAst(node);
         }
         return result;
     }
@@ -490,8 +490,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
         // Checking size of ast is not required, since ast contains
         // children of Inline Tag, as at least 2 children will be present which are
         // RCURLY and LCURLY.
-        return child[1].getType() == JavadocTokenTypes.CUSTOM_NAME
-            && name.equals(child[1].getText());
+        return name.equals(child[1].getText());
     }
 
     /**
@@ -506,7 +505,9 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
             log(inlineSummaryTag.getLineNumber(), MSG_SUMMARY_JAVADOC_MISSING);
         }
         else if (!period.isEmpty()) {
-            if (isPeriodNotAtEnd(summaryVisible, period)) {
+            final boolean isPeriodNotAtEnd =
+                    summaryVisible.lastIndexOf(period) != summaryVisible.length() - 1;
+            if (isPeriodNotAtEnd) {
                 log(inlineSummaryTag.getLineNumber(), MSG_SUMMARY_MISSING_PERIOD);
             }
             else if (containsForbiddenFragment(inlineSummary)) {
@@ -581,18 +582,6 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
     private static String getVisibleContent(String summary) {
         final String visibleSummary = HTML_ELEMENTS.matcher(summary).replaceAll("");
         return visibleSummary.trim();
-    }
-
-    /**
-     * Checks if the string does not end with period.
-     *
-     * @param sentence string to check for period at end.
-     * @param period string to check within sentence.
-     * @return {@code true} if sentence does not end with period.
-     */
-    private static boolean isPeriodNotAtEnd(String sentence, String period) {
-        final String summarySentence = sentence.trim();
-        return summarySentence.lastIndexOf(period) != summarySentence.length() - 1;
     }
 
     /**
@@ -672,9 +661,6 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
     private static String getSummarySentence(DetailNode ast) {
         final StringBuilder result = new StringBuilder(256);
         for (DetailNode child : ast.getChildren()) {
-            if (child.getType() == JavadocTokenTypes.JAVADOC_TAG) {
-                break;
-            }
             if (child.getType() != JavadocTokenTypes.EOF
                     && ALLOWED_TYPES.get(child.getType())) {
                 result.append(child.getText());

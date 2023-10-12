@@ -26,6 +26,8 @@
   <!-- Uses other checks as a basis for it's tests. -->
   <suppress checks="ForbidCertainImports"
              files="ViolationTest\.java"/>
+  <suppress checks="ForbidCertainImports"
+             files="FullIdentTest\.java"/>
 
   <!-- Tone down the checking for test code -->
   <suppress checks="SingleBreakOrContinue" files="[\\/]XdocsPagesTest\.java"/>
@@ -41,4 +43,7 @@
   <!-- No need for constructor with cause -->
   <suppress checks="CauseParameterInException" files=".*MetadataGenerationException\.java"/>
 
+  <!-- Require for testing of util package -->
+  <suppress checks="ForbidCertainImports" files="AnnotationUtilTest\.java"/>
+  <suppress checks="ForbidCertainImports" files="CheckUtilTest\.java"/>
 </suppressions>

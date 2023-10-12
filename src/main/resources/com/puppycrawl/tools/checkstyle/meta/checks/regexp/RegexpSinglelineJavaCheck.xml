@@ -2,14 +2,15 @@
 <checkstyle-metadata>
    <module>
       <check fully-qualified-name="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineJavaCheck"
-              name="RegexpSinglelineJava"
-              parent="com.puppycrawl.tools.checkstyle.TreeWalker">
+             name="RegexpSinglelineJava"
+             parent="com.puppycrawl.tools.checkstyle.TreeWalker">
          <description>&lt;p&gt;
  Checks that a specified pattern matches a single-line in Java files.
  &lt;/p&gt;
  &lt;p&gt;
  This class is variation on
- &lt;a href="https://checkstyle.org/config_regexp.html#RegexpSingleline"&gt;RegexpSingleline&lt;/a&gt;
+ &lt;a href="https://checkstyle.org/checks/regexp/regexpsingleline.html#RegexpSingleline"&gt;
+ RegexpSingleline&lt;/a&gt;
  for detecting single-lines that match a supplied regular expression in Java files.
  It supports suppressing matches in Java comments.
  &lt;/p&gt;</description>

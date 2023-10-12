@@ -26,6 +26,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,7 +39,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.xml.sax.InputSource;
+
+import com.puppycrawl.tools.checkstyle.ConfigurationLoader;
+import com.puppycrawl.tools.checkstyle.PropertiesExpander;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
+import com.puppycrawl.tools.checkstyle.api.Configuration;
 
 public final class InlineConfigParser {
 
@@ -56,6 +62,18 @@ public final class InlineConfigParser {
     /** A pattern to find the string: "// violation below". */
     private static final Pattern VIOLATION_BELOW_PATTERN = Pattern
             .compile(".*//\\s*violation below\\s*(?:'(.*)')?$");
+
+    /** A pattern to find the string: "// violation above, explanation". */
+    private static final Pattern VIOLATION_ABOVE_WITH_EXPLANATION_PATTERN = Pattern
+            .compile(".*//\\s*violation above,\\s.+\\s(?:'(.*)')?$");
+
+    /** A pattern to find the string: "// violation below, explanation". */
+    private static final Pattern VIOLATION_BELOW_WITH_EXPLANATION_PATTERN = Pattern
+            .compile(".*//\\s*violation below,\\s.+\\s(?:'(.*)')?$");
+
+    /** A pattern to find the string: "// violation, explanation". */
+    private static final Pattern VIOLATION_WITH_EXPLANATION_PATTERN = Pattern
+            .compile(".*//\\s*violation,\\s.+\\s(?:'(.*)')?$");
 
     /** A pattern to find the string: "// X violations". */
     private static final Pattern MULTIPLE_VIOLATIONS_PATTERN = Pattern
@@ -92,18 +110,21 @@ public final class InlineConfigParser {
     /** The String "(null)". */
     private static final String NULL_STRING = "(null)";
 
+    private static final String LATEST_DTD = String.format(Locale.ROOT,
+            "<!DOCTYPE module PUBLIC \"%s\" \"%s\">%n",
+            ConfigurationLoader.DTD_PUBLIC_CS_ID_1_3,
+            ConfigurationLoader.DTD_PUBLIC_CS_ID_1_3);
+
     /**
      * Checks in which violation message is not specified in input file and have more than
      * one violation message key.
      * Until <a href="https://github.com/checkstyle/checkstyle/issues/11214">#11214</a>
      */
     private static final Set<String> SUPPRESSED_CHECKS = new HashSet<>(Arrays.asList(
-            "com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck",
             "com.puppycrawl.tools.checkstyle.checks.regexp.RegexpCheck",
             "com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyForInitializerPadCheck",
             "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck",
-            "com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck",
-            "com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck"));
+            "com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"));
 
     /**
      *  Inlined configs can not be used in non-java checks, as Inlined config is java style
@@ -167,8 +188,71 @@ public final class InlineConfigParser {
             throw new CheckstyleException("Config not specified on top."
                 + "Please see other inputs for examples of what is required.");
         }
-        int lineNo = 1;
-        do {
+
+        final List<String> inlineConfig = getInlineConfig(lines);
+        final boolean isXmlConfig = "/*xml".equals(lines.get(0));
+
+        if (isXmlConfig) {
+            final String stringXmlConfig = LATEST_DTD + String.join("", inlineConfig);
+            final InputSource inputSource = new InputSource(new StringReader(stringXmlConfig));
+            final Configuration xmlConfig = ConfigurationLoader.loadConfiguration(
+                inputSource, new PropertiesExpander(System.getProperties()),
+                    ConfigurationLoader.IgnoredModulesOptions.EXECUTE
+            );
+            final String configName = xmlConfig.getName();
+            if (!"Checker".equals(configName)) {
+                throw new CheckstyleException(
+                        "First module should be Checker, but was " + configName);
+            }
+            handleXmlConfig(testInputConfigBuilder, inputFilePath, xmlConfig.getChildren());
+        }
+        else {
+            handleKeyValueConfig(testInputConfigBuilder, inputFilePath, inlineConfig);
+        }
+    }
+
+    private static List<String> getInlineConfig(List<String> lines) {
+        final List<String> results = new ArrayList<String>();
+        final int length = lines.size();
+
+        for (int index = 1; index < length; index++) {
+            final String line = lines.get(index);
+
+            if (line.startsWith("*/")) {
+                break;
+            }
+
+            results.add(line);
+        }
+
+        return results;
+    }
+
+    private static void handleXmlConfig(TestInputConfiguration.Builder testInputConfigBuilder,
+                                        String inputFilePath,
+                                        Configuration... modules)
+            throws CheckstyleException {
+
+        for (Configuration module: modules) {
+            final String moduleName = module.getName();
+            if ("TreeWalker".equals(moduleName)) {
+                handleXmlConfig(testInputConfigBuilder, inputFilePath, module.getChildren());
+            }
+            else {
+                final ModuleInputConfiguration.Builder moduleInputConfigBuilder =
+                    new ModuleInputConfiguration.Builder();
+                setModuleName(moduleInputConfigBuilder, inputFilePath, moduleName);
+                setProperties(inputFilePath, module, moduleInputConfigBuilder);
+                testInputConfigBuilder.addChildModule(moduleInputConfigBuilder.build());
+            }
+        }
+    }
+
+    private static void handleKeyValueConfig(TestInputConfiguration.Builder testInputConfigBuilder,
+                                             String inputFilePath, List<String> lines)
+            throws CheckstyleException, IOException {
+        int lineNo = 0;
+        while (lineNo < lines.size()) {
             final ModuleInputConfiguration.Builder moduleInputConfigBuilder =
                     new ModuleInputConfiguration.Builder();
             setModuleName(moduleInputConfigBuilder, inputFilePath, lines.get(lineNo));
@@ -176,8 +260,10 @@ public final class InlineConfigParser {
             testInputConfigBuilder.addChildModule(moduleInputConfigBuilder.build());
             do {
                 lineNo++;
-            } while (lines.get(lineNo).isEmpty() || !lines.get(lineNo - 1).isEmpty());
-        } while (!lines.get(lineNo).startsWith("*/"));
+            } while (lineNo < lines.size()
+                    && lines.get(lineNo).isEmpty()
+                    || !lines.get(lineNo - 1).isEmpty());
+        }
     }
 
     private static String getFullyQualifiedClassName(String filePath, String moduleName)
@@ -298,6 +384,35 @@ public final class InlineConfigParser {
         }
     }
 
+    private static void setProperties(String inputFilePath, Configuration module,
+                                      ModuleInputConfiguration.Builder moduleInputConfigBuilder)
+            throws CheckstyleException {
+        final String[] getPropertyNames = module.getPropertyNames();
+        for (final String propertyName : getPropertyNames) {
+            final String propertyValue = module.getProperty(propertyName);
+
+            if ("file".equals(propertyName)) {
+                final String filePath = getResolvedPath(propertyValue, inputFilePath);
+                moduleInputConfigBuilder.addNonDefaultProperty(propertyName, filePath);
+            }
+            else {
+                if (NULL_STRING.equals(propertyValue)) {
+                    moduleInputConfigBuilder.addNonDefaultProperty(propertyName, null);
+                }
+                else {
+                    moduleInputConfigBuilder.addNonDefaultProperty(propertyName, propertyValue);
+                }
+            }
+        }
+
+        final Map<String, String> messages = module.getMessages();
+        for (final Map.Entry<String, String> entry : messages.entrySet()) {
+            final String key = entry.getKey();
+            final String value = entry.getValue();
+            moduleInputConfigBuilder.addModuleMessage(key, value);
+        }
+    }
+
     private static void setViolations(TestInputConfiguration.Builder inputConfigBuilder,
                                       List<String> lines, boolean useFilteredViolations)
             throws ClassNotFoundException, CheckstyleException {
@@ -326,6 +441,7 @@ public final class InlineConfigParser {
      */
     // -@cs[ExecutableStatementCount] splitting this method is not reasonable.
     // -@cs[JavaNCSS] splitting this method is not reasonable.
+    // -@cs[CyclomaticComplexity] splitting this method is not reasonable.
     private static void setViolations(TestInputConfiguration.Builder inputConfigBuilder,
                                       List<String> lines, boolean useFilteredViolations,
                                       int lineNo, boolean specifyViolationMessage)
@@ -336,6 +452,12 @@ public final class InlineConfigParser {
                 VIOLATION_ABOVE_PATTERN.matcher(lines.get(lineNo));
         final Matcher violationBelowMatcher =
                 VIOLATION_BELOW_PATTERN.matcher(lines.get(lineNo));
+        final Matcher violationAboveWithExplanationMatcher =
+                VIOLATION_ABOVE_WITH_EXPLANATION_PATTERN.matcher(lines.get(lineNo));
+        final Matcher violationBelowWithExplanationMatcher =
+                VIOLATION_BELOW_WITH_EXPLANATION_PATTERN.matcher(lines.get(lineNo));
+        final Matcher violationWithExplanationMatcher =
+                VIOLATION_WITH_EXPLANATION_PATTERN.matcher(lines.get(lineNo));
         final Matcher multipleViolationsMatcher =
                 MULTIPLE_VIOLATIONS_PATTERN.matcher(lines.get(lineNo));
         final Matcher multipleViolationsAboveMatcher =
@@ -361,6 +483,25 @@ public final class InlineConfigParser {
         else if (violationBelowMatcher.matches()) {
             final String violationMessage = violationBelowMatcher.group(1);
             final int violationLineNum = lineNo + 2;
+            checkWhetherViolationSpecified(specifyViolationMessage, violationMessage,
+                    violationLineNum);
+            inputConfigBuilder.addViolation(violationLineNum, violationMessage);
+        }
+        else if (violationAboveWithExplanationMatcher.matches()) {
+            final String violationMessage = violationAboveWithExplanationMatcher.group(1);
+            checkWhetherViolationSpecified(specifyViolationMessage, violationMessage, lineNo);
+            inputConfigBuilder.addViolation(lineNo, violationMessage);
+        }
+        else if (violationBelowWithExplanationMatcher.matches()) {
+            final String violationMessage = violationBelowWithExplanationMatcher.group(1);
+            final int violationLineNum = lineNo + 2;
+            checkWhetherViolationSpecified(specifyViolationMessage, violationMessage,
+                    violationLineNum);
+            inputConfigBuilder.addViolation(violationLineNum, violationMessage);
+        }
+        else if (violationWithExplanationMatcher.matches()) {
+            final String violationMessage = violationWithExplanationMatcher.group(1);
+            final int violationLineNum = lineNo + 1;
             checkWhetherViolationSpecified(specifyViolationMessage, violationMessage,
                     violationLineNum);
             inputConfigBuilder.addViolation(violationLineNum, violationMessage);

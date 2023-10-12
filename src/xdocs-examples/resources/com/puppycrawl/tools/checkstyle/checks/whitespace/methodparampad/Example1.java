@@ -1,13 +1,17 @@
-/*
-MethodParamPad
+/*xml
+<module name="Checker">
+  <module name="TreeWalker">
+    <module name="MethodParamPad"/>
+  </module>
+</module>
 
 
 */
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace.methodparampad;
 
+// xdoc section -- start
 class Example1 {
-  // xdoc section -- start
   public Example1() {
     super();
   }
@@ -20,5 +24,5 @@ class Example1 {
 
   public void methodWithVeryLongName
   () {} // violation ''(' should be on the previous line.'
-  // xdoc section -- end
 }
+// xdoc section -- end

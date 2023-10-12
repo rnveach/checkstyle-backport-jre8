@@ -217,6 +217,7 @@ public class SuppressWarningsCheck extends AbstractCheck {
      * being suppressed matching this pattern will be flagged.
      *
      * @param pattern the new pattern
+     * @since 5.0
      */
     public final void setFormat(Pattern pattern) {
         format = pattern;

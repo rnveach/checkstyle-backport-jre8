@@ -1,17 +1,22 @@
-/*
-AbbreviationAsWordInName
-allowedAbbreviationLength = 1
-allowedAbbreviations = CSV
-ignoreStatic = true
-tokens = VARIABLE_DEF
+/*xml
+<module name="Checker">
+  <module name="TreeWalker">
+    <module name="AbbreviationAsWordInName">
+      <property name="allowedAbbreviationLength" value="1"/>
+      <property name="allowedAbbreviations" value="CSV"/>
+      <property name="ignoreStatic" value="true"/>
+      <property name="tokens" value="VARIABLE_DEF"/>
+    </module>
+  </module>
+</module>
 
 
 */
 
 package com.puppycrawl.tools.checkstyle.checks.naming.abbreviationaswordinname;
 
+// xdoc section -- start
 class Example4 {
-  // xdoc section -- start
   int firstNum;
   int secondNUm;
   int secondMYNum; // violation 'no more than '2' consecutive capital letters'
@@ -21,5 +26,5 @@ class Example4 {
   String firstXML; // violation 'no more than '2' consecutive capital letters'
   final int TOTAL = 5;
   static final int LIMIT = 10;
-  // xdoc section -- end
 }
+// xdoc section -- end

@@ -1,13 +1,17 @@
-/*
-NoWhitespaceAfter
+/*xml
+<module name="Checker">
+  <module name="TreeWalker">
+    <module name="NoWhitespaceAfter"/>
+  </module>
+</module>
 
 
 */
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace.nowhitespaceafter;
 
+// xdoc section -- start
 class Example1 {
-  // xdoc section -- start
   public void lineBreak(String x) {
     Integer.
         parseInt(x);
@@ -28,5 +32,5 @@ class Example1 {
     a = ~ a; // violation ''~' is followed by whitespace'
     a = ~a;
   }
-  // xdoc section -- end
 }
+// xdoc section -- end

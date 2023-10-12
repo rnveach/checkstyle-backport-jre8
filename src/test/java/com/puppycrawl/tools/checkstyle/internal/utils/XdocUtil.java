@@ -60,7 +60,30 @@ public final class XdocUtil {
     public static Set<Path> getXdocsFilePaths() throws IOException {
         final Path directory = Paths.get(DIRECTORY_PATH);
         try (Stream<Path> stream = Files.find(directory, Integer.MAX_VALUE,
-                (path, attr) -> attr.isRegularFile() && path.toString().endsWith(".xml"))) {
+                (path, attr) -> {
+                    return attr.isRegularFile()
+                            && (path.toString().endsWith(".xml")
+                            || path.toString().endsWith(".xml.vm"));
+                })) {
+            return stream.collect(Collectors.toSet());
+        }
+    }
+
+    /**
+     * Gets xdocs template file paths. These are files ending with .xml.template.
+     * This module will be removed once
+     * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
+     *
+     * @return a set of xdocs template file paths.
+     * @throws IOException if an I/O error occurs.
+     */
+    public static Set<Path> getXdocsTemplatesFilePaths() throws IOException {
+        final Path directory = Paths.get(DIRECTORY_PATH);
+        try (Stream<Path> stream = Files.find(directory, Integer.MAX_VALUE,
+                (path, attr) -> {
+                    return attr.isRegularFile()
+                            && path.toString().endsWith(".xml.template");
+                })) {
             return stream.collect(Collectors.toSet());
         }
     }

@@ -2,15 +2,15 @@
 <checkstyle-metadata>
    <module>
       <check fully-qualified-name="com.puppycrawl.tools.checkstyle.checks.header.RegexpHeaderCheck"
-              name="RegexpHeader"
-              parent="com.puppycrawl.tools.checkstyle.Checker">
+             name="RegexpHeader"
+             parent="com.puppycrawl.tools.checkstyle.Checker">
          <description>&lt;p&gt;
  Checks the header of a source file against a header that contains a
  &lt;a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html"&gt;
  pattern&lt;/a&gt; for each line of the source header.
  &lt;/p&gt;
  &lt;p&gt;
- Rationale: In some projects &lt;a href="https://checkstyle.org/config_header.html#Header"&gt;
+ Rationale: In some projects &lt;a href="https://checkstyle.org/checks/header/header.html#Header"&gt;
  checking against a fixed header&lt;/a&gt; is not sufficient, e.g. the header might
  require a copyright line where the year information is not static.
  &lt;/p&gt;

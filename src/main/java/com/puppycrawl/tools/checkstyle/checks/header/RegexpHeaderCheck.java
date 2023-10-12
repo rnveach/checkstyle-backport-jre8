@@ -38,7 +38,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * pattern</a> for each line of the source header.
  * </p>
  * <p>
- * Rationale: In some projects <a href="https://checkstyle.org/config_header.html#Header">
+ * Rationale: In some projects <a href="https://checkstyle.org/checks/header/header.html#Header">
  * checking against a fixed header</a> is not sufficient, e.g. the header might
  * require a copyright line where the year information is not static.
  * </p>
@@ -242,6 +242,7 @@ public class RegexpHeaderCheck extends AbstractHeaderCheck {
      * Setter to specify the line numbers to repeat (zero or more times).
      *
      * @param list line numbers to repeat in header.
+     * @since 3.4
      */
     public void setMultiLines(int... list) {
         multiLines = TokenUtil.asBitSet(list);
@@ -363,6 +364,7 @@ public class RegexpHeaderCheck extends AbstractHeaderCheck {
      * Regular expressions must not span multiple lines.
      *
      * @param header the header value to validate and set (in that order)
+     * @since 5.0
      */
     @Override
     public void setHeader(String header) {

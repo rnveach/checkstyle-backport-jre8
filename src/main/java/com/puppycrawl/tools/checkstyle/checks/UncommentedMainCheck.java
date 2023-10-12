@@ -163,6 +163,7 @@ public class UncommentedMainCheck
      * to have a {@code main} method.
      *
      * @param excludedClasses a pattern
+     * @since 3.2
      */
     public void setExcludedClasses(Pattern excludedClasses) {
         this.excludedClasses = excludedClasses;
@@ -191,7 +192,6 @@ public class UncommentedMainCheck
     @Override
     public void beginTree(DetailAST rootAST) {
         packageName = FullIdent.createFullIdent(null);
-        currentClass = null;
         classDepth = 0;
     }
 

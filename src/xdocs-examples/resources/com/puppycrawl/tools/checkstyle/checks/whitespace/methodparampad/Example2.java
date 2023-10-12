@@ -1,16 +1,21 @@
-/*
-MethodParamPad
-allowLineBreaks = true
-option = space
-tokens = METHOD_DEF
+/*xml
+<module name="Checker">
+  <module name="TreeWalker">
+    <module name="MethodParamPad">
+      <property name="allowLineBreaks" value="true"/>
+      <property name="option" value="space"/>
+      <property name="tokens" value="METHOD_DEF"/>
+    </module>
+  </module>
+</module>
 
 
 */
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace.methodparampad;
 
+// xdoc section -- start
 class Example2 {
-  // xdoc section -- start
   public Example2() {
     super();
   }
@@ -23,5 +28,5 @@ class Example2 {
 
   public void methodWithVeryLongName
   () {} // OK, because allowLineBreaks is true
-  // xdoc section -- end
 }
+// xdoc section -- end

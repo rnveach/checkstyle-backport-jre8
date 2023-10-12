@@ -34,7 +34,8 @@ import com.puppycrawl.tools.checkstyle.utils.FilterUtil;
 /**
  * <p>
  * Filter {@code SuppressionXpathFilter} works as
- * <a href="https://checkstyle.org/config_filters.html#SuppressionFilter">SuppressionFilter</a>.
+ * <a href="https://checkstyle.org/filters/suppressionfilter.html#SuppressionFilter">
+ * SuppressionFilter</a>.
  * Additionally, filter processes {@code suppress-xpath} elements,
  * which contains xpath-expressions. Xpath-expressions are queries for
  * suppressed nodes inside the AST tree.
@@ -42,7 +43,7 @@ import com.puppycrawl.tools.checkstyle.utils.FilterUtil;
  * <p>
  * Currently, filter does not support the following checks:
  * </p>
- * <ul id="SuppressionXpathFilter_IncompatibleChecks">
+ * <ul id="IncompatibleChecks">
  * <li>
  * NoCodeInFile (reason is that AST is not generated for a file not containing code)
  * </li>
@@ -58,7 +59,7 @@ import com.puppycrawl.tools.checkstyle.utils.FilterUtil;
  * <p>
  * Also, the filter does not support suppressions inside javadoc reported by Javadoc checks:
  * </p>
- * <ul id="SuppressionXpathFilter_JavadocChecks">
+ * <ul id="JavadocChecks">
  * <li>
  * AtclauseOrder
  * </li>
@@ -524,6 +525,7 @@ public class SuppressionXpathFilter extends AbstractAutomaticBean implements
      * Setter to specify the location of the <em>suppressions XML document</em> file.
      *
      * @param fileName name of the suppressions file.
+     * @since 8.6
      */
     public void setFile(String fileName) {
         file = fileName;
@@ -536,6 +538,7 @@ public class SuppressionXpathFilter extends AbstractAutomaticBean implements
      * the filter accepts all audit events.
      *
      * @param optional tells if config file existence is optional.
+     * @since 8.6
      */
     public void setOptional(boolean optional) {
         this.optional = optional;

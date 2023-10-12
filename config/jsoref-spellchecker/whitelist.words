@@ -32,6 +32,7 @@ androidx
 annotationlocation
 annotationonsameline
 annotationusestyle
+annotationutil
 anoninner
 anoninnerlength
 antfile
@@ -335,6 +336,7 @@ Dorekit
 Dorg
 DOTALL
 doubletag
+doxia
 Dpi
 Dpmd
 Dpom
@@ -381,6 +383,7 @@ emptystatement
 emptytag
 Emtpy
 endline
+ENMI
 ent
 enum
 eol
@@ -555,6 +558,7 @@ html
 HTMLJS
 htmlunit
 http
+httpcomponents
 hurz
 hyperlinks
 iae
@@ -867,6 +871,7 @@ myproject
 Mysql
 mytag
 NAMEFILE
+nameofaffectedcheck
 namespace
 Nanos
 navcolumn
@@ -1014,6 +1019,7 @@ parameternumber
 paramnum
 Parcelable
 parenpad
+PARM
 parrt
 parsetreetablepresentation
 Passembly
@@ -1312,6 +1318,7 @@ Thymeleaf
 tidelift
 TKN
 tmp
+tmpdir
 tngtech
 toc
 todo

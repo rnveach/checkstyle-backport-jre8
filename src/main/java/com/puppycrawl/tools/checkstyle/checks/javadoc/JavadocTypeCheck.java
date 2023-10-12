@@ -512,6 +512,7 @@ public class JavadocTypeCheck
      * Setter to specify the visibility scope where Javadoc comments are checked.
      *
      * @param scope a scope.
+     * @since 3.0
      */
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -521,6 +522,7 @@ public class JavadocTypeCheck
      * Setter to specify the visibility scope where Javadoc comments are not checked.
      *
      * @param excludeScope a scope.
+     * @since 3.4
      */
     public void setExcludeScope(Scope excludeScope) {
         this.excludeScope = excludeScope;
@@ -530,6 +532,7 @@ public class JavadocTypeCheck
      * Setter to specify the pattern for {@code @author} tag.
      *
      * @param pattern a pattern.
+     * @since 3.0
      */
     public void setAuthorFormat(Pattern pattern) {
         authorFormat = pattern;
@@ -539,6 +542,7 @@ public class JavadocTypeCheck
      * Setter to specify the pattern for {@code @version} tag.
      *
      * @param pattern a pattern.
+     * @since 3.0
      */
     public void setVersionFormat(Pattern pattern) {
         versionFormat = pattern;
@@ -549,6 +553,7 @@ public class JavadocTypeCheck
      * does not have matching param tags in the Javadoc.
      *
      * @param flag a {@code Boolean} value
+     * @since 4.0
      */
     public void setAllowMissingParamTags(boolean flag) {
         allowMissingParamTags = flag;
@@ -558,6 +563,7 @@ public class JavadocTypeCheck
      * Setter to control whether to ignore violations when a Javadoc tag is not recognised.
      *
      * @param flag a {@code Boolean} value
+     * @since 5.1
      */
     public void setAllowUnknownTags(boolean flag) {
         allowUnknownTags = flag;
@@ -568,6 +574,7 @@ public class JavadocTypeCheck
      * Only short names are allowed, e.g. {@code Generated}.
      *
      * @param userAnnotations user's value.
+     * @since 8.15
      */
     public void setAllowedAnnotations(String... userAnnotations) {
         allowedAnnotations = Collections

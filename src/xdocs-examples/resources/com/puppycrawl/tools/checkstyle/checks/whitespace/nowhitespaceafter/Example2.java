@@ -1,15 +1,20 @@
-/*
-NoWhitespaceAfter
-allowLineBreaks = false
-tokens = DOT
+/*xml
+<module name="Checker">
+  <module name="TreeWalker">
+    <module name="NoWhitespaceAfter">
+      <property name="allowLineBreaks" value="false"/>
+      <property name="tokens" value="DOT"/>
+    </module>
+  </module>
+</module>
 
 
 */
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace.nowhitespaceafter;
 
+// xdoc section -- start
 class Example2 {
-  // xdoc section -- start
   public void lineBreak(String x) {
     Integer.
         parseInt(x); // violation above ''.' is followed by whitespace'
@@ -30,5 +35,5 @@ class Example2 {
     a = ~ a;
     a = ~a;
   }
-  // xdoc section -- end
 }
+// xdoc section -- end

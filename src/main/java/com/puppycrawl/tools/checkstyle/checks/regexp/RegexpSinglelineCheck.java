@@ -218,7 +218,6 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
     public void beginProcessing(String charset) {
         final DetectorOptions options = DetectorOptions.newBuilder()
             .reporter(this)
-            .compileFlags(0)
             .format(format)
             .message(message)
             .minimum(minimum)
@@ -237,6 +236,7 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
      * Setter to specify the format of the regular expression to match.
      *
      * @param format the format of the regular expression to match.
+     * @since 5.0
      */
     public void setFormat(String format) {
         this.format = format;
@@ -247,6 +247,7 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
      * if empty then default (hard-coded) message is used.
      *
      * @param message the message to report for a match.
+     * @since 5.0
      */
     public void setMessage(String message) {
         this.message = message;
@@ -256,6 +257,7 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
      * Setter to specify the minimum number of matches required in each file.
      *
      * @param minimum the minimum number of matches required in each file.
+     * @since 5.0
      */
     public void setMinimum(int minimum) {
         this.minimum = minimum;
@@ -265,6 +267,7 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
      * Setter to specify the maximum number of matches required in each file.
      *
      * @param maximum the maximum number of matches required in each file.
+     * @since 5.0
      */
     public void setMaximum(int maximum) {
         this.maximum = maximum;
@@ -274,6 +277,7 @@ public class RegexpSinglelineCheck extends AbstractFileSetCheck {
      * Setter to control whether to ignore case when searching.
      *
      * @param ignoreCase whether to ignore case when searching.
+     * @since 5.0
      */
     public void setIgnoreCase(boolean ignoreCase) {
         this.ignoreCase = ignoreCase;

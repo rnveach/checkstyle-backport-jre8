@@ -619,6 +619,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * Setter to control whether to validate {@code throws} tags.
      *
      * @param value user's value.
+     * @since 6.0
      */
     public void setValidateThrows(boolean value) {
         validateThrows = value;
@@ -628,6 +629,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * Setter to specify annotations that allow missed documentation.
      *
      * @param userAnnotations user's value.
+     * @since 6.0
      */
     public void setAllowedAnnotations(String... userAnnotations) {
         allowedAnnotations = Collections
@@ -638,6 +640,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * Setter to specify the access modifiers where Javadoc comments are checked.
      *
      * @param accessModifiers access modifiers.
+     * @since 8.42
      */
     public void setAccessModifiers(AccessModifierOption... accessModifiers) {
         this.accessModifiers =
@@ -649,6 +652,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * but does not have matching {@code param} tags in the javadoc.
      *
      * @param flag a {@code Boolean} value
+     * @since 3.1
      */
     public void setAllowMissingParamTags(boolean flag) {
         allowMissingParamTags = flag;
@@ -659,6 +663,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * and does not have a {@code return} tag in the javadoc.
      *
      * @param flag a {@code Boolean} value
+     * @since 3.1
      */
     public void setAllowMissingReturnTag(boolean flag) {
         allowMissingReturnTag = flag;

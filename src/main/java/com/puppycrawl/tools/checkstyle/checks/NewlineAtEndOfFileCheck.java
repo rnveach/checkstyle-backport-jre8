@@ -205,6 +205,7 @@ public class NewlineAtEndOfFileCheck
      * @param lineSeparatorParam The line separator to set
      * @throws IllegalArgumentException If the specified line separator is not
      *         one of 'crlf', 'lf', 'cr', 'lf_cr_crlf' or 'system'
+     * @since 3.1
      */
     public void setLineSeparator(String lineSeparatorParam) {
         lineSeparator =
@@ -224,10 +225,10 @@ public class NewlineAtEndOfFileCheck
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r")) {
             if (lineSeparator == LineSeparatorOption.LF
                     && endsWithNewline(randomAccessFile, LineSeparatorOption.CRLF)) {
-                log(1, MSG_KEY_WRONG_ENDING, file.getPath());
+                log(1, MSG_KEY_WRONG_ENDING);
             }
             else if (!endsWithNewline(randomAccessFile, lineSeparator)) {
-                log(1, MSG_KEY_NO_NEWLINE_EOF, file.getPath());
+                log(1, MSG_KEY_NO_NEWLINE_EOF);
             }
         }
     }

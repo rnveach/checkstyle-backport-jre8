@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
@@ -51,6 +50,7 @@ import com.puppycrawl.tools.checkstyle.api.FileText;
 import com.puppycrawl.tools.checkstyle.api.MessageDispatcher;
 import com.puppycrawl.tools.checkstyle.api.Violation;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
+import com.puppycrawl.tools.checkstyle.utils.UnmodifiableCollectionUtil;
 
 /**
  * <p>
@@ -329,6 +329,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * It helps the check to distinguish config and localization resources.
      *
      * @param baseName base name regexp.
+     * @since 6.17
      */
     public void setBaseName(Pattern baseName) {
         this.baseName = baseName;
@@ -338,6 +339,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
      * Setter to specify language codes of required translations which must exist in project.
      *
      * @param translationCodes language codes.
+     * @since 6.11
      */
     public void setRequiredTranslations(String... translationCodes) {
         requiredTranslations = Arrays.stream(translationCodes).collect(Collectors.toSet());
@@ -731,7 +733,7 @@ public class TranslationCheck extends AbstractFileSetCheck {
          * @return the set of files
          */
         public Set<File> getFiles() {
-            return Collections.unmodifiableSet(files);
+            return UnmodifiableCollectionUtil.unmodifiableSet(files);
         }
 
         /**

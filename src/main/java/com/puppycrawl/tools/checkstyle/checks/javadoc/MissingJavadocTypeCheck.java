@@ -210,6 +210,7 @@ public class MissingJavadocTypeCheck extends AbstractCheck {
      * Setter to specify the visibility scope where Javadoc comments are checked.
      *
      * @param scope a scope.
+     * @since 8.20
      */
     public void setScope(Scope scope) {
         this.scope = scope;
@@ -219,6 +220,7 @@ public class MissingJavadocTypeCheck extends AbstractCheck {
      * Setter to specify the visibility scope where Javadoc comments are not checked.
      *
      * @param excludeScope a scope.
+     * @since 8.20
      */
     public void setExcludeScope(Scope excludeScope) {
         this.excludeScope = excludeScope;
@@ -230,6 +232,7 @@ public class MissingJavadocTypeCheck extends AbstractCheck {
      * name, all forms should be listed in this property.
      *
      * @param userAnnotations user's value.
+     * @since 8.20
      */
     public void setSkipAnnotations(String... userAnnotations) {
         skipAnnotations = Collections

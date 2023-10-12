@@ -57,6 +57,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -77,11 +78,19 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
 import com.puppycrawl.tools.checkstyle.internal.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
+import com.puppycrawl.tools.checkstyle.internal.utils.XdocGenerator;
 import com.puppycrawl.tools.checkstyle.internal.utils.XdocUtil;
 import com.puppycrawl.tools.checkstyle.internal.utils.XmlUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 
+/**
+ * Generates xdocs pages from templates and performs validations.
+ * Before running this test, the following commands have to be executed:
+ * - mvn clean compile - Required for next command
+ * - mvn plexus-component-metadata:generate-metadata - Required to find custom macros and parser
+ */
 public class XdocsPagesTest {
+    private static final Path SITE_PATH = Paths.get("src/site/site.xml");
 
     private static final Path AVAILABLE_CHECKS_PATH = Paths.get("src/xdocs/checks.xml");
     private static final String LINK_TEMPLATE =
@@ -143,14 +152,8 @@ public class XdocsPagesTest {
             // loads string into memory similar to file
             "Header.header",
             "RegexpHeader.header",
-            // deprecated fields
-            "JavadocMethod.minLineCount",
-            "JavadocMethod.allowMissingJavadoc",
-            "JavadocMethod.allowMissingPropertyJavadoc",
-            "JavadocMethod.ignoreMethodNamesRegex",
-            "JavadocMethod.logLoadErrors",
-            "JavadocMethod.suppressLoadErrors",
-            "MissingDeprecated.skipNoJavadoc",
+            // until https://github.com/checkstyle/checkstyle/issues/13376
+            "CustomImportOrder.customImportOrderRules",
         }).collect(Collectors.toSet()));
 
     private static final Set<String> SUN_MODULES = Collections.unmodifiableSet(
@@ -223,8 +226,21 @@ public class XdocsPagesTest {
             "WhitespaceAfter",
             "WhitespaceAround",
         }).collect(Collectors.toSet()));
+
     private static final Set<String> GOOGLE_MODULES = Collections.unmodifiableSet(
         CheckUtil.getConfigGoogleStyleModules());
+
+    /**
+     * Generate xdoc content from templates before validation.
+     * This method will be removed once
+     * <a href="https://github.com/checkstyle/checkstyle/issues/13426">#13426</a> is resolved.
+     *
+     * @throws Exception if something goes wrong
+     */
+    @BeforeAll
+    public static void generateXdocContent() throws Exception {
+        XdocGenerator.generateXdocContent();
+    }
 
     @Test
     public void testAllChecksPresentOnAvailableChecksPage() throws Exception {
@@ -245,6 +261,22 @@ public class XdocsPagesTest {
     private static boolean isPresent(String availableChecks, String checkName) {
         final String linkPattern = String.format(Locale.ROOT, LINK_TEMPLATE, checkName);
         return availableChecks.matches(linkPattern);
+    }
+
+    @Test
+    public void testAllConfigsHaveLinkInSite() throws Exception {
+        final String siteContent = new String(Files.readAllBytes(SITE_PATH), UTF_8);
+
+        for (Path path : XdocUtil.getXdocsConfigFilePaths(XdocUtil.getXdocsFilePaths())) {
+            final String expectedFile = path.toString()
+                    .replace(".xml", ".html")
+                    .replaceAll("\\\\", "/")
+                    .replaceAll("src[\\\\/]xdocs[\\\\/]", "");
+            final String expectedLink = String.format(Locale.ROOT, "href=\"%s\"", expectedFile);
+            assertWithMessage("Expected to find link to '" + expectedLink + "' in " + SITE_PATH)
+                    .that(siteContent)
+                    .contains(expectedLink);
+        }
     }
 
     @Test
@@ -420,7 +452,9 @@ public class XdocsPagesTest {
 
                 // can't test ant structure, or old and outdated checks
                 assertWithMessage("Xml is invalid, old or has outdated structure")
-                        .that(fileName.startsWith("anttask") || fileName.startsWith("releasenotes")
+                        .that(fileName.startsWith("anttask")
+                                || fileName.startsWith("releasenotes")
+                                || fileName.startsWith("writingjavadocchecks")
                                 || isValidCheckstyleXml(fileName, code, unserializedSource))
                         .isTrue();
             }
@@ -505,10 +539,13 @@ public class XdocsPagesTest {
 
     @Test
     public void testAllCheckSections() throws Exception {
+        final ModuleFactory moduleFactory = TestUtil.getPackageObjectFactory();
+
         for (Path path : XdocUtil.getXdocsConfigFilePaths(XdocUtil.getXdocsFilePaths())) {
             final String fileName = path.getFileName().toString();
 
-            if ("config_system_properties.xml".equals(fileName)) {
+            if ("config_system_properties.xml".equals(fileName)
+                    || "index.xml".equals(fileName)) {
                 continue;
             }
 
@@ -539,6 +576,8 @@ public class XdocsPagesTest {
                                             lastSectionName.toLowerCase(Locale.ENGLISH)) >= 0)
                                     .isTrue();
                 }
+
+                validateCheckSection(moduleFactory, fileName, sectionName, section);
 
                 lastSectionName = sectionName;
             }
@@ -1374,10 +1413,14 @@ public class XdocsPagesTest {
                 .isEqualTo("");
         }
         else {
+            final String subsectionTextContent = subSection.getTextContent()
+                    .replaceAll("\n\\s+", "\n")
+                    .replaceAll("\\s+", " ")
+                    .trim();
             assertWithMessage(fileName + " section '" + sectionName
                             + "' should have the expected error keys")
-                .that(subSection.getTextContent().replaceAll("\n\\s+", "\n").trim())
-                .isEqualTo(expectedText.toString().trim());
+                .that(subsectionTextContent)
+                .isEqualTo(expectedText.toString().replaceAll("\n", " ").trim());
 
             for (Node node : XmlUtil.findChildElementsByTag(subSection, "a")) {
                 final String url = node.getAttributes().getNamedItem("href").getTextContent();
@@ -1385,7 +1428,7 @@ public class XdocsPagesTest {
                 final String expectedUrl;
 
                 if ("see the documentation".equals(linkText)) {
-                    expectedUrl = "config.html#Custom_messages";
+                    expectedUrl = "../../config.html#Custom_messages";
                 }
                 else {
                     expectedUrl = "https://github.com/search?q="

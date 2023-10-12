@@ -51,7 +51,8 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * Attention: This filter may only be specified within the TreeWalker module
  * ({@code &lt;module name="TreeWalker"/&gt;}) and only applies to checks which are also
  * defined within this module. To filter non-TreeWalker checks like {@code RegexpSingleline},
- * a <a href="https://checkstyle.org/config_filters.html#SuppressWithPlainTextCommentFilter">
+ * a
+ * <a href="https://checkstyle.org/filters/suppresswithplaintextcommentfilter.html#SuppressWithPlainTextCommentFilter">
  * SuppressWithPlainTextCommentFilter</a> or similar filter must be used.
  * </p>
  * <p>
@@ -318,6 +319,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to specify comment pattern to trigger filter to begin suppression.
      *
      * @param pattern a pattern.
+     * @since 5.0
      */
     public final void setCommentFormat(Pattern pattern) {
         commentFormat = pattern;
@@ -347,6 +349,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to specify check pattern to suppress.
      *
      * @param format a {@code String} value
+     * @since 5.0
      */
     public final void setCheckFormat(String format) {
         checkFormat = format;
@@ -356,6 +359,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to define message pattern to suppress.
      *
      * @param format a {@code String} value
+     * @since 5.0
      */
     public void setMessageFormat(String format) {
         messageFormat = format;
@@ -365,6 +369,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to specify check ID pattern to suppress.
      *
      * @param format a {@code String} value
+     * @since 8.24
      */
     public void setIdFormat(String format) {
         idFormat = format;
@@ -375,6 +380,7 @@ public class SuppressWithNearbyCommentFilter
      * of lines preceding/at/following the suppression comment.
      *
      * @param format a {@code String} value
+     * @since 5.0
      */
     public final void setInfluenceFormat(String format) {
         influenceFormat = format;
@@ -384,6 +390,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to control whether to check C++ style comments ({@code //}).
      *
      * @param checkCpp {@code true} if C++ comments are checked.
+     * @since 5.0
      */
     // -@cs[AbbreviationAsWordInName] We can not change it as,
     // check's property is a part of API (used in configurations).
@@ -395,6 +402,7 @@ public class SuppressWithNearbyCommentFilter
      * Setter to control whether to check C style comments ({@code &#47;* ... *&#47;}).
      *
      * @param checkC {@code true} if C comments are checked.
+     * @since 5.0
      */
     public void setCheckC(boolean checkC) {
         this.checkC = checkC;
