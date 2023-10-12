@@ -749,4 +749,46 @@ public class JavadocStyleCheckTest
                 getPath("InputJavadocStyleDefault4.java"),
                 expected);
     }
+
+    @Test
+    public void testJavadocTag2() throws Exception {
+        final String[] expected = {
+            "16: " + getCheckMessage(MSG_NO_PERIOD),
+            "18:16: " + getCheckMessage(MSG_UNCLOSED_HTML,
+                    "<AREA ALT=\"alt\" Coordination=\"100,0,200,50\" HREF=\"/href/\"> <"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocStyleCheck1.java"),
+                expected);
+    }
+
+    @Test
+    public void testJavadocTag3() throws Exception {
+        final String[] expected = {
+            "21:4: " + getCheckMessage(MSG_EXTRA_HTML, "</body>"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocStyleCheck2.java"),
+                expected);
+    }
+
+    @Test
+    public void testJavadocStyleCheck3() throws Exception {
+        final String[] expected = {
+            "11: " + getCheckMessage(MSG_NO_PERIOD),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocStyleCheck3.java"),
+                expected);
+    }
+
+    @Test
+    public void testJavadocStyleCheck4() throws Exception {
+        final String[] expected = {
+            "12: " + getCheckMessage(MSG_NO_PERIOD),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocStyleCheck5.java"),
+                expected);
+    }
 }

@@ -31,13 +31,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="AvoidDoubleBraceInitialization"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;AvoidDoubleBraceInitialization&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Which results in the following violations:
         </p>
         <source>
@@ -51,12 +55,12 @@ class MyClass {
         ;
         // comments and semicolons are ignored
         {
-            add("foo");
+            add(&quot;foo&quot;);
         }
     };
 }
         </source>
-        <p>
+        <p id="Example2-code">
           Check only looks for double brace initialization and it ignores cases
           where the anonymous class has fields or methods.
           Though these might create the same memory issues as double brace,
@@ -87,7 +91,8 @@ class MyClass {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22avoid.double.brace.init%22">
-              avoid.double.brace.init</a>
+              avoid.double.brace.init
+            </a>
           </li>
         </ul>
         <p>

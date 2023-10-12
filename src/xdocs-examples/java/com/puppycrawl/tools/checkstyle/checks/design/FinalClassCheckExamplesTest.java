@@ -19,29 +19,25 @@
 
 package com.puppycrawl.tools.checkstyle.checks.design;
 
-import org.junit.jupiter.api.Disabled;
+import static com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck.MSG_KEY;
+
 import org.junit.jupiter.api.Test;
 
-import com.puppycrawl.tools.checkstyle.AbstractModuleTestSupport;
+import com.puppycrawl.tools.checkstyle.AbstractExamplesModuleTestSupport;
 
-@Disabled("until https://github.com/checkstyle/checkstyle/issues/13345")
-public class FinalClassCheckExamplesTest extends AbstractModuleTestSupport {
+public class FinalClassCheckExamplesTest extends AbstractExamplesModuleTestSupport {
     @Override
     protected String getPackageLocation() {
-        return "xdocs-examples";
-    }
-
-    @Override
-    protected String getResourceLocation() {
         return "com/puppycrawl/tools/checkstyle/checks/design/finalclass";
     }
 
     @Test
     public void testExample1() throws Exception {
         final String[] expected = {
-
+            "14:1: " + getCheckMessage(MSG_KEY, "A"),
+            "41:3: " + getCheckMessage(MSG_KEY, "Class2"),
         };
 
-        verifyWithInlineConfigParser(getPath("Example1.txt"), expected);
+        verifyWithInlineConfigParser(getPath("Example1.java"), expected);
     }
 }

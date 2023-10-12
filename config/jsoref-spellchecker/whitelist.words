@@ -19,8 +19,6 @@ actionlint
 addons
 adf
 admins
-adoptium
-adoptopenjdk
 adr
 AFilter
 aggregators
@@ -56,8 +54,6 @@ Arquillian
 arraycopy
 arraytrailingcomma
 arraytypestyle
-artifactory
-asc
 asda
 ASF
 Aspectj
@@ -228,7 +224,6 @@ codeclimate
 codeconventions
 codecov
 codehaus
-codename
 codenarc
 codeql
 codeselectorpresentation
@@ -305,7 +300,6 @@ designforextension
 destfile
 Destructuring
 detailast
-detailastimpl
 detailnodetreestringprinter
 devops
 Dexec
@@ -549,7 +543,6 @@ hne
 homepage
 horizontalwhitespace
 Hostname
-hotspot
 href
 htaccess
 htag
@@ -742,7 +735,6 @@ kclee
 KDoc
 keygen
 keyname
-keyrings
 keyscan
 konstantinos
 Kordas
@@ -782,7 +774,6 @@ lombok
 lookaround
 Loughran
 lparen
-lsb
 lucene
 lui
 luiframework
@@ -865,7 +856,6 @@ mycompany
 mycompanychecks
 mycustom
 myfile
-MYN
 myname
 myproject
 Mysql
@@ -1195,7 +1185,6 @@ sickboy
 Simplifiable
 simplifybooleanexpression
 simplifybooleanreturn
-simplifystartswith
 singleline
 singlelined
 singlelinejavadoc

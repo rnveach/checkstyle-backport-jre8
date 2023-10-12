@@ -24,6 +24,7 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck
 import static com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck.MSG_MULTIPLE;
 import static com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck.MSG_KEY;
 import static com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck.MSG_EXPECTED_TAG;
+import static com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck.MSG_JAVADOC_MISSING;
 import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.findTokenInAstByPredicate;
 import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.isUtilsClassHasPrivateConstructor;
 
@@ -45,6 +46,7 @@ import com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck;
 import com.puppycrawl.tools.checkstyle.checks.coding.MultipleVariableDeclarationsCheck;
 import com.puppycrawl.tools.checkstyle.checks.coding.NestedIfDepthCheck;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck;
+import com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
 
 public class CheckUtilTest extends AbstractModuleTestSupport {
@@ -67,47 +69,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
         assertWithMessage("Invalid parse result")
             .that(parsedDouble)
             .isEqualTo(Double.NaN);
-    }
-
-    @Test
-    public void testElseWithCurly() {
-        final DetailAstImpl ast = new DetailAstImpl();
-        ast.setType(TokenTypes.ASSIGN);
-        ast.setText("ASSIGN");
-        assertWithMessage("Invalid elseIf check result 'ASSIGN' is not 'else if'")
-                .that(CheckUtil.isElseIf(ast))
-                .isFalse();
-
-        final DetailAstImpl parentAst = new DetailAstImpl();
-        parentAst.setType(TokenTypes.LCURLY);
-        parentAst.setText("LCURLY");
-
-        final DetailAstImpl ifAst = new DetailAstImpl();
-        ifAst.setType(TokenTypes.LITERAL_IF);
-        ifAst.setText("IF");
-        parentAst.addChild(ifAst);
-
-        assertWithMessage("Invalid elseIf check result: 'IF' is not 'else if'")
-                .that(CheckUtil.isElseIf(ifAst))
-                .isFalse();
-
-        final DetailAstImpl parentAst2 = new DetailAstImpl();
-        parentAst2.setType(TokenTypes.SLIST);
-        parentAst2.setText("SLIST");
-
-        parentAst2.addChild(ifAst);
-
-        assertWithMessage("Invalid elseIf check result: 'SLIST' is not 'else if'")
-                .that(CheckUtil.isElseIf(ifAst))
-                .isFalse();
-
-        final DetailAstImpl elseAst = new DetailAstImpl();
-        elseAst.setType(TokenTypes.LITERAL_ELSE);
-
-        elseAst.setFirstChild(ifAst);
-        assertWithMessage("Invalid elseIf check result")
-                .that(CheckUtil.isElseIf(ifAst))
-                .isTrue();
     }
 
     @Test
@@ -208,27 +169,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
                 .isTrue();
         assertWithMessage("Invalid result: AST provided is equals method")
                 .that(CheckUtil.isEqualsMethod(someOtherMethod))
-                .isFalse();
-    }
-
-    @Test
-    public void testIsElseIf() throws Exception {
-        final DetailAST targetMethodNode = getNodeFromFile(TokenTypes.METHOD_DEF).getNextSibling();
-        final DetailAST firstElseNode = getNode(targetMethodNode, TokenTypes.LITERAL_ELSE);
-        final DetailAST ifElseWithCurlyBraces = firstElseNode.getFirstChild().getFirstChild();
-        final DetailAST ifElse = getNode(firstElseNode.getParent().getNextSibling(),
-                TokenTypes.LITERAL_ELSE).getFirstChild();
-        final DetailAST ifWithoutElse =
-                firstElseNode.getParent().getNextSibling().getNextSibling();
-
-        assertWithMessage("Invalid result: AST provided is not else if with curly")
-                .that(CheckUtil.isElseIf(ifElseWithCurlyBraces))
-                .isTrue();
-        assertWithMessage("Invalid result: AST provided is not else if with curly")
-                .that(CheckUtil.isElseIf(ifElse))
-                .isTrue();
-        assertWithMessage("Invalid result: AST provided is else if with curly")
-                .that(CheckUtil.isElseIf(ifWithoutElse))
                 .isFalse();
     }
 
@@ -361,24 +301,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
     }
 
     @Test
-    public void testIsReceiverParameter() throws Exception {
-        final DetailAST objBlock = getNodeFromFile(TokenTypes.OBJBLOCK);
-        final DetailAST methodWithReceiverParameter = objBlock.getLastChild().getPreviousSibling()
-                .getPreviousSibling();
-        final DetailAST receiverParameter =
-                getNode(methodWithReceiverParameter, TokenTypes.PARAMETER_DEF);
-        final DetailAST simpleParameter =
-                receiverParameter.getNextSibling().getNextSibling();
-
-        assertWithMessage("Invalid result: parameter provided is receiver parameter")
-                .that(CheckUtil.isReceiverParameter(receiverParameter))
-                .isTrue();
-        assertWithMessage("Invalid result: parameter provided is not receiver parameter")
-                .that(CheckUtil.isReceiverParameter(simpleParameter))
-                .isFalse();
-    }
-
-    @Test
     public void testParseDoubleFloatingPointValues() {
         assertWithMessage("Invalid parse result")
             .that(CheckUtil.parseDouble("-0.05f", TokenTypes.NUM_FLOAT))
@@ -498,6 +420,39 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
         };
         verifyWithInlineConfigParser(
                 getPath("InputCheckUtil5.java"), expected);
+    }
+
+    @Test
+    public void testSetterGetterOn() throws Exception {
+        final String[] expected = {
+            "20:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+                    MSG_JAVADOC_MISSING),
+            "24:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+                    MSG_JAVADOC_MISSING),
+            "29:5: " + getCheckMessage(MissingJavadocMethodCheck.class,
+                    MSG_JAVADOC_MISSING),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputCheckUtil9.java"), expected);
+    }
+
+    @Test
+    public void missingJavadoc() throws Exception {
+        final String[] expected = {
+            "13:5: " + getCheckMessage(MissingJavadocMethodCheck.class, MSG_JAVADOC_MISSING),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputCheckUtil1.java"), expected);
+    }
+
+    @Test
+    public void testJavadoc() throws Exception {
+        final String[] expected = {
+            "25:39: " + getCheckMessage(JavadocMethodCheck.class,
+                  MSG_EXPECTED_TAG, "@param", "i"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputCheckUtil7.java"), expected);
     }
 
     private DetailAST getNodeFromFile(int type) throws Exception {

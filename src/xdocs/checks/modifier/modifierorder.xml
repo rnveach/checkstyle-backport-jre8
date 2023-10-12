@@ -12,7 +12,7 @@
         <p>
           Checks that the order of modifiers conforms to the suggestions in
           the <a href="https://docs.oracle.com/javase/specs/jls/se16/preview/specs/sealed-classes-jls.html">Java
-          Language specification, § 8.1.1, 8.3.1, 8.4.3</a> and
+          Language specification, &#xa7; 8.1.1, 8.3.1, 8.4.3</a> and
           <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-9.html">
           9.4</a>. The correct order is:
         </p>
@@ -76,9 +76,13 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p> To configure the check: </p>
+        <p id="Example1-config"> To configure the check: </p>
         <source>
-&lt;module name="ModifierOrder"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ModifierOrder&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
       </subsection>
 
@@ -103,11 +107,13 @@
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmodifier%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22annotation.order%22">
-            annotation.order</a>
+              annotation.order
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmodifier%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22mod.order%22">
-            mod.order</a>
+              mod.order
+            </a>
           </li>
         </ul>
         <p>

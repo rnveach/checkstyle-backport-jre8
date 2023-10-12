@@ -42,19 +42,27 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check to accept 1 outer type per file:
         </p>
         <source>
-&lt;module name="OuterTypeNumber"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;OuterTypeNumber&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example2-config">
           To configure the check to accept 2 outer types per file:
         </p>
         <source>
-&lt;module name="OuterTypeNumber"&gt;
-  &lt;property name="max" value="2"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;OuterTypeNumber&quot;&gt;
+      &lt;property name=&quot;max&quot; value=&quot;2&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
@@ -73,7 +81,8 @@
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fsizes%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22maxOuterTypes%22">
-            maxOuterTypes</a>
+              maxOuterTypes
+            </a>
           </li>
         </ul>
         <p>

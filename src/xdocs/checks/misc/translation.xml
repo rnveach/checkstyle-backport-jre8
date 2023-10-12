@@ -56,13 +56,13 @@ messages.properties: Key 'ok' missing.
         </p>
         <p>
           Attention: the check will perform the validation of ISO codes if the option
-          is used. So, if you specify, for example, "mm" for language code, TranslationCheck
+          is used. So, if you specify, for example, &quot;mm&quot; for language code, TranslationCheck
           will rise violation that the language code is incorrect.
         </p>
         <p>
           Attention: this Check could produce false-positives if it
           is used with <a href="../../config.html#Checker">Checker</a> that use cache (property
-          "cacheFile") This is known design problem, will be addressed at
+          &quot;cacheFile&quot;) This is known design problem, will be addressed at
           <a href="https://github.com/checkstyle/checkstyle/issues/3539">issue</a>.
         </p>
       </subsection>
@@ -97,7 +97,7 @@ messages.properties: Key 'ok' missing.
                 the check to distinguish config and localization resources.
               </td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^messages.*$"</code></td>
+              <td><code>&quot;^messages.*$&quot;</code></td>
               <td>6.17</td>
             </tr>
             <tr>
@@ -118,17 +118,19 @@ messages.properties: Key 'ok' missing.
           Note, that files with the same path and base name but which have different
           extensions will be considered as files that belong to different resource bundles.
         </p>
-        <p>
+        <p id="Example1-config">
           To configure the check to check only files which have '.properties' and '.translations'
           extensions:
         </p>
         <source>
-&lt;module name="Translation"&gt;
-  &lt;property name="fileExtensions" value="properties, translations"/&gt;
-  &lt;property name="requiredTranslations" value="fr"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;Translation&quot;&gt;
+    &lt;property name=&quot;fileExtensions&quot; value=&quot;properties, translations&quot;/&gt;
+    &lt;property name=&quot;requiredTranslations&quot; value=&quot;fr&quot;/&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -144,17 +146,19 @@ ok=OK
 messages.properties: Properties file 'messages_fr.properties' is missing.
 messages.translations: Properties file 'messages_fr.translations' is missing.
         </source>
-        <p>
+        <p id="Example2-config">
           An example of how to configure the check to validate only bundles which base names
-          start with "ButtonLabels":
+          start with &quot;ButtonLabels&quot;:
         </p>
         <source>
-&lt;module name="Translation"&gt;
-  &lt;property name="baseName" value="^ButtonLabels.*$"/&gt;
-  &lt;property name="requiredTranslations" value="fr"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;Translation&quot;&gt;
+    &lt;property name=&quot;baseName&quot; value=&quot;^ButtonLabels.*$&quot;/&gt;
+    &lt;property name=&quot;requiredTranslations&quot; value=&quot;fr&quot;/&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -170,15 +174,17 @@ name=Nom
 ButtonLabels.properties: Key 'name' is missing.
 ButtonLabels_fr.properties: Key 'cancel' is missing.
         </source>
-        <p>
+        <p id="Example3-config">
           To configure the check to check existence of Japanese and French translations:
         </p>
         <source>
-&lt;module name="Translation"&gt;
-  &lt;property name="requiredTranslations" value="ja, fr"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;Translation&quot;&gt;
+    &lt;property name=&quot;requiredTranslations&quot; value=&quot;ja, fr&quot;/&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example3-code">
           Example:
         </p>
         <source>
@@ -187,8 +193,8 @@ hello=Hello
 cancel=Cancel
 
 #messages_ja.properties
-greeting=こんにちは
-age=年齢
+greeting=&#x3053;&#x3093;&#x306b;&#x3061;&#x306f;
+age=&#x5e74;&#x9f62;
 
 #messages_fr.properties
 greeting=Bonjour
@@ -221,11 +227,13 @@ messages_ja.properties: Key 'name' missing.
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22translation.missingKey%22">
-            translation.missingKey</a>
+              translation.missingKey
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22translation.missingTranslationFile%22">
-            translation.missingTranslationFile</a>
+              translation.missingTranslationFile
+            </a>
           </li>
         </ul>
         <p>

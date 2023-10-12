@@ -95,46 +95,6 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * </li>
  * </ul>
  * <p>
- * To configure the default check to validate that the Javadoc content starts from the second line:
- * </p>
- * <pre>
- * &lt;module name="JavadocContentLocationCheck"/&gt;
- * </pre>
- * <p>
- * This setting produces a violation for each multi-line comment starting
- * on the same line as the initial asterisks:
- * </p>
- * <pre>
- * &#47;** This comment causes a violation because it starts from the first line
- *   * and spans several lines.
- *   *&#47;
- * &#47;**
- *   * This comment is OK because it starts from the second line.
- *   *&#47;
- * &#47;** This comment is OK because it is on the single-line. *&#47;
- * </pre>
- * <p>
- * To ensure that Javadoc content starts from the first line:
- * </p>
- * <pre>
- * &lt;module name="JavadocContentLocationCheck"&gt;
- *   &lt;property name="location" value="first_line"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>
- * This setting produces a violation for each comment not
- * starting on the same line as the initial asterisks:
- * </p>
- * <pre>
- * &#47;** This comment is OK because it starts on the first line.
- *    * There may be additional text.
- *    *&#47;
- * &#47;**
- *   * This comment causes a violation because it starts on the second line.
- *   *&#47;
- * &#47;** This single-line comment also is OK. *&#47;
- * </pre>
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -208,12 +168,12 @@ public class JavadocContentLocationCheck extends AbstractCheck {
             final String commentContent = JavadocUtil.getJavadocCommentContent(ast);
             final int indexOfFirstNonBlankLine = findIndexOfFirstNonBlankLine(commentContent);
             if (indexOfFirstNonBlankLine >= 0) {
-                if (location == JavadocContentLocationOption.FIRST_LINE) {
-                    if (indexOfFirstNonBlankLine != 0) {
-                        log(ast, MSG_JAVADOC_CONTENT_FIRST_LINE);
-                    }
+                if (location == JavadocContentLocationOption.FIRST_LINE
+                        && indexOfFirstNonBlankLine != 0) {
+                    log(ast, MSG_JAVADOC_CONTENT_FIRST_LINE);
                 }
-                else if (indexOfFirstNonBlankLine != 1) {
+                else if (location == JavadocContentLocationOption.SECOND_LINE
+                        && indexOfFirstNonBlankLine != 1) {
                     log(ast, MSG_JAVADOC_CONTENT_SECOND_LINE);
                 }
             }

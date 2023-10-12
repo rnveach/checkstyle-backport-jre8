@@ -47,13 +47,17 @@ while ((line = bufferedReader.readLine()) != null); // OK
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="InnerAssignment"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;InnerAssignment&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 class MyClass {
 
@@ -71,7 +75,7 @@ class MyClass {
 
     String nameOne;
     List&lt;String&gt; myList = new ArrayList&lt;String&gt;();
-    myList.add(nameOne = "tom"); // violation
+    myList.add(nameOne = &quot;tom&quot;); // violation
 
     for (int k = 0; k &lt; 10; k = k + 2) { // OK
       // some code
@@ -84,7 +88,7 @@ class MyClass {
 
     while (someVal = false) {} // violation
 
-    InputStream is = new FileInputStream("textFile.txt");
+    InputStream is = new FileInputStream(&quot;textFile.txt&quot;);
     while ((b = is.read()) != -1) { // OK, this is a common idiom
       // some code
     }
@@ -115,7 +119,8 @@ class MyClass {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22assignment.inner.avoid%22">
-            assignment.inner.avoid</a>
+              assignment.inner.avoid
+            </a>
           </li>
         </ul>
         <p>

@@ -2793,6 +2793,16 @@
     </details>
   </checkerFrameworkError>
 
+  <!-- This is not possible to fix because if we initialize this in constructor or in
+       field itself pitest will be failed. This is conflict with pitest but value of
+       pitest is above checker -->
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/header/AbstractHeaderCheck.java</fileName>
+    <specifier>initialization.field.uninitialized</specifier>
+    <message>the default constructor does not initialize field charset</message>
+    <lineContent>private Charset charset;</lineContent>
+  </checkerFrameworkError>
+
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/header/AbstractHeaderCheck.java</fileName>
     <specifier>initialization.field.uninitialized</specifier>
@@ -3971,13 +3981,6 @@
 
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocMethodCheck.java</fileName>
-    <specifier>initialization.field.uninitialized</specifier>
-    <message>the default constructor does not initialize field currentClassName</message>
-    <lineContent>private String currentClassName;</lineContent>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/javadoc/JavadocMethodCheck.java</fileName>
     <specifier>not.interned</specifier>
     <message>attempting to use a non-@Interned comparison operand</message>
     <lineContent>if (curNode != root) {</lineContent>
@@ -4389,7 +4392,7 @@
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/regexp/DetectorOptions.java</fileName>
     <specifier>initialization.fields.uninitialized</specifier>
-    <message>the constructor does not initialize fields: reporter, format, suppressor, pattern</message>
+    <message>the constructor does not initialize fields: reporter, format, message, suppressor, pattern</message>
     <lineContent>private DetectorOptions() {</lineContent>
   </checkerFrameworkError>
 
@@ -6155,6 +6158,42 @@
       type of expression: @Initialized @Nullable String
       method return type: @Initialized @NonNull String
     </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/ParentModuleMacro.java</fileName>
+    <specifier>return</specifier>
+    <message>incompatible types in return.</message>
+    <lineContent>.orElse(null);</lineContent>
+    <details>
+      type of expression: @Initialized @Nullable Path
+      method return type: @Initialized @NonNull Path
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter classLoader of getPackageNames.</message>
+    <lineContent>final Set&lt;String&gt; packageNames = PackageNamesLoader.getPackageNames(cl);</lineContent>
+    <details>
+      found   : @Initialized @Nullable ClassLoader
+      required: @Initialized @NonNull ClassLoader
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>dereference.of.nullable</specifier>
+    <message>dereference of possibly-null reference field.get(instance)</message>
+    <lineContent>return field.get(instance).toString();</lineContent>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/ViolationMessagesMacro.java</fileName>
+    <specifier>dereference.of.nullable</specifier>
+    <message>dereference of possibly-null reference clss.getPackage()</message>
+    <lineContent>+ clss.getPackage().getName().replace(&quot;.&quot;, &quot;%2F&quot;)</lineContent>
   </checkerFrameworkError>
 
   <!-- First parameter is namespace of the attribute and documentation states that null should

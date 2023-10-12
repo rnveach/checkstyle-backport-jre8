@@ -25,7 +25,7 @@
         </p>
         <p>
           Metric was described at <a href="http://dl.acm.org/citation.cfm?id=42379">
-          "NPATH: a measure of execution pathcomplexity and its applications"</a>.
+          &quot;NPATH: a measure of execution pathcomplexity and its applications&quot;</a>.
           If you need detailed description of algorithm, please read that article,
           it is well written and have number of examples and details.
         </p>
@@ -125,13 +125,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="NPathComplexity"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NPathComplexity&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -186,15 +190,19 @@ public abstract String buzz();
 public abstract void print(String str);
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check with a threshold of 100:
         </p>
         <source>
-&lt;module name="NPathComplexity"&gt;
-  &lt;property name="max" value="100"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NPathComplexity&quot;&gt;
+      &lt;property name=&quot;max&quot; value=&quot;100&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -243,7 +251,8 @@ public abstract void print(String str);
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmetrics%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22npathComplexity%22">
-            npathComplexity</a>
+              npathComplexity
+            </a>
           </li>
         </ul>
         <p>

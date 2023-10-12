@@ -52,19 +52,21 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="JavadocPackage"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;JavadocPackage&quot;/&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           To configure the check to use legacy <code>package.html</code> file
           when <code>package-info.java</code> file is absent:
         </p>
         <source>
-&lt;module name="JavadocPackage"&gt;
-  &lt;property name="allowLegacy" value="true"/&gt;
+&lt;module name=&quot;JavadocPackage&quot;&gt;
+  &lt;property name=&quot;allowLegacy&quot; value=&quot;true&quot;/&gt;
 &lt;/module&gt;
         </source>
       </subsection>
@@ -86,11 +88,13 @@
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.legacyPackageHtml%22">
-            javadoc.legacyPackageHtml</a>
+              javadoc.legacyPackageHtml
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.packageInfo%22">
-            javadoc.packageInfo</a>
+              javadoc.packageInfo
+            </a>
           </li>
         </ul>
         <p>

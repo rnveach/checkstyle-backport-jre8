@@ -34,33 +34,33 @@ d = e / f;        // Another comment for this line
         </p>
 
         <ul>
-          <li> "The comments have to be aligned so that they do not
+          <li> &quot;The comments have to be aligned so that they do not
           interfere with the visual structure of the code. If you don't align
           them neatly, they'll make your listing look like it's been through a
-          washing machine."
+          washing machine.&quot;
           </li>
-          <li> "Endline comments tend to be hard to format...It takes
+          <li> &quot;Endline comments tend to be hard to format...It takes
           time to align them. Such time is not spent learning more about the
           code; it's dedicated solely to the tedious task of pressing the
-          spacebar or tab key."
+          spacebar or tab key.&quot;
           </li>
-          <li> "Endline comments are also hard to maintain. If the code
+          <li> &quot;Endline comments are also hard to maintain. If the code
           on any line containing an endline comment grows, it bumps the
           comment farther out, and all the other endline comments will have to
           bumped out to match. Styles that are hard to maintain aren't
-          maintained...."
+          maintained....&quot;
           </li>
-          <li> "Endline comments also tend to be cryptic. The right side
+          <li> &quot;Endline comments also tend to be cryptic. The right side
           of the line doesn't offer much room and the desire to keep the
           comment on one line means the comment must be short. Work then goes
           into making the line as short as possible instead of as clear as
           possible. The comment usually ends up as cryptic as
-          possible...."
+          possible....&quot;
           </li>
-          <li> "A systemic problem with endline comments is that it's
+          <li> &quot;A systemic problem with endline comments is that it's
           hard to write a meaningful comment for one line of code. Most
           endline comments just repeat the line of code, which hurts more than
-          it helps."
+          it helps.&quot;
           </li>
         </ul>
 
@@ -85,7 +85,7 @@ d = e / f;        // Another comment for this line
               <td>format</td>
               <td>Specify pattern for strings allowed before the comment.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^[\s});]*$"</code></td>
+              <td><code>&quot;^[\s});]*$&quot;</code></td>
               <td>3.4</td>
             </tr>
             <tr>
@@ -101,14 +101,18 @@ d = e / f;        // Another comment for this line
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="TrailingComment"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TrailingComment&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -120,43 +124,51 @@ doSomething(
 ); // OK, by default such trailing of method/code-block ending is allowed
         </source>
 
-        <p>
+        <p id="Example2-config">
           To configure the check to enforce only comment on a line:
         </p>
         <source>
-&lt;module name="TrailingComment"&gt;
-  &lt;property name="format" value="^\s*$"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TrailingComment&quot;&gt;
+      &lt;property name=&quot;format&quot; value=&quot;^\s*$&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
 // OK
 if (/* OK, this comment does not end the line */ x &gt; 5) {}
-int a = 5; // violation, line content before comment should match pattern "^\s*$"
+int a = 5; // violation, line content before comment should match pattern &quot;^\s*$&quot;
 doSomething(
   param1
-); // violation, line content before comment should match pattern "^\s*$"
+); // violation, line content before comment should match pattern &quot;^\s*$&quot;
         </source>
 
-        <p>
+        <p id="Example3-config">
           To configure check so that trailing comment with exact comments like
-          "SUPPRESS CHECKSTYLE", "NOPMD", "NOSONAR"
+          &quot;SUPPRESS CHECKSTYLE&quot;, &quot;NOPMD&quot;, &quot;NOSONAR&quot;
           are suppressed:
         </p>
         <source>
-&lt;module name="TrailingComment"/&gt;
-&lt;module name="SuppressionXpathSingleFilter"&gt;
-  &lt;property name="checks" value="TrailingCommentCheck"/&gt;
-  &lt;property name="query" value="//SINGLE_LINE_COMMENT
-    [./COMMENT_CONTENT[@text=' NOSONAR\n' or @text=' NOPMD\n'
-    or @text=' SUPPRESS CHECKSTYLE\n']]"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TrailingComment&quot;/&gt;
+    &lt;module name=&quot;SuppressionXpathSingleFilter&quot;&gt;
+      &lt;property name=&quot;checks&quot; value=&quot;TrailingCommentCheck&quot;/&gt;
+      &lt;property name=&quot;query&quot; value=&quot;//SINGLE_LINE_COMMENT
+        [./COMMENT_CONTENT[@text=' NOSONAR\n' or @text=' NOPMD\n'
+        or @text=' SUPPRESS CHECKSTYLE\n']]&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example3-code">
           Example for trailing comments check to suppress specific trailing comment:
         </p>
         <source>
@@ -168,31 +180,35 @@ public class Test {
 }
         </source>
 
-        <p>
-          To configure check so that trailing comment starting with "SUPPRESS CHECKSTYLE",
-          "NOPMD", "NOSONAR" are suppressed:
+        <p id="Example4-config">
+          To configure check so that trailing comment starting with &quot;SUPPRESS CHECKSTYLE&quot;,
+          &quot;NOPMD&quot;, &quot;NOSONAR&quot; are suppressed:
         </p>
         <source>
-&lt;module name="TrailingComment"/&gt;
-&lt;module name="SuppressionXpathSingleFilter"&gt;
-  &lt;property name="checks" value="TrailingCommentCheck"/&gt;
-  &lt;property name="query" value="//SINGLE_LINE_COMMENT
-    [./COMMENT_CONTENT[starts-with(@text, ' NOPMD')]]"/&gt;
-  &lt;property name="query" value="//SINGLE_LINE_COMMENT
-    [./COMMENT_CONTENT[starts-with(@text, ' SUPPRESS CHECKSTYLE')]]"/&gt;
-  &lt;property name="query" value="//SINGLE_LINE_COMMENT
-    [./COMMENT_CONTENT[starts-with(@text, ' NOSONAR')]]"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TrailingComment&quot;/&gt;
+    &lt;module name=&quot;SuppressionXpathSingleFilter&quot;&gt;
+      &lt;property name=&quot;checks&quot; value=&quot;TrailingCommentCheck&quot;/&gt;
+      &lt;property name=&quot;query&quot; value=&quot;//SINGLE_LINE_COMMENT
+        [./COMMENT_CONTENT[starts-with(@text, ' NOPMD')]]&quot;/&gt;
+      &lt;property name=&quot;query&quot; value=&quot;//SINGLE_LINE_COMMENT
+        [./COMMENT_CONTENT[starts-with(@text, ' SUPPRESS CHECKSTYLE')]]&quot;/&gt;
+      &lt;property name=&quot;query&quot; value=&quot;//SINGLE_LINE_COMMENT
+        [./COMMENT_CONTENT[starts-with(@text, ' NOSONAR')]]&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example4-code">
           Example:
         </p>
         <source>
 public class Test {
-  int a; // SUPPRESS CHECKSTYLE - OK, comment starts with " SUPPRESS CHECKSTYLE"
-  int b; // NOPMD - OK, comment starts with " NOPMD"
-  int c; // NOSONAR - OK, comment starts with " NOSONAR"
+  int a; // SUPPRESS CHECKSTYLE - OK, comment starts with &quot; SUPPRESS CHECKSTYLE&quot;
+  int b; // NOPMD - OK, comment starts with &quot; NOPMD&quot;
+  int c; // NOSONAR - OK, comment starts with &quot; NOSONAR&quot;
   int d; // violation, not suppressed
 }
         </source>
@@ -212,7 +228,8 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22trailing.comments%22">
-            trailing.comments</a>
+              trailing.comments
+            </a>
           </li>
         </ul>
         <p>

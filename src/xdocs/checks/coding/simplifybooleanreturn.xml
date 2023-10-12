@@ -34,13 +34,17 @@ return !valid();
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="SimplifyBooleanReturn"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;SimplifyBooleanReturn&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 public class Test {
 
@@ -64,11 +68,11 @@ public class Test {
 
  // violations, can be simplified
  public boolean check3() {
-  if (cond == true) { // can be simplified to "if (cond)"
+  if (cond == true) { // can be simplified to &quot;if (cond)&quot;
     return false;
   }
   else {
-    return true; // can be simplified to "return !cond"
+    return true; // can be simplified to &quot;return !cond&quot;
   }
  }
 
@@ -108,7 +112,8 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22simplify.boolReturn%22">
-            simplify.boolReturn</a>
+              simplify.boolReturn
+            </a>
           </li>
         </ul>
         <p>

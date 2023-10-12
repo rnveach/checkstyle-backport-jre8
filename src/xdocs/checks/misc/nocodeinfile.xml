@@ -28,21 +28,26 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="NoCodeInFile"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NoCodeInFile&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
         <p>
           Example:
         </p>
-        <p>
+        <p id="Example1-code">
           Content of the files:
         </p>
         <source>
 // single-line comment // violation
         </source>
+        <p id="Example2-code">Example:</p>
         <source>
 /* // violation
  block comment
@@ -63,7 +68,8 @@
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22nocode.in.file%22">
-            nocode.in.file</a>
+              nocode.in.file
+            </a>
           </li>
         </ul>
         <p>

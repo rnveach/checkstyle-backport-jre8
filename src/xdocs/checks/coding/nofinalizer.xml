@@ -18,24 +18,28 @@
             Rationale: Finalizers are unpredictable, often dangerous, and generally unnecessary.
             Their use can cause erratic behavior, poor performance, and portability problems.
             For more information for the finalize method and its issues, see Effective Java:
-            Programming Language Guide Third Edition by Joshua Bloch, §8.
+            Programming Language Guide Third Edition by Joshua Bloch, &#xa7;8.
         </p>
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="NoFinalizer"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NoFinalizer&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 public class Test {
 
     protected void finalize() throws Throwable { // violation
         try {
-           System.out.println("overriding finalize()");
+           System.out.println(&quot;overriding finalize()&quot;);
         } catch (Throwable t) {
            throw t;
         } finally {
@@ -63,7 +67,8 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22avoid.finalizer.method%22">
-            avoid.finalizer.method</a>
+              avoid.finalizer.method
+            </a>
           </li>
         </ul>
         <p>

@@ -22,18 +22,22 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="InvalidJavadocPosition"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;InvalidJavadocPosition&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           The following code produces a violation because Javadocs should be before all
           annotations of the Javadoc's target:
         </p>
         <source>
-@SuppressWarnings("serial")
+@SuppressWarnings(&quot;serial&quot;)
 /**
  * This comment looks like javadoc but it at an invalid location.
  * Therefore, the text will not get into TestClass.html and the check will produce a violation.
@@ -64,7 +68,8 @@ public class TestClass {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22invalid.position%22">
-            invalid.position</a>
+              invalid.position
+            </a>
           </li>
         </ul>
         <p>

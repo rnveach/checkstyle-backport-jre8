@@ -21,14 +21,14 @@
         </p>
         <p>
           For example:
-          <code>@SuppressWarnings((false) ? (true) ? "unchecked" : "foo" : "unused")</code>.
-          According to the above example, the "unused" warning is being suppressed
-          not the "unchecked" or "foo" warnings.  All of these warnings will be
+          <code>@SuppressWarnings((false) ? (true) ? &quot;unchecked&quot; : &quot;foo&quot; : &quot;unused&quot;)</code>.
+          According to the above example, the &quot;unused&quot; warning is being suppressed
+          not the &quot;unchecked&quot; or &quot;foo&quot; warnings.  All of these warnings will be
           considered and matched against regardless of what the conditional
           evaluates to.
-          The check also does not support code like <code>@SuppressWarnings("un" + "used")</code>,
-          <code>@SuppressWarnings((String) "unused")</code> or
-          <code>@SuppressWarnings({('u' + (char)'n') + (""+("used" + (String)"")),})</code>.
+          The check also does not support code like <code>@SuppressWarnings(&quot;un&quot; + &quot;used&quot;)</code>,
+          <code>@SuppressWarnings((String) &quot;unused&quot;)</code> or
+          <code>@SuppressWarnings({('u' + (char)'n') + (&quot;&quot;+(&quot;used&quot; + (String)&quot;&quot;)),})</code>.
         </p>
         <p>
           By default, any warning specified will be disallowed on
@@ -41,8 +41,8 @@
           the format property these defaults no longer apply.
         </p>
         <p>
-          This check can be configured so that the "unchecked"
-          and "unused" warnings cannot be suppressed on
+          This check can be configured so that the &quot;unchecked&quot;
+          and &quot;unused&quot; warnings cannot be suppressed on
           anything but variable and parameter declarations.
           See below of an example.
         </p>
@@ -67,7 +67,7 @@
                 <a href="../../property_types.html#Pattern">Pattern</a>
               </td>
               <td>
-                <code>"^\s*+$"</code>
+                <code>&quot;^\s*+$&quot;</code>
               </td>
               <td>5.0</td>
             </tr>
@@ -140,72 +140,72 @@
       </subsection>
       <subsection name="Examples" id="Examples">
         <p> To configure the check:</p>
-        <source> &lt;module name="SuppressWarnings"/&gt;
+        <source> &lt;module name=&quot;SuppressWarnings&quot;/&gt;
         </source>
 
         <p>Example:</p>
         <source>
-@SuppressWarnings("") // violation
+@SuppressWarnings(&quot;&quot;) // violation
 class TestA {
-  @SuppressWarnings("") // violation
+  @SuppressWarnings(&quot;&quot;) // violation
   final int num1 = 1;
-  @SuppressWarnings("all") // ok
+  @SuppressWarnings(&quot;all&quot;) // ok
   final int num2 = 2;
-  @SuppressWarnings("unused") // ok
+  @SuppressWarnings(&quot;unused&quot;) // ok
   final int num3 = 3;
 
-  void foo1(@SuppressWarnings("unused") int param) {} // ok
+  void foo1(@SuppressWarnings(&quot;unused&quot;) int param) {} // ok
 
-  @SuppressWarnings("all") // ok
+  @SuppressWarnings(&quot;all&quot;) // ok
   void foo2(int param) {}
-  @SuppressWarnings("unused") // ok
+  @SuppressWarnings(&quot;unused&quot;) // ok
   void foo3(int param) {}
-  @SuppressWarnings(true?"all":"unused") // ok
+  @SuppressWarnings(true?&quot;all&quot;:&quot;unused&quot;) // ok
   void foo4(int param) {}
 }
-@SuppressWarnings("unchecked") // ok
+@SuppressWarnings(&quot;unchecked&quot;) // ok
 class TestB {}
         </source>
 
         <p>
-          To configure the check so that the "unchecked" and "unused"
+          To configure the check so that the &quot;unchecked&quot; and &quot;unused&quot;
           warnings cannot be suppressed on anything
           but variable and parameter declarations.
         </p>
         <source>
-&lt;module name="SuppressWarnings"&gt;
-  &lt;property name="format"
-      value="^unchecked$|^unused$"/&gt;
-  &lt;property name="tokens"
-    value="
+&lt;module name=&quot;SuppressWarnings&quot;&gt;
+  &lt;property name=&quot;format&quot;
+      value=&quot;^unchecked$|^unused$&quot;/&gt;
+  &lt;property name=&quot;tokens&quot;
+    value=&quot;
     CLASS_DEF,INTERFACE_DEF,ENUM_DEF,
     ANNOTATION_DEF,ANNOTATION_FIELD_DEF,
     ENUM_CONSTANT_DEF,METHOD_DEF,CTOR_DEF
-    "/&gt;
+    &quot;/&gt;
 &lt;/module&gt;
         </source>
 
         <p>Example:</p>
         <source>
-@SuppressWarnings("") // ok
+@SuppressWarnings(&quot;&quot;) // ok
 class TestA {
-  @SuppressWarnings("") // ok
+  @SuppressWarnings(&quot;&quot;) // ok
   final int num1 = 1;
-  @SuppressWarnings("all") // ok
+  @SuppressWarnings(&quot;all&quot;) // ok
   final int num2 = 2;
-  @SuppressWarnings("unused") // ok
+  @SuppressWarnings(&quot;unused&quot;) // ok
   final int num3 = 3;
 
-  void foo1(@SuppressWarnings("unused") int param) {} // ok
+  void foo1(@SuppressWarnings(&quot;unused&quot;) int param) {} // ok
 
-  @SuppressWarnings("all") // ok
+  @SuppressWarnings(&quot;all&quot;) // ok
   void foo2(int param) {}
-  @SuppressWarnings("unused") // violation
+  @SuppressWarnings(&quot;unused&quot;) // violation
   void foo3(int param) {}
-  @SuppressWarnings(true?"all":"unused") // violation
+  @SuppressWarnings(true?&quot;all&quot;:&quot;unused&quot;) // violation
   void foo4(int param) {}
 }
-@SuppressWarnings("unchecked") // violation
+@SuppressWarnings(&quot;unchecked&quot;) // violation
 class TestB {}
         </source>
       </subsection>
@@ -223,7 +223,8 @@ class TestB {}
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22suppressed.warning.not.allowed%22">
-            suppressed.warning.not.allowed</a>
+              suppressed.warning.not.allowed
+            </a>
           </li>
         </ul>
         <p>
@@ -238,7 +239,9 @@ class TestB {}
       </subsection>
 
       <subsection name="Parent Module" id="Parent_Module">
-        <p> <a href="../../config.html#TreeWalker">TreeWalker</a> </p>
+        <p>
+          <a href="../../config.html#TreeWalker">TreeWalker</a>
+        </p>
       </subsection>
     </section>
   </body>

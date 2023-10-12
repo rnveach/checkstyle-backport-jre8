@@ -113,118 +113,6 @@ import com.puppycrawl.tools.checkstyle.api.DetailAST;
  * </li>
  * </ul>
  * <p>
- * To configure the default check:
- * </p>
- * <pre>
- * &lt;module name="Indentation"/&gt;
- * </pre>
- * <p>
- * Example of Compliant code for default configuration (in comment name of property
- * that controls indentations):
- * </p>
- * <pre>
- * class Test {
- *    String field;               // basicOffset
- *    int[] arr = {               // basicOffset
- *        5,                      // arrayInitIndent
- *        6 };                    // arrayInitIndent
- *    void bar() throws Exception // basicOffset
- *    {                           // braceAdjustment
- *        foo();                  // basicOffset
- *    }                           // braceAdjustment
- *    void foo() {                // basicOffset
- *        if ((cond1 &amp;&amp; cond2)    // basicOffset
- *                  || (cond3 &amp;&amp; cond4)    // lineWrappingIndentation, forceStrictCondition
- *                  ||!(cond5 &amp;&amp; cond6)) { // lineWrappingIndentation, forceStrictCondition
- *            field.doSomething()          // basicOffset
- *                .doSomething()           // lineWrappingIndentation and forceStrictCondition
- *                .doSomething( c -&gt; {     // lineWrappingIndentation and forceStrictCondition
- *                    return c.doSome();   // basicOffset
- *                });
- *        }
- *    }
- *    void fooCase()                // basicOffset
- *        throws Exception {        // throwsIndent
- *        switch (field) {          // basicOffset
- *            case "value" : bar(); // caseIndent
- *        }
- *    }
- * }
- * </pre>
- * <p>
- * To configure the check to enforce the indentation style recommended by Oracle:
- * </p>
- * <pre>
- * &lt;module name="Indentation"&gt;
- *   &lt;property name="caseIndent" value="0"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>
- * Example of Compliant code for default configuration (in comment name of property that controls
- * indentation):
- * </p>
- * <pre>
- * void fooCase() {          // basicOffset
- *     switch (field) {      // basicOffset
- *     case "value" : bar(); // caseIndent
- *     }
- * }
- * </pre>
- * <p>
- * To configure the Check to enforce strict condition in line-wrapping validation.
- * </p>
- * <pre>
- * &lt;module name="Indentation"&gt;
- *   &lt;property name="forceStrictCondition" value="true"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>
- * Such config doesn't allow next cases even code is aligned further to the right for better
- * reading:
- * </p>
- * <pre>
- * void foo(String aFooString,
- *         int aFooInt) { // indent:8 ; expected: 4; violation, because 8 != 4
- *     if (cond1
- *         || cond2) {
- *         field.doSomething()
- *             .doSomething();
- *     }
- *     if ((cond1 &amp;&amp; cond2)
- *               || (cond3 &amp;&amp; cond4)    // violation
- *               ||!(cond5 &amp;&amp; cond6)) { // violation
- *         field.doSomething()
- *              .doSomething()          // violation
- *              .doSomething( c -&gt; {    // violation
- *                  return c.doSome();
- *             });
- *     }
- * }
- * </pre>
- * <p>
- * But if forceStrictCondition = false, this code is valid:
- * </p>
- * <pre>
- * void foo(String aFooString,
- *         int aFooInt) { // indent:8 ; expected: &gt; 4; ok, because 8 &gt; 4
- *     if (cond1
- *         || cond2) {
- *         field.doSomething()
- *             .doSomething();
- *     }
- *     if ((cond1 &amp;&amp; cond2)
- *               || (cond3 &amp;&amp; cond4)
- *               ||!(cond5 &amp;&amp; cond6)) {
- *         field.doSomething()
- *              .doSomething()
- *              .doSomething( c -&gt; {
- *                  return c.doSome();
- *             });
- *     }
- * }
- * </pre>
- *
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -364,6 +252,7 @@ public class IndentationCheck extends AbstractCheck {
      * could be bigger on any value user would like.
      *
      * @param value user's value of forceStrictCondition.
+     * @since 6.3
      */
     public void setForceStrictCondition(boolean value) {
         forceStrictCondition = value;
@@ -373,6 +262,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far new indentation level should be indented when on the next line.
      *
      * @param basicOffset   the number of tabs or spaces to indent
+     * @since 3.1
      */
     public void setBasicOffset(int basicOffset) {
         this.basicOffset = basicOffset;
@@ -391,6 +281,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far a braces should be indented when on the next line.
      *
      * @param adjustmentAmount   the brace offset
+     * @since 3.1
      */
     public void setBraceAdjustment(int adjustmentAmount) {
         braceAdjustment = adjustmentAmount;
@@ -409,6 +300,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far a case label should be indented when on next line.
      *
      * @param amount   the case indentation level
+     * @since 3.1
      */
     public void setCaseIndent(int amount) {
         caseIndent = amount;
@@ -427,6 +319,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far a throws clause should be indented when on next line.
      *
      * @param throwsIndent the throws indentation level
+     * @since 5.7
      */
     public void setThrowsIndent(int throwsIndent) {
         this.throwsIndent = throwsIndent;
@@ -445,6 +338,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far an array initialisation should be indented when on next line.
      *
      * @param arrayInitIndent the array initialisation indentation level
+     * @since 5.8
      */
     public void setArrayInitIndent(int arrayInitIndent) {
         this.arrayInitIndent = arrayInitIndent;
@@ -472,6 +366,7 @@ public class IndentationCheck extends AbstractCheck {
      * Setter to specify how far continuation line should be indented when line-wrapping is present.
      *
      * @param lineWrappingIndentation the line-wrapping indentation level
+     * @since 5.9
      */
     public void setLineWrappingIndentation(int lineWrappingIndentation) {
         this.lineWrappingIndentation = lineWrappingIndentation;

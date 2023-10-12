@@ -54,60 +54,6 @@ import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
  * </li>
  * </ul>
  * <p>
- * To configure the default check:
- * </p>
- * <pre>
- * &lt;module name=&quot;JavadocParagraph&quot;/&gt;
- * </pre>
- * <p>
- * By default, the check will report a violation if there is a new line
- * or whitespace after the &lt;p&gt; tag:
- * </p>
- * <pre>
- * &#47;**
- *  * No tag (ok).
- *  *
- *  * &lt;p&gt;Tag immediately before the text (ok).
- *  * &lt;p&gt;No blank line before the tag (violation).
- *  *
- *  * &lt;p&gt;
- *  * New line after tag (violation).
- *  *
- *  * &lt;p&gt; Whitespace after tag (violation).
- *  *
- *  *&#47;
- * public class TestClass {
- * }
- * </pre>
- * <p>
- * To allow newlines and spaces immediately after the &lt;p&gt; tag:
- * </p>
- * <pre>
- * &lt;module name=&quot;JavadocParagraph&quot;&gt;
- *   &lt;property name=&quot;allowNewlineParagraph&quot; value=&quot;false&quot;/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>
- * In case of {@code allowNewlineParagraph} set to {@code false}
- * the following example will not have any violations:
- * </p>
- * <pre>
- * &#47;**
- *  * No tag (ok).
- *  *
- *  * &lt;p&gt;Tag immediately before the text (ok).
- *  * &lt;p&gt;No blank line before the tag (violation).
- *  *
- *  * &lt;p&gt;
- *  * New line after tag (ok).
- *  *
- *  * &lt;p&gt; Whitespace after tag (ok).
- *  *
- *  *&#47;
- * public class TestClass {
- * }
- * </pre>
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -244,12 +190,12 @@ public class JavadocParagraphCheck extends AbstractJavadocCheck {
      * @return nearest node.
      */
     private static DetailNode getNearestNode(DetailNode node) {
-        DetailNode tag = JavadocUtil.getNextSibling(node);
-        while (tag.getType() == JavadocTokenTypes.LEADING_ASTERISK
-                || tag.getType() == JavadocTokenTypes.NEWLINE) {
-            tag = JavadocUtil.getNextSibling(tag);
+        DetailNode currentNode = node;
+        while (currentNode.getType() == JavadocTokenTypes.LEADING_ASTERISK
+                || currentNode.getType() == JavadocTokenTypes.NEWLINE) {
+            currentNode = JavadocUtil.getNextSibling(currentNode);
         }
-        return tag;
+        return currentNode;
     }
 
     /**
@@ -324,7 +270,7 @@ public class JavadocParagraphCheck extends AbstractJavadocCheck {
         final DetailNode nextSibling = JavadocUtil.getNextSibling(tag);
         return nextSibling.getType() == JavadocTokenTypes.NEWLINE
                 || nextSibling.getType() == JavadocTokenTypes.EOF
-                || CommonUtil.startsWithChar(nextSibling.getText(), ' ');
+                || nextSibling.getText().startsWith(" ");
     }
 
 }

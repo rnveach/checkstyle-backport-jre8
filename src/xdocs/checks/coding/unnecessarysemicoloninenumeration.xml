@@ -16,13 +16,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="UnnecessarySemicolonInEnumeration"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;UnnecessarySemicolonInEnumeration&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example of violations
         </p>
         <source>
@@ -44,14 +48,14 @@ enum Five {
     ; // violation
 }
         </source>
-        <p>
+        <p id="Example2-code">
           Example of good cases
         </p>
         <source>
 enum Normal {
     A,
     B,
-    ; // required ";", no violation
+    ; // required &quot;;&quot;, no violation
     Normal(){}
 }
 enum NoSemicolon {

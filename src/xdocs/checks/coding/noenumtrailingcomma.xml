@@ -34,13 +34,17 @@ enum Foo1 {
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="NoEnumTrailingComma"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NoEnumTrailingComma&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Which results in the following violations:
         </p>
         <source>
@@ -90,7 +94,8 @@ enum Foo10 { FOO, BAR } // OK
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22no.enum.trailing.comma%22">
-            no.enum.trailing.comma</a>
+              no.enum.trailing.comma
+            </a>
           </li>
         </ul>
         <p>

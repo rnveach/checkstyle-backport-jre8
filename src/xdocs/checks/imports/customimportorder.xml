@@ -80,16 +80,16 @@ import java.util.regex.Matcher; //#8
         <ol>
           <li>STATIC has top priority</li>
           <li>SAME_PACKAGE has second priority</li>
-          <li>STANDARD_JAVA_PACKAGE and SPECIAL_IMPORTS will compete using "best match" rule: longer
+          <li>STANDARD_JAVA_PACKAGE and SPECIAL_IMPORTS will compete using &quot;best match&quot; rule: longer
           matching substring wins; in case of the same length, lower position of matching substring
           wins; if position is the same, order of rules in configuration solves the puzzle.</li>
           <li>THIRD_PARTY has the least priority</li>
         </ol>
         <p>
-          Few examples to illustrate "best match":
+          Few examples to illustrate &quot;best match&quot;:
         </p>
         <p>
-          1. patterns STANDARD_JAVA_PACKAGE = "Check", SPECIAL_IMPORTS="ImportOrderCheck"
+          1. patterns STANDARD_JAVA_PACKAGE = &quot;Check&quot;, SPECIAL_IMPORTS=&quot;ImportOrderCheck&quot;
           and input file:
         </p>
         <source>
@@ -101,14 +101,14 @@ import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck;
           substring length is 16. Matching substring for STANDARD_JAVA_PACKAGE is 5.
         </p>
         <p>
-          2. patterns STANDARD_JAVA_PACKAGE = "Check", SPECIAL_IMPORTS="Avoid" and file:
+          2. patterns STANDARD_JAVA_PACKAGE = &quot;Check&quot;, SPECIAL_IMPORTS=&quot;Avoid&quot; and file:
         </p>
         <source>
 import com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck;
         </source>
         <p>
           Result: import will be assigned to SPECIAL_IMPORTS. Matching substring length is 5 for
-          both patterns. However, "Avoid" position is lower than "Check" position.
+          both patterns. However, &quot;Avoid&quot; position is lower than &quot;Check&quot; position.
         </p>
       </subsection>
 
@@ -126,28 +126,28 @@ import com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck;
               <td>customImportOrderRules</td>
               <td>Specify format of order declaration customizing by user.</td>
               <td><a href="../../property_types.html#String">String</a></td>
-              <td><code>""</code></td>
+              <td><code>&quot;&quot;</code></td>
               <td>5.8</td>
             </tr>
             <tr>
               <td>standardPackageRegExp</td>
               <td>Specify RegExp for STANDARD_JAVA_PACKAGE group imports.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^(java|javax)\."</code></td>
+              <td><code>&quot;^(java|javax)\.&quot;</code></td>
               <td>5.8</td>
             </tr>
             <tr>
               <td>thirdPartyPackageRegExp</td>
               <td>Specify RegExp for THIRD_PARTY_PACKAGE group imports.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>".*"</code></td>
+              <td><code>&quot;.*&quot;</code></td>
               <td>5.8</td>
             </tr>
             <tr>
               <td>specialImportsRegExp</td>
               <td>Specify RegExp for SPECIAL_IMPORTS group imports.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^$"</code></td>
+              <td><code>&quot;^$&quot;</code></td>
               <td>5.8</td>
             </tr>
             <tr>
@@ -172,13 +172,17 @@ import com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck;
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check :
         </p>
         <source>
-&lt;module name="CustomImportOrder"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -190,17 +194,21 @@ import static java.io.*; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check so that it checks in the order
           (static imports,standard java packages,third party package):
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -216,17 +224,21 @@ import org.apache.commons.io.FileUtils; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>
+        <p id="Example3-config">
           To configure the check such that only java packages are included in standard java packages
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE"/&gt;
-  &lt;property name="standardPackageRegExp" value="^java\."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###THIRD_PARTY_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;standardPackageRegExp&quot; value=&quot;^java\.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example3-code">
         Example:
         </p>
         <source>
@@ -242,17 +254,22 @@ import org.apache.commons.io.FileUtils; // violation
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>
-          To configure the check to include only "com" packages as third party group imports:
+        <p id="Example4-config">
+          To configure the check to include only &quot;com&quot; packages
+          as third party group imports:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/&gt;
-  &lt;property name="thirdPartyPackageRegExp" value="^com\."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;thirdPartyPackageRegExp&quot; value=&quot;^com\.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example4-code">
           Example:
         </p>
         <source>
@@ -268,17 +285,21 @@ import org.apache.commons.io.FileUtils; // violation(should be in end)
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // violation
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>
+        <p id="Example5-config">
           To configure the check to force some packages in special import group:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE"/&gt;
-  &lt;property name="specialImportsRegExp" value="^org\."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^org\.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example5-code">
         Example:
         </p>
         <source>
@@ -294,19 +315,23 @@ import javax.net.*; // OK
 
 import org.apache.commons.io.FileUtils; // violation
         </source>
-        <p>
+        <p id="Example6-config">
           To configure the check such that empty line separator between two groups is enabled:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/&gt;
-  &lt;property name="specialImportsRegExp" value="^org\."/&gt;
-  &lt;property name="thirdPartyPackageRegExp" value="^com\."/&gt;
-  &lt;property name="separateLineBetweenGroups" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^org\.&quot;/&gt;
+      &lt;property name=&quot;thirdPartyPackageRegExp&quot; value=&quot;^com\.&quot;/&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example6-code">
           Example:
         </p>
         <source>
@@ -321,27 +346,31 @@ import org.apache.commons.io.FileUtils; // violation
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // violation
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>
+        <p id="Example7-config">
           To configure the check such that import groups are forced to be sorted alphabetically:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/&gt;
-  &lt;property name="specialImportsRegExp" value="^org\."/&gt;
-  &lt;property name="thirdPartyPackageRegExp" value="^com\."/&gt;
-  &lt;property name="separateLineBetweenGroups" value="false"/&gt;
-  &lt;property name="sortImportsInGroupAlphabetically" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^org\.&quot;/&gt;
+      &lt;property name=&quot;thirdPartyPackageRegExp&quot; value=&quot;^com\.&quot;/&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;false&quot;/&gt;
+      &lt;property name=&quot;sortImportsInGroupAlphabetically&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example7-code">
           Example:
         </p>
         <source>
 package com.company;
 
 import static java.util.*; // OK
-import static java.io.*; // Violation since it should come before"java.util"
+import static java.io.*; // Violation since it should come before&quot;java.util&quot;
 
 import java.time.*; // OK
 import javax.net.*; // OK
@@ -353,35 +382,39 @@ import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
            (tested on Kepler and Luna releases):</p>
         <ul>
           <li>group of static imports is on the top</li>
-          <li>groups of non-static imports: "java" and "javax" packages first,
-              then "org" and then all other imports</li>
+          <li>groups of non-static imports: &quot;java&quot; and &quot;javax&quot; packages first,
+              then &quot;org&quot; and then all other imports</li>
           <li>imports will be sorted in the groups</li>
           <li>groups are separated by single blank line</li>
         </ul>
-        <p>Notes:</p>
+        <p id="Example8-config">Notes:</p>
         <ul>
-          <li>"com" package is not mentioned on configuration, because it is
+          <li>&quot;com&quot; package is not mentioned on configuration, because it is
               ignored by Eclipse Kepler and Luna (looks like Eclipse defect)</li>
           <li>configuration below doesn't work in all 100% cases due to inconsistent behavior
               prior to Mars release, but covers most scenarios</li>
         </ul>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS"/&gt;
-  &lt;property name="specialImportsRegExp" value="^org\."/&gt;
-  &lt;property name="sortImportsInGroupAlphabetically" value="true"/&gt;
-  &lt;property name="separateLineBetweenGroups" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^org\.&quot;/&gt;
+      &lt;property name=&quot;sortImportsInGroupAlphabetically&quot; value=&quot;true&quot;/&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example8-code">
           Example:
         </p>
         <source>
 package com.company;
 
 import static java.util.*; // OK
-import static java.io.*; // Violation since it should come before"java.util"
+import static java.io.*; // Violation since it should come before&quot;java.util&quot;
 
 import java.time.*; // OK
 import javax.net.*; // OK
@@ -390,26 +423,31 @@ import org.apache.commons.io.FileUtils; // Violation should be separated by spac
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // OK
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
         </source>
-        <p>To configure the check so that it matches default Eclipse formatter configuration
+        <p id="Example9-config">
+          To configure the check so that it matches default Eclipse formatter configuration
            (tested on Mars release):</p>
         <ul>
           <li>group of static imports is on the top</li>
-          <li>groups of non-static imports: "java" and "javax" packages first,
-              then "org" and "com", then all other imports as one group</li>
+          <li>groups of non-static imports: &quot;java&quot; and &quot;javax&quot; packages first,
+              then &quot;org&quot; and &quot;com&quot;, then all other imports as one group</li>
           <li>imports will be sorted in the groups</li>
           <li>groups are separated by one blank line</li>
         </ul>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE"/&gt;
-  &lt;property name="specialImportsRegExp" value="^org\."/&gt;
-  &lt;property name="thirdPartyPackageRegExp" value="^com\."/&gt;
-  &lt;property name="sortImportsInGroupAlphabetically" value="true"/&gt;
-  &lt;property name="separateLineBetweenGroups" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^org\.&quot;/&gt;
+      &lt;property name=&quot;thirdPartyPackageRegExp&quot; value=&quot;^com\.&quot;/&gt;
+      &lt;property name=&quot;sortImportsInGroupAlphabetically&quot; value=&quot;true&quot;/&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example9-code">
           Example:
         </p>
         <source>
@@ -430,29 +468,33 @@ import org.apache.commons.io.FileUtils;
            (tested on v14):</p>
         <ul>
           <li>group of static imports is on the bottom</li>
-          <li>groups of non-static imports: all imports except of "javax" and
-              "java", then "javax" and "java"</li>
+          <li>groups of non-static imports: all imports except of &quot;javax&quot; and
+              &quot;java&quot;, then &quot;javax&quot; and &quot;java&quot;</li>
           <li>imports will be sorted in the groups</li>
           <li>groups are separated by one blank line</li>
         </ul>
 
-        <p>
-        Note: "separated" option is disabled because IDEA default has blank line
-        between "java" and static imports, and no blank line between
-        "javax" and "java"
+        <p id="Example10-config">
+        Note: &quot;separated&quot; option is disabled because IDEA default has blank line
+        between &quot;java&quot; and static imports, and no blank line between
+        &quot;javax&quot; and &quot;java&quot;
         </p>
 
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/&gt;
-  &lt;property name="specialImportsRegExp" value="^javax\."/&gt;
-  &lt;property name="standardPackageRegExp" value="^java\."/&gt;
-  &lt;property name="sortImportsInGroupAlphabetically" value="true"/&gt;
-  &lt;property name="separateLineBetweenGroups" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^javax\.&quot;/&gt;
+      &lt;property name=&quot;standardPackageRegExp&quot; value=&quot;^java\.&quot;/&gt;
+      &lt;property name=&quot;sortImportsInGroupAlphabetically&quot; value=&quot;true&quot;/&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example10-code">
           Example:
         </p>
         <source>
@@ -471,7 +513,8 @@ import org.apache.commons.io.FileUtils; // Violation should be in
 import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; // Violation
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // Violation
         </source>
-        <p>To configure the check so that it matches default NetBeans formatter configuration
+        <p id="Example11-config">
+          To configure the check so that it matches default NetBeans formatter configuration
            (tested on v8):</p>
         <ul>
           <li>groups of non-static imports are not defined, all imports will be sorted as a one
@@ -480,9 +523,13 @@ import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // Viola
         </ul>
 
         <source>
-&lt;module name="CustomImportOrder"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example11-code">
           Example:
         </p>
         <source>
@@ -497,19 +544,23 @@ import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
 
 import org.apache.commons.io.FileUtils; // should not be separated by line
         </source>
-        <p>
+        <p id="Example12-config">
           To set RegExps for THIRD_PARTY_PACKAGE and STANDARD_JAVA_PACKAGE groups use
           thirdPartyPackageRegExp and standardPackageRegExp options.
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="STATIC###SAME_PACKAGE(3)###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE"/&gt;
-  &lt;property name="thirdPartyPackageRegExp" value="^(com|org)\."/&gt;
-  &lt;property name="standardPackageRegExp" value="^(java|javax)\."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;STATIC###SAME_PACKAGE(3)###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE&quot;/&gt;
+      &lt;property name=&quot;thirdPartyPackageRegExp&quot; value=&quot;^(com|org)\.&quot;/&gt;
+      &lt;property name=&quot;standardPackageRegExp&quot; value=&quot;^(java|javax)\.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example12-code">
           Example:
         </p>
         <source>
@@ -524,16 +575,20 @@ import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; //
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
 import org.apache.commons.io.FileUtils; // OK
         </source>
-        <p>
+        <p id="Example13-config">
           Also, this check can be configured to force empty line separator between
           import groups. For example.
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="separateLineBetweenGroups" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;separateLineBetweenGroups&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example13-code">
           Example:
         </p>
         <source>
@@ -547,17 +602,21 @@ import com.puppycrawl.tools.checkstyle.checks.imports.CustomImportOrderCheck; //
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck; // OK
 import org.apache.commons.io.FileUtils; // OK
         </source>
-        <p>
+        <p id="Example14-config">
           It is possible to enforce <a href="https://en.wikipedia.org/wiki/ASCII#Order">
           ASCII sort order</a>
           of imports in groups using the following configuration:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="sortImportsInGroupAlphabetically" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;sortImportsInGroupAlphabetically&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example14-code">
           Example of ASCII order:
         </p>
         <source>
@@ -567,7 +626,7 @@ import java.awt.color.ColorSpace;
 import java.awt.Frame; // violation here - in ASCII order 'F' should go before 'c',
                        // as all uppercase come before lowercase letters
         </source>
-        <p>
+        <p id="Example15-code">
           To force checking imports sequence such as:
         </p>
         <source>
@@ -585,14 +644,18 @@ import com.google.common.annotations.GwtCompatible; // violation here - should b
                                                     // THIRD_PARTY_PACKAGE group
 import android.*;
         </source>
-        <p>
+        <p id="Example15-config">
           configure as follows:
         </p>
         <source>
-&lt;module name="CustomImportOrder"&gt;
-  &lt;property name="customImportOrderRules"
-    value="SAME_PACKAGE(3)###THIRD_PARTY_PACKAGE###STATIC###SPECIAL_IMPORTS"/&gt;
-  &lt;property name="specialImportsRegExp" value="^android\."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;CustomImportOrder&quot;&gt;
+      &lt;property name=&quot;customImportOrderRules&quot;
+        value=&quot;SAME_PACKAGE(3)###THIRD_PARTY_PACKAGE###STATIC###SPECIAL_IMPORTS&quot;/&gt;
+      &lt;property name=&quot;specialImportsRegExp&quot; value=&quot;^android\.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
       </subsection>
@@ -614,27 +677,33 @@ import android.*;
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order%22">
-            custom.import.order</a>
+              custom.import.order
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order.lex%22">
-            custom.import.order.lex</a>
+              custom.import.order.lex
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order.line.separator%22">
-            custom.import.order.line.separator</a>
+              custom.import.order.line.separator
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order.nonGroup.expected%22">
-            custom.import.order.nonGroup.expected</a>
+              custom.import.order.nonGroup.expected
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order.nonGroup.import%22">
-            custom.import.order.nonGroup.import</a>
+              custom.import.order.nonGroup.import
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fimports%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22custom.import.order.separated.internally%22">
-            custom.import.order.separated.internally</a>
+              custom.import.order.separated.internally
+            </a>
           </li>
         </ul>
         <p>

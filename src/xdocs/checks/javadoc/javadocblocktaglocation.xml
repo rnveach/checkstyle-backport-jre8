@@ -75,51 +75,49 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check:
         </p>
         <source>
-&lt;module name="JavadocBlockTagLocation"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocBlockTagLocation&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 /**
  * Escaped tag &amp;#64;version (OK)
  * Plain text with {@code @see} (OK)
  * A @custom tag (OK)
- * <!-- @see commented out (OK) -->
- * email@author (OK)
- * (@param in parentheses) (OK)
- * '@param in single quotes' (OK)
- * @since 1.0 (OK)
- * text @return (violation)
- * * @param (violation)
-+* @serial (violation)
- * @see first (OK) @see second (violation)
- */
-public int field;
+ *
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check to verify tags from
           <a href="https://openjdk.org/jeps/8068562">JEP 8068562</a> only:
         </p>
         <source>
-&lt;module name="JavadocBlockTagLocation"&gt;
-  &lt;property name="tags" value="apiNote, implSpec, implNote"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocBlockTagLocation&quot;&gt;
+      &lt;property name=&quot;tags&quot; value=&quot;apiNote, implSpec, implNote&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           To configure the check to verify all default tags and some custom tags in addition:
         </p>
         <source>
-&lt;module name="JavadocBlockTagLocation"&gt;
+&lt;module name=&quot;JavadocBlockTagLocation&quot;&gt;
   &lt;!-- default tags --&gt;
-  &lt;property name="tags" value="author, deprecated, exception, hidden"/&gt;
-  &lt;property name="tags" value="param, provides, return, see, serial"/&gt;
-  &lt;property name="tags" value="serialData, serialField, since, throws"/&gt;
-  &lt;property name="tags" value="uses, version"/&gt;
+  &lt;property name=&quot;tags&quot; value=&quot;author, deprecated, exception, hidden&quot;/&gt;
+  &lt;property name=&quot;tags&quot; value=&quot;param, provides, return, see, serial&quot;/&gt;
+  &lt;property name=&quot;tags&quot; value=&quot;serialData, serialField, since, throws&quot;/&gt;
+  &lt;property name=&quot;tags&quot; value=&quot;uses, version&quot;/&gt;
   &lt;!-- additional tags used in the project --&gt;
-  &lt;property name="tags" value="noinspection"/&gt;
+  &lt;property name=&quot;tags&quot; value=&quot;noinspection&quot;/&gt;
 &lt;/module&gt;
         </source>
       </subsection>
@@ -137,19 +135,23 @@ public int field;
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.blockTagLocation%22">
-              javadoc.blockTagLocation</a>
+              javadoc.blockTagLocation
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.missed.html.close%22">
-              javadoc.missed.html.close</a>
+              javadoc.missed.html.close
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.parse.rule.error%22">
-              javadoc.parse.rule.error</a>
+              javadoc.parse.rule.error
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.wrong.singleton.html.tag%22">
-              javadoc.wrong.singleton.html.tag</a>
+              javadoc.wrong.singleton.html.tag
+            </a>
           </li>
         </ul>
         <p>

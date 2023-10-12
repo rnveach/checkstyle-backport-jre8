@@ -327,7 +327,9 @@ public class JavadocTypeCheckTest extends AbstractModuleTestSupport {
     @Test
     public void testAllowedAnnotationsNotAllowed() throws Exception {
 
-        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        final String[] expected = {
+            "38:1: " + getCheckMessage(MSG_MISSING_TAG, "@param <T>"),
+        };
         verifyWithInlineConfigParser(
                 getPath("InputJavadocTypeAllowedAnnotations_3.java"),
             expected);
@@ -394,5 +396,37 @@ public class JavadocTypeCheckTest extends AbstractModuleTestSupport {
         };
         verifyWithInlineConfigParser(
                 getPath("InputJavadocTypeTestTrimProperty.java"), expected);
+    }
+
+    @Test
+    public void testAuthorFormat() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocType1.java"), expected);
+    }
+
+    @Test
+    public void testAuthorFormat2() throws Exception {
+        final String[] expected = {
+            "15:1: " + getCheckMessage(MSG_MISSING_TAG, "@author"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocType2.java"), expected);
+    }
+
+    @Test
+    public void testJavadocType() throws Exception {
+        final String[] expected = {
+            "28:5: " + getCheckMessage(MSG_MISSING_TAG, "@param <T>"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocType3.java"), expected);
+    }
+
+    @Test
+    public void testJavadocType2() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocType4.java"), expected);
     }
 }

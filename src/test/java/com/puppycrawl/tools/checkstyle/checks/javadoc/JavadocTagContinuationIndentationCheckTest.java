@@ -136,4 +136,23 @@ public class JavadocTagContinuationIndentationCheckTest
                 expected);
     }
 
+    @Test
+    public void testContinuationIndentation() throws Exception {
+        final String[] expected = {
+            "23: " + getCheckMessage(MSG_KEY, 4),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocTagContinuationIndentation1.java"),
+                expected);
+    }
+
+    @Test
+    public void testJavadocTagContinuationIndentationCheck1() throws Exception {
+        final String[] expected = {
+            "16: " + getCheckMessage(MSG_KEY, 4),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputJavadocTagContinuationIndentationCheck1.java"),
+                expected);
+    }
 }

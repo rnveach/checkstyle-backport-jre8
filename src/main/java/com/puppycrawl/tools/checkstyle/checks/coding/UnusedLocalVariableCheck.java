@@ -52,71 +52,6 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <a href="https://docs.oracle.com/javase/specs/jls/se17/html/index.html">JLS</a>.
  * </p>
  * <p>
- * To configure the check:
- * </p>
- * <pre>
- * &lt;module name=&quot;UnusedLocalVariable&quot;/&gt;
- * </pre>
- * <p>
- * Example:
- * </p>
- * <pre>
- * class Test {
- *
- *     int a;
- *
- *     {
- *         int k = 12; // violation, assigned and updated but never used
- *         k++;
- *     }
- *
- *     Test(int a) {   // ok as 'a' is a constructor parameter not a local variable
- *         this.a = 12;
- *     }
- *
- *     void method(int b) {
- *         int a = 10;             // violation
- *         int[] arr = {1, 2, 3};  // violation
- *         int[] anotherArr = {1}; // ok
- *         anotherArr[0] = 4;
- *     }
- *
- *     String convertValue(String newValue) {
- *         String s = newValue.toLowerCase(); // violation
- *         return newValue.toLowerCase();
- *     }
- *
- *     void read() throws IOException {
- *         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
- *         String s; // violation
- *         while ((s = reader.readLine()) != null) {
- *         }
- *         try (BufferedReader reader1 // ok as 'reader1' is a resource and resources are closed
- *                                     // at the end of the statement
- *             = new BufferedReader(new FileReader("abc.txt"))) {
- *         }
- *         try {
- *         } catch (Exception e) {     // ok as e is an exception parameter
- *         }
- *     }
- *
- *     void loops() {
- *         int j = 12;
- *         for (int i = 0; j &lt; 11; i++) { // violation, unused local variable 'i'.
- *         }
- *         for (int p = 0; j &lt; 11; p++)   // ok
- *             p /= 2;
- *     }
- *
- *     void lambdas() {
- *         Predicate&lt;String&gt; obj = (String str) -&gt; { // ok as 'str' is a lambda parameter
- *             return true;
- *         };
- *         obj.test("test");
- *     }
- * }
- * </pre>
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -294,8 +229,7 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         else if (type == TokenTypes.IDENT) {
             visitIdentToken(ast, variables);
         }
-        else if (type == TokenTypes.LITERAL_NEW
-                && isInsideLocalAnonInnerClass(ast)) {
+        else if (isInsideLocalAnonInnerClass(ast)) {
             visitLocalAnonInnerClass(ast);
         }
         else if (TokenUtil.isTypeDeclaration(type)) {
@@ -403,13 +337,13 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         final DetailAST lastChild = literalNewAst.getLastChild();
         if (lastChild != null && lastChild.getType() == TokenTypes.OBJBLOCK) {
             DetailAST currentAst = literalNewAst;
-            while (currentAst.getType() != TokenTypes.SLIST) {
-                if (TokenUtil.isTypeDeclaration(currentAst.getParent().getType())) {
+            while (!TokenUtil.isTypeDeclaration(currentAst.getType())) {
+                if (currentAst.getType() == TokenTypes.SLIST) {
+                    result = true;
                     break;
                 }
                 currentAst = currentAst.getParent();
             }
-            result = currentAst.getType() == TokenTypes.SLIST;
         }
         return result;
     }

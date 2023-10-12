@@ -24,37 +24,41 @@
           Rationale: Novice Java programmers often use code like:
         </p>
         <source>
-if (x == "something")
+if (x == &quot;something&quot;)
         </source>
 
         <p>when they mean</p>
         <source>
-if ("something".equals(x))
+if (&quot;something&quot;.equals(x))
         </source>
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="StringLiteralEquality"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;StringLiteralEquality&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Examples of violations:
         </p>
         <source>
-String status = "pending";
+String status = &quot;pending&quot;;
 
-if (status == "done") {} // violation
+if (status == &quot;done&quot;) {} // violation
 
-while (status != "done") {} // violation
+while (status != &quot;done&quot;) {} // violation
 
-boolean flag = (status == "done"); // violation
+boolean flag = (status == &quot;done&quot;); // violation
 
-boolean flag = (status.equals("done")); // OK
+boolean flag = (status.equals(&quot;done&quot;)); // OK
 
-String name = "X";
+String name = &quot;X&quot;;
 
 if (name == getName()) {}
 // OK, limitation that check cannot tell runtime type returned from method call
@@ -74,7 +78,8 @@ if (name == getName()) {}
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22string.literal.equality%22">
-            string.literal.equality</a>
+              string.literal.equality
+            </a>
           </li>
         </ul>
         <p>

@@ -11,11 +11,11 @@
       <subsection name="Description" id="Description">
         <p>
           Checks that the whitespace around the Generic tokens (angle brackets)
-          "&lt;" and "&gt;" are correct to the <i>typical</i> convention.
+          &quot;&lt;&quot; and &quot;&gt;&quot; are correct to the <i>typical</i> convention.
           The convention is not configurable.
         </p>
         <p>
-          Left angle bracket ("&lt;"):
+          Left angle bracket (&quot;&lt;&quot;):
         </p>
         <ul>
           <li> should be preceded with whitespace only in generic methods definitions.</li>
@@ -25,7 +25,7 @@
           <li> should not be followed with whitespace in all cases.</li>
         </ul>
         <p>
-          Right angle bracket ("&gt;"):
+          Right angle bracket (&quot;&gt;&quot;):
         </p>
         <ul>
           <li> should not be preceded with whitespace in all cases.</li>
@@ -35,17 +35,20 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="GenericWhitespace"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;GenericWhitespace&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Examples with correct spacing:
         </p>
-        <div class="wrapper">
-          <pre>
+        <source>
 // Generic methods definitions
 public void &lt;K, V extends Number&gt; boolean foo(K, V) {}
 // Generic type definition
@@ -55,29 +58,26 @@ OrderedPair&lt;String, Box&lt;Integer&gt;&gt; p;
 // Generic preceded method name
 boolean same = Util.&lt;Integer, String&gt;compare(p1, p2);
 // Diamond operator
-Pair&lt;Integer, String&gt; p1 = new Pair&lt;&gt;(1, "apple");
+Pair&lt;Integer, String&gt; p1 = new Pair&lt;&gt;(1, &quot;apple&quot;);
 // Method reference
 List&lt;T&gt; list = ImmutableList.Builder&lt;T&gt;::new;
 // Method reference
 sort(list, Comparable::&lt;String&gt;compareTo);
 // Constructor call
 MyClass obj = new &lt;String&gt;MyClass();
-          </pre>
-        </div>
-        <p>
+        </source>
+        <p id="Example2-code">
           Examples with incorrect spacing:
         </p>
-        <div class="wrapper">
-          <pre>
-List&lt; String&gt; l; // violation, "&lt;" followed by whitespace
-Box b = Box. &lt;String&gt;of("foo"); // violation, "&lt;" preceded with whitespace
-public&lt;T&gt; void foo() {} // violation, "&lt;" not preceded with whitespace
+        <source>
+List&lt; String&gt; l; // violation, &quot;&lt;&quot; followed by whitespace
+Box b = Box. &lt;String&gt;of(&quot;foo&quot;); // violation, &quot;&lt;&quot; preceded with whitespace
+public&lt;T&gt; void foo() {} // violation, &quot;&lt;&quot; not preceded with whitespace
 
-List a = new ArrayList&lt;&gt; (); // violation, "&gt;" followed by whitespace
-Map&lt;Integer, String&gt;m; // violation, "&gt;" not followed by whitespace
-Pair&lt;Integer, Integer &gt; p; // violation, "&gt;" preceded with whitespace
-          </pre>
-        </div>
+List a = new ArrayList&lt;&gt; (); // violation, &quot;&gt;&quot; followed by whitespace
+Map&lt;Integer, String&gt;m; // violation, &quot;&gt;&quot; not followed by whitespace
+Pair&lt;Integer, Integer &gt; p; // violation, &quot;&gt;&quot; preceded with whitespace
+        </source>
       </subsection>
 
       <subsection name="Example of Usage" id="Example_of_Usage">
@@ -101,19 +101,23 @@ Pair&lt;Integer, Integer &gt; p; // violation, "&gt;" preceded with whitespace
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fwhitespace%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ws.followed%22">
-            ws.followed</a>
+              ws.followed
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fwhitespace%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ws.illegalFollow%22">
-            ws.illegalFollow</a>
+              ws.illegalFollow
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fwhitespace%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ws.notPreceded%22">
-            ws.notPreceded</a>
+              ws.notPreceded
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fwhitespace%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ws.preceded%22">
-            ws.preceded</a>
+              ws.preceded
+            </a>
           </li>
         </ul>
         <p>

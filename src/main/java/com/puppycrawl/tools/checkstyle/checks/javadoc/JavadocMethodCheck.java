@@ -33,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
+import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.FileContents;
@@ -147,339 +147,6 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * </li>
  * </ul>
  * <p>
- * To configure the default check:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"/&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * public class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // violation, param tag missing for x
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // violation, param tag missing for p1
- *    return p1;             // violation, return tag missing
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // violation, return tag missing
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // violation, param tag missing for p1
- *  }                        // ok, no return tag for void method
- * }
- * </pre>
- * <p>
- * To configure the check for only {@code public} modifier, ignoring any missing param tags is:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="accessModifiers" value="public"/&gt;
- *   &lt;property name="allowMissingParamTags" value="true"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * public class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // ok, only public methods checked
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // ok, missing param tags allowed
- *    return p1;             // violation, return tag missing
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // ok, only public methods checked
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // ok, missing param tags allowed
- *  }                        // ok, no return tag for void method
- * }
- * </pre>
- * <p>
- * To configure the check for methods which are in {@code private} and {@code package},
- * but not any other modifier:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="accessModifiers" value="private, package"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // violation, param tag missing for x
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // ok, public methods not checked
- *    return p1;
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // violation, return tag missing
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // violation, param tag missing for p1
- *  }                        // ok, no return tag for void method
- * }
- * </pre>
- * <p>
- * To configure the check to ignore any missing return tags:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="allowMissingReturnTag" value="true"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * public class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // violation, param tag missing for x
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // violation, param tag missing for p1
- *    return p1;             // ok, missing return tag allowed
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // ok, missing return tag allowed
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // violation, param tag missing for p1
- *  }                        // ok, no return tag for void method
- * }
- * </pre>
- * <p>
- *  To configure the check to ignore Methods with annotation {@code Deprecated}:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="allowedAnnotations" value="Deprecated"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * public class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // violation, param tag missing for x
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // violation, param tag missing for p1
- *    return p1;             // violation, return tag missing
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // ok, Deprecated methods not checked
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // violation, param tag missing for p1
- *  }                        // ok, no return tag for void method
- * }
- * </pre>
- * <p>
- *     To configure the check only for tokens which are Constructor Definitions:
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="tokens" value="CTOR_DEF"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * public class Test {
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  Test(int x) {            // violation, param tag missing for x
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  public int foo(int p1) { // ok, method not checked
- *    return p1;             // ok, method not checked
- *  }
- *
- *  &#47;**
- *   *
- *   * &#64;param p1 The first number
- *   *&#47;
- *  &#64;Deprecated
- *  private int boo(int p1) {
- *    return p1;             // ok, method not checked
- *  }
- *
- *  &#47;**
- *   *
- *   *&#47;
- *  void bar(int p1) {       // ok, method not checked
- *  }
- * }
- * </pre>
- * <p>
- * To configure the check to validate {@code throws} tags, you can use following config.
- * </p>
- * <pre>
- * &lt;module name="JavadocMethod"&gt;
- *   &lt;property name="validateThrows" value="true"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- * <pre>
- * &#47;**
- *  * Actual exception thrown is child class of class that is declared in throws.
- *  * It is limitation of checkstyle (as checkstyle does not know type hierarchy).
- *  * Javadoc is valid not declaring FileNotFoundException
- *  * BUT checkstyle can not distinguish relationship between exceptions.
- *  * &#64;param file some file
- *  * &#64;throws IOException if some problem
- *  *&#47;
- * public void doSomething8(File file) throws IOException {
- *     if (file == null) {
- *         throw new FileNotFoundException(); // violation
- *     }
- * }
- *
- * &#47;**
- *  * Exact throw type referencing in javadoc even first is parent of second type.
- *  * It is a limitation of checkstyle (as checkstyle does not know type hierarchy).
- *  * This javadoc is valid for checkstyle and for javadoc tool.
- *  * &#64;param file some file
- *  * &#64;throws IOException if some problem
- *  * &#64;throws FileNotFoundException if file is not found
- *  *&#47;
- * public void doSomething9(File file) throws IOException {
- *     if (file == null) {
- *         throw new FileNotFoundException();
- *     }
- * }
- *
- * &#47;**
- *  * Ignore try block, but keep catch and finally blocks.
- *  *
- *  * &#64;param s String to parse
- *  * &#64;return A positive integer
- *  *&#47;
- * public int parsePositiveInt(String s) {
- *     try {
- *         int value = Integer.parseInt(s);
- *         if (value &lt;= 0) {
- *             throw new NumberFormatException(value + " is negative/zero"); // ok, try
- *         }
- *         return value;
- *     } catch (NumberFormatException ex) {
- *         throw new IllegalArgumentException("Invalid number", ex); // violation, catch
- *     } finally {
- *         throw new IllegalStateException("Should never reach here"); // violation, finally
- *     }
- * }
- *
- * &#47;**
- *  * Try block without catch is not ignored.
- *  *
- *  * &#64;return a String from standard input, if there is one
- *  *&#47;
- * public String readLine() {
- *     try (Scanner sc = new Scanner(System.in)) {
- *         if (!sc.hasNext()) {
- *             throw new IllegalStateException("Empty input"); // violation, not caught
- *         }
- *         return sc.next();
- *     }
- * }
- *
- * &#47;**
- *  * Lambda expressions are ignored as we do not know when the exception will be thrown.
- *  *
- *  * &#64;param s a String to be printed at some point in the future
- *  * &#64;return a Runnable to be executed when the string is to be printed
- *  *&#47;
- * public Runnable printLater(String s) {
- *     return () -&gt; {
- *         if (s == null) {
- *             throw new NullPointerException(); // ok
- *         }
- *         System.out.println(s);
- *     };
- * }
- * </pre>
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -511,7 +178,7 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  *
  * @since 3.0
  */
-@FileStatefulCheck
+@StatelessCheck
 public class JavadocMethodCheck extends AbstractCheck {
 
     /**
@@ -556,6 +223,12 @@ public class JavadocMethodCheck extends AbstractCheck {
      */
     public static final String MSG_DUPLICATE_TAG = "javadoc.duplicateTag";
 
+    /** Html element start symbol. */
+    private static final String ELEMENT_START = "<";
+
+    /** Html element end symbol. */
+    private static final String ELEMENT_END = ">";
+
     /** Compiled regexp to match Javadoc tags that take an argument. */
     private static final Pattern MATCH_JAVADOC_ARG = CommonUtil.createPattern(
             "^\\s*(?>\\*|\\/\\*\\*)?\\s*@(throws|exception|param)\\s+(\\S+)\\s+\\S*");
@@ -582,9 +255,6 @@ public class JavadocMethodCheck extends AbstractCheck {
     /** Compiled regexp to match Javadoc tags with no argument and {}. */
     private static final Pattern MATCH_JAVADOC_NOARG_CURLY =
             CommonUtil.createPattern("\\{\\s*@(inheritDoc)\\s*\\}");
-
-    /** Name of current class. */
-    private String currentClassName;
 
     /** Specify the access modifiers where Javadoc comments are checked. */
     private AccessModifierOption[] accessModifiers = {
@@ -699,32 +369,12 @@ public class JavadocMethodCheck extends AbstractCheck {
     }
 
     @Override
-    public void beginTree(DetailAST rootAST) {
-        currentClassName = "";
-    }
-
-    @Override
     public final void visitToken(DetailAST ast) {
-        if (ast.getType() == TokenTypes.CLASS_DEF
-                 || ast.getType() == TokenTypes.INTERFACE_DEF
-                 || ast.getType() == TokenTypes.ENUM_DEF
-                 || ast.getType() == TokenTypes.RECORD_DEF) {
-            processClass(ast);
-        }
-        else {
+        if (ast.getType() == TokenTypes.METHOD_DEF
+                 || ast.getType() == TokenTypes.CTOR_DEF
+                 || ast.getType() == TokenTypes.ANNOTATION_FIELD_DEF
+                 || ast.getType() == TokenTypes.COMPACT_CTOR_DEF) {
             processAST(ast);
-        }
-    }
-
-    @Override
-    public final void leaveToken(DetailAST ast) {
-        if (ast.getType() == TokenTypes.CLASS_DEF
-            || ast.getType() == TokenTypes.INTERFACE_DEF
-            || ast.getType() == TokenTypes.ENUM_DEF
-            || ast.getType() == TokenTypes.RECORD_DEF) {
-            // perhaps it was inner class
-            final int dotIdx = currentClassName.lastIndexOf('$');
-            currentClassName = currentClassName.substring(0, dotIdx);
         }
     }
 
@@ -1141,7 +791,7 @@ public class JavadocMethodCheck extends AbstractCheck {
             final String arg1 = tag.getFirstArg();
             boolean found = removeMatchingParam(params, arg1);
 
-            if (CommonUtil.startsWithChar(arg1, '<') && CommonUtil.endsWithChar(arg1, '>')) {
+            if (arg1.startsWith(ELEMENT_START) && arg1.endsWith(ELEMENT_END)) {
                 found = searchMatchingTypeParameter(typeParams,
                         arg1.substring(1, arg1.length() - 1));
             }
@@ -1164,8 +814,8 @@ public class JavadocMethodCheck extends AbstractCheck {
             for (DetailAST typeParam : typeParams) {
                 log(typeParam, MSG_EXPECTED_TAG,
                     JavadocTagInfo.PARAM.getText(),
-                    "<" + typeParam.findFirstToken(TokenTypes.IDENT).getText()
-                    + ">");
+                    ELEMENT_START + typeParam.findFirstToken(TokenTypes.IDENT).getText()
+                    + ELEMENT_END);
             }
         }
     }
@@ -1355,19 +1005,6 @@ public class JavadocMethodCheck extends AbstractCheck {
             }
         }
         return result;
-    }
-
-    /**
-     * Processes class definition.
-     *
-     * @param ast class definition to process.
-     */
-    private void processClass(DetailAST ast) {
-        final DetailAST ident = ast.findFirstToken(TokenTypes.IDENT);
-        String innerClass = ident.getText();
-
-        innerClass = "$" + innerClass;
-        currentClassName += innerClass;
     }
 
     /**

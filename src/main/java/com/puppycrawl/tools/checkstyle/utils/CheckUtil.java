@@ -59,9 +59,6 @@ public final class CheckUtil {
     /** Maximum nodes allowed in a body of setter. */
     private static final int SETTER_BODY_SIZE = 3;
 
-    /** Maximum nodes allowed in a body of getter. */
-    private static final int GETTER_BODY_SIZE = 2;
-
     /** Pattern matching underscore characters ('_'). */
     private static final Pattern UNDERSCORE_PATTERN = Pattern.compile("_");
 
@@ -112,42 +109,6 @@ public final class CheckUtil {
     }
 
     /**
-     * Returns whether a token represents an ELSE as part of an ELSE / IF set.
-     *
-     * @param ast the token to check
-     * @return whether it is
-     */
-    public static boolean isElseIf(DetailAST ast) {
-        final DetailAST parentAST = ast.getParent();
-
-        return ast.getType() == TokenTypes.LITERAL_IF
-            && (isElse(parentAST) || isElseWithCurlyBraces(parentAST));
-    }
-
-    /**
-     * Returns whether a token represents an ELSE.
-     *
-     * @param ast the token to check
-     * @return whether the token represents an ELSE
-     */
-    private static boolean isElse(DetailAST ast) {
-        return ast.getType() == TokenTypes.LITERAL_ELSE;
-    }
-
-    /**
-     * Returns whether a token represents an SLIST as part of an ELSE
-     * statement.
-     *
-     * @param ast the token to check
-     * @return whether the toke does represent an SLIST as part of an ELSE
-     */
-    private static boolean isElseWithCurlyBraces(DetailAST ast) {
-        return ast.getType() == TokenTypes.SLIST
-            && ast.getChildCount() == 2
-            && isElse(ast.getParent());
-    }
-
-    /**
      * Returns the value represented by the specified string of the specified
      * type. Returns 0 for types other than float, double, int, and long.
      *
@@ -175,9 +136,8 @@ public final class CheckUtil {
                     radix = BASE_2;
                     txt = txt.substring(2);
                 }
-                else if (CommonUtil.startsWithChar(txt, '0')) {
+                else if (txt.startsWith("0")) {
                     radix = BASE_8;
-                    txt = txt.substring(1);
                 }
                 result = parseNumber(txt, radix, type);
                 break;
@@ -202,32 +162,29 @@ public final class CheckUtil {
      */
     private static double parseNumber(final String text, final int radix, final int type) {
         String txt = text;
-        if (CommonUtil.endsWithChar(txt, 'L') || CommonUtil.endsWithChar(txt, 'l')) {
+        if (txt.endsWith("L") || txt.endsWith("l")) {
             txt = txt.substring(0, txt.length() - 1);
         }
         final double result;
-        if (txt.isEmpty()) {
-            result = 0.0;
-        }
-        else {
-            final boolean negative = txt.charAt(0) == '-';
-            if (type == TokenTypes.NUM_INT) {
-                if (negative) {
-                    result = Integer.parseInt(txt, radix);
-                }
-                else {
-                    result = Integer.parseUnsignedInt(txt, radix);
-                }
+
+        final boolean negative = txt.charAt(0) == '-';
+        if (type == TokenTypes.NUM_INT) {
+            if (negative) {
+                result = Integer.parseInt(txt, radix);
             }
             else {
-                if (negative) {
-                    result = Long.parseLong(txt, radix);
-                }
-                else {
-                    result = Long.parseUnsignedLong(txt, radix);
-                }
+                result = Integer.parseUnsignedInt(txt, radix);
             }
         }
+        else {
+            if (negative) {
+                result = Long.parseLong(txt, radix);
+            }
+            else {
+                result = Long.parseUnsignedLong(txt, radix);
+            }
+        }
+
         return result;
     }
 
@@ -339,12 +296,11 @@ public final class CheckUtil {
             final DetailAST type = ast.findFirstToken(TokenTypes.TYPE);
             final String name = type.getNextSibling().getText();
             final boolean matchesSetterFormat = SETTER_PATTERN.matcher(name).matches();
-            final boolean voidReturnType = type.findFirstToken(TokenTypes.LITERAL_VOID) != null;
 
             final DetailAST params = ast.findFirstToken(TokenTypes.PARAMETERS);
             final boolean singleParam = params.getChildCount(TokenTypes.PARAMETER_DEF) == 1;
 
-            if (matchesSetterFormat && voidReturnType && singleParam) {
+            if (matchesSetterFormat && singleParam) {
                 // Now verify that the body consists of:
                 // SLIST -> EXPR -> ASSIGN
                 // SEMI
@@ -377,18 +333,17 @@ public final class CheckUtil {
             final DetailAST type = ast.findFirstToken(TokenTypes.TYPE);
             final String name = type.getNextSibling().getText();
             final boolean matchesGetterFormat = GETTER_PATTERN.matcher(name).matches();
-            final boolean noVoidReturnType = type.findFirstToken(TokenTypes.LITERAL_VOID) == null;
 
             final DetailAST params = ast.findFirstToken(TokenTypes.PARAMETERS);
             final boolean noParams = params.getChildCount(TokenTypes.PARAMETER_DEF) == 0;
 
-            if (matchesGetterFormat && noVoidReturnType && noParams) {
+            if (matchesGetterFormat && noParams) {
                 // Now verify that the body consists of:
                 // SLIST -> RETURN
                 // RCURLY
                 final DetailAST slist = ast.findFirstToken(TokenTypes.SLIST);
 
-                if (slist != null && slist.getChildCount() == GETTER_BODY_SIZE) {
+                if (slist != null) {
                     final DetailAST expr = slist.getFirstChild();
                     getterMethod = expr.getType() == TokenTypes.LITERAL_RETURN;
                 }
@@ -417,12 +372,21 @@ public final class CheckUtil {
     /**
      * Checks whether a parameter is a receiver.
      *
+     * <p>A receiver parameter is a special parameter that
+     * represents the object for which the method is invoked.
+     * It is denoted by the reserved keyword {@code this}
+     * in the method declaration. Check
+     * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#PARAMETER_DEF">
+     * PARAMETER_DEF</a>
+     * </p>
+     *
      * @param parameterDefAst the parameter node.
      * @return true if the parameter is a receiver.
+     * @see <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.1">
+     *     ReceiverParameter</a>
      */
     public static boolean isReceiverParameter(DetailAST parameterDefAst) {
-        return parameterDefAst.getType() == TokenTypes.PARAMETER_DEF
-                && parameterDefAst.findFirstToken(TokenTypes.IDENT) == null;
+        return parameterDefAst.findFirstToken(TokenTypes.IDENT) == null;
     }
 
     /**
@@ -489,7 +453,7 @@ public final class CheckUtil {
      */
     public static AccessModifierOption getSurroundingAccessModifier(DetailAST node) {
         AccessModifierOption returnValue = null;
-        for (DetailAST token = node.getParent();
+        for (DetailAST token = node;
              returnValue == null && !TokenUtil.isRootNode(token);
              token = token.getParent()) {
             final int type = token.getType();
@@ -668,7 +632,7 @@ public final class CheckUtil {
      * @return short name of base class of anonymous inner class
      */
     public static String getShortNameOfAnonInnerClass(DetailAST literalNewAst) {
-        DetailAST parentAst = literalNewAst.getParent();
+        DetailAST parentAst = literalNewAst;
         while (TokenUtil.isOfType(parentAst, TokenTypes.LITERAL_NEW, TokenTypes.DOT)) {
             parentAst = parentAst.getParent();
         }

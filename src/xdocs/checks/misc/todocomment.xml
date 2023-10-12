@@ -32,7 +32,7 @@
               <td>format</td>
               <td>Specify pattern to match comments against.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"TODO:"</code></td>
+              <td><code>&quot;TODO:&quot;</code></td>
               <td>3.0</td>
             </tr>
           </table>
@@ -49,28 +49,36 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="TodoComment"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TodoComment&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
 i++; // TODO: do differently in future   // violation
 i++; // todo: do differently in future   // OK
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check for comments that contain <code>TODO</code> and <code>FIXME</code>:
         </p>
         <source>
-&lt;module name="TodoComment"&gt;
-  &lt;property name="format" value="(TODO)|(FIXME)"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;TodoComment&quot;&gt;
+      &lt;property name=&quot;format&quot; value=&quot;(TODO)|(FIXME)&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -98,7 +106,8 @@ i=i/x; // FIX :  handle x = 0 case         // OK
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22todo.match%22">
-            todo.match</a>
+              todo.match
+            </a>
           </li>
         </ul>
         <p>

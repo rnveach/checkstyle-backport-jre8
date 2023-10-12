@@ -24,23 +24,29 @@
         </p>
         <p>
           See <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-7.html#jls-7.4.1">
-          Java Language Specification, §7.4.1</a> for more info.
+          Java Language Specification, &#xa7;7.4.1</a> for more info.
         </p>
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p> To configure the check:</p>
-        <source> &lt;module name="PackageAnnotation"/&gt; </source>
-        <p>Example of validating MyClass.java:</p>
+        <p id="Example1-config"> To configure the check:</p>
+        <source>
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;PackageAnnotation&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
+        </source>
+        <p id="Example1-code">Example of validating MyClass.java:</p>
         <source>
 @Deprecated
 package com.example.annotations.packageannotation; //violation
         </source>
-        <p>Example of fixing violation in MyClass.java:</p>
+        <p id="Example2-code">Example of fixing violation in MyClass.java:</p>
         <source>
 package com.example.annotations.packageannotation; //ok
         </source>
-        <p>Example of validating package-info.java:</p>
+        <p id="Example3-code">Example of validating package-info.java:</p>
         <source>
 @Deprecated
 package com.example.annotations.packageannotation; //ok
@@ -60,7 +66,8 @@ package com.example.annotations.packageannotation; //ok
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22annotation.package.location%22">
-            annotation.package.location</a>
+              annotation.package.location
+            </a>
           </li>
         </ul>
         <p>
@@ -75,7 +82,9 @@ package com.example.annotations.packageannotation; //ok
       </subsection>
 
       <subsection name="Parent Module" id="Parent_Module">
-        <p> <a href="../../config.html#TreeWalker">TreeWalker</a> </p>
+        <p>
+          <a href="../../config.html#TreeWalker">TreeWalker</a>
+        </p>
       </subsection>
     </section>
   </body>

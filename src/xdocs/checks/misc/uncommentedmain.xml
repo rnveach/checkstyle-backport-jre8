@@ -38,7 +38,7 @@
               <td>Specify pattern for qualified names of classes which are allowed
               to have a <code>main</code> method.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^$"</code></td>
+              <td><code>&quot;^$&quot;</code></td>
               <td>3.2</td>
             </tr>
           </table>
@@ -46,13 +46,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="UncommentedMain"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;UncommentedMain&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 public class Game {
    public static void main(String... args){}   // violation
@@ -78,16 +82,20 @@ public record MyRecord2 {
     //public void main(){}                     // OK
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check to allow the <code>main</code> method for all classes
-          with "Main" name:
+          with &quot;Main&quot; name:
         </p>
         <source>
-&lt;module name="UncommentedMain"&gt;
-  &lt;property name="excludedClasses" value="\.Main$"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;UncommentedMain&quot;&gt;
+      &lt;property name=&quot;excludedClasses&quot; value=&quot;\.Main$&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example2-code">Example:</p>
         <source>
 public class Game {
    public static void main(String... args){}   // violation
@@ -108,7 +116,6 @@ public class Start {
 public record MyRecord1 {
     public void main(){}                      // OK
 }
-
         </source>
       </subsection>
 
@@ -125,7 +132,8 @@ public record MyRecord1 {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22uncommented.main%22">
-            uncommented.main</a>
+              uncommented.main
+            </a>
           </li>
         </ul>
         <p>

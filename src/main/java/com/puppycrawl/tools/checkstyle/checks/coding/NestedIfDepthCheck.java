@@ -23,7 +23,6 @@ import com.puppycrawl.tools.checkstyle.FileStatefulCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 
 /**
  * <p>
@@ -36,62 +35,6 @@ import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
  * Default value is {@code 1}.
  * </li>
  * </ul>
- * <p>
- * To configure the check:
- * </p>
- * <pre>
- * &lt;module name=&quot;NestedIfDepth&quot;/&gt;
- * </pre>
- * <p>Valid code example:</p>
- * <pre>
- * if (true) {
- *     if (true) {} // OK
- *     else {}
- * }
- * </pre>
- * <p>Invalid code example:</p>
- * <pre>
- * if (true) {
- *     if (true) {
- *         if (true) { // violation, nested if-else depth is 2 (max allowed is 1)
- *         }
- *     }
- * }
- * </pre>
- * <p>
- * To configure the check to allow nesting depth 3:
- * </p>
- * <pre>
- * &lt;module name=&quot;NestedIfDepth&quot;&gt;
- *   &lt;property name=&quot;max&quot; value=&quot;3&quot;/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Valid code example:</p>
- * <pre>
- * if (true) {
- *    if (true) {
- *       if (true) {
- *          if (true) {} // OK
- *          else {}
- *       }
- *    }
- * }
- * </pre>
- * <p>Invalid code example:</p>
- * <pre>
- * if (true) {
- *    if (true) {
- *       if (true) {
- *          if (true) {
- *             if (true) { // violation, nested if-else depth is 4 (max allowed is 3)
- *                if (true) {} // violation, nested if-else depth is 5 (max allowed is 3)
- *                else {}
- *             }
- *          }
- *       }
- *    }
- * }
- * </pre>
  * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
@@ -147,7 +90,7 @@ public final class NestedIfDepthCheck extends AbstractCheck {
 
     @Override
     public void visitToken(DetailAST literalIf) {
-        if (!CheckUtil.isElseIf(literalIf)) {
+        if (!isElseIf(literalIf)) {
             if (depth > max) {
                 log(literalIf, MSG_KEY, depth, max);
             }
@@ -157,9 +100,41 @@ public final class NestedIfDepthCheck extends AbstractCheck {
 
     @Override
     public void leaveToken(DetailAST literalIf) {
-        if (!CheckUtil.isElseIf(literalIf)) {
+        if (!isElseIf(literalIf)) {
             --depth;
         }
     }
 
+    /**
+     * Returns whether a token represents an ELSE as part of an ELSE / IF set.
+     *
+     * @param ast the token to check
+     * @return whether it is
+     */
+    private static boolean isElseIf(DetailAST ast) {
+        final DetailAST parentAST = ast.getParent();
+
+        return isElse(parentAST) || isElseWithCurlyBraces(parentAST);
+    }
+
+    /**
+     * Returns whether a token represents an ELSE.
+     *
+     * @param ast the token to check
+     * @return whether the token represents an ELSE
+     */
+    private static boolean isElse(DetailAST ast) {
+        return ast.getType() == TokenTypes.LITERAL_ELSE;
+    }
+
+    /**
+     * Returns whether a token represents an SLIST as part of an ELSE
+     * statement.
+     *
+     * @param ast the token to check
+     * @return whether the toke does represent an SLIST as part of an ELSE
+     */
+    private static boolean isElseWithCurlyBraces(DetailAST ast) {
+        return ast.getChildCount() == 2 && isElse(ast.getParent());
+    }
 }

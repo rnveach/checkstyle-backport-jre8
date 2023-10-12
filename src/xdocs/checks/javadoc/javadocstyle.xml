@@ -34,8 +34,8 @@
 
           <li>
             Check text for incomplete HTML tags. Verifies that HTML
-            tags have corresponding end tags and issues an "Unclosed
-            HTML tag found:" error if not. An "Extra HTML tag found:"
+            tags have corresponding end tags and issues an &quot;Unclosed
+            HTML tag found:&quot; error if not. An &quot;Extra HTML tag found:&quot;
             error is issued if an end tag is found without a previous
             open tag.
           </li>
@@ -45,13 +45,13 @@
           </li>
           <li>
             Check for allowed HTML tags. The list of allowed HTML tags
-            is "a", "abbr", "acronym", "address", "area", "b", "bdo", "big",
-            "blockquote", "br", "caption", "cite", "code", "colgroup", "dd",
-            "del", "dfn", "div", "dl", "dt", "em", "fieldset", "font", "h1",
-            "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "ins", "kbd", "li",
-            "ol", "p", "pre", "q", "samp", "small", "span", "strong", "sub",
-            "sup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "tt",
-            "u", "ul", "var".
+            is &quot;a&quot;, &quot;abbr&quot;, &quot;acronym&quot;, &quot;address&quot;, &quot;area&quot;, &quot;b&quot;, &quot;bdo&quot;, &quot;big&quot;,
+            &quot;blockquote&quot;, &quot;br&quot;, &quot;caption&quot;, &quot;cite&quot;, &quot;code&quot;, &quot;colgroup&quot;, &quot;dd&quot;,
+            &quot;del&quot;, &quot;dfn&quot;, &quot;div&quot;, &quot;dl&quot;, &quot;dt&quot;, &quot;em&quot;, &quot;fieldset&quot;, &quot;font&quot;, &quot;h1&quot;,
+            &quot;h2&quot;, &quot;h3&quot;, &quot;h4&quot;, &quot;h5&quot;, &quot;h6&quot;, &quot;hr&quot;, &quot;i&quot;, &quot;img&quot;, &quot;ins&quot;, &quot;kbd&quot;, &quot;li&quot;,
+            &quot;ol&quot;, &quot;p&quot;, &quot;pre&quot;, &quot;q&quot;, &quot;samp&quot;, &quot;small&quot;, &quot;span&quot;, &quot;strong&quot;, &quot;sub&quot;,
+            &quot;sup&quot;, &quot;table&quot;, &quot;tbody&quot;, &quot;td&quot;, &quot;tfoot&quot;, &quot;th&quot;, &quot;thead&quot;, &quot;tr&quot;, &quot;tt&quot;,
+            &quot;u&quot;, &quot;ul&quot;, &quot;var&quot;.
           </li>
         </ul>
 
@@ -101,7 +101,7 @@
                 Specify the format for matching the end of a sentence.
               </td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"([.?!][ \t\n\r\f&lt;])|([.?!]$)"</code></td>
+              <td><code>&quot;([.?!][ \t\n\r\f&lt;])|([.?!]$)&quot;</code></td>
               <td>5.0</td>
             </tr>
             <tr>
@@ -184,15 +184,19 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check:
         </p>
 
         <source>
-&lt;module name="JavadocStyle"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
 
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 public class Test {
     /**
@@ -207,15 +211,19 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example2-config">
           To configure the check for <code>public</code> scope:
         </p>
         <source>
-&lt;module name="JavadocStyle"&gt;
-&lt;property name="scope" value="public"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;&gt;
+    &lt;property name=&quot;scope&quot; value=&quot;public&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example2-code">Example:</p>
         <source>
 public class Test {
     /**
@@ -230,18 +238,22 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example3-config">
           To configure the check for javadoc which is in <code>private</code>, but not in
           <code>package</code> scope:
         </p>
 
         <source>
-&lt;module name="JavadocStyle"&gt;
-&lt;property name="scope" value="private"/&gt;
-&lt;property name="excludeScope" value="package"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;&gt;
+    &lt;property name=&quot;scope&quot; value=&quot;private&quot;/&gt;
+    &lt;property name=&quot;excludeScope&quot; value=&quot;package&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example3-code">Example:</p>
         <source>
 public class Test {
     /**
@@ -256,16 +268,20 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example4-config">
           To configure the check to turn off first sentence checking:
         </p>
 
         <source>
-&lt;module name="JavadocStyle"&gt;
-&lt;property name="checkFirstSentence" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;&gt;
+    &lt;property name=&quot;checkFirstSentence&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example4-code">Example:</p>
         <source>
 public class Test {
     /**
@@ -276,16 +292,20 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example5-config">
           To configure the check to turn off validation of incomplete html tags:
         </p>
         <source>
-&lt;module name="JavadocStyle"&gt;
-&lt;property name="checkHtml" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;&gt;
+    &lt;property name=&quot;checkHtml&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
-        <p>Example:</p>
+        <p id="Example5-code">Example:</p>
         <source>
 public class Test {
     /**
@@ -296,16 +316,20 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example6-config">
           To configure the check for only class definitions:
         </p>
         <source>
-&lt;module name="JavadocStyle"&gt;
-&lt;property name="tokens" value="CLASS_DEF"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocStyle&quot;&gt;
+    &lt;property name=&quot;tokens&quot; value=&quot;CLASS_DEF&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
 
-        <p>Example:</p>
+        <p id="Example6-code">Example:</p>
         <source>
 /**
  * Some description here // violation, the sentence must end with a proper punctuation
@@ -336,23 +360,28 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.empty%22">
-            javadoc.empty</a>
+              javadoc.empty
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.extraHtml%22">
-            javadoc.extraHtml</a>
+              javadoc.extraHtml
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.incompleteTag%22">
-            javadoc.incompleteTag</a>
+              javadoc.incompleteTag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.noPeriod%22">
-            javadoc.noPeriod</a>
+              javadoc.noPeriod
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.unclosedHtml%22">
-            javadoc.unclosedHtml</a>
+              javadoc.unclosedHtml
+            </a>
           </li>
         </ul>
         <p>

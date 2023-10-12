@@ -11,9 +11,9 @@
       <subsection name="Description" id="Description">
         <p>
           Checks that references to instance variables and methods of the present
-          object are explicitly of the form "this.varName" or
-          "this.methodName(args)" and that those references don't
-          rely on the default behavior when "this." is absent.
+          object are explicitly of the form &quot;this.varName&quot; or
+          &quot;this.methodName(args)&quot; and that those references don't
+          rely on the default behavior when &quot;this.&quot; is absent.
         </p>
 
         <p>
@@ -27,7 +27,7 @@
         <ol>
           <li>
             The same notation/habit for C++ and Java (C++ have global methods, so having
-            "this." do make sense in it to distinguish call of method of class
+            &quot;this.&quot; do make sense in it to distinguish call of method of class
             instead of global).
           </li>
           <li>
@@ -82,13 +82,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check:
         </p>
         <source>
-&lt;module name="RequireThis"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;RequireThis&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example1-code">Example:</p>
         <source>
 public class Test {
   private int a;
@@ -104,19 +108,23 @@ public class Test {
 
   public void foo(int c) {
     // overlapping by method argument
-    c = c;            // violation, reference to instance variable "c" requires "this"
+    c = c;            // violation, reference to instance variable &quot;c&quot; requires &quot;this&quot;
   }
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check for fields only:
         </p>
         <source>
-&lt;module name="RequireThis"&gt;
-  &lt;property name="checkMethods" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;RequireThis&quot;&gt;
+      &lt;property name=&quot;checkMethods&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example2-code">Example:</p>
         <source>
 public class Test {
   private int a;
@@ -132,19 +140,23 @@ public class Test {
 
   public void foo(int c) {
     // overlapping by method argument
-    c = c;            // violation, reference to instance variable "c" requires "this"
+    c = c;            // violation, reference to instance variable &quot;c&quot; requires &quot;this&quot;
   }
 }
         </source>
-        <p>
+        <p id="Example3-config">
             To configure the check for methods only:
         </p>
         <source>
-&lt;module name="RequireThis"&gt;
-  &lt;property name="checkFields" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;RequireThis&quot;&gt;
+      &lt;property name=&quot;checkFields&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example3-code">Example:</p>
         <source>
 public class Test {
   private int a;
@@ -168,15 +180,19 @@ public class Test {
           Note that method call foo(5) does not raise a violation
           because methods cannot be overlapped in java.
         </p>
-        <p>
+        <p id="Example4-config">
             To configure the check to validate for non-overlapping fields and methods:
         </p>
         <source>
-&lt;module name="RequireThis"&gt;
-  &lt;property name="validateOnlyOverlapping" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;RequireThis&quot;&gt;
+      &lt;property name=&quot;validateOnlyOverlapping&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example4-code">Example:</p>
         <source>
 public class Test {
   private int a;
@@ -186,20 +202,20 @@ public class Test {
   public Test(int a) {
     // overlapping by constructor argument
     this.a = a;       // OK, no validation for fields
-    b = 0;            // violation, reference to instance variable "b" requires "this"
-    foo(5);           // violation, method call "foo(5)" requires "this"
+    b = 0;            // violation, reference to instance variable &quot;b&quot; requires &quot;this&quot;
+    foo(5);           // violation, method call &quot;foo(5)&quot; requires &quot;this&quot;
   }
 
   public void foo(int c) {
     // overlapping by method argument
-    c = c;            // violation, reference to instance variable "c" requires "this"
+    c = c;            // violation, reference to instance variable &quot;c&quot; requires &quot;this&quot;
   }
 }
         </source>
         <p>
           Please, be aware of the following logic, which is implemented in the check:
         </p>
-        <p>
+        <p id="Example5-code">
           1) If you arrange 'this' in your code on your own, the check will not raise violation for
           variables which use 'this' to reference a class field, for example:
         </p>
@@ -218,7 +234,7 @@ public class C {
   }
 }
         </source>
-        <p>
+        <p id="Example6-code">
           2) If method parameter is returned from the method, the check will not raise violation for
              returned variable/parameter, for example:
         </p>
@@ -227,7 +243,7 @@ public class D {
   private String prefix;
 
   public String modifyPrefix(String prefix) {
-    prefix = "^" + prefix + "$";  // no violation, because method parameter is returned
+    prefix = &quot;^&quot; + prefix + &quot;$&quot;;  // no violation, because method parameter is returned
     return prefix;
   }
 }
@@ -247,11 +263,13 @@ public class D {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22require.this.method%22">
-            require.this.method</a>
+              require.this.method
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22require.this.variable%22">
-            require.this.variable</a>
+              require.this.variable
+            </a>
           </li>
         </ul>
         <p>

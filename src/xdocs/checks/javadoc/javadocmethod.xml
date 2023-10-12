@@ -168,13 +168,17 @@ public int checkReturnTag(final int aTagIndex,
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check:
         </p>
         <source>
-&lt;module name="JavadocMethod"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example1-code"> Example:</p>
         <source>
 public class Test {
 
@@ -207,18 +211,22 @@ public class Test {
   }                         // ok, no return tag for void method
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check for only <code>public</code>
           modifier, ignoring any missing param tags is:
         </p>
 
         <source>
-&lt;module name="JavadocMethod"&gt;
-  &lt;property name="accessModifiers" value="public"/&gt;
-  &lt;property name="allowMissingParamTags" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+      &lt;property name=&quot;accessModifiers&quot; value=&quot;public&quot;/&gt;
+      &lt;property name=&quot;allowMissingParamTags&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example: </p>
+        <p id="Example2-code">Example: </p>
         <source>
 public class Test {
 
@@ -251,16 +259,20 @@ public class Test {
   }                         // ok, no return tag for void method
 }
         </source>
-        <p>
+        <p id="Example3-config">
             To configure the check for methods which are in <code>private</code> and
           <code>package</code>, but not any other modifier:
         </p>
         <source>
-&lt;module name="JavadocMethod"&gt;
-  &lt;property name="accessModifiers" value="private, package"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+      &lt;property name=&quot;accessModifiers&quot; value=&quot;private, package&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example3-code"> Example:</p>
         <source>
 class Test {
 
@@ -293,15 +305,19 @@ class Test {
   }                         // ok, no return tag for void method
 }
         </source>
-        <p>
+        <p id="Example4-config">
               To configure the check to ignore any missing return tags:
         </p>
         <source>
-&lt;module name="JavadocMethod"&gt;
-    &lt;property name="allowMissingReturnTag" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+        &lt;property name=&quot;allowMissingReturnTag&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example4-code"> Example:</p>
         <source>
 public class Test {
 
@@ -334,15 +350,19 @@ public class Test {
   }                         // ok, no return tag for void method
 }
         </source>
-        <p>
+        <p id="Example5-config">
               To configure the check to ignore Methods with annotation <code>Deprecated</code>:
         </p>
         <source>
-&lt;module name="JavadocMethod"&gt;
-    &lt;property name="allowedAnnotations" value="Deprecated"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+        &lt;property name=&quot;allowedAnnotations&quot; value=&quot;Deprecated&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example5-code"> Example:</p>
         <source>
 public class Test {
 
@@ -375,15 +395,19 @@ public class Test {
   }                         // ok, no return tag for void method
 }
         </source>
-        <p>
+        <p id="Example6-config">
               To configure the check only for tokens which are Constructor Definitions:
         </p>
         <source>
-&lt;module name="JavadocMethod"&gt;
-    &lt;property name="tokens" value="CTOR_DEF"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+        &lt;property name=&quot;tokens&quot; value=&quot;CTOR_DEF&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example6-code"> Example:</p>
         <source>
 public class Test {
 
@@ -417,15 +441,19 @@ public class Test {
 }
         </source>
 
-        <p>
+        <p id="Example7-config">
           To configure the check to validate <code>throws</code> tags, you can use following config.
         </p>
         <source>
-&lt;module name="JavadocMethod"&gt;
-  &lt;property name="validateThrows" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavadocMethod&quot;&gt;
+      &lt;property name=&quot;validateThrows&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p> Example:</p>
+        <p id="Example7-code"> Example:</p>
         <source>
 /**
  * Actual exception thrown is child class of class that is declared in throws.
@@ -465,13 +493,13 @@ public int parsePositiveInt(String s) {
     try {
         int value = Integer.parseInt(s);
         if (value &lt;= 0) {
-            throw new NumberFormatException(value + " is negative/zero"); // ok, try
+            throw new NumberFormatException(value + &quot; is negative/zero&quot;); // ok, try
         }
         return value;
     } catch (NumberFormatException ex) {
-        throw new IllegalArgumentException("Invalid number", ex); // violation, catch
+        throw new IllegalArgumentException(&quot;Invalid number&quot;, ex); // violation, catch
     } finally {
-        throw new IllegalStateException("Should never reach here"); // violation, finally
+        throw new IllegalStateException(&quot;Should never reach here&quot;); // violation, finally
     }
 }
 
@@ -483,7 +511,7 @@ public int parsePositiveInt(String s) {
 public String readLine() {
     try (Scanner sc = new Scanner(System.in)) {
         if (!sc.hasNext()) {
-            throw new IllegalStateException("Empty input"); // violation, not caught
+            throw new IllegalStateException(&quot;Empty input&quot;); // violation, not caught
         }
         return sc.next();
     }
@@ -526,31 +554,38 @@ public Runnable printLater(String s) {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.classInfo%22">
-            javadoc.classInfo</a>
+              javadoc.classInfo
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.duplicateTag%22">
-            javadoc.duplicateTag</a>
+              javadoc.duplicateTag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.expectedTag%22">
-            javadoc.expectedTag</a>
+              javadoc.expectedTag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.invalidInheritDoc%22">
-            javadoc.invalidInheritDoc</a>
+              javadoc.invalidInheritDoc
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.return.expected%22">
-            javadoc.return.expected</a>
+              javadoc.return.expected
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.unusedTag%22">
-            javadoc.unusedTag</a>
+              javadoc.unusedTag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.unusedTagGeneral%22">
-            javadoc.unusedTagGeneral</a>
+              javadoc.unusedTagGeneral
+            </a>
           </li>
         </ul>
         <p>

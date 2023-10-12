@@ -71,61 +71,51 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check that will check <code>@param</code>,
           <code>@deprecated</code>,<code>@throws</code>,<code>@return</code>:
         </p>
         <source>
-&lt;module name="NonEmptyAtclauseDescription"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NonEmptyAtclauseDescription&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
         Example:
         </p>
         <source>
 class Test
 {
-  // Violation for param "b" and at tags "deprecated", "throws" and "return".
+  // Violation for param &quot;b&quot; and at tags &quot;deprecated&quot;, &quot;throws&quot; and &quot;return&quot;.
   /**
   * Some summary.
-  * <code>@param</code> a Some description
-  * <code>@param</code> b
-  * <code>@deprecated</code>
-  * <code>@throws</code> Exception
-  * <code>@return</code>
-  */
-  public int method(String a, int b) throws Exception {
-    return 1;
-  }
-}
+  *
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check to validate <code>@param</code>,
           <code>@throws</code> tags:
         </p>
         <source>
-&lt;module name="NonEmptyAtclauseDescription"&gt;
-  &lt;property name="javadocTokens" value="PARAM_LITERAL,THROWS_LITERAL"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;NonEmptyAtclauseDescription&quot;&gt;
+      &lt;property name=&quot;javadocTokens&quot; value=&quot;PARAM_LITERAL,THROWS_LITERAL&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
         Example:
         </p>
         <source>
 class Test
 {
-  // Violation for param "b" and at tag "throws".
+  // Violation for param &quot;b&quot; and at tag &quot;throws&quot;.
   /**
   * Some summary.
-  * <code>@param</code> a Some description
-  * <code>@param</code> b
-  * <code>@deprecated</code>
-  * <code>@throws</code> Exception
-  * <code>@return</code>
-  */
-  public int method(String a, int b) throws Exception {
-    return 1;
-  }
-}
+  *
         </source>
       </subsection>
 
@@ -146,19 +136,23 @@ class Test
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.missed.html.close%22">
-            javadoc.missed.html.close</a>
+              javadoc.missed.html.close
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.parse.rule.error%22">
-            javadoc.parse.rule.error</a>
+              javadoc.parse.rule.error
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.wrong.singleton.html.tag%22">
-            javadoc.wrong.singleton.html.tag</a>
+              javadoc.wrong.singleton.html.tag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22non.empty.atclause%22">
-            non.empty.atclause</a>
+              non.empty.atclause
+            </a>
           </li>
         </ul>
         <p>

@@ -19,7 +19,6 @@
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
@@ -81,51 +80,6 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * {@code @author, @deprecated, @exception, @param, @return, @see, @serial, @serialData, @serialField, @since, @throws, @version}.
  * </li>
  * </ul>
- * <p>
- * To configure the default check:
- * </p>
- * <pre>
- * &lt;module name=&quot;AtclauseOrder&quot;/&gt;
- * </pre>
- * <p>
- * Example:
- * </p>
- * <pre>
- * &#47;**
- * * Some javadoc. // OK
- * *
- * * &#64;author Some javadoc. // OK
- * * &#64;version Some javadoc. // OK
- * * &#64;param Some javadoc. // OK
- * * &#64;return Some javadoc. // OK
- * * &#64;throws Some javadoc. // OK
- * * &#64;exception Some javadoc. // OK
- * * &#64;see Some javadoc. // OK
- * * &#64;since Some javadoc. // OK
- * * &#64;serial Some javadoc. // OK
- * * &#64;serialField // OK
- * * &#64;serialData // OK
- * * &#64;deprecated Some javadoc. // OK
- * *&#47;
- *
- * class Valid implements Serializable
- * {
- * }
- *
- * &#47;**
- * * Some javadoc.
- * *
- * * &#64;since Some javadoc. // OK
- * * &#64;version Some javadoc. // Violation - wrong order
- * * &#64;deprecated
- * * &#64;see Some javadoc. // Violation - wrong order
- * * &#64;author Some javadoc. // Violation - wrong order
- * *&#47;
- *
- * class Invalid implements Serializable
- * {
- * }
- * </pre>
  * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
@@ -207,11 +161,7 @@ public class AtclauseOrderCheck extends AbstractJavadocCheck {
      * @since 6.0
      */
     public void setTagOrder(String... orders) {
-        final List<String> customOrder = new ArrayList<>(orders.length);
-        for (String order : orders) {
-            customOrder.add(order.trim());
-        }
-        tagOrder = customOrder;
+        tagOrder = Arrays.asList(orders);
     }
 
     @Override

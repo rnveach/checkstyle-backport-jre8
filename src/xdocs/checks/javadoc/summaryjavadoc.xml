@@ -45,14 +45,14 @@
               <td>forbiddenSummaryFragments</td>
               <td>Specify the regexp for forbidden summary fragments.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^$"</code></td>
+              <td><code>&quot;^$&quot;</code></td>
               <td>6.0</td>
             </tr>
             <tr>
               <td>period</td>
               <td>Specify the period symbol at the end of first javadoc sentence.</td>
               <td><a href="../../property_types.html#String">String</a></td>
-              <td><code>"."</code></td>
+              <td><code>&quot;.&quot;</code></td>
               <td>6.2</td>
             </tr>
           </table>
@@ -60,14 +60,18 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the default check to validate that first sentence is not empty and first
           sentence is not missing:
         </p>
         <source>
-&lt;module name="SummaryJavadocCheck"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;SummaryJavadocCheck&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example of <code>{@inheritDoc}</code> without summary.
         </p>
         <source>
@@ -77,18 +81,18 @@ public class Test extends Exception {
    * {@inheritDoc}
    */
   public String ValidFunction(){
-    return "";
+    return &quot;&quot;;
   }
   //Violation
   /**
    *
    */
   public String InvalidFunction(){
-    return "";
+    return &quot;&quot;;
   }
 }
         </source>
-        <p>
+        <p id="Example2-code">
               Example of non permitted empty javadoc for Inline Summary Javadoc.
         </p>
         <source>
@@ -97,14 +101,14 @@ public class Test extends Exception {
    * {@summary  }
    */
   public String InvalidFunctionOne(){ // violation
-    return "";
+    return &quot;&quot;;
   }
 
   /**
    * {@summary &lt;p&gt; &lt;p/&gt;}
    */
   public String InvalidFunctionTwo(){ // violation
-    return "";
+    return &quot;&quot;;
   }
 
   /**
@@ -113,25 +117,33 @@ public class Test extends Exception {
   public void validFunctionThree(){} // ok
 }
         </source>
-        <p>
-          To ensure that summary does not contain phrase like "This method returns", use
+        <p id="Example3-config">
+          To ensure that summary does not contain phrase like &quot;This method returns&quot;, use
           following config:
         </p>
         <source>
-&lt;module name="SummaryJavadocCheck"&gt;
-  &lt;property name="forbiddenSummaryFragments"
-    value="^This method returns.*"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;SummaryJavadocCheck&quot;&gt;
+      &lt;property name=&quot;forbiddenSummaryFragments&quot;
+        value=&quot;^This method returns.*&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example4-config">
           To specify period symbol at the end of first javadoc sentence:
         </p>
         <source>
-&lt;module name="SummaryJavadocCheck"&gt;
-  &lt;property name="period" value="。"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;SummaryJavadocCheck&quot;&gt;
+      &lt;property name=&quot;period&quot; value=&quot;&#x3002;&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example4-code">
           Example of period property.
         </p>
 
@@ -143,13 +155,13 @@ public class TestClass {
   void invalidJavaDocMethod() {
   }
  /**
-  * This is valid java doc。
+  * This is valid java doc&#x3002;
   */
   void validJavaDocMethod() {
   }
 }
         </source>
-        <p>
+        <p id="Example5-code">
           Example of period property for inline summary javadoc.
         </p>
         <source>
@@ -160,13 +172,13 @@ public class TestClass {
   public void invalidJavaDocMethod() { // violation
   }
  /**
-  * {@summary This is valid java doc。}
+  * {@summary This is valid java doc&#x3002;}
   */
   public void validJavaDocMethod() { // ok
   }
 }
         </source>
-        <p>
+        <p id="Example6-code">
           Example of inline summary javadoc with HTML tags.
         </p>
         <source>
@@ -201,31 +213,38 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.missed.html.close%22">
-            javadoc.missed.html.close</a>
+              javadoc.missed.html.close
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.parse.rule.error%22">
-            javadoc.parse.rule.error</a>
+              javadoc.parse.rule.error
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.wrong.singleton.html.tag%22">
-            javadoc.wrong.singleton.html.tag</a>
+              javadoc.wrong.singleton.html.tag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22summary.first.sentence%22">
-            summary.first.sentence</a>
+              summary.first.sentence
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22summary.javaDoc%22">
-            summary.javaDoc</a>
+              summary.javaDoc
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22summary.javaDoc.missing%22">
-              summary.javaDoc.missing</a>
+              summary.javaDoc.missing
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fjavadoc%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22summary.javaDoc.missing.period%22">
-              summary.javaDoc.missing.period</a>
+              summary.javaDoc.missing.period
+            </a>
           </li>
         </ul>
         <p>

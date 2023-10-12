@@ -39,7 +39,7 @@
           To configure the check:
         </p>
         <source>
-&lt;module name="FinalClass"/&gt;
+&lt;module name=&quot;FinalClass&quot;/&gt;
         </source>
         <p>
             Example:
@@ -58,7 +58,7 @@ class MyClass { // OK, since it has a public constructor
   String field2;
   private MyClass(int value) {
     this.field1 = value;
-    this.field2 = " ";
+    this.field2 = &quot; &quot;;
   }
   public MyClass(String value) {
     this.field2 = value;
@@ -105,7 +105,8 @@ class Class1 {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fdesign%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22final.class%22">
-            final.class</a>
+              final.class
+            </a>
           </li>
         </ul>
         <p>

@@ -95,97 +95,113 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="JavaNCSS"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavaNCSS&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
 public void test() {
-  System.out.println("Line 1");
+  System.out.println(&quot;Line 1&quot;);
   // another 48 lines of code
-  System.out.println("Line 50") // OK
-  System.out.println("Line 51") // violation, the method crosses 50 non commented lines
+  System.out.println(&quot;Line 50&quot;) // OK
+  System.out.println(&quot;Line 51&quot;) // violation, the method crosses 50 non commented lines
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check with 40 allowed non commented lines for a method:
         </p>
         <source>
-&lt;module name="JavaNCSS"&gt;
-  &lt;property name="methodMaximum" value="40"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavaNCSS&quot;&gt;
+      &lt;property name=&quot;methodMaximum&quot; value=&quot;40&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
 public void test() {
-  System.out.println("Line 1");
+  System.out.println(&quot;Line 1&quot;);
   // another 38 lines of code
-  System.out.println("Line 40") // OK
-  System.out.println("Line 41") // violation, the method crosses 40 non commented lines
+  System.out.println(&quot;Line 40&quot;) // OK
+  System.out.println(&quot;Line 41&quot;) // violation, the method crosses 40 non commented lines
 }
         </source>
-        <p>
+        <p id="Example3-config">
           To configure the check to set limit of non commented lines in class to 100:
         </p>
         <source>
-&lt;module name="JavaNCSS"&gt;
-  &lt;property name="classMaximum" value="100"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavaNCSS&quot;&gt;
+      &lt;property name=&quot;classMaximum&quot; value=&quot;100&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example3-code">Example:</p>
         <source>
 public class Test {
   public void test() {
-    System.out.println("Line 1");
+    System.out.println(&quot;Line 1&quot;);
     // another 47 lines of code
-    System.out.println("Line 49");
+    System.out.println(&quot;Line 49&quot;);
   }
 
   public void test1() {
-    System.out.println("Line 50");  // OK
+    System.out.println(&quot;Line 50&quot;);  // OK
     // another 47 lines of code
-    System.out.println("Line 98"); // violation
+    System.out.println(&quot;Line 98&quot;); // violation
   }
 }
         </source>
-        <p>
+        <p id="Example4-config">
           To configure the check to set limit of non commented lines in file to 200:
         </p>
         <source>
-&lt;module name="JavaNCSS"&gt;
-  &lt;property name="fileMaximum" value="200"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;JavaNCSS&quot;&gt;
+      &lt;property name=&quot;fileMaximum&quot; value=&quot;200&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example4-code">Example:</p>
         <source>
 public class Test1 {
   public void test() {
-    System.out.println("Line 1");
+    System.out.println(&quot;Line 1&quot;);
     // another 48 lines of code
-    System.out.println("Line 49");
+    System.out.println(&quot;Line 49&quot;);
   }
 
   public void test1() {
-    System.out.println("Line 50");
+    System.out.println(&quot;Line 50&quot;);
     // another 47 lines of code
-    System.out.println("Line 98"); // OK
+    System.out.println(&quot;Line 98&quot;); // OK
   }
 }
 
 class Test2 {
   public void test() {
-    System.out.println("Line 150"); // OK
+    System.out.println(&quot;Line 150&quot;); // OK
   }
 
   public void test1() {
-    System.out.println("Line 200"); // violation
+    System.out.println(&quot;Line 200&quot;); // violation
   }
 }
         </source>
@@ -204,19 +220,23 @@ class Test2 {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmetrics%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ncss.class%22">
-            ncss.class</a>
+              ncss.class
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmetrics%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ncss.file%22">
-            ncss.file</a>
+              ncss.file
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmetrics%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ncss.method%22">
-            ncss.method</a>
+              ncss.method
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fmetrics%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22ncss.record%22">
-            ncss.record</a>
+              ncss.record
+            </a>
           </li>
         </ul>
         <p>

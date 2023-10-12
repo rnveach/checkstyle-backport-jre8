@@ -115,7 +115,7 @@ switch (a) {
       <subsection name="Examples" id="Examples">
         <p> To configure the check: </p>
         <source>
-&lt;module name="EmptyBlock"/&gt;
+&lt;module name=&quot;EmptyBlock&quot;/&gt;
         </source>
         <p>
           Example:
@@ -139,9 +139,9 @@ public class Test {
           policy and only <code> try</code> blocks:
         </p>
         <source>
-&lt;module name="EmptyBlock"&gt;
-  &lt;property name="option" value="text"/&gt;
-  &lt;property name="tokens" value="LITERAL_TRY"/&gt;
+&lt;module name=&quot;EmptyBlock&quot;&gt;
+  &lt;property name=&quot;option&quot; value=&quot;text&quot;/&gt;
+  &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_TRY&quot;/&gt;
 &lt;/module&gt;
         </source>
         <p> Example: </p>
@@ -165,8 +165,8 @@ public class Test {
           To configure the check for default in switch block:
         </p>
         <source>
-&lt;module name="EmptyBlock"&gt;
-  &lt;property name="tokens" value="LITERAL_DEFAULT"/&gt;
+&lt;module name=&quot;EmptyBlock&quot;&gt;
+  &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_DEFAULT&quot;/&gt;
 &lt;/module&gt;
         </source>
         <p> Example: </p>
@@ -207,11 +207,13 @@ public class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fblocks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22block.empty%22">
-            block.empty</a>
+              block.empty
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fblocks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22block.noStatement%22">
-            block.noStatement</a>
+              block.noStatement
+            </a>
           </li>
         </ul>
         <p>
@@ -226,7 +228,9 @@ public class Test {
       </subsection>
 
       <subsection name="Parent Module" id="Parent_Module">
-        <p> <a href="../../config.html#TreeWalker">TreeWalker</a> </p>
+        <p>
+          <a href="../../config.html#TreeWalker">TreeWalker</a>
+        </p>
       </subsection>
     </section>
   </body>

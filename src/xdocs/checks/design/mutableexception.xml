@@ -47,14 +47,14 @@
               <td>format</td>
               <td>Specify pattern for exception class names.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^.*Exception$|^.*Error$|^.*Throwable$"</code></td>
+              <td><code>&quot;^.*Exception$|^.*Error$|^.*Throwable$&quot;</code></td>
               <td>3.2</td>
             </tr>
             <tr>
               <td>extendedClassNameFormat</td>
               <td>Specify pattern for extended class names.</td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^.*Exception$|^.*Error$|^.*Throwable$"</code></td>
+              <td><code>&quot;^.*Exception$|^.*Error$|^.*Throwable$&quot;</code></td>
               <td>6.2</td>
             </tr>
           </table>
@@ -62,15 +62,18 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="MutableException"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;MutableException&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>Example:</p>
-        <div class="wrapper">
-          <source>
+        <p id="Example1-code">Example:</p>
+        <source>
 class FirstClass extends Exception {
   private int code; // OK, class name doesn't match with default pattern
 
@@ -104,21 +107,23 @@ class BadException extends java.lang.Exception {
     this.code = code;
   }
 }
-          </source>
-        </div>
+        </source>
 
-        <p>
+        <p id="Example2-config">
           To configure the check so that it checks for class name that ends
           with 'Exception':
         </p>
         <source>
-&lt;module name="MutableException"&gt;
-  &lt;property name="format" value="^.*Exception$"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;MutableException&quot;&gt;
+      &lt;property name=&quot;format&quot; value=&quot;^.*Exception$&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
-        <div class="wrapper">
-          <source>
+        <p id="Example2-code">Example:</p>
+        <source>
 class FirstClass extends Exception {
   private int code; // OK, class name doesn't match with given pattern
 
@@ -152,21 +157,23 @@ class BadException extends java.lang.Exception {
     this.code = code;
   }
 }
-          </source>
-        </div>
+        </source>
 
-        <p>
+        <p id="Example3-config">
           To configure the check so that it checks for type name that is used in
           'extends' and ends with 'Throwable':
         </p>
         <source>
-&lt;module name="MutableException"&gt;
-  &lt;property name="extendedClassNameFormat" value="^.*Throwable$"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;MutableException&quot;&gt;
+      &lt;property name=&quot;extendedClassNameFormat&quot; value=&quot;^.*Throwable$&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
-        <div class="wrapper">
-          <source>
+        <p id="Example3-code">Example:</p>
+        <source>
 class FirstClass extends Exception {
   private int code; // OK, extended class name doesn't match with given pattern
 
@@ -200,8 +207,7 @@ class BadException extends java.lang.Exception {
     this.code = code;
   }
 }
-          </source>
-        </div>
+        </source>
       </subsection>
 
       <subsection name="Example of Usage" id="Example_of_Usage">
@@ -217,7 +223,8 @@ class BadException extends java.lang.Exception {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fdesign%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22mutable.exception%22">
-            mutable.exception</a>
+              mutable.exception
+            </a>
           </li>
         </ul>
         <p>

@@ -11,7 +11,7 @@
       <subsection name="Description" id="Description">
         <p>
           Restricts throws statements to a specified count.
-          Methods with "Override" or "java.lang.Override" annotation are skipped
+          Methods with &quot;Override&quot; or &quot;java.lang.Override&quot; annotation are skipped
           from validation as current class cannot change signature of these methods.
         </p>
 
@@ -65,13 +65,17 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure check:
         </p>
         <source>
-&lt;module name="ThrowsCount"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ThrowsCount&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -99,16 +103,20 @@ class Test {
 
 }
         </source>
-        <p>
+        <p id="Example2-config">
           To configure the check so that it doesn't allow more than two throws
           per method:
         </p>
         <source>
-&lt;module name="ThrowsCount"&gt;
-  &lt;property name="max" value="2"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ThrowsCount&quot;&gt;
+      &lt;property name=&quot;max&quot; value=&quot;2&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -134,15 +142,19 @@ class Test {
 
 }
         </source>
-        <p>
+        <p id="Example3-config">
           To configure the check so that it doesn't skip private methods:
         </p>
         <source>
-&lt;module name="ThrowsCount"&gt;
-  &lt;property name="ignorePrivateMethods" value="false"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ThrowsCount&quot;&gt;
+      &lt;property name=&quot;ignorePrivateMethods&quot; value=&quot;false&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example3-code">
           Example:
         </p>
         <source>
@@ -190,7 +202,8 @@ class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fdesign%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22throws.count%22">
-            throws.count</a>
+              throws.count
+            </a>
           </li>
         </ul>
         <p>

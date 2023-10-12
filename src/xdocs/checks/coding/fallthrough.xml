@@ -19,9 +19,9 @@
         <p>
           The check honors special comments to suppress the warning.
           By default, the texts
-          "fallthru", "fall thru", "fall-thru",
-          "fallthrough", "fall through", "fall-through"
-          "fallsthrough", "falls through", "falls-through" (case-sensitive).
+          &quot;fallthru&quot;, &quot;fall thru&quot;, &quot;fall-thru&quot;,
+          &quot;fallthrough&quot;, &quot;fall through&quot;, &quot;fall-through&quot;
+          &quot;fallsthrough&quot;, &quot;falls through&quot;, &quot;falls-through&quot; (case-sensitive).
           The comment containing these words must be all on one line,
           and must be on the last non-empty line before the
           <code>case</code> triggering the warning or on
@@ -60,7 +60,7 @@
                 the warning about a fall through.
               </td>
               <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"falls?[ -]?thr(u|ough)"</code></td>
+              <td><code>&quot;falls?[ -]?thr(u|ough)&quot;</code></td>
               <td>4.0</td>
             </tr>
           </table>
@@ -68,24 +68,28 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="FallThrough"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;FallThrough&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
-public class Example1 {
+class Example1 {
   public void foo() throws Exception {
     int i = 0;
-    while(i &gt;= 0) {
-      switch(i) {
+    while (i &gt;= 0) {
+      switch (i) {
         case 1:
           i++;
-        case 2: // violation
+        case 2: // violation 'Fall through from previous branch of the switch'
           i++;
           break;
         case 3:
@@ -96,7 +100,7 @@ public class Example1 {
           throw new Exception();
         case 5:
           i++; // no break by design
-        case 6: // violation
+        case 6: // violation 'Fall through from previous branch of the switch'
         case 7:
           i++;
           continue;
@@ -107,26 +111,30 @@ public class Example1 {
   }
 }
         </source>
-        <p>
+        <p id="Example2-config">
             To configure the check to enable check for last case group:
         </p>
         <source>
-&lt;module name="FallThrough"&gt;
-   &lt;property name="checkLastCaseGroup" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;FallThrough&quot;&gt;
+      &lt;property name=&quot;checkLastCaseGroup&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
             Example:
         </p>
         <source>
-public class Example2 {
+class Example2 {
   public void foo() throws Exception {
     int i = 0;
-    while(i &gt;= 0) {
-      switch(i) {
+    while (i &gt;= 0) {
+      switch (i) {
         case 1:
           i++;
-        case 2: // violation
+        case 2: // violation 'Fall through from previous branch of the switch'
           i++;
           break;
         case 3:
@@ -137,35 +145,39 @@ public class Example2 {
           throw new Exception();
         case 5:
           i++; // no break by design
-        case 6: // violation
+        case 6: // violation 'Fall through from previous branch of the switch'
         case 7:
           i++;
           continue;
-        case 11: // violation
+        case 11: // violation 'Fall through from the last branch of the switch'
           i++;
       }
     }
   }
 }
         </source>
-        <p>
+        <p id="Example3-config">
             To configure the check with custom relief pattern:
         </p>
         <source>
-&lt;module name="FallThrough"&gt;
-   &lt;property name="reliefPattern" value="no break by design"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;FallThrough&quot;&gt;
+      &lt;property name=&quot;reliefPattern&quot; value=&quot;no break by design&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>Example:</p>
+        <p id="Example3-code">Example:</p>
         <source>
-public class Example3 {
+class Example3 {
   public void foo() throws Exception {
     int i = 0;
-    while(i &gt;= 0) {
-      switch(i) {
+    while (i &gt;= 0) {
+      switch (i) {
         case 1:
-            i++;
-        case 2: // violation
+          i++;
+        case 2: // violation 'Fall through from previous branch of the switch'
           i++;
           break;
         case 3:
@@ -206,11 +218,13 @@ public class Example3 {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22fall.through%22">
-            fall.through</a>
+              fall.through
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22fall.through.last%22">
-            fall.through.last</a>
+              fall.through.last
+            </a>
           </li>
         </ul>
         <p>

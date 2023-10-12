@@ -110,19 +110,23 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check to produce a violation on a switch statement
           with no default case:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_SWITCH"/&gt;
-  &lt;property name="maximumDepth" value="2"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_DEFAULT"/&gt;
-  &lt;property name="minimumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_SWITCH&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;2&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_DEFAULT&quot;/&gt;
+      &lt;property name=&quot;minimumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example1-code">
           Example:
         </p>
         <source>
@@ -131,33 +135,39 @@ class Test {
     int x = 1;
     switch (x) { // ok
       case 1:
-        System.out.println("hi");
+        System.out.println(&quot;hi&quot;);
         break;
       default:
-        System.out.println("Default");
+        System.out.println(&quot;Default&quot;);
         break;
     }
 
     int y = 1;
     switch (y) { // violation
       case 1:
-        System.out.println("hi");
+        System.out.println(&quot;hi&quot;);
         break;
     }
   }
 }
         </source>
 
-        <p>To configure the check to produce a violation on a switch with too many cases:</p>
+        <p id="Example2-config">
+          To configure the check to produce a violation on a switch with too many cases:
+        </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_SWITCH"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_CASE"/&gt;
-  &lt;property name="maximumDepth" value="2"/&gt;
-  &lt;property name="maximumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_SWITCH&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_CASE&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;2&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example2-code">
           Example:
         </p>
         <source>
@@ -188,19 +198,23 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example3-config">
           To configure the check to produce a violation on a switch that is
           nested in another switch:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_SWITCH"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_SWITCH"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
-  &lt;property name="minimumDepth" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_SWITCH&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_SWITCH&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+      &lt;property name=&quot;minimumDepth&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example3-code">
           Example:
         </p>
         <source>
@@ -210,14 +224,14 @@ class Test {
     int y = 2;
     switch (x) { // ok
       case 1:
-        System.out.println("xyz");
+        System.out.println(&quot;xyz&quot;);
         break;
     }
     switch (y) { // violation
       case 1:
         switch (y) {
           case 2:
-            System.out.println("xyz");
+            System.out.println(&quot;xyz&quot;);
             break;
         }
         break;
@@ -226,18 +240,22 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example4-config">
           To configure the check to produce a violation on a
           condition in <code>for</code> which performs no check:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="FOR_CONDITION"/&gt;
-  &lt;property name="limitedTokens" value="EXPR"/&gt;
-  &lt;property name="minimumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;FOR_CONDITION&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;EXPR&quot;/&gt;
+      &lt;property name=&quot;minimumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example4-code">
           Example:
         </p>
         <source>
@@ -254,19 +272,23 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example5-config">
           To configure the check to produce a violation on an initializer in
           <code>for</code> performs no setup (where a <code>while</code>
           statement could be used instead):
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="FOR_INIT"/&gt;
-  &lt;property name="limitedTokens" value="EXPR"/&gt;
-  &lt;property name="minimumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;FOR_INIT&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;EXPR&quot;/&gt;
+      &lt;property name=&quot;minimumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example5-code">
           Example:
         </p>
         <source>
@@ -287,18 +309,22 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example6-config">
           To configure the check to produce a violation on a return statement
           from within a catch or finally block:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_FINALLY,LITERAL_CATCH"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_RETURN"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_FINALLY,LITERAL_CATCH&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_RETURN&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example6-code">
           Example:
         </p>
         <source>
@@ -307,27 +333,31 @@ class Test {
     try {
       // Some code
     } catch (Exception e) {
-        System.out.println("xyz");
+        System.out.println(&quot;xyz&quot;);
         return; // violation
     } finally {
-        System.out.println("xyz");
+        System.out.println(&quot;xyz&quot;);
     }
   }
 }
         </source>
 
-        <p>
+        <p id="Example7-config">
           To configure the check to produce a violation on a try statement
           within a catch or finally block:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_CATCH,LITERAL_FINALLY"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_TRY"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_CATCH,LITERAL_FINALLY&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_TRY&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example7-code">
           Example:
         </p>
         <source>
@@ -336,10 +366,10 @@ class Test {
     try {
         // Some code
     } catch (Exception e) { // ok
-        System.out.println("xyz");
+        System.out.println(&quot;xyz&quot;);
         return;
     } finally { // ok
-        System.out.println("xyz");
+        System.out.println(&quot;xyz&quot;);
     }
     try {
         // Some code
@@ -360,19 +390,23 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example8-config">
           To configure the check to produce a violation on a method with
           too many local variables:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="METHOD_DEF"/&gt;
-  &lt;property name="limitedTokens" value="VARIABLE_DEF"/&gt;
-  &lt;property name="maximumDepth" value="2"/&gt;
-  &lt;property name="maximumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;METHOD_DEF&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;VARIABLE_DEF&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;2&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example8-code">
           Example:
         </p>
         <source>
@@ -387,18 +421,22 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example9-config">
           To configure the check to produce a violation on a method
           with too many returns:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="METHOD_DEF"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_RETURN"/&gt;
-  &lt;property name="maximumNumber" value="2"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;METHOD_DEF&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_RETURN&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;2&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example9-code">
           Example:
         </p>
         <source>
@@ -422,18 +460,22 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example10-config">
           To configure the check to produce a violation on a method
           which throws too many exceptions:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_THROWS"/&gt;
-  &lt;property name="limitedTokens" value="IDENT"/&gt;
-  &lt;property name="maximumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_THROWS&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;IDENT&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example10-code">
           Example:
         </p>
         <source>
@@ -449,18 +491,22 @@ class Boo {
 }
         </source>
 
-        <p>
+        <p id="Example11-config">
           To configure the check to produce a violation on a method
           with too many expressions:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="METHOD_DEF"/&gt;
-  &lt;property name="limitedTokens" value="EXPR"/&gt;
-  &lt;property name="maximumNumber" value="2"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;METHOD_DEF&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;EXPR&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;2&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example11-code">
           Example:
         </p>
         <source>
@@ -479,26 +525,30 @@ class Boo {
 }
         </source>
 
-        <p>
+        <p id="Example12-config">
           To configure the check to produce a violation on an empty statement:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="EMPTY_STAT"/&gt;
-  &lt;property name="limitedTokens" value="EMPTY_STAT"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
-  &lt;property name="maximumDepth" value="0"/&gt;
-  &lt;property name="maximumMessage"
-    value="Empty statement is not allowed."/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;EMPTY_STAT&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;EMPTY_STAT&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;0&quot;/&gt;
+      &lt;property name=&quot;maximumMessage&quot;
+        value=&quot;Empty statement is not allowed.&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example12-code">
           Example:
         </p>
         <source>
 class Test {
   public void foo() { // ok
-      System.out.println("Hello");
+      System.out.println(&quot;Hello&quot;);
   }
   public void boo() {
       ; // violation
@@ -506,19 +556,23 @@ class Test {
 }
         </source>
 
-        <p>
+        <p id="Example13-config">
           To configure the check to produce a violation on a class or interface
           with too many fields:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="CLASS_DEF,INTERFACE_DEF"/&gt;
-  &lt;property name="limitedTokens" value="VARIABLE_DEF"/&gt;
-  &lt;property name="maximumDepth" value="2"/&gt;
-  &lt;property name="maximumNumber" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;CLASS_DEF,INTERFACE_DEF&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;VARIABLE_DEF&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;2&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example13-code">
           Example:
         </p>
         <source>
@@ -542,96 +596,108 @@ interface D { // violation
 }
         </source>
 
-        <p>
+        <p id="Example14-config">
           To configure the check to produce a violation on
           comparing <code>this</code> with <code>null</code>:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="EQUAL,NOT_EQUAL"/&gt;
-  &lt;property name="limitedTokens" value="LITERAL_THIS,LITERAL_NULL"/&gt;
-  &lt;property name="maximumNumber" value="1"/&gt;
-  &lt;property name="maximumDepth" value="1"/&gt;
-  &lt;property name="sumTokenCounts" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;EQUAL,NOT_EQUAL&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;LITERAL_THIS,LITERAL_NULL&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;1&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;1&quot;/&gt;
+      &lt;property name=&quot;sumTokenCounts&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example14-code">
           Example:
         </p>
         <source>
 class Test {
   public void foo() {
     if (this == null) { // violation
-      System.out.println("xyz");
+      System.out.println(&quot;xyz&quot;);
     }
     if (this != null) { // violation
-      System.out.println("xyz");
+      System.out.println(&quot;xyz&quot;);
     }
 
     Object obj = new Object();
     if (obj == null) { // ok
-      System.out.println("xyz");
+      System.out.println(&quot;xyz&quot;);
     }
     if (obj != null) { // ok
-      System.out.println("xyz");
+      System.out.println(&quot;xyz&quot;);
     }
   }
 }
         </source>
 
-        <p>
+        <p id="Example15-config">
           To configure the check to produce a violation on a <code>String</code>
           literal equality check:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="EQUAL,NOT_EQUAL"/&gt;
-  &lt;property name="limitedTokens" value="STRING_LITERAL"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
-  &lt;property name="maximumDepth" value="1"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;EQUAL,NOT_EQUAL&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;STRING_LITERAL&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+      &lt;property name=&quot;maximumDepth&quot; value=&quot;1&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example15-code">
           Example:
         </p>
         <source>
 class Test {
   public void foo() {
-    String str = "abc";
-    if (str.equals("abc")) { // ok
-      System.out.println("equal.");
+    String str = &quot;abc&quot;;
+    if (str.equals(&quot;abc&quot;)) { // ok
+      System.out.println(&quot;equal.&quot;);
     }
-    if (str == "abc") { // violation
-      System.out.println("equal.");
+    if (str == &quot;abc&quot;) { // violation
+      System.out.println(&quot;equal.&quot;);
     }
   }
 }
         </source>
 
-        <p>
+        <p id="Example16-config">
           To configure the check to produce a violation on an assert statement
           that may have side effects:
         </p>
         <source>
-&lt;module name="DescendantToken"&gt;
-  &lt;property name="tokens" value="LITERAL_ASSERT"/&gt;
-  &lt;property name="limitedTokens" value="ASSIGN,DEC,INC,POST_DEC,
-    POST_INC,PLUS_ASSIGN,MINUS_ASSIGN,STAR_ASSIGN,DIV_ASSIGN,MOD_ASSIGN,
-    BSR_ASSIGN,SR_ASSIGN,SL_ASSIGN,BAND_ASSIGN,BXOR_ASSIGN,BOR_ASSIGN,
-    METHOD_CALL"/&gt;
-  &lt;property name="maximumNumber" value="0"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;DescendantToken&quot;&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;LITERAL_ASSERT&quot;/&gt;
+      &lt;property name=&quot;limitedTokens&quot; value=&quot;ASSIGN,DEC,INC,POST_DEC,
+        POST_INC,PLUS_ASSIGN,MINUS_ASSIGN,STAR_ASSIGN,DIV_ASSIGN,MOD_ASSIGN,
+        BSR_ASSIGN,SR_ASSIGN,SL_ASSIGN,BAND_ASSIGN,BXOR_ASSIGN,BOR_ASSIGN,
+        METHOD_CALL&quot;/&gt;
+      &lt;property name=&quot;maximumNumber&quot; value=&quot;0&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example16-code">
           Example:
         </p>
         <source>
 class Test {
   public void foo() {
     int a = 5;
-    assert a++ == 0 : "is not"; // violation
+    assert a++ == 0 : &quot;is not&quot;; // violation
     System.out.println(a);
-    assert a == 0 : "is not"; // ok
+    assert a == 0 : &quot;is not&quot;; // ok
   }
 }
         </source>
@@ -650,19 +716,23 @@ class Test {
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22descendant.token.max%22">
-            descendant.token.max</a>
+              descendant.token.max
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22descendant.token.min%22">
-            descendant.token.min</a>
+              descendant.token.min
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22descendant.token.sum.max%22">
-            descendant.token.sum.max</a>
+              descendant.token.sum.max
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22descendant.token.sum.min%22">
-            descendant.token.sum.min</a>
+              descendant.token.sum.min
+            </a>
           </li>
         </ul>
         <p>

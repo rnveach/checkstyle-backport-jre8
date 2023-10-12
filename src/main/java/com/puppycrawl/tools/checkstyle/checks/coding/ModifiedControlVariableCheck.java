@@ -77,52 +77,6 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * </li>
  * </ul>
  * <p>
- * To configure the check:
- * </p>
- * <pre>
- * &lt;module name="ModifiedControlVariable"/&gt;
- * </pre>
- * <p>
- * Example:
- * </p>
- * <pre>
- * for(int i=0;i &lt; 8;i++) {
- *   i++; // violation, control variable modified
- * }
- * String args1[]={"Coding", "block"};
- * for (String arg: args1) {
- *   arg = arg.trim(); // violation, control variable modified
- * }
- * </pre>
- * <p>
- * By default, This Check validates
- *  <a href = "https://docs.oracle.com/javase/specs/jls/se11/html/jls-14.html#jls-14.14.2">
- * Enhanced For-Loop</a>.
- * </p>
- * <p>
- * Option 'skipEnhancedForLoopVariable' could be used to skip check of variable
- *  from Enhanced For Loop.
- * </p>
- * <p>
- * An example of how to configure the check so that it skips enhanced For Loop Variable is:
- * </p>
- * <pre>
- * &lt;module name="ModifiedControlVariable"&gt;
- *   &lt;property name="skipEnhancedForLoopVariable" value="true"/&gt;
- * &lt;/module&gt;
- * </pre>
- * <p>Example:</p>
- *
- * <pre>
- * for(int i=0;i &lt; 8;i++) {
- *   i++; // violation, control variable modified
- * }
- * String args1[]={"Coding", "block"};
- * for (String arg: args1) {
- *   arg = arg.trim(); // ok
- * }
- * </pre>
- * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
  * <p>
@@ -367,8 +321,14 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
      * @param paramDef a for-each clause variable
      */
     private void leaveForEach(DetailAST paramDef) {
-        final DetailAST paramName = paramDef.findFirstToken(TokenTypes.IDENT);
-        getCurrentVariables().push(paramName.getText());
+        // When using record decomposition in enhanced for loops,
+        // we are not able to declare a 'control variable'.
+        final boolean isRecordPattern = paramDef == null;
+
+        if (!isRecordPattern) {
+            final DetailAST paramName = paramDef.findFirstToken(TokenTypes.IDENT);
+            getCurrentVariables().push(paramName.getText());
+        }
     }
 
     /**
@@ -379,9 +339,10 @@ public final class ModifiedControlVariableCheck extends AbstractCheck {
     private void leaveForDef(DetailAST ast) {
         final DetailAST forInitAST = ast.findFirstToken(TokenTypes.FOR_INIT);
         if (forInitAST == null) {
-            if (!skipEnhancedForLoopVariable) {
+            final Deque<String> currentVariables = getCurrentVariables();
+            if (!skipEnhancedForLoopVariable && !currentVariables.isEmpty()) {
                 // this is for-each loop, just pop variables
-                getCurrentVariables().pop();
+                currentVariables.pop();
             }
         }
         else {

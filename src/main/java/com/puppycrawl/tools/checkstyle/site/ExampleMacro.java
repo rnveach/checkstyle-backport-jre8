@@ -79,13 +79,15 @@ public class ExampleMacro extends AbstractMacro {
         }
 
         if ("config".equals(type)) {
-            final String config = getSnippetBetweenDelimiters(lines,
-                    XML_CONFIG_START, XML_CONFIG_END);
+            final String config = getConfigSnippet(lines);
             writeSnippet(sink, config);
         }
         else if ("code".equals(type)) {
-            final String code = getSnippetBetweenDelimiters(lines,
-                    CODE_SNIPPET_START, CODE_SNIPPET_END);
+            String code = getCodeSnippet(lines);
+            // Replace tabs with spaces for FileTabCharacterCheck examples
+            if (path.contains("filetabcharacter")) {
+                code = code.replace("\t", "  ");
+            }
             writeSnippet(sink, code);
         }
         else {
@@ -113,22 +115,20 @@ public class ExampleMacro extends AbstractMacro {
     }
 
     /**
-     * Extract a snippet between the given start and end delimiters.
-     * The lines containing the delimiter are not included in the snippet.
+     * Extract a configuration snippet from the given lines. Config delimiters use the whole
+     * line for themselves and have no indentation. We use equals() instead of contains()
+     * to be more strict because some examples contain those delimiters.
      *
      * @param lines the lines to extract the snippet from.
-     * @param startingDelimiter the starting delimiter.
-     * @param endingDelimiter the ending delimiter.
-     * @return the snippet.
+     * @return the configuration snippet.
      */
-    private static String getSnippetBetweenDelimiters(
-            Collection<String> lines, String startingDelimiter, String endingDelimiter) {
+    private static String getConfigSnippet(Collection<String> lines) {
         final StringBuilder result = new StringBuilder();
         boolean started = false;
 
         for (String line : lines) {
             if (started) {
-                if (line.contains(endingDelimiter)) {
+                if (XML_CONFIG_END.equals(line)) {
                     break;
                 }
 
@@ -138,7 +138,38 @@ public class ExampleMacro extends AbstractMacro {
 
                 result.append(line);
             }
-            else if (line.contains(startingDelimiter)) {
+            else if (XML_CONFIG_START.equals(line)) {
+                started = true;
+            }
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Extract a code snippet from the given lines. Code delimiters can be indented, so
+     * we use contains() instead of equals().
+     *
+     * @param lines the lines to extract the snippet from.
+     * @return the code snippet.
+     */
+    private static String getCodeSnippet(Collection<String> lines) {
+        final StringBuilder result = new StringBuilder();
+        boolean started = false;
+
+        for (String line : lines) {
+            if (started) {
+                if (line.contains(CODE_SNIPPET_END)) {
+                    break;
+                }
+
+                if (result.length() > 0) {
+                    result.append(NEWLINE);
+                }
+
+                result.append(line);
+            }
+            else if (line.contains(CODE_SNIPPET_START)) {
                 started = true;
             }
         }

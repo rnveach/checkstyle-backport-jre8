@@ -40,9 +40,9 @@
         </p>
         <source>
 &lt;!-- required till https://bugs.openjdk.org/browse/JDK-8160601 --&gt;
-&lt;module name="SuppressionSingleFilter"&gt;
-    &lt;property name="checks" value="MissingDeprecatedCheck"/&gt;
-    &lt;property name="files" value="package-info\.java"/&gt;
+&lt;module name=&quot;SuppressionSingleFilter&quot;&gt;
+    &lt;property name=&quot;checks&quot; value=&quot;MissingDeprecatedCheck&quot;/&gt;
+    &lt;property name=&quot;files&quot; value=&quot;package-info\.java&quot;/&gt;
 &lt;/module&gt;
         </source>
       </subsection>
@@ -73,7 +73,7 @@
       <subsection name="Examples" id="Examples">
         <p> To configure the check:</p>
         <source>
-&lt;module name="MissingDeprecated"/&gt;
+&lt;module name=&quot;MissingDeprecated&quot;/&gt;
         </source>
         <p>Example:</p>
         <source>
@@ -103,8 +103,8 @@ public static final int CONST = 12; // ok
           messages if tight HTML rules are not obeyed
         </p>
         <source>
-&lt;module name="MissingDeprecated"&gt;
-  &lt;property name="violateExecutionOnNonTightHtml" value="true"/&gt;
+&lt;module name=&quot;MissingDeprecated&quot;&gt;
+  &lt;property name=&quot;violateExecutionOnNonTightHtml&quot; value=&quot;true&quot;/&gt;
 &lt;/module&gt;
         </source>
         <p>
@@ -147,23 +147,28 @@ public static final int CONST = 12; // violation, tight HTML rules not obeyed
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22annotation.missing.deprecated%22">
-            annotation.missing.deprecated</a>
+              annotation.missing.deprecated
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.duplicateTag%22">
-            javadoc.duplicateTag</a>
+              javadoc.duplicateTag
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.missed.html.close%22">
-            javadoc.missed.html.close</a>
+              javadoc.missed.html.close
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.parse.rule.error%22">
-            javadoc.parse.rule.error</a>
+              javadoc.parse.rule.error
+            </a>
           </li>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fannotation%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22javadoc.wrong.singleton.html.tag%22">
-            javadoc.wrong.singleton.html.tag</a>
+              javadoc.wrong.singleton.html.tag
+            </a>
           </li>
         </ul>
         <p>
@@ -178,7 +183,9 @@ public static final int CONST = 12; // violation, tight HTML rules not obeyed
       </subsection>
 
       <subsection name="Parent Module" id="Parent_Module">
-        <p> <a href="../../config.html#TreeWalker">TreeWalker</a> </p>
+        <p>
+          <a href="../../config.html#TreeWalker">TreeWalker</a>
+        </p>
       </subsection>
     </section>
   </body>

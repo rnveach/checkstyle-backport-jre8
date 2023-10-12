@@ -23,7 +23,6 @@ import com.puppycrawl.tools.checkstyle.StatelessCheck;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
-import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
 /**
  * <p>
@@ -35,19 +34,6 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  * <p>
  * Rationale: The lower-case ell {@code 'l'} looks a lot like {@code 1}.
  * </p>
- * <p>
- * To configure the check:
- * </p>
- * <pre>
- * &lt;module name=&quot;UpperEll&quot;/&gt;
- * </pre>
- * <pre>
- * class Test {
- *   long var1 = 508987; // OK
- *   long var2 = 508987l; // violation
- *   long var3 = 508987L; // OK
- * }
- * </pre>
  * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
@@ -88,7 +74,7 @@ public class UpperEllCheck extends AbstractCheck {
 
     @Override
     public void visitToken(DetailAST ast) {
-        if (CommonUtil.endsWithChar(ast.getText(), 'l')) {
+        if (ast.getText().endsWith("l")) {
             log(ast, MSG_KEY);
         }
     }

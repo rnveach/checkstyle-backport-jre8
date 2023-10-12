@@ -67,37 +67,49 @@
       </subsection>
 
       <subsection name="Examples" id="Examples">
-        <p>
+        <p id="Example1-config">
           To configure the check:
         </p>
         <source>
-&lt;module name="ParameterNumber"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ParameterNumber&quot;/&gt;
+  &lt;/module&gt;
+&lt;/module&gt;
         </source>
 
-        <p>
+        <p id="Example2-config">
           To configure the check to allow 10 parameters for a method:
         </p>
         <source>
-&lt;module name="ParameterNumber"&gt;
-  &lt;property name="max" value="10"/&gt;
-  &lt;property name="tokens" value="METHOD_DEF"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ParameterNumber&quot;&gt;
+      &lt;property name=&quot;max&quot; value=&quot;10&quot;/&gt;
+      &lt;property name=&quot;tokens&quot; value=&quot;METHOD_DEF&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
         <p>
           To configure the check to ignore number of parameters for methods with
           <code>@Override</code> or <code>@java.lang.Override annotation</code>.
         </p>
-        <p>
+        <p id="Example3-config">
           Rationale: developer may need to override method with many parameters from
           3-rd party library.
           In this case developer has no control over number of parameters.
         </p>
         <source>
-&lt;module name="ParameterNumber"&gt;
-  &lt;property name="ignoreOverriddenMethods" value="true"/&gt;
+&lt;module name=&quot;Checker&quot;&gt;
+  &lt;module name=&quot;TreeWalker&quot;&gt;
+    &lt;module name=&quot;ParameterNumber&quot;&gt;
+      &lt;property name=&quot;ignoreOverriddenMethods&quot; value=&quot;true&quot;/&gt;
+    &lt;/module&gt;
+  &lt;/module&gt;
 &lt;/module&gt;
         </source>
-        <p>
+        <p id="Example3-code">
           Java code example:
         </p>
         <source>
@@ -126,7 +138,8 @@ public void needsLotsOfParameters(int a,
         <ul>
           <li>
             <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fsizes%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22maxParam%22">
-            maxParam</a>
+              maxParam
+            </a>
           </li>
         </ul>
         <p>
