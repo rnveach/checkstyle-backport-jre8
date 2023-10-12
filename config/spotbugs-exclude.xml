@@ -301,4 +301,17 @@
     <!-- Needed to backport code. -->
     <Bug pattern="RFI_SET_ACCESSIBLE"/>
   </Match>
+  <Match>
+    <!-- Needed to backport code. -->
+    <Bug pattern="REFLF_REFLECTION_MAY_INCREASE_ACCESSIBILITY_OF_FIELD"/>
+  </Match>
+  <Match>
+    <!-- Not needed for simple tests. -->
+    <Bug pattern="DP_DO_INSIDE_DO_PRIVILEGED"/>
+  </Match>
+  <Match>
+    <!-- Checkstyle's issue. checkstyle#13877 -->
+    <Class name="com.puppycrawl.tools.checkstyle.site.SiteUtil"/>
+    <Bug pattern="MUI_CONTAINSKEY_BEFORE_GET"/>
+  </Match>
 </FindBugsFilter>

@@ -50,6 +50,7 @@ public final class MetadataGeneratorUtilTest extends AbstractModuleTestSupport {
             "Checker",
             "TreeWalker",
             "JavadocMetadataScraper",
+            "ClassAndPropertiesSettersJavadocScraper",
         }).collect(Collectors.toSet()));
 
     @Override

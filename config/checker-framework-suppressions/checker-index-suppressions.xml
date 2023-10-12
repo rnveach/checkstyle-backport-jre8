@@ -1679,17 +1679,6 @@
 
   <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/javadoc/SummaryJavadocCheck.java</fileName>
-    <specifier>array.access.unsafe.high</specifier>
-    <message>Potentially unsafe array access: the index could be larger than the array&apos;s bound</message>
-    <lineContent>final DetailNode child = children[i];</lineContent>
-    <details>
-      found   : int
-      required: @IndexFor(&quot;children&quot;) or @LTLengthOf(&quot;children&quot;) -- an integer less than children&apos;s length
-    </details>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/checks/javadoc/SummaryJavadocCheck.java</fileName>
     <specifier>array.access.unsafe.high.constant</specifier>
     <message>Potentially unsafe array access: the constant index 0 could be larger than the array&apos;s bound</message>
     <lineContent>&amp;&amp; node.getChildren()[0].getChildren().length &gt; 1) {</lineContent>
@@ -2621,6 +2610,83 @@
   </checkerFrameworkError>
 
   <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/ClassAndPropertiesSettersJavadocScraper.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter beginIndex of substring.</message>
+    <lineContent>return Introspector.decapitalize(setterName.substring(&quot;set&quot;.length()));</lineContent>
+    <details>
+      found   : @LTEqLengthOf(&quot;&quot;set&quot;&quot;) int
+      required: @LTEqLengthOf(&quot;setterName&quot;) int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter beginIndex of substring.</message>
+    <lineContent>.substring(&quot;Setter to &quot;.length());</lineContent>
+    <details>
+      found   : @LTEqLengthOf(&quot;&quot;Setter to &quot;&quot;) int
+      required: @LTEqLengthOf(&quot;com.puppycrawl.tools.checkstyle.site.SiteUtil.DescriptionExtractor.getDescriptionFromJavadoc(javadoc, moduleName)&quot;) int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter beginIndex of substring.</message>
+    <lineContent>description = firstLetterCapitalized + descriptionString.substring(1);</lineContent>
+    <details>
+      found   : @UpperBoundLiteral(1) int
+      required: @LTEqLengthOf(&quot;descriptionString&quot;) int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter beginIndex of substring.</message>
+    <lineContent>href = href.substring(1, href.length() - 1);</lineContent>
+    <details>
+      found   : @UpperBoundLiteral(1) int
+      required: @LTEqLengthOf(&quot;href&quot;) int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter endIndex of substring.</message>
+    <lineContent>href = href.substring(1, href.length() - 1);</lineContent>
+    <details>
+      found   : @GTENegativeOne int
+      required: @NonNegative int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter endIndex of substring.</message>
+    <lineContent>final String firstLetterCapitalized = descriptionString.substring(0, 1)</lineContent>
+    <details>
+      found   : @UpperBoundLiteral(1) int
+      required: @LTEqLengthOf(&quot;descriptionString&quot;) int
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/site/SiteUtil.java</fileName>
+    <specifier>array.access.unsafe.high.constant</specifier>
+    <message>Potentially unsafe array access: the constant index 0 could be larger than the array&apos;s bound</message>
+    <lineContent>final Class&lt;?&gt; parameterClass = (Class&lt;?&gt;) type.getActualTypeArguments()[0];</lineContent>
+    <details>
+      found   : Type []
+      required: @MinLen(1) -- an array guaranteed to have at least 1 elements
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
     <fileName>src/main/java/com/puppycrawl/tools/checkstyle/utils/ChainedPropertyUtil.java</fileName>
     <specifier>argument</specifier>
     <message>incompatible argument for parameter endIndex of substring.</message>
@@ -2760,17 +2826,6 @@
     <details>
       found   : int
       required: @Positive int
-    </details>
-  </checkerFrameworkError>
-
-  <checkerFrameworkError unstable="false">
-    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/utils/CodePointUtil.java</fileName>
-    <specifier>argument</specifier>
-    <message>incompatible argument for parameter from of copyOfRange.</message>
-    <lineContent>return Arrays.copyOfRange(codePoints, startIndex, codePoints.length);</lineContent>
-    <details>
-      found   : int
-      required: @LTEqLengthOf(&quot;codePoints&quot;) int
     </details>
   </checkerFrameworkError>
 
@@ -2963,6 +3018,17 @@
       void set(BitSet this, @NonNegative int p0)
       is not a valid method reference for method in ObjIntConsumer&lt;BitSet&gt;
       void accept(ObjIntConsumer&lt;BitSet&gt; this, BitSet p0, int p1)
+    </details>
+  </checkerFrameworkError>
+
+  <checkerFrameworkError unstable="false">
+    <fileName>src/main/java/com/puppycrawl/tools/checkstyle/utils/UnmodifiableCollectionUtil.java</fileName>
+    <specifier>argument</specifier>
+    <message>incompatible argument for parameter newLength of copyOf.</message>
+    <lineContent>return Arrays.copyOf(array, length);</lineContent>
+    <details>
+      found   : int
+      required: @NonNegative int
     </details>
   </checkerFrameworkError>
 

@@ -233,4 +233,45 @@ public class SuppressionXpathFilterTest extends AbstractModuleTestSupport {
                     expected, removeSuppressed(expected, suppressed));
         }
     }
+
+    @Test
+    public void testXpathSuppression2() throws Exception {
+        final String pattern = "[^a-zA-z0-9]*";
+        final String[] expected = {
+            "18:14: " + getCheckMessage(IllegalTokenTextCheck.class, MSG_KEY, pattern),
+        };
+
+        final String[] suppressed = {
+            "18:14: " + getCheckMessage(IllegalTokenTextCheck.class, MSG_KEY, pattern),
+        };
+
+        verifyFilterWithInlineConfigParser(getPath("InputSuppressionXpathFilter5.java"),
+                                           expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testXpathSuppression3() throws Exception {
+        final String pattern = "[^a-zA-z0-9]*";
+        final String[] expected = {
+            "18:14: " + getCheckMessage(IllegalTokenTextCheck.class, MSG_KEY, pattern),
+        };
+
+        final String[] suppressed = {
+            "18:14: " + getCheckMessage(IllegalTokenTextCheck.class, MSG_KEY, pattern),
+        };
+
+        verifyFilterWithInlineConfigParser(getPath("InputSuppressionXpathFilter6.java"),
+                                           expected, removeSuppressed(expected, suppressed));
+    }
+
+    @Test
+    public void testXpathSuppression4() throws Exception {
+        final String[] suppressed = {
+            "20:29: " + getCheckMessage(ConstantNameCheck.class,
+                                        MSG_INVALID_PATTERN, "bad_name", PATTERN),
+        };
+        verifyFilterWithInlineConfigParser(getPath("InputSuppressionXpathFilter7.java"),
+                                           ALL_MESSAGES,
+                                           removeSuppressed(ALL_MESSAGES, suppressed));
+    }
 }

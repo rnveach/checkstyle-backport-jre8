@@ -21,7 +21,6 @@ package com.puppycrawl.tools.checkstyle;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,6 +31,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
+
+import com.puppycrawl.tools.checkstyle.utils.UnmodifiableCollectionUtil;
 
 /**
  * Contains the common implementation of a loader, for loading a configuration
@@ -66,7 +67,8 @@ public class XmlLoader
      */
     protected XmlLoader(Map<String, String> publicIdToResourceNameMap)
             throws SAXException, ParserConfigurationException {
-        this.publicIdToResourceNameMap = new HashMap<>(publicIdToResourceNameMap);
+        this.publicIdToResourceNameMap =
+                UnmodifiableCollectionUtil.copyOfMap(publicIdToResourceNameMap);
         parser = createXmlReader(this);
     }
 

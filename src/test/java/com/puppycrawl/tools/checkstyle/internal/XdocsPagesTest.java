@@ -248,7 +248,10 @@ public class XdocsPagesTest {
 
         CheckUtil.getSimpleNames(CheckUtil.getCheckstyleChecks())
             .stream()
-            .filter(checkName -> !"JavadocMetadataScraper".equals(checkName))
+            .filter(checkName -> {
+                return !"JavadocMetadataScraper".equals(checkName)
+                    && !"ClassAndPropertiesSettersJavadocScraper".equals(checkName);
+            })
             .forEach(checkName -> {
                 if (!isPresent(availableChecks, checkName)) {
                     assertWithMessage(
@@ -801,6 +804,8 @@ public class XdocsPagesTest {
                 .that(table.getNodeName())
                 .isEqualTo("table");
 
+            validatePropertySectionPropertiesOrder(fileName, sectionName, table, properties);
+
             validatePropertySectionProperties(fileName, sectionName, table, instance,
                     properties);
         }
@@ -809,6 +814,43 @@ public class XdocsPagesTest {
                 fileName + " section '" + sectionName + "' should show properties: " + properties)
             .that(properties)
             .isEmpty();
+    }
+
+    private static void validatePropertySectionPropertiesOrder(String fileName, String sectionName,
+                                                               Node table, Set<String> properties) {
+        final Set<Node> rows = XmlUtil.getChildrenElements(table);
+        final List<String> orderedPropertyNames = new ArrayList<>(properties);
+        final List<String> tablePropertyNames = new ArrayList<>();
+
+        // javadocTokens and tokens should be last
+        if (orderedPropertyNames.contains("javadocTokens")) {
+            orderedPropertyNames.remove("javadocTokens");
+            orderedPropertyNames.add("javadocTokens");
+        }
+        if (orderedPropertyNames.contains("tokens")) {
+            orderedPropertyNames.remove("tokens");
+            orderedPropertyNames.add("tokens");
+        }
+
+        rows
+            .stream()
+            // First row is header row
+            .skip(1)
+            .forEach(row -> {
+                final List<Node> columns = new ArrayList<>(XmlUtil.getChildrenElements(row));
+                assertWithMessage(fileName + " section '" + sectionName
+                        + "' should have the requested columns")
+                    .that(columns)
+                    .hasSize(5);
+
+                final String propertyName = columns.get(0).getTextContent();
+                tablePropertyNames.add(propertyName);
+            });
+
+        assertWithMessage(fileName + " section '" + sectionName
+                + "' should have properties in the requested order")
+            .that(tablePropertyNames)
+            .isEqualTo(orderedPropertyNames);
     }
 
     private static void fixCapturedProperties(String sectionName, Object instance, Class<?> clss,
@@ -958,6 +1000,11 @@ public class XdocsPagesTest {
                         fileName, sectionName, propertyName)
                 .that(columns.get(1).getTextContent().trim())
                 .isNotEmpty();
+        assertWithMessage("%s section '%s' should have a description for %s"
+                        + " that starts with uppercase character",
+                        fileName, sectionName, propertyName)
+                .that(Character.isUpperCase(columns.get(1).getTextContent().trim().charAt(0)))
+                .isTrue();
 
         final String actualTypeName = columns.get(2).getTextContent().replace("\n", "")
                 .replace("\r", "").replaceAll(" +", " ").trim();

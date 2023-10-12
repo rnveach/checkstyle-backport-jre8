@@ -47,7 +47,7 @@ public final class DetailAstImpl implements DetailAST {
     private int columnNo = NOT_INITIALIZED;
 
     /** Number of children. */
-    private int childCount = NOT_INITIALIZED;
+    private int childCount;
     /** The parent token. */
     private DetailAstImpl parent;
     /** Previous sibling. */
@@ -144,13 +144,8 @@ public final class DetailAstImpl implements DetailAST {
             // parent is set in setNextSibling
             final DetailAstImpl sibling = nextSibling;
             final DetailAstImpl astImpl = (DetailAstImpl) ast;
+            astImpl.setNextSibling(sibling);
 
-            if (sibling != null) {
-                astImpl.setNextSibling(sibling);
-                sibling.previousSibling = astImpl;
-            }
-
-            astImpl.previousSibling = this;
             setNextSibling(astImpl);
         }
     }
@@ -166,7 +161,6 @@ public final class DetailAstImpl implements DetailAST {
         if (child != null) {
             final DetailAstImpl astImpl = (DetailAstImpl) child;
             astImpl.setParent(this);
-            astImpl.previousSibling = (DetailAstImpl) getLastChild();
         }
         DetailAST temp = firstChild;
         if (temp == null) {

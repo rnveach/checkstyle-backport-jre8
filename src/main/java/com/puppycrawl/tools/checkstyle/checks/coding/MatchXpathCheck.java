@@ -49,9 +49,10 @@ import net.sf.saxon.trans.XPathException;
  * </p>
  * <p>
  * Please read more about Xpath syntax at
- * <a href="https://www.saxonica.com/html/documentation10/expressions/">Xpath Syntax</a>.
+ * <a href="https://www.saxonica.com/html/documentation10/expressions/index.html">Xpath Syntax</a>.
  * Information regarding Xpath functions can be found at
- * <a href="https://www.saxonica.com/html/documentation10/functions/fn/">XSLT/XPath Reference</a>.
+ * <a href="https://www.saxonica.com/html/documentation10/functions/fn/index.html">
+ *     XSLT/XPath Reference</a>.
  * Note, that <b>@text</b> attribute can be used only with token types that are listed in
  * <a href="https://github.com/checkstyle/checkstyle/search?q=%22TOKEN_TYPES_WITH_TEXT_ATTRIBUTE+%3D+Arrays.asList%22">
  *     XpathUtil</a>.
@@ -134,7 +135,7 @@ public class MatchXpathCheck extends AbstractCheck {
 
     @Override
     public void beginTree(DetailAST rootAST) {
-        if (xpathExpression != null) {
+        if (!query.isEmpty()) {
             final List<DetailAST> matchingNodes = findMatchingNodesByXpathQuery(rootAST);
             matchingNodes.forEach(node -> log(node, MSG_KEY));
         }

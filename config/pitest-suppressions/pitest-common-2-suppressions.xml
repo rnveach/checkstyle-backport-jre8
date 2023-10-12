@@ -1,49 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressedMutations>
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable childCount</description>
-    <lineContent>private int childCount = NOT_INITIALIZED;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>addChild</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to com/puppycrawl/tools/checkstyle/DetailAstImpl::getLastChild</description>
-    <lineContent>astImpl.previousSibling = (DetailAstImpl) getLastChild();</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>addChild</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable previousSibling</description>
-    <lineContent>astImpl.previousSibling = (DetailAstImpl) getLastChild();</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>addNextSibling</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable previousSibling</description>
-    <lineContent>astImpl.previousSibling = this;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>addNextSibling</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable previousSibling</description>
-    <lineContent>sibling.previousSibling = astImpl;</lineContent>
-  </mutation>
 
 
 
@@ -63,50 +19,94 @@
 
 
 
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>removeChildren</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable firstChild</description>
-    <lineContent>firstChild = null;</lineContent>
-  </mutation>
 
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>toString</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to com/puppycrawl/tools/checkstyle/DetailAstImpl::getColumnNo</description>
-    <lineContent>return text + &quot;[&quot; + getLineNo() + &quot;x&quot; + getColumnNo() + &quot;]&quot;;</lineContent>
-  </mutation>
 
-  <mutation unstable="false">
-    <sourceFile>DetailAstImpl.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.DetailAstImpl</mutatedClass>
-    <mutatedMethod>toString</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to com/puppycrawl/tools/checkstyle/DetailAstImpl::getLineNo</description>
-    <lineContent>return text + &quot;[&quot; + getLineNo() + &quot;x&quot; + getColumnNo() + &quot;]&quot;;</lineContent>
-  </mutation>
 
-  <mutation unstable="false">
-    <sourceFile>JavaParser.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.JavaParser</mutatedClass>
-    <mutatedMethod>appendHiddenCommentNodes</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
-    <description>replaced return value with null for com/puppycrawl/tools/checkstyle/JavaParser::appendHiddenCommentNodes</description>
-    <lineContent>return root;</lineContent>
-  </mutation>
 
-  <mutation unstable="false">
-    <sourceFile>JavaParser.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.JavaParser</mutatedClass>
-    <mutatedMethod>parseFile</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
-    <description>replaced call to java/io/File::getAbsoluteFile with receiver</description>
-    <lineContent>final FileText text = new FileText(file.getAbsoluteFile(),</lineContent>
-  </mutation>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <mutation unstable="false">
     <sourceFile>JavadocPropertiesGenerator.java</sourceFile>
@@ -124,15 +124,6 @@
     <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.NakedReceiverMutator</mutator>
     <description>replaced call to picocli/CommandLine::setUsageHelpWidth with receiver</description>
     <lineContent>final CommandLine cmd = new CommandLine(cliOptions).setUsageHelpWidth(USAGE_HELP_WIDTH);</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>XmlLoader.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.XmlLoader</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.ArgumentPropagationMutator</mutator>
-    <description>replaced call to java/util/Map::copyOf with argument</description>
-    <lineContent>this.publicIdToResourceNameMap = Map.copyOf(publicIdToResourceNameMap);</lineContent>
   </mutation>
 
   <mutation unstable="false">

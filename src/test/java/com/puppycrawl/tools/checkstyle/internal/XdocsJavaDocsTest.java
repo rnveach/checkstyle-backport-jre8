@@ -64,13 +64,13 @@ import com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyOption;
 import com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyOption;
 import com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderOption;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocContentLocationOption;
+import com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.AccessModifierOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.PadOption;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WrapOption;
 import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
 import com.puppycrawl.tools.checkstyle.internal.utils.XdocUtil;
 import com.puppycrawl.tools.checkstyle.internal.utils.XmlUtil;
-import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.JavadocUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
@@ -112,189 +112,6 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
             "IllegalType - memberModifiers",
             "MagicNumber - constantWaiverParentToken",
             "MultipleStringLiterals - ignoreOccurrenceContext",
-        }).collect(Collectors.toSet()));
-
-    // We skip validation of examples section on modules that have this section generated
-    // until https://github.com/checkstyle/checkstyle/issues/13429
-    private static final Set<String> MODULES_EXAMPLES_TO_SKIP = Collections.unmodifiableSet(
-        Arrays.stream(new String[] {
-            "EmptyForInitializerPad",
-            "EmptyForIteratorPad",
-            "EmptyLineSeparator",
-            "FileTabCharacter",
-            "GenericWhitespace",
-            "MethodParamPad",
-            "NoLineWrap",
-            "NoWhitespaceAfter",
-            "NoWhitespaceBefore",
-            "NoWhitespaceBeforeCaseDefaultColon",
-            "OperatorWrap",
-            "ParenPad",
-            "SeparatorWrap",
-            "SingleSpaceSeparator",
-            "TypecastParenPad",
-            "WhitespaceAround",
-            "InnerAssignment",
-            "MagicNumber",
-            "MatchXpath",
-            "MissingCtor",
-            "MissingSwitchDefault",
-            "ModifiedControlVariable",
-            "MultipleStringLiterals",
-            "MultipleVariableDeclarations",
-            "NestedForDepth",
-            "NestedIfDepth",
-            "NestedTryDepth",
-            "NoArrayTrailingComma",
-            "NoClone",
-            "BeforeExecutionExclusionFileFilter",
-            "NoEnumTrailingComma",
-            "NoFinalizer",
-            "OneStatementPerLine",
-            "OverloadMethodsDeclarationOrder",
-            "PackageDeclaration",
-            "ParameterAssignment",
-            "RequireThis",
-            "ReturnCount",
-            "SimplifyBooleanExpression",
-            "SimplifyBooleanReturn",
-            "StringLiteralEquality",
-            "SuperClone",
-            "SuperFinalize",
-            "UnnecessaryParentheses",
-            "UnnecessarySemicolonAfterOuterTypeDeclaration",
-            "UnnecessarySemicolonAfterTypeMemberDeclaration",
-            "UnnecessarySemicolonInEnumeration",
-            "UnnecessarySemicolonInTryWithResources",
-            "UnusedLocalVariable",
-            "VariableDeclarationUsageDistance",
-            "ArrayTrailingComma",
-            "AvoidDoubleBraceInitialization",
-            "AvoidInlineConditionals",
-            "AvoidNoArgumentSuperConstructorCall",
-            "CovariantEquals",
-            "DeclarationOrder",
-            "DefaultComesLast",
-            "EmptyStatement",
-            "EqualsAvoidNull",
-            "EqualsHashCode",
-            "ExplicitInitialization",
-            "FallThrough",
-            "FinalLocalVariable",
-            "HiddenField",
-            "IllegalCatch",
-            "IllegalInstantiation",
-            "IllegalThrows",
-            "IllegalToken",
-            "IllegalTokenText",
-            "IllegalType",
-            "ClassMemberImpliedModifier",
-            "InterfaceMemberImpliedModifier",
-            "ModifierOrder",
-            "RedundantModifier",
-            "AnonInnerLength",
-            "ExecutableStatementCount",
-            "FileLength",
-            "LambdaBodyLength",
-            "LineLength",
-            "MethodCount",
-            "MethodLength",
-            "OuterTypeNumber",
-            "ParameterNumber",
-            "RecordComponentNumber",
-            "AnnotationLocation",
-            "AnnotationOnSameLine",
-            "AnnotationUseStyle",
-            "MissingDeprecated",
-            "MissingOverride",
-            "SuppressWarnings",
-            "PackageAnnotation",
-            "SuppressWarningsHolder",
-            "Regexp",
-            "RegexpMultiline",
-            "RegexpOnFilename",
-            "RegexpSingleline",
-            "RegexpSinglelineJava",
-            "WhitespaceAfter",
-            "InnerTypeLast",
-            "InterfaceIsType",
-            "MutableException",
-            "OneTopLevelClass",
-            "ThrowsCount",
-            "VisibilityModifier",
-            "BooleanExpressionComplexity",
-            "ClassDataAbstractionCoupling",
-            "ClassFanOutComplexity",
-            "CyclomaticComplexity",
-            "JavaNCSS",
-            "NPathComplexity",
-            "ArrayTypeStyle",
-            "AvoidEscapedUnicodeCharacters",
-            "CommentsIndentation",
-            "DescendantToken",
-            "FinalParameters",
-            "Header",
-            "RegexpHeader",
-            "Indentation",
-            "NewlineAtEndOfFile",
-            "NoCodeInFile",
-            "OrderedProperties",
-            "OuterTypeFilename",
-            "TodoComment",
-            "AvoidStarImport",
-            "AvoidStaticImport",
-            "CustomImportOrder",
-            "IllegalImport",
-            "ImportControl",
-            "ImportOrder",
-            "RedundantImport",
-            "UnusedImports",
-            "TrailingComment",
-            "Translation",
-            "UncommentedMain",
-            "UniqueProperties",
-            "UpperEll",
-            "AtclauseOrder",
-            "InvalidJavadocPosition",
-            "JavadocBlockTagLocation",
-            "JavadocContentLocation",
-            "JavadocMethod",
-            "JavadocMissingLeadingAsterisk",
-            "JavadocMissingWhitespaceAfterAsterisk",
-            "JavadocPackage",
-            "JavadocParagraph",
-            "JavadocStyle",
-            "JavadocTagContinuationIndentation",
-            "JavadocType",
-            "JavadocVariable",
-            "MissingJavadocMethod",
-            "MissingJavadocPackage",
-            "MissingJavadocType",
-            "NonEmptyAtclauseDescription",
-            "RequireEmptyLineBeforeBlockTagGroup",
-            "SingleLineJavadoc",
-            "SummaryJavadoc",
-            "WriteTag",
-            "AbbreviationAsWordInName",
-            "AbstractClassName",
-            "CatchParameterName",
-            "ClassTypeParameterName",
-            "ConstantName",
-            "IllegalIdentifierName",
-            "InterfaceTypeParameterName",
-            "LambdaParameterName",
-            "LocalFinalVariableName",
-            "LocalVariableName",
-            "MemberName",
-            "MethodName",
-            "MethodTypeParameterName",
-            "PackageName",
-            "ParameterName",
-            "PatternVariableName",
-            "RecordComponentName",
-            "RecordTypeParameterName",
-            "StaticVariableName",
-            "TypeName",
         }).collect(Collectors.toSet()));
 
     private static final List<List<Node>> CHECK_PROPERTIES = new ArrayList<>();
@@ -829,16 +646,11 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
             }
 
             if (ScopeUtil.isInScope(node, Scope.PUBLIC)) {
-                String expected = CHECK_TEXT.get("Description")
+                final String expected = CHECK_TEXT.get("Description")
                         + CHECK_TEXT.computeIfAbsent("Rule Description", unused -> "")
                         + CHECK_TEXT.computeIfAbsent("Notes", unused -> "")
-                        + CHECK_TEXT.computeIfAbsent("Properties", unused -> "");
-
-                if (!MODULES_EXAMPLES_TO_SKIP.contains(checkName)) {
-                    expected += CHECK_TEXT.get("Examples");
-                }
-
-                expected += CHECK_TEXT.get("Parent Module")
+                        + CHECK_TEXT.computeIfAbsent("Properties", unused -> "")
+                        + CHECK_TEXT.get("Parent Module")
                         + violationMessagesText + " @since "
                         + CHECK_TEXT.get("since");
 
@@ -882,7 +694,7 @@ public class XdocsJavaDocsTest extends AbstractModuleTestSupport {
 
         /**
          * Returns whether an AST represents a setter method. This is similar to
-         * {@link CheckUtil#isSetterMethod(DetailAST)} except this doesn't care
+         * {@link MissingJavadocMethodCheck#isSetterMethod(DetailAST)} except this doesn't care
          * about the number of children in the method.
          *
          * @param ast the AST to check with.

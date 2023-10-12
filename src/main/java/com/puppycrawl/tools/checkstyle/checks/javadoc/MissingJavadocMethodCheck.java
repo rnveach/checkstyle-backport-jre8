@@ -34,7 +34,6 @@ import com.puppycrawl.tools.checkstyle.api.Scope;
 import com.puppycrawl.tools.checkstyle.api.TextBlock;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 import com.puppycrawl.tools.checkstyle.utils.AnnotationUtil;
-import com.puppycrawl.tools.checkstyle.utils.CheckUtil;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
 
@@ -73,10 +72,10 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * </pre>
  * <ul>
  * <li>
- * Property {@code minLineCount} - Control the minimal amount of lines in method to allow no
- * documentation.
- * Type is {@code int}.
- * Default value is {@code -1}.
+ * Property {@code allowMissingPropertyJavadoc} - Control whether to allow missing Javadoc on
+ * accessor methods for properties (setters and getters).
+ * Type is {@code boolean}.
+ * Default value is {@code false}.
  * </li>
  * <li>
  * Property {@code allowedAnnotations} - Configure annotations that allow missed
@@ -85,27 +84,27 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * Default value is {@code Override}.
  * </li>
  * <li>
- * Property {@code scope} - Specify the visibility scope where Javadoc comments are checked.
- * Type is {@code com.puppycrawl.tools.checkstyle.api.Scope}.
- * Default value is {@code public}.
- * </li>
- * <li>
  * Property {@code excludeScope} - Specify the visibility scope where Javadoc comments are
  * not checked.
  * Type is {@code com.puppycrawl.tools.checkstyle.api.Scope}.
  * Default value is {@code null}.
  * </li>
  * <li>
- * Property {@code allowMissingPropertyJavadoc} - Control whether to allow missing Javadoc on
- * accessor methods for properties (setters and getters).
- * Type is {@code boolean}.
- * Default value is {@code false}.
- * </li>
- * <li>
- * Property {@code ignoreMethodNamesRegex} - ignore method whose names are matching specified
+ * Property {@code ignoreMethodNamesRegex} - Ignore method whose names are matching specified
  * regex.
  * Type is {@code java.util.regex.Pattern}.
  * Default value is {@code null}.
+ * </li>
+ * <li>
+ * Property {@code minLineCount} - Control the minimal amount of lines in method to allow no
+ * documentation.
+ * Type is {@code int}.
+ * Default value is {@code -1}.
+ * </li>
+ * <li>
+ * Property {@code scope} - Specify the visibility scope where Javadoc comments are checked.
+ * Type is {@code com.puppycrawl.tools.checkstyle.api.Scope}.
+ * Default value is {@code public}.
  * </li>
  * <li>
  * Property {@code tokens} - tokens to check
@@ -144,6 +143,18 @@ public class MissingJavadocMethodCheck extends AbstractCheck {
      * file.
      */
     public static final String MSG_JAVADOC_MISSING = "javadoc.missing";
+
+    /** Maximum children allowed in setter/getter. */
+    private static final int SETTER_GETTER_MAX_CHILDREN = 7;
+
+    /** Pattern matching names of getter methods. */
+    private static final Pattern GETTER_PATTERN = Pattern.compile("^(is|get)[A-Z].*");
+
+    /** Pattern matching names of setter methods. */
+    private static final Pattern SETTER_PATTERN = Pattern.compile("^set[A-Z].*");
+
+    /** Maximum nodes allowed in a body of setter. */
+    private static final int SETTER_BODY_SIZE = 3;
 
     /** Default value of minimal amount of lines in method to allow no documentation.*/
     private static final int DEFAULT_MIN_LINE_COUNT = -1;
@@ -295,7 +306,7 @@ public class MissingJavadocMethodCheck extends AbstractCheck {
      */
     private boolean isMissingJavadocAllowed(final DetailAST ast) {
         return allowMissingPropertyJavadoc
-                && (CheckUtil.isSetterMethod(ast) || CheckUtil.isGetterMethod(ast))
+                && (isSetterMethod(ast) || isGetterMethod(ast))
             || matchesSkipRegex(ast)
             || isContentsAllowMissingJavadoc(ast);
     }
@@ -308,9 +319,7 @@ public class MissingJavadocMethodCheck extends AbstractCheck {
      * @return True if this method or constructor doesn't need Javadoc.
      */
     private boolean isContentsAllowMissingJavadoc(DetailAST ast) {
-        return (ast.getType() == TokenTypes.METHOD_DEF
-                || ast.getType() == TokenTypes.CTOR_DEF
-                || ast.getType() == TokenTypes.COMPACT_CTOR_DEF)
+        return ast.getType() != TokenTypes.ANNOTATION_FIELD_DEF
                 && (getMethodsNumberOfLine(ast) <= minLineCount
                     || AnnotationUtil.containsAnnotation(ast, allowedAnnotations));
     }
@@ -346,11 +355,82 @@ public class MissingJavadocMethodCheck extends AbstractCheck {
     private boolean shouldCheck(final DetailAST ast, final Scope nodeScope) {
         final Scope surroundingScope = ScopeUtil.getSurroundingScope(ast);
 
-        return (excludeScope == null
-                || nodeScope != excludeScope
-                && surroundingScope != excludeScope)
-            && nodeScope.isIn(scope)
-            && surroundingScope.isIn(scope);
+        return nodeScope != excludeScope
+                && surroundingScope != excludeScope
+                && nodeScope.isIn(scope)
+                && surroundingScope.isIn(scope);
     }
 
+    /**
+     * Returns whether an AST represents a getter method.
+     *
+     * @param ast the AST to check with
+     * @return whether the AST represents a getter method
+     */
+    public static boolean isGetterMethod(final DetailAST ast) {
+        boolean getterMethod = false;
+
+        // Check have a method with exactly 7 children which are all that
+        // is allowed in a proper getter method which does not throw any
+        // exceptions.
+        if (ast.getType() == TokenTypes.METHOD_DEF
+                && ast.getChildCount() == SETTER_GETTER_MAX_CHILDREN) {
+            final DetailAST type = ast.findFirstToken(TokenTypes.TYPE);
+            final String name = type.getNextSibling().getText();
+            final boolean matchesGetterFormat = GETTER_PATTERN.matcher(name).matches();
+
+            final DetailAST params = ast.findFirstToken(TokenTypes.PARAMETERS);
+            final boolean noParams = params.getChildCount(TokenTypes.PARAMETER_DEF) == 0;
+
+            if (matchesGetterFormat && noParams) {
+                // Now verify that the body consists of:
+                // SLIST -> RETURN
+                // RCURLY
+                final DetailAST slist = ast.findFirstToken(TokenTypes.SLIST);
+
+                if (slist != null) {
+                    final DetailAST expr = slist.getFirstChild();
+                    getterMethod = expr.getType() == TokenTypes.LITERAL_RETURN;
+                }
+            }
+        }
+        return getterMethod;
+    }
+
+    /**
+     * Returns whether an AST represents a setter method.
+     *
+     * @param ast the AST to check with
+     * @return whether the AST represents a setter method
+     */
+    public static boolean isSetterMethod(final DetailAST ast) {
+        boolean setterMethod = false;
+
+        // Check have a method with exactly 7 children which are all that
+        // is allowed in a proper setter method which does not throw any
+        // exceptions.
+        if (ast.getType() == TokenTypes.METHOD_DEF
+                && ast.getChildCount() == SETTER_GETTER_MAX_CHILDREN) {
+            final DetailAST type = ast.findFirstToken(TokenTypes.TYPE);
+            final String name = type.getNextSibling().getText();
+            final boolean matchesSetterFormat = SETTER_PATTERN.matcher(name).matches();
+
+            final DetailAST params = ast.findFirstToken(TokenTypes.PARAMETERS);
+            final boolean singleParam = params.getChildCount(TokenTypes.PARAMETER_DEF) == 1;
+
+            if (matchesSetterFormat && singleParam) {
+                // Now verify that the body consists of:
+                // SLIST -> EXPR -> ASSIGN
+                // SEMI
+                // RCURLY
+                final DetailAST slist = ast.findFirstToken(TokenTypes.SLIST);
+
+                if (slist != null && slist.getChildCount() == SETTER_BODY_SIZE) {
+                    final DetailAST expr = slist.getFirstChild();
+                    setterMethod = expr.getFirstChild().getType() == TokenTypes.ASSIGN;
+                }
+            }
+        }
+        return setterMethod;
+    }
 }

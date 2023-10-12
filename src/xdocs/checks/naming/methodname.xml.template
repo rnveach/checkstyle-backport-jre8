@@ -33,13 +33,6 @@
               <th>since</th>
             </tr>
             <tr>
-              <td>format</td>
-              <td>Specifies valid identifiers.</td>
-              <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>"^[a-z][a-zA-Z0-9]*$"</code></td>
-              <td>3.0</td>
-            </tr>
-            <tr>
               <td>allowClassName</td>
               <td>
                 Controls whether to allow a method name to have the same
@@ -61,20 +54,6 @@ class MyClass {
               <td>5.0</td>
             </tr>
             <tr>
-              <td>applyToPublic</td>
-              <td>Controls whether to apply the check to public member.</td>
-              <td><a href="../../property_types.html#boolean">boolean</a></td>
-              <td><code>true</code></td>
-              <td>5.1</td>
-            </tr>
-            <tr>
-              <td>applyToProtected</td>
-              <td>Controls whether to apply the check to protected member.</td>
-              <td><a href="../../property_types.html#boolean">boolean</a></td>
-              <td><code>true</code></td>
-              <td>5.1</td>
-            </tr>
-            <tr>
               <td>applyToPackage</td>
               <td>
                 Controls whether to apply the check to package-private member.
@@ -90,6 +69,27 @@ class MyClass {
               <td><code>true</code></td>
               <td>5.1</td>
             </tr>
+            <tr>
+              <td>applyToProtected</td>
+              <td>Controls whether to apply the check to protected member.</td>
+              <td><a href="../../property_types.html#boolean">boolean</a></td>
+              <td><code>true</code></td>
+              <td>5.1</td>
+            </tr>
+            <tr>
+              <td>applyToPublic</td>
+              <td>Controls whether to apply the check to public member.</td>
+              <td><a href="../../property_types.html#boolean">boolean</a></td>
+              <td><code>true</code></td>
+              <td>5.1</td>
+            </tr>
+            <tr>
+              <td>format</td>
+              <td>Specifies valid identifiers.</td>
+              <td><a href="../../property_types.html#Pattern">Pattern</a></td>
+              <td><code>"^[a-z][a-zA-Z0-9]*$"</code></td>
+              <td>3.0</td>
+            </tr>
           </table>
         </div>
       </subsection>
@@ -100,13 +100,13 @@ class MyClass {
         </p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example1.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example1.java"/>
           <param name="type" value="config"/>
         </macro>
         <p id="Example1-code">Code Example:</p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example1.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example1.java"/>
           <param name="type" value="code"/>
         </macro>
         <p id="Example2-config">
@@ -115,13 +115,13 @@ class MyClass {
         </p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example2.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example2.java"/>
           <param name="type" value="config"/>
         </macro>
         <p id="Example2-code">Code Example:</p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example2.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example2.java"/>
           <param name="type" value="code"/>
         </macro>
         <p id="Example3-config">
@@ -130,13 +130,13 @@ class MyClass {
         </p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example3.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example3.java"/>
           <param name="type" value="config"/>
         </macro>
         <p id="Example3-code">Code Example:</p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example3.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example3.java"/>
           <param name="type" value="code"/>
         </macro>
         <p id="Example4-config">
@@ -145,13 +145,13 @@ class MyClass {
         </p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example4.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example4.java"/>
           <param name="type" value="config"/>
         </macro>
         <p id="Example4-code">Code Example:</p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example4.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example4.java"/>
           <param name="type" value="code"/>
         </macro>
         <p id="Example5-config">
@@ -159,13 +159,13 @@ class MyClass {
         </p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example5.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example5.java"/>
           <param name="type" value="config"/>
         </macro>
         <p id="Example5-code">Code Example:</p>
         <macro name="example">
           <param name="path"
-                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example5.txt"/>
+                 value="resources/com/puppycrawl/tools/checkstyle/checks/naming/methodname/Example5.java"/>
           <param name="type" value="code"/>
         </macro>
       </subsection>

@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressedMutations>
   <mutation unstable="false">
-    <sourceFile>FallThroughCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FallThroughCheck</mutatedClass>
-    <mutatedMethod>matchesComment</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-    <description>removed call to java/util/regex/Matcher::start</description>
-    <lineContent>lineNo, matcher.start(), lineNo, matcher.end());</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
     <sourceFile>FinalLocalVariableCheck.java</sourceFile>
     <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck</mutatedClass>
     <mutatedMethod>leaveToken</mutatedMethod>
@@ -28,23 +19,6 @@
 
 
 
-  <mutation unstable="false">
-    <sourceFile>MatchXpathCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck</mutatedClass>
-    <mutatedMethod>&lt;init&gt;</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable query</description>
-    <lineContent>private String query = &quot;&quot;;</lineContent>
-  </mutation>
-
-  <mutation unstable="false">
-    <sourceFile>MatchXpathCheck.java</sourceFile>
-    <mutatedClass>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck</mutatedClass>
-    <mutatedMethod>setQuery</mutatedMethod>
-    <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-    <description>Removed assignment to member variable query</description>
-    <lineContent>this.query = query;</lineContent>
-  </mutation>
 
 
 
