@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,6 +64,7 @@ import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocPackageCheck;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocParagraphCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck;
+import com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheck;
 import com.puppycrawl.tools.checkstyle.checks.naming.TypeNameCheck;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck;
 import com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck;
@@ -537,6 +539,33 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testMultiCheckOfSameTypeNoIdResultsInOrderingByHash() throws Exception {
+
+        final DefaultConfiguration configuration1 = createModuleConfig(ParameterNameCheck.class);
+        configuration1.addProperty("format", "^[a-z]([a-z0-9][a-zA-Z0-9]*)?$");
+        configuration1.addProperty("accessModifiers", "protected, package, private");
+
+        final DefaultConfiguration configuration2 = createModuleConfig(ParameterNameCheck.class);
+        configuration2.addProperty("format", "^[a-z][a-z0-9][a-zA-Z0-9]*$");
+        configuration2.addProperty("accessModifiers", "PUBLIC");
+
+        final DefaultConfiguration treeWalkerConfig = createModuleConfig(TreeWalker.class);
+        treeWalkerConfig.addChild(configuration1);
+        treeWalkerConfig.addChild(configuration2);
+
+        final String[] expected = {
+            "5:28: " + getCheckMessage(ParameterNameCheck.class,
+                    "name.invalidPattern", "V2", "^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"),
+            "7:25: " + getCheckMessage(ParameterNameCheck.class,
+                    "name.invalidPattern", "b", "^[a-z][a-z0-9][a-zA-Z0-9]*$"),
+        };
+
+        verify(treeWalkerConfig,
+                getPath("InputTreeWalkerMultiCheckOrder2.java"),
+                expected);
+    }
+
+    @Test
     public void testFinishLocalSetupFullyInitialized() {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.setSeverity("error");
@@ -651,6 +680,38 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(checkerConfig, filePath, expected);
     }
 
+    /**
+     * This test is checking that Checks execution ordered by name.
+     *
+     * @throws Exception if file is not found
+     */
+    @Test
+    public void testOrderOfCheckExecution() throws Exception {
+
+        final DefaultConfiguration configuration1 = createModuleConfig(AaCheck.class);
+        configuration1.addProperty("id", "2");
+        final DefaultConfiguration configuration2 = createModuleConfig(BbCheck.class);
+        configuration2.addProperty("id", "1");
+
+        final DefaultConfiguration treeWalkerConfig = createModuleConfig(TreeWalker.class);
+        treeWalkerConfig.addChild(configuration2);
+        treeWalkerConfig.addChild(configuration1);
+
+        final List<File> files =
+                Collections.singletonList(new File(getPath("InputTreeWalker2.java")));
+        final Checker checker = createChecker(treeWalkerConfig);
+
+        try {
+            checker.process(files);
+            assertWithMessage("exception is expected").fail();
+        }
+        catch (CheckstyleException exception) {
+            assertWithMessage("wrong order of Check executions")
+                    .that(exception.getCause().getMessage())
+                    .isEqualTo(AaCheck.class.toString());
+        }
+    }
+
     public static class BadJavaDocCheck extends AbstractCheck {
 
         @Override
@@ -741,6 +802,54 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         @Override
         public boolean isCommentNodesRequired() {
             return true;
+        }
+
+    }
+
+    public static class AaCheck extends AbstractCheck {
+
+        @Override
+        public int[] getDefaultTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public int[] getAcceptableTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public int[] getRequiredTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public void beginTree(DetailAST rootAST) {
+            throw new IllegalStateException(AaCheck.class.toString());
+        }
+
+    }
+
+    public static class BbCheck extends AbstractCheck {
+
+        @Override
+        public int[] getDefaultTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public int[] getAcceptableTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public int[] getRequiredTokens() {
+            return new int[0];
+        }
+
+        @Override
+        public void beginTree(DetailAST rootAST) {
+            throw new IllegalStateException(BbCheck.class.toString());
         }
 
     }

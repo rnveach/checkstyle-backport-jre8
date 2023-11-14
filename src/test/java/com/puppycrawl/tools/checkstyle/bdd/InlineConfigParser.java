@@ -29,7 +29,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -133,17 +133,6 @@ public final class InlineConfigParser {
             "<!DOCTYPE module PUBLIC \"%s\" \"%s\">%n",
             ConfigurationLoader.DTD_PUBLIC_CS_ID_1_3,
             ConfigurationLoader.DTD_PUBLIC_CS_ID_1_3);
-
-    /**
-     * Checks in which violation message is not specified in input file and have more than
-     * one violation message key.
-     * Until <a href="https://github.com/checkstyle/checkstyle/issues/11214">#11214</a>
-     */
-    private static final Set<String> SUPPRESSED_CHECKS = new HashSet<>(Arrays.asList(
-            "com.puppycrawl.tools.checkstyle.checks.regexp.RegexpCheck",
-            "com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyForInitializerPadCheck",
-            "com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck",
-            "com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"));
 
     /**
      *  Inlined configs can not be used in non-java checks, as Inlined config is java style
@@ -288,7 +277,24 @@ public final class InlineConfigParser {
     private static String getFullyQualifiedClassName(String filePath, String moduleName)
             throws CheckstyleException {
         String fullyQualifiedClassName;
-        if (moduleName.startsWith("com.")) {
+        // This is a hack until https://github.com/checkstyle/checkstyle/issues/13845
+        final Map<String, String> moduleMappings = new HashMap<>();
+        moduleMappings.put("ParameterNumber",
+                "com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck");
+        moduleMappings.put("SuppressWarningsHolder",
+                "com.puppycrawl.tools.checkstyle.checks.SuppressWarningsHolder");
+        moduleMappings.put("SuppressWarningsFilter",
+                "com.puppycrawl.tools.checkstyle.filters.SuppressWarningsFilter");
+        moduleMappings.put("MemberName",
+                "com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck");
+        moduleMappings.put("ConstantName",
+                "com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck");
+        moduleMappings.put("NoWhitespaceAfter",
+                "com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck");
+        if (moduleMappings.containsKey(moduleName)) {
+            fullyQualifiedClassName = moduleMappings.get(moduleName);
+        }
+        else if (moduleName.startsWith("com.")) {
             fullyQualifiedClassName = moduleName;
         }
         else {
@@ -437,7 +443,6 @@ public final class InlineConfigParser {
             throws ClassNotFoundException, CheckstyleException {
         final List<ModuleInputConfiguration> moduleLists = inputConfigBuilder.getChildrenModules();
         final boolean specifyViolationMessage = moduleLists.size() == 1
-                && !SUPPRESSED_CHECKS.contains(moduleLists.get(0).getModuleName())
                 && !PERMANENT_SUPPRESSED_CHECKS.contains(moduleLists.get(0).getModuleName())
                 && getNumberOfMessages(moduleLists.get(0).getModuleName()) > 1;
         for (int lineNo = 0; lineNo < lines.size(); lineNo++) {

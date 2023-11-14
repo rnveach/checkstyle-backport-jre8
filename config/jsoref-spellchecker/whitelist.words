@@ -128,7 +128,6 @@ Bludov
 BNOT
 booleanexpressioncomplexity
 bothfiles
-bountysource
 Bpmn
 bracesareused
 breadcrumbs
@@ -323,7 +322,7 @@ Dnew
 doccheck
 Dockter
 doclet
-DOCTYPE
+doctype
 documentationcomments
 donotignoreexceptions
 Dorekit
@@ -446,6 +445,7 @@ finallocalvariable
 finalparameters
 findbugs
 Findentation
+findstr
 firefox
 firstsentence
 FIXME
@@ -1178,6 +1178,7 @@ servlet
 SETPOINT
 severitymatchfilter
 sevntu
+shanegenschaw
 shellcheck
 shengchen
 Shiell
@@ -1291,11 +1292,13 @@ td
 teamcity
 technotes
 tected
+temurin
 Testik
 testmodules
 textlevel
 Tfo
 tfoot
+Thauvin
 thead
 thesummaryfragment
 thetaphi

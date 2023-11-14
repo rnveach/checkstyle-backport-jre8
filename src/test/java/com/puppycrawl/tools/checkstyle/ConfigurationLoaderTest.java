@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -312,11 +313,16 @@ public class ConfigurationLoaderTest extends AbstractPathTestSupport {
 
         final Configuration[] children = config.getChildren();
         final Configuration[] grandchildren = children[0].getChildren();
-
+        final List<String> messages = new ArrayList<>(grandchildren[0].getMessages().values());
         final String expectedKey = "name.invalidPattern";
+        final List<String> expectedMessages = Collections
+                .singletonList("Member ''{0}'' must start with ''m'' (checked pattern ''{1}'').");
         assertWithMessage("Messages should contain key: " + expectedKey)
                 .that(grandchildren[0].getMessages())
                 .containsKey(expectedKey);
+        assertWithMessage("Message is not expected")
+                .that(messages)
+                .isEqualTo(expectedMessages);
     }
 
     private static void verifyConfigNode(
@@ -421,6 +427,21 @@ public class ConfigurationLoaderTest extends AbstractPathTestSupport {
         props.setProperty("a", "A");
         props.setProperty("b", "B");
         return props;
+    }
+
+    @Test
+    public void testSystemEntity() throws Exception {
+        final Properties props = new Properties();
+        props.setProperty("checkstyle.basedir", "basedir");
+
+        final DefaultConfiguration config =
+            (DefaultConfiguration) loadConfiguration(
+                "InputConfigurationLoaderSystemDoctype.xml", props);
+
+        final Properties atts = new Properties();
+        atts.setProperty("tabWidth", "4");
+
+        verifyConfigNode(config, "Checker", 0, atts);
     }
 
     @Test
@@ -748,4 +769,24 @@ public class ConfigurationLoaderTest extends AbstractPathTestSupport {
                     .contains("query");
         }
     }
+
+    @Test
+    public void testDefaultValuesForNonDefinedProperties() throws Exception {
+        final Properties props = new Properties();
+        props.setProperty("checkstyle.charset.base", "UTF");
+
+        final File file = new File(
+                getPath("InputConfigurationLoaderDefaultProperty.xml"));
+        final DefaultConfiguration config =
+            (DefaultConfiguration) ConfigurationLoader.loadConfiguration(
+                    file.toURI().toString(), new PropertiesExpander(props));
+
+        final Properties expectedPropertyValues = new Properties();
+        expectedPropertyValues.setProperty("tabWidth", "2");
+        expectedPropertyValues.setProperty("basedir", ".");
+        // charset property uses 2 variables, one is not defined, so default becomes a result value
+        expectedPropertyValues.setProperty("charset", "ASCII");
+        verifyConfigNode(config, "Checker", 0, expectedPropertyValues);
+    }
+
 }

@@ -96,11 +96,12 @@ public class InputJavadocStyleScopePackage3
      */
     public void method20() {} // ok
 
+    // violation 5 lines below 'Extra HTML tag found: </string>'
     /**
      * Checks HTML tags in javadoc.
      *
      * HTML no good tag
-     * <string>Tests</string> // violation
+     * <string>Tests</string>
      *
      */
     public void method21() {}

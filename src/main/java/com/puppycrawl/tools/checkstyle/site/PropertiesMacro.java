@@ -21,7 +21,9 @@ package com.puppycrawl.tools.checkstyle.site;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -36,6 +38,7 @@ import org.apache.maven.doxia.module.xdoc.XdocSink;
 import org.apache.maven.doxia.sink.Sink;
 import org.codehaus.plexus.component.annotations.Component;
 
+import com.puppycrawl.tools.checkstyle.PropertyType;
 import com.puppycrawl.tools.checkstyle.api.AbstractCheck;
 import com.puppycrawl.tools.checkstyle.api.DetailNode;
 import com.puppycrawl.tools.checkstyle.checks.javadoc.AbstractJavadocCheck;
@@ -49,6 +52,18 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
 @Component(role = Macro.class, hint = "properties")
 public class PropertiesMacro extends AbstractMacro {
 
+    /** Represents the relative path to the property types XML. */
+    private static final String PROPERTY_TYPES_XML = "property_types.xml";
+
+    /** Represents the format string for constructing URLs with two placeholders. */
+    private static final String URL_F = "%s#%s";
+
+    /** Reflects start of a code segment. */
+    private static final String CODE_START = "<code>";
+
+    /** Reflects end of a code segment. */
+    private static final String CODE_END = "</code>";
+
     /** A newline with 10 spaces of indentation. */
     private static final String INDENT_LEVEL_10 = SiteUtil.getNewlineAndIndentSpaces(10);
     /** A newline with 12 spaces of indentation. */
@@ -61,6 +76,12 @@ public class PropertiesMacro extends AbstractMacro {
     private static final String INDENT_LEVEL_18 = SiteUtil.getNewlineAndIndentSpaces(18);
     /** A newline with 20 spaces of indentation. */
     private static final String INDENT_LEVEL_20 = SiteUtil.getNewlineAndIndentSpaces(20);
+
+    /**
+     * This property is used to change the existing properties for javadoc.
+     * Tokens always present at the end of all properties.
+    */
+    private static final String TOKENS_PROPERTY = SiteUtil.TOKENS;
 
     /** The name of the current module being processed. */
     private static String currentModuleName = "";
@@ -76,6 +97,7 @@ public class PropertiesMacro extends AbstractMacro {
         }
 
         final String modulePath = (String) request.getParameter("modulePath");
+
         configureGlobalProperties(modulePath);
 
         writePropertiesTable((XdocSink) sink);
@@ -158,11 +180,31 @@ public class PropertiesMacro extends AbstractMacro {
         final Map<String, DetailNode> propertiesJavadocs = SiteUtil
                 .getPropertiesJavadocs(properties, currentModuleName, currentModuleFile);
 
-        for (String property : properties) {
+        final List<String> orderedProperties = orderProperties(properties);
+
+        for (String property : orderedProperties) {
             final DetailNode propertyJavadoc = propertiesJavadocs.get(property);
             final DetailNode currentModuleJavadoc = propertiesJavadocs.get(currentModuleName);
             writePropertyRow(sink, property, propertyJavadoc, instance, currentModuleJavadoc);
         }
+    }
+
+    /**
+     * Reorder properties to always have the 'tokens' property last (if present).
+     *
+     * @param properties module properties.
+     * @return Collection of ordered properties.
+     *
+     */
+    private static List<String> orderProperties(Set<String> properties) {
+
+        final List<String> orderProperties = new LinkedList<>(properties);
+
+        if (orderProperties.remove(TOKENS_PROPERTY)) {
+            orderProperties.add(TOKENS_PROPERTY);
+        }
+        return new ArrayList<>(orderProperties);
+
     }
 
     /**
@@ -224,6 +266,7 @@ public class PropertiesMacro extends AbstractMacro {
         sink.tableCell();
         final String description = SiteUtil
                 .getPropertyDescription(propertyName, propertyJavadoc, currentModuleName);
+
         sink.rawText(description);
         sink.tableCell_();
     }
@@ -248,7 +291,8 @@ public class PropertiesMacro extends AbstractMacro {
             final AbstractCheck check = (AbstractCheck) instance;
             if (check.getRequiredTokens().length == 0
                     && Arrays.equals(check.getAcceptableTokens(), TokenUtil.getAllTokenIds())) {
-                sink.text(SiteUtil.TOKEN_TYPES);
+                sink.text("set of any supported");
+                writeLink(sink);
             }
             else {
                 final List<String> configurableTokens = SiteUtil
@@ -258,6 +302,7 @@ public class PropertiesMacro extends AbstractMacro {
                         .map(TokenUtil::getTokenName)
                         .collect(Collectors.toList());
                 sink.text("subset of tokens");
+
                 writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_TOKEN_TYPES);
             }
         }
@@ -274,18 +319,60 @@ public class PropertiesMacro extends AbstractMacro {
         }
         else {
             final String type = SiteUtil.getType(field, propertyName, currentModuleName, instance);
-            final String relativePathToPropertyTypes =
-                    SiteUtil.getLinkToDocument(currentModuleName, "property_types.xml");
-            final String escapedType = type
-                    .replace("[", ".5B")
-                    .replace("]", ".5D");
-            final String url =
-                    String.format(Locale.ROOT, "%s#%s", relativePathToPropertyTypes, escapedType);
-            sink.link(url);
-            sink.text(type);
-            sink.link_();
+            if (PropertyType.TOKEN_ARRAY.getDescription().equals(type)) {
+                processLinkForTokenTypes(sink);
+            }
+            else {
+                final String relativePathToPropertyTypes =
+                        SiteUtil.getLinkToDocument(currentModuleName, PROPERTY_TYPES_XML);
+                final String escapedType = type
+                        .replace("[", ".5B")
+                        .replace("]", ".5D");
+
+                final String url =
+                        String.format(Locale.ROOT, URL_F, relativePathToPropertyTypes, escapedType);
+
+                sink.link(url);
+                sink.text(type);
+                sink.link_();
+            }
         }
         sink.tableCell_();
+    }
+
+    /**
+     * Writes a formatted link for "TokenTypes" to the given sink.
+     *
+     * @param sink The output target where the link is written.
+     * @throws MacroExecutionException If an error occurs during the link processing.
+     */
+    private static void processLinkForTokenTypes(Sink sink)
+            throws MacroExecutionException {
+        final String link =
+                SiteUtil.getLinkToDocument(currentModuleName, SiteUtil.PATH_TO_TOKEN_TYPES);
+
+        sink.text("subset of tokens ");
+        sink.link(link);
+        sink.text("TokenTypes");
+        sink.link_();
+    }
+
+    /**
+     * Write a link when all types of token supported.
+     *
+     * @param sink sink to write to.
+     * @throws MacroExecutionException if link cannot be constructed.
+     */
+    private static void writeLink(Sink sink)
+            throws MacroExecutionException {
+        sink.rawText(INDENT_LEVEL_16);
+        final String link =
+                SiteUtil.getLinkToDocument(currentModuleName, SiteUtil.PATH_TO_TOKEN_TYPES);
+        sink.link(link);
+        sink.rawText(INDENT_LEVEL_20);
+        sink.text(SiteUtil.TOKENS);
+        sink.link_();
+        sink.rawText(INDENT_LEVEL_14);
     }
 
     /**
@@ -306,9 +393,16 @@ public class PropertiesMacro extends AbstractMacro {
             }
             writeLinkToToken(sink, tokenTypesLink, token);
         }
-        sink.rawText(INDENT_LEVEL_18);
-        sink.text(SiteUtil.DOT);
-        sink.rawText(INDENT_LEVEL_14);
+        if (tokens.isEmpty()) {
+            sink.rawText(CODE_START);
+            sink.text("empty");
+            sink.rawText(CODE_END);
+        }
+        else {
+            sink.rawText(INDENT_LEVEL_18);
+            sink.text(SiteUtil.DOT);
+            sink.rawText(INDENT_LEVEL_14);
+        }
     }
 
     /**
@@ -373,9 +467,9 @@ public class PropertiesMacro extends AbstractMacro {
         else {
             final String defaultValue = SiteUtil.getDefaultValue(
                     propertyName, field, instance, currentModuleName);
-            sink.rawText("<code>");
+            sink.rawText(CODE_START);
             sink.text(defaultValue);
-            sink.rawText("</code>");
+            sink.rawText(CODE_END);
         }
 
         sink.tableCell_();

@@ -20,7 +20,8 @@ public class InputJavadocStyleExcludeScope1 // ok
    // This is OK. We don't flag missing javadoc.  That's left for other checks.
    private String first; // ok
 
-   /** This Javadoc is missing an ending period */ // violation
+   // violation below 'First sentence should end with a period.'
+   /** This Javadoc is missing an ending period */
    private String second;
 
    /**
@@ -45,20 +46,25 @@ public class InputJavadocStyleExcludeScope1 // ok
     */
    private void method3() {} // ok
 
-   /** // violation
+   // violation below 'First sentence should end with a period.'
+   /**
     * This should fail even.though.there are embedded periods
     */
    private void method4() {}
 
+   // violation 7 lines below 'Unclosed HTML tag found: <b>'
+   // violation 9 lines below 'Extra HTML tag found: </td>'
+   // violation 9 lines below 'Extra HTML tag found: </style>'
+   // violation 9 lines below 'Unclosed HTML tag found: <code>dummy'
    /**
     * Test HTML in Javadoc comment
     * <dl>
-    * <dt><b>This guy is missing end of bold tag // violation
+    * <dt><b>
     * <dd>The dt and dd don't require end tags.
     * </dl>
-    * </td>Extra tag shouldn't be here // violation
-    * <style>this tag isn't supported in Javadoc</style> // violation
-    * @param arg1 <code>dummy. // violation
+    * </td>
+    * <style>this tag isn't supported in Javadoc</style>
+    * @param arg1 <code>dummy
     */
    private void method5(int arg1) {}
 
@@ -67,8 +73,10 @@ public class InputJavadocStyleExcludeScope1 // ok
     */
    protected void method6() {} // ok
 
-   /** // violation
-    * Package protected check <b>should fail // violation
+   // violation 2 lines below 'First sentence should end with a period.'
+   // violation 2 lines below 'Unclosed HTML tag found:'
+   /**
+    * Package protected check <b>
     */
    void method7() {}
 
@@ -82,14 +90,14 @@ public class InputJavadocStyleExcludeScope1 // ok
    public void method9() {} // ok
 
 
-    // Testcases to exercise the Tag parser (bug 843887)
-
+   // Testcases to exercise the Tag parser (bug 843887)
+   // violation 6 lines below  'Extra HTML tag found: </img>'
     /**
      * Real men don't use XHTML.
      * <br />
      * <hr/>
      * < br/>
-     * <img src="schattenparker.jpg"/></img> // violation
+     * <img src="schattenparker.jpg"/></img>
      */
     private void method10() {}
 

@@ -23,9 +23,10 @@ public class InputJavadocStyleHtml4 {
      */
     void tagInTwoLines() {} // ok
 
+    // violation 3 lines below 'Unclosed HTML tag found: <code>'
     /**
      * This Javadoc contains unclosed tag.
-     * <code>unclosed 'code' tag<code> // violation
+     * <code>unclosed 'code' tag<code>
      */
     private void unclosedTag() {}
 
@@ -41,8 +42,10 @@ public class InputJavadocStyleHtml4 {
      */
     private void inheritDoc() {} // ok
 
+    // violation 2 lines below 'Unclosed HTML tag found: <b>'
     /**
-     * <p><b>Note:<b> it's unterminated tag.</p> // violation
+     * <p><b>
+     * </p>
      */
     private void unterminatedTag() {}
 

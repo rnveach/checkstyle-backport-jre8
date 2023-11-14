@@ -74,6 +74,9 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * {@code javadoc.parse.rule.error}
  * </li>
  * <li>
+ * {@code javadoc.unclosedHtml}
+ * </li>
+ * <li>
  * {@code javadoc.wrong.singleton.html.tag}
  * </li>
  * <li>
@@ -470,7 +473,7 @@ public class SummaryJavadocCheck extends AbstractJavadocCheck {
      */
     private boolean containsForbiddenFragment(String firstSentence) {
         final String javadocText = JAVADOC_MULTILINE_TO_SINGLELINE_PATTERN
-                .matcher(firstSentence).replaceAll(" ").trim();
+                .matcher(firstSentence).replaceAll(" ");
         return forbiddenSummaryFragments.matcher(trimExcessWhitespaces(javadocText)).find();
     }
 

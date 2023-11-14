@@ -108,7 +108,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
     private Context childContext;
 
     /** The file extensions that are accepted. */
-    private String[] fileExtensions = CommonUtil.EMPTY_STRING_ARRAY;
+    private String[] fileExtensions;
 
     /**
      * The severity level of any violations found by submodules.
@@ -247,8 +247,10 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
     private Set<String> getExternalResourceLocations() {
         return Stream.concat(fileSetChecks.stream(), filters.getFilters().stream())
             .filter(ExternalResourceHolder.class::isInstance)
-            .map(ExternalResourceHolder.class::cast)
-            .flatMap(resource -> resource.getExternalResourceLocations().stream())
+            .flatMap(resource -> {
+                return ((ExternalResourceHolder) resource)
+                        .getExternalResourceLocations().stream();
+            })
             .collect(Collectors.toSet());
     }
 
@@ -282,6 +284,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
     private void processFiles(List<File> files) throws CheckstyleException {
         for (final File file : files) {
             String fileName = null;
+            final String filePath = file.getPath();
             try {
                 fileName = file.getAbsolutePath();
                 final long timestamp = file.lastModified();
@@ -306,7 +309,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
 
                 // We need to catch all exceptions to put a reason failure (file name) in exception
                 throw new CheckstyleException("Exception was thrown while processing "
-                        + file.getPath(), ex);
+                        + filePath, ex);
             }
             catch (Error error) {
                 if (fileName != null && cacheFile != null) {
@@ -314,7 +317,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
                 }
 
                 // We need to catch all errors to put a reason failure (file name) in error
-                throw new Error("Error was thrown while processing " + file.getPath(), error);
+                throw new Error("Error was thrown while processing " + filePath, error);
             }
         }
     }
@@ -372,7 +375,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
      * @return {@code true} if the file is accepted.
      */
     private boolean acceptFileStarted(String fileName) {
-        final String stripped = CommonUtil.relativizeAndNormalizePath(basedir, fileName);
+        final String stripped = CommonUtil.relativizePath(basedir, fileName);
         return beforeExecutionFileFilters.accept(stripped);
     }
 
@@ -384,7 +387,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
      */
     @Override
     public void fireFileStarted(String fileName) {
-        final String stripped = CommonUtil.relativizeAndNormalizePath(basedir, fileName);
+        final String stripped = CommonUtil.relativizePath(basedir, fileName);
         final AuditEvent event = new AuditEvent(this, stripped);
         for (final AuditListener listener : listeners) {
             listener.fileStarted(event);
@@ -399,7 +402,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
      */
     @Override
     public void fireErrors(String fileName, SortedSet<Violation> errors) {
-        final String stripped = CommonUtil.relativizeAndNormalizePath(basedir, fileName);
+        final String stripped = CommonUtil.relativizePath(basedir, fileName);
         boolean hasNonFilteredViolations = false;
         for (final Violation element : errors) {
             final AuditEvent event = new AuditEvent(this, stripped, element);
@@ -423,7 +426,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
      */
     @Override
     public void fireFileFinished(String fileName) {
-        final String stripped = CommonUtil.relativizeAndNormalizePath(basedir, fileName);
+        final String stripped = CommonUtil.relativizePath(basedir, fileName);
         final AuditEvent event = new AuditEvent(this, stripped);
         for (final AuditListener listener : listeners) {
             listener.fileFinished(event);
@@ -547,10 +550,7 @@ public class Checker extends AbstractAutomaticBean implements MessageDispatcher,
      *     initial '.' character of an extension is automatically added.
      */
     public final void setFileExtensions(String... extensions) {
-        if (extensions == null) {
-            fileExtensions = null;
-        }
-        else {
+        if (extensions != null) {
             fileExtensions = new String[extensions.length];
             for (int i = 0; i < extensions.length; i++) {
                 final String extension = extensions[i];

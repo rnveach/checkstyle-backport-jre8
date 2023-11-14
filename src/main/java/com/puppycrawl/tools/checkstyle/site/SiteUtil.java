@@ -117,6 +117,9 @@ public final class SiteUtil {
     /** The string 'src'. */
     private static final String SRC = "src";
 
+    /** Precompiled regex pattern to remove the "Setter to " prefix from strings. */
+    private static final Pattern SETTER_PATTERN = Pattern.compile("^Setter to ");
+
     /** Class name and their corresponding parent module name. */
     private static final Map<Class<?>, String> CLASS_TO_PARENT_MODULE = new HashMap<>();
 
@@ -176,7 +179,9 @@ public final class SiteUtil {
         new File(Paths.get(MAIN_FOLDER_PATH,
                 "api", "AbstractFileSetCheck.java").toString()),
         new File(Paths.get(MAIN_FOLDER_PATH,
-                CHECKS, "header", "AbstractHeaderCheck.java").toString())
+                CHECKS, "header", "AbstractHeaderCheck.java").toString()),
+        new File(Paths.get(MAIN_FOLDER_PATH,
+                CHECKS, "whitespace", "AbstractParenPadCheck.java").toString())
     );
 
     static {
@@ -192,6 +197,12 @@ public final class SiteUtil {
             "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
             "NonEmptyAtclauseDescriptionCheck.javadocTokens", "7.3");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+            "FileTabCharacterCheck.fileExtensions", "5.0");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+            "ParenPadCheck.option", "3.0");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+            "TypecastParenPadCheck.option", "3.2");
     }
 
     /**
@@ -678,9 +689,10 @@ public final class SiteUtil {
             description = "javadoc tokens to check";
         }
         else {
-            final String descriptionString = DescriptionExtractor
-                    .getDescriptionFromJavadoc(javadoc, moduleName)
-                    .substring("Setter to ".length());
+            final String descriptionString = SETTER_PATTERN.matcher(
+                    DescriptionExtractor.getDescriptionFromJavadoc(javadoc, moduleName))
+                    .replaceFirst("");
+
             final String firstLetterCapitalized = descriptionString.substring(0, 1)
                     .toUpperCase(Locale.ROOT);
             description = firstLetterCapitalized + descriptionString.substring(1);
@@ -702,13 +714,13 @@ public final class SiteUtil {
                                          String propertyName, DetailNode propertyJavadoc)
             throws MacroExecutionException {
         final String sinceVersion;
-        if (SINCE_VERSION_FOR_INHERITED_PROPERTY.containsKey(moduleName + DOT + propertyName)) {
-            sinceVersion = SINCE_VERSION_FOR_INHERITED_PROPERTY
-                    .get(moduleName + DOT + propertyName);
+        final String superClassSinceVersion = SINCE_VERSION_FOR_INHERITED_PROPERTY
+                   .get(moduleName + DOT + propertyName);
+        if (superClassSinceVersion != null) {
+            sinceVersion = superClassSinceVersion;
         }
-        else if (SUPER_CLASS_PROPERTIES_JAVADOCS.containsKey(propertyName)
-                || TOKENS.equals(propertyName)
-                || JAVADOC_TOKENS.equals(propertyName)) {
+        else if (TOKENS.equals(propertyName)
+                        || JAVADOC_TOKENS.equals(propertyName)) {
             // Use module's since version for inherited properties
             sinceVersion = getSinceVersionFromJavadoc(moduleJavadoc);
         }

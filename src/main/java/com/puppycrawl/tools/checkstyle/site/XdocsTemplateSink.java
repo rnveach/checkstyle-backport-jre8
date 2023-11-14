@@ -19,7 +19,9 @@
 
 package com.puppycrawl.tools.checkstyle.site;
 
+import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.regex.Pattern;
 
 import javax.swing.text.MutableAttributeSet;
 
@@ -47,7 +49,7 @@ public class XdocsTemplateSink extends XdocSink {
      * @param encoding encoding of the writer.
      */
     public XdocsTemplateSink(Writer writer, String encoding) {
-        super(writer);
+        super(new CustomPrintWriter(writer));
         this.encoding = encoding;
     }
 
@@ -104,5 +106,48 @@ public class XdocsTemplateSink extends XdocSink {
     @Override
     public void tableRows(int[] justification, boolean grid) {
         writeStartTag(HtmlMarkup.TABLE);
+    }
+
+    /**
+     * A Custom writer that only prints Unix-style newline character.
+     */
+    private static final class CustomPrintWriter extends PrintWriter {
+
+        /** A Regex pattern to represent all kinds of newline character. */
+        private static final Pattern LINE_BREAK_ESCAPE = Pattern.compile("\\R");
+
+        /** Unix-Style newline character. */
+        private static final String NEWLINE = "\n";
+
+        /**
+         * Creates a new instance of this custom writer.
+         *
+         * @param writer not null writer to write the result
+         */
+        private CustomPrintWriter(Writer writer) {
+            super(writer);
+        }
+
+        /**
+         * Enforces Unix-style newline character.
+         */
+        @Override
+        public void println() {
+            write(NEWLINE, 0, NEWLINE.length());
+        }
+
+        /**
+         * Unifies all newline characters to Unix-Style Newline character.
+         *
+         * @param line   text that is to be written in the output file.
+         * @param offset starting offset value for writing data.
+         * @param length total length of string to be written.
+         */
+        @Override
+        public void write(String line, int offset, int length) {
+            final String lineBreakReplacedLine =
+                LINE_BREAK_ESCAPE.matcher(line).replaceAll(NEWLINE);
+            super.write(lineBreakReplacedLine, 0, lineBreakReplacedLine.length());
+        }
     }
 }

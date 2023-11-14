@@ -71,22 +71,19 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleDefaultSettingsOne()
             throws Exception {
         final String[] expected = {
-            "23: " + getCheckMessage(MSG_NO_PERIOD),
-            "48: " + getCheckMessage(MSG_NO_PERIOD),
-            "56:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>This guy is missing end of bold tag // violation"),
-            "59:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag"
-                    + " shouldn't be here // violation"),
-            "60:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
-            "61:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
-            "65: " + getCheckMessage(MSG_NO_PERIOD),
-            "66:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "71:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
-            "76:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "77: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
-            "92:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img> // violation"),
+            "24: " + getCheckMessage(MSG_NO_PERIOD),
+            "50: " + getCheckMessage(MSG_NO_PERIOD),
+            "62:11: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "65:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>"),
+            "66:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style>"),
+            "67:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy"),
+            "73: " + getCheckMessage(MSG_NO_PERIOD),
+            "74:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "80: " + getCheckMessage(MSG_NO_PERIOD),
+            "81:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "88: " + getCheckMessage(MSG_NO_PERIOD),
+            "89:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "90: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
         };
 
         verifyWithInlineConfigParser(
@@ -97,9 +94,10 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleDefaultSettingsTwo()
             throws Exception {
         final String[] expected = {
-            "61:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote> // violation"),
-            "66: " + getCheckMessage(MSG_NO_PERIOD),
-            "98: " + getCheckMessage(MSG_NO_PERIOD),
+            "26:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img>"),
+            "72:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote>"),
+            "77: " + getCheckMessage(MSG_NO_PERIOD),
+            "112:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string>"),
         };
 
         verifyWithInlineConfigParser(
@@ -110,7 +108,7 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleDefaultSettingsThree()
             throws Exception {
         final String[] expected = {
-            "103:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+            "109: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -121,15 +119,15 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleDefaultSettingsFour()
             throws Exception {
         final String[] expected = {
-            "29:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
-            "40: " + getCheckMessage(MSG_NO_PERIOD),
-            "46:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                                         "<b>Note:<b> it's unterminated tag.</p> // violation"),
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
+            "30:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>"),
+            "42: " + getCheckMessage(MSG_NO_PERIOD),
+            "49:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
+                    "<b>Note:<b> it's unterminated tag.</p>"),
             "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "61: " + getCheckMessage(MSG_NO_PERIOD),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "59: " + getCheckMessage(MSG_NO_PERIOD),
+            "67: " + getCheckMessage(MSG_NO_PERIOD),
+            "80: " + getCheckMessage(MSG_NO_PERIOD),
+            "94: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -139,11 +137,11 @@ public class JavadocStyleCheckTest
     @Test
     public void testJavadocStyleFirstSentenceOne() throws Exception {
         final String[] expected = {
-            "23: " + getCheckMessage(MSG_NO_PERIOD),
-            "48: " + getCheckMessage(MSG_NO_PERIOD),
-            "65: " + getCheckMessage(MSG_NO_PERIOD),
-            "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
+            "24: " + getCheckMessage(MSG_NO_PERIOD),
+            "50: " + getCheckMessage(MSG_NO_PERIOD),
+            "68: " + getCheckMessage(MSG_NO_PERIOD),
+            "74: " + getCheckMessage(MSG_NO_PERIOD),
+            "80: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -153,8 +151,8 @@ public class JavadocStyleCheckTest
     @Test
     public void testJavadocStyleFirstSentenceTwo() throws Exception {
         final String[] expected = {
-            "66: " + getCheckMessage(MSG_NO_PERIOD),
-            "99: " + getCheckMessage(MSG_NO_PERIOD),
+            "67: " + getCheckMessage(MSG_NO_PERIOD),
+            "101: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -173,11 +171,11 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleFirstSentenceFour() throws Exception {
         final String[] expected = {
             "40: " + getCheckMessage(MSG_NO_PERIOD),
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
-            "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "61: " + getCheckMessage(MSG_NO_PERIOD),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "51: " + getCheckMessage(MSG_NO_PERIOD),
+            "56: " + getCheckMessage(MSG_NO_PERIOD),
+            "64: " + getCheckMessage(MSG_NO_PERIOD),
+            "77: " + getCheckMessage(MSG_NO_PERIOD),
+            "91: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -187,13 +185,13 @@ public class JavadocStyleCheckTest
     @Test
     public void testJavadocStyleFirstSentenceFormatOne() throws Exception {
         final String[] expected = {
-            "23: " + getCheckMessage(MSG_NO_PERIOD),
-            "33: " + getCheckMessage(MSG_NO_PERIOD),
-            "38: " + getCheckMessage(MSG_NO_PERIOD),
-            "48: " + getCheckMessage(MSG_NO_PERIOD),
-            "65: " + getCheckMessage(MSG_NO_PERIOD),
+            "24: " + getCheckMessage(MSG_NO_PERIOD),
+            "35: " + getCheckMessage(MSG_NO_PERIOD),
+            "41: " + getCheckMessage(MSG_NO_PERIOD),
+            "52: " + getCheckMessage(MSG_NO_PERIOD),
             "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
+            "76: " + getCheckMessage(MSG_NO_PERIOD),
+            "82: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -203,8 +201,8 @@ public class JavadocStyleCheckTest
     @Test
     public void testJavadocStyleFirstSentenceFormatTwo() throws Exception {
         final String[] expected = {
-            "66: " + getCheckMessage(MSG_NO_PERIOD),
-            "99: " + getCheckMessage(MSG_NO_PERIOD),
+            "74: " + getCheckMessage(MSG_NO_PERIOD),
+            "108: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -223,11 +221,11 @@ public class JavadocStyleCheckTest
     public void testJavadocStyleFirstSentenceFormatFour() throws Exception {
         final String[] expected = {
             "40: " + getCheckMessage(MSG_NO_PERIOD),
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
-            "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "61: " + getCheckMessage(MSG_NO_PERIOD),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "51: " + getCheckMessage(MSG_NO_PERIOD),
+            "56: " + getCheckMessage(MSG_NO_PERIOD),
+            "64: " + getCheckMessage(MSG_NO_PERIOD),
+            "77: " + getCheckMessage(MSG_NO_PERIOD),
+            "91: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -237,17 +235,15 @@ public class JavadocStyleCheckTest
     @Test
     public void testHtml1() throws Exception {
         final String[] expected = {
-            "55:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                "<b>This guy is missing end of bold tag // violation"),
-            "58:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag "
-                + "shouldn't be here // violation"),
-            "59:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
-            "60:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
-            "65:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "70:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "75:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "76: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
-            "91:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img> // violation"),
+            "59:11: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "62:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>"),
+            "63:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style>"),
+            "64:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy"),
+            "70:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "76:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "83:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "84: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
+            "99:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img>"),
         };
 
         verifyWithInlineConfigParser(
@@ -257,7 +253,7 @@ public class JavadocStyleCheckTest
     @Test
     public void testHtml2() throws Exception {
         final String[] expected = {
-            "67:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote> // violation"),
+            "68:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote>"),
         };
 
         verifyWithInlineConfigParser(
@@ -267,7 +263,7 @@ public class JavadocStyleCheckTest
     @Test
     public void testHtml3() throws Exception {
         final String[] expected = {
-            "102:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+            "103:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string>"),
         };
 
         verifyWithInlineConfigParser(
@@ -277,9 +273,8 @@ public class JavadocStyleCheckTest
     @Test
     public void testHtml4() throws Exception {
         final String[] expected = {
-            "28:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
-            "45:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>Note:<b> it's unterminated tag.</p> // violation"),
+            "29:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>"),
+            "47:11: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
         };
 
         verifyWithInlineConfigParser(
@@ -314,10 +309,11 @@ public class JavadocStyleCheckTest
     public void testScopePublic1()
             throws Exception {
         final String[] expected = {
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
-            "76:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "77: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
+            "78: " + getCheckMessage(MSG_NO_PERIOD),
+            "79:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "80: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePublic1.java"), expected);
     }
@@ -327,9 +323,10 @@ public class JavadocStyleCheckTest
             throws Exception {
         final String[] expected = {
             "83: " + getCheckMessage(MSG_EMPTY),
-            "101: " + getCheckMessage(MSG_EMPTY),
-            "106: " + getCheckMessage(MSG_NO_PERIOD),
+            "102: " + getCheckMessage(MSG_EMPTY),
+            "108: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePublic2.java"), expected);
     }
@@ -338,8 +335,9 @@ public class JavadocStyleCheckTest
     public void testScopePublic3()
             throws Exception {
         final String[] expected = {
-            "103:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+            "104:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string>"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePublic3.java"), expected);
     }
@@ -348,10 +346,11 @@ public class JavadocStyleCheckTest
     public void testScopePublic4()
             throws Exception {
         final String[] expected = {
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
-            "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "51: " + getCheckMessage(MSG_NO_PERIOD),
+            "56: " + getCheckMessage(MSG_NO_PERIOD),
+            "89: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePublic4.java"), expected);
     }
@@ -360,12 +359,13 @@ public class JavadocStyleCheckTest
     public void testScopeProtected1()
             throws Exception {
         final String[] expected = {
-            "65: " + getCheckMessage(MSG_NO_PERIOD),
-            "66:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
-            "76:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "77: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
+            "67: " + getCheckMessage(MSG_NO_PERIOD),
+            "68:23: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "80: " + getCheckMessage(MSG_NO_PERIOD),
+            "81:31: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "82: " + getCheckMessage(MSG_INCOMPLETE_TAG, "    * should fail <"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopeProtected1.java"), expected);
     }
@@ -374,11 +374,12 @@ public class JavadocStyleCheckTest
     public void testScopeProtected2()
             throws Exception {
         final String[] expected = {
-            "76: " + getCheckMessage(MSG_EMPTY),
-            "80: " + getCheckMessage(MSG_EMPTY),
-            "94: " + getCheckMessage(MSG_EMPTY),
-            "99: " + getCheckMessage(MSG_NO_PERIOD),
+            "83: " + getCheckMessage(MSG_EMPTY),
+            "87: " + getCheckMessage(MSG_EMPTY),
+            "102: " + getCheckMessage(MSG_EMPTY),
+            "108: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopeProtected2.java"), expected);
     }
@@ -387,8 +388,9 @@ public class JavadocStyleCheckTest
     public void testScopeProtected3()
             throws Exception {
         final String[] expected = {
-            "103:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+            "104:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string>"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopeProtected3.java"), expected);
     }
@@ -397,10 +399,11 @@ public class JavadocStyleCheckTest
     public void testScopeProtected4()
             throws Exception {
         final String[] expected = {
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
-            "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "51: " + getCheckMessage(MSG_NO_PERIOD),
+            "56: " + getCheckMessage(MSG_NO_PERIOD),
+            "89: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopeProtected4.java"), expected);
     }
@@ -409,14 +412,15 @@ public class JavadocStyleCheckTest
     public void testScopePackage1()
             throws Exception {
         final String[] expected = {
-            "65: " + getCheckMessage(MSG_NO_PERIOD),
-            "66:24: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "71:32: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "75: " + getCheckMessage(MSG_NO_PERIOD),
-            "76:32: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "77: " + getCheckMessage(MSG_INCOMPLETE_TAG, "     * should fail <"),
+            "67: " + getCheckMessage(MSG_NO_PERIOD),
+            "68:24: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "74: " + getCheckMessage(MSG_NO_PERIOD),
+            "75:32: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "82: " + getCheckMessage(MSG_NO_PERIOD),
+            "83:32: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "84: " + getCheckMessage(MSG_INCOMPLETE_TAG, "     * should fail <"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePackage1.java"), expected);
     }
@@ -425,12 +429,13 @@ public class JavadocStyleCheckTest
     public void testScopePackage2()
             throws Exception {
         final String[] expected = {
-            "76: " + getCheckMessage(MSG_EMPTY),
-            "80: " + getCheckMessage(MSG_EMPTY),
-            "85: " + getCheckMessage(MSG_EMPTY),
-            "94: " + getCheckMessage(MSG_EMPTY),
-            "99: " + getCheckMessage(MSG_NO_PERIOD),
+            "83: " + getCheckMessage(MSG_EMPTY),
+            "87: " + getCheckMessage(MSG_EMPTY),
+            "92: " + getCheckMessage(MSG_EMPTY),
+            "102: " + getCheckMessage(MSG_EMPTY),
+            "108: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePackage2.java"), expected);
     }
@@ -439,8 +444,9 @@ public class JavadocStyleCheckTest
     public void testScopePackage3()
             throws Exception {
         final String[] expected = {
-            "103:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string> // violation"),
+            "104:21: " + getCheckMessage(MSG_EXTRA_HTML, "</string>"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePackage3.java"), expected);
     }
@@ -449,12 +455,13 @@ public class JavadocStyleCheckTest
     public void testScopePackage4()
             throws Exception {
         final String[] expected = {
-            "50: " + getCheckMessage(MSG_NO_PERIOD),
-            "54: " + getCheckMessage(MSG_NO_PERIOD),
-            "61: " + getCheckMessage(MSG_NO_PERIOD),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
-            "86: " + getCheckMessage(MSG_NO_PERIOD),
+            "51: " + getCheckMessage(MSG_NO_PERIOD),
+            "56: " + getCheckMessage(MSG_NO_PERIOD),
+            "64: " + getCheckMessage(MSG_NO_PERIOD),
+            "77: " + getCheckMessage(MSG_NO_PERIOD),
+            "91: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleScopePackage4.java"), expected);
     }
@@ -473,8 +480,8 @@ public class JavadocStyleCheckTest
             "75: " + getCheckMessage(MSG_EMPTY),
             "79: " + getCheckMessage(MSG_EMPTY),
             "84: " + getCheckMessage(MSG_EMPTY),
-            "89: " + getCheckMessage(MSG_EMPTY),
-            "93: " + getCheckMessage(MSG_EMPTY),
+            "90: " + getCheckMessage(MSG_EMPTY),
+            "95: " + getCheckMessage(MSG_EMPTY),
         };
 
         verifyWithInlineConfigParser(
@@ -501,18 +508,17 @@ public class JavadocStyleCheckTest
     public void testExcludeScope1()
             throws Exception {
         final String[] expected = {
-            "23: " + getCheckMessage(MSG_NO_PERIOD),
-            "48: " + getCheckMessage(MSG_NO_PERIOD),
-            "56:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>This guy is missing end of bold tag // violation"),
-            "59:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag "
-                    + "shouldn't be here // violation"),
-            "60:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
-            "61:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
-            "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "71:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>should fail // violation"),
-            "92:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img> // violation"),
+            "24: " + getCheckMessage(MSG_NO_PERIOD),
+            "50: " + getCheckMessage(MSG_NO_PERIOD),
+            "62:11: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "65:7: " + getCheckMessage(MSG_EXTRA_HTML, "</td>"),
+            "66:49: " + getCheckMessage(MSG_EXTRA_HTML, "</style>"),
+            "67:19: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy"),
+            "78: " + getCheckMessage(MSG_NO_PERIOD),
+            "79:31: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "100:39: " + getCheckMessage(MSG_EXTRA_HTML, "</img>"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleExcludeScope1.java"), expected);
     }
@@ -521,9 +527,10 @@ public class JavadocStyleCheckTest
     public void testExcludeScope2()
             throws Exception {
         final String[] expected = {
-            "68:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote> // violation"),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
+            "69:8: " + getCheckMessage(MSG_UNCLOSED_HTML, "<blockquote>"),
+            "75: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleExcludeScope2.java"), expected);
     }
@@ -541,13 +548,14 @@ public class JavadocStyleCheckTest
     public void testExcludeScope4()
             throws Exception {
         final String[] expected = {
-            "29:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
-            "40: " + getCheckMessage(MSG_NO_PERIOD),
-            "46:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>Note:<b> it's unterminated tag.</p> // violation"),
-            "61: " + getCheckMessage(MSG_NO_PERIOD),
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
+            "30:33: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>"),
+            "42: " + getCheckMessage(MSG_NO_PERIOD),
+            "49:11: " + getCheckMessage(MSG_UNCLOSED_HTML,
+                    "<b>Note:<b> it's unterminated tag.</p>"),
+            "65: " + getCheckMessage(MSG_NO_PERIOD),
+            "78: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleExcludeScope4.java"), expected);
     }
@@ -567,7 +575,7 @@ public class JavadocStyleCheckTest
     @Test
     public void packageInfoInvalid() throws Exception {
         final String[] expected = {
-            "16: " + getCheckMessage(MSG_NO_PERIOD),
+            "17: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -629,8 +637,9 @@ public class JavadocStyleCheckTest
     public void testRestrictedTokenSet1()
             throws Exception {
         final String[] expected = {
-            "73: " + getCheckMessage(MSG_NO_PERIOD),
+            "74: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleRestrictedTokenSet1.java"), expected);
     }
@@ -657,9 +666,10 @@ public class JavadocStyleCheckTest
     public void testRestrictedTokenSet4()
             throws Exception {
         final String[] expected = {
-            "59: " + getCheckMessage(MSG_NO_PERIOD),
-            "91: " + getCheckMessage(MSG_NO_PERIOD),
+            "53: " + getCheckMessage(MSG_NO_PERIOD),
+            "86: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleRestrictedTokenSet4.java"), expected);
     }
@@ -667,19 +677,17 @@ public class JavadocStyleCheckTest
     @Test
     public void testJavadocStyleRecordsAndCompactCtors() throws Exception {
         final String[] expected = {
-            "23: " + getCheckMessage(MSG_NO_PERIOD),
-            "43: " + getCheckMessage(MSG_NO_PERIOD),
-            "52:16: " + getCheckMessage(MSG_UNCLOSED_HTML,
-                    "<b>This guy is missing end of bold tag // violation"),
-            "55:12: " + getCheckMessage(MSG_EXTRA_HTML, "</td>Extra tag "
-                    + "shouldn't be here // violation"),
-            "56:54: " + getCheckMessage(MSG_EXTRA_HTML, "</style> // violation"),
-            "58:24: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy. // violation"),
-            "70: " + getCheckMessage(MSG_NO_PERIOD),
-            "71:36: " + getCheckMessage(MSG_EXTRA_HTML, "</code> // violation"),
-            "72: " + getCheckMessage(MSG_INCOMPLETE_TAG, "         * should fail <"),
-            "87:37: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code> // violation"),
-            "102: " + getCheckMessage(MSG_NO_PERIOD),
+            "24: " + getCheckMessage(MSG_NO_PERIOD),
+            "45: " + getCheckMessage(MSG_NO_PERIOD),
+            "58:16: " + getCheckMessage(MSG_UNCLOSED_HTML, "<b>"),
+            "61:12: " + getCheckMessage(MSG_EXTRA_HTML, "</td>"),
+            "62:54: " + getCheckMessage(MSG_EXTRA_HTML, "</style>"),
+            "64:24: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>dummy"),
+            "79: " + getCheckMessage(MSG_NO_PERIOD),
+            "80:36: " + getCheckMessage(MSG_EXTRA_HTML, "</code>"),
+            "81: " + getCheckMessage(MSG_INCOMPLETE_TAG, "         * should fail <"),
+            "97:37: " + getCheckMessage(MSG_UNCLOSED_HTML, "<code>"),
+            "113: " + getCheckMessage(MSG_NO_PERIOD),
         };
 
         verifyWithInlineConfigParser(
@@ -708,8 +716,8 @@ public class JavadocStyleCheckTest
     public void testInterfaceMemberScopeIsPublic()
             throws Exception {
         final String[] expected = {
-            "20: " + getCheckMessage(MSG_EMPTY),
-            "23: " + getCheckMessage(MSG_EMPTY),
+            "21: " + getCheckMessage(MSG_EMPTY),
+            "25: " + getCheckMessage(MSG_EMPTY),
         };
 
         verifyWithInlineConfigParser(
@@ -721,9 +729,9 @@ public class JavadocStyleCheckTest
     public void testEnumCtorScopeIsPrivate()
             throws Exception {
         final String[] expected = {
-            "20: " + getCheckMessage(MSG_EMPTY),
-            "23: " + getCheckMessage(MSG_EMPTY),
-            "31: " + getCheckMessage(MSG_EMPTY),
+            "21: " + getCheckMessage(MSG_EMPTY),
+            "25: " + getCheckMessage(MSG_EMPTY),
+            "34: " + getCheckMessage(MSG_EMPTY),
         };
 
         verifyWithInlineConfigParser(
@@ -745,6 +753,7 @@ public class JavadocStyleCheckTest
             "11: " + getCheckMessage(MSG_NO_PERIOD),
             "15: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleDefault4.java"),
                 expected);
@@ -757,6 +766,7 @@ public class JavadocStyleCheckTest
             "18:16: " + getCheckMessage(MSG_UNCLOSED_HTML,
                     "<AREA ALT=\"alt\" Coordination=\"100,0,200,50\" HREF=\"/href/\"> <"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleCheck1.java"),
                 expected);
@@ -767,6 +777,7 @@ public class JavadocStyleCheckTest
         final String[] expected = {
             "21:4: " + getCheckMessage(MSG_EXTRA_HTML, "</body>"),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleCheck2.java"),
                 expected);
@@ -777,6 +788,7 @@ public class JavadocStyleCheckTest
         final String[] expected = {
             "11: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleCheck3.java"),
                 expected);
@@ -787,6 +799,7 @@ public class JavadocStyleCheckTest
         final String[] expected = {
             "12: " + getCheckMessage(MSG_NO_PERIOD),
         };
+
         verifyWithInlineConfigParser(
                 getPath("InputJavadocStyleCheck5.java"),
                 expected);

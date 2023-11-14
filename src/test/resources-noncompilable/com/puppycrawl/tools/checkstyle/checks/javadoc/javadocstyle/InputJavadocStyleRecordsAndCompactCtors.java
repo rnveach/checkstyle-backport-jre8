@@ -20,7 +20,8 @@ public class InputJavadocStyleRecordsAndCompactCtors { // ok
 
     public record MyRecord() { // ok
 
-        /** // violation
+        // violation 1 lines below 'First sentence should end with a period.'
+        /**
          * This Javadoc is missing an ending period
          */
         private static String second;
@@ -40,22 +41,27 @@ public class InputJavadocStyleRecordsAndCompactCtors { // ok
         private void method1() { // ok
         }
 
-        /** // violation
+        // violation 1 lines below 'First sentence should end with a period.'
+        /**
          * This should fail even.though.there are embedded periods
          */
         private void method4() {
         }
 
+        // violation 7 lines below 'Unclosed HTML tag found: <b>'
+        // violation 9 lines below 'Extra HTML tag found: </td>'
+        // violation 9 lines below 'Extra HTML tag found: </style>'
+        // violation 10 lines below 'Unclosed HTML tag found: <code>dummy'
         /**
          * Test HTML in Javadoc comment
          * <dl>
-         * <dt><b>This guy is missing end of bold tag // violation
+         * <dt><b>
          * <dd>The dt and dd don't require end tags.
          * </dl>
-         * </td>Extra tag shouldn't be here // violation
-         * <style>this tag isn't supported in Javadoc</style> // violation
+         * </td>
+         * <style>this tag isn't supported in Javadoc</style>
          *
-         * @param arg1 <code>dummy. // violation
+         * @param arg1 <code>dummy
          */
         private void method5(int arg1) {
         }
@@ -67,10 +73,13 @@ public class InputJavadocStyleRecordsAndCompactCtors { // ok
     public record MySecondRecord() {
         static String props = "";
 
-        /** // violation
-         * Public check should fail</code> // violation
+        // violation 3 lines below 'First sentence should end with a period.'
+        // violation 3 lines below 'Extra HTML tag found: </code>'
+        // violation 3 lines below 'should fail <'
+        /**
+         * Public check should fail</code>
          * should fail <
-         */ // violation above
+         */
         public void method8() {
         }
     }
@@ -82,9 +91,10 @@ public class InputJavadocStyleRecordsAndCompactCtors { // ok
     }
 
     public record MyFourthRecord(String myString) { // ok
+        // violation 3 lines below 'Unclosed HTML tag found: <code>'
         /**
          * This Javadoc contains unclosed tag.
-         * <code>unclosed 'code' tag<code> // violation
+         * <code>unclosed 'code' tag<code>
          */
         private static void unclosedTag() {
             System.out.println("stuff");
@@ -99,7 +109,8 @@ public class InputJavadocStyleRecordsAndCompactCtors { // ok
     }
 
     public record MyFifthRecord() { // ok
-        /** // violation
+        // violation 1 lines below 'First sentence should end with a period.'
+        /**
          * No period here on compact ctor
          */
         public MyFifthRecord {

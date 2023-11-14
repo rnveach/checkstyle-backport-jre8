@@ -18,52 +18,10 @@
 
       <subsection name="Properties" id="Properties">
         <div class="wrapper">
-          <table>
-            <tr>
-              <th>name</th>
-              <th>description</th>
-              <th>type</th>
-              <th>default value</th>
-              <th>since</th>
-            </tr>
-
-            <tr>
-              <td>allowedDistance</td>
-              <td>Specify distance between declaration of variable and its first usage.
-                  Values should be greater than 0.</td>
-              <td><a href="../../property_types.html#int">int</a></td>
-              <td><code>3</code></td>
-              <td>5.8</td>
-            </tr>
-
-            <tr>
-              <td>ignoreFinal</td>
-              <td>Allow to ignore variables with a 'final' modifier.</td>
-              <td><a href="../../property_types.html#boolean">boolean</a></td>
-              <td><code>true</code></td>
-              <td>5.8</td>
-            </tr>
-
-            <tr>
-              <td>ignoreVariablePattern</td>
-              <td>
-                Define RegExp to ignore distance calculation for variables listed in this pattern.
-              </td>
-              <td><a href="../../property_types.html#Pattern">Pattern</a></td>
-              <td><code>""</code></td>
-              <td>5.8</td>
-            </tr>
-
-            <tr>
-              <td>validateBetweenScopes</td>
-              <td>Allow to calculate the distance between declaration of variable and its
-                  first usage in the different scopes.</td>
-              <td><a href="../../property_types.html#boolean">boolean</a></td>
-              <td><code>false</code></td>
-              <td>5.8</td>
-            </tr>
-
-          </table>
+          <macro name="properties">
+            <param name="modulePath"
+                   value="src/main/java/com/puppycrawl/tools/checkstyle/checks/coding/VariableDeclarationUsageDistanceCheck.java"/>
+          </macro>
         </div>
       </subsection>
 
@@ -194,18 +152,10 @@ cal.set(Calendar.MINUTE, minutes);
         </ul>
       </subsection>
 
-      <subsection name="Violation Messages"
-        id="Violation_Messages">
-        <ul>
-          <li>
-            <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22variable.declaration.usage.distance%22">
-            variable.declaration.usage.distance</a>
-          </li>
-          <li>
-            <a href="https://github.com/search?q=path%3Asrc%2Fmain%2Fresources%2Fcom%2Fpuppycrawl%2Ftools%2Fcheckstyle%2Fchecks%2Fcoding%20path%3A**%2Fmessages*.properties+repo%3Acheckstyle%2Fcheckstyle+%22variable.declaration.usage.distance.extend%22">
-            variable.declaration.usage.distance.extend</a>
-          </li>
-        </ul>
+      <subsection name="Violation Messages" id="Violation_Messages">
+        <macro name="violation-messages">
+          <param name="checkName" value="VariableDeclarationUsageDistance"/>
+        </macro>
         <p>
           All messages can be customized if the default message doesn't suit you.
           Please <a href="../../config.html#Custom_messages">see the documentation</a>
