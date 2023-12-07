@@ -146,13 +146,18 @@ public final class SiteUtil {
     private static final Set<String> PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD =
         Collections.unmodifiableSet(Arrays.stream(new String[] {
             // static field (all upper case)
-            "SuppressWarningsHolderCheck.aliasList",
+            "SuppressWarningsHolder.aliasList",
             // loads string into memory similar to file
             "HeaderCheck.header",
             "RegexpHeaderCheck.header",
             // until https://github.com/checkstyle/checkstyle/issues/13376
             "CustomImportOrderCheck.customImportOrderRules",
         }).collect(Collectors.toSet()));
+
+    /**
+     * Frequent version.
+     */
+    private static final String V824 = "8.24";
 
     /**
      * Map of properties whose since version is different from module version but
@@ -192,13 +197,15 @@ public final class SiteUtil {
         CLASS_TO_PARENT_MODULE.put(BeforeExecutionFileFilter.class, Checker.class.getSimpleName());
 
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", "8.24");
+            "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", V824);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
             "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
             "NonEmptyAtclauseDescriptionCheck.javadocTokens", "7.3");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
             "FileTabCharacterCheck.fileExtensions", "5.0");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+            "LineLengthCheck.fileExtensions", V824);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
             "ParenPadCheck.option", "3.0");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(

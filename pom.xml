@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.12.5</version>
+  <version>10.12.6</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -19,8 +19,8 @@
   <inceptionYear>2022</inceptionYear>
   <licenses>
     <license>
-      <name>LGPL-2.1+</name>
-      <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+      <name>LGPL-2.1-or-later</name>
+      <url>https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
     </license>
   </licenses>
 
@@ -66,7 +66,7 @@
     <maven.spotbugs.plugin.version>4.7.3.5</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
     <pmd.version>6.55.0</pmd.version>
-    <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
+    <maven.jacoco.plugin.version>0.8.11</maven.jacoco.plugin.version>
     <mockito.version>4.11.0</mockito.version>
     <saxon.version>11.4</saxon.version>
     <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
@@ -74,7 +74,7 @@
     <maven.sevntu-checkstyle-check.checkstyle.version>
       9.1
     </maven.sevntu-checkstyle-check.checkstyle.version>
-    <maven.versions.plugin.version>2.16.0</maven.versions.plugin.version>
+    <maven.versions.plugin.version>2.16.2</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
     <pitest.plugin.version>1.15.3</pitest.plugin.version>
@@ -82,14 +82,14 @@
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
     <pitest.plugin.threads>4</pitest.plugin.threads>
-    <pitest.junit5.plugin.version>1.2.0</pitest.junit5.plugin.version>
+    <pitest.junit5.plugin.version>1.2.1</pitest.junit5.plugin.version>
     <pitest.accelerator.junit5.plugin.version>1.0.6</pitest.accelerator.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
-    <junit.version>5.9.2</junit.version>
-    <forbiddenapis.version>3.4</forbiddenapis.version>
+    <junit.version>5.10.1</junit.version>
+    <forbiddenapis.version>3.6</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
-    <error-prone.version>2.21.1</error-prone.version>
-    <checkerframework.version>3.27.0</checkerframework.version>
+    <error-prone.version>2.23.0</error-prone.version>
+    <checkerframework.version>3.41.0</checkerframework.version>
     <doxia.version>1.12.0</doxia.version>
   </properties>
 
@@ -112,7 +112,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>32.0.1-jre</version>
+      <version>32.1.3-jre</version>
       <exclusions>
         <exclusion>
           <groupId>org.checkerframework</groupId>
@@ -180,13 +180,13 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>1.1.3</version>
+      <version>1.1.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.15.3</version>
+      <version>3.15.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -198,7 +198,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.15.0</version>
+      <version>2.15.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -299,7 +299,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -331,7 +331,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.6.2</version>
+          <version>3.6.3</version>
           <configuration>
             <!-- Exclude generated sources. -->
             <excludePackageNames>
@@ -417,7 +417,7 @@
               <plugin>
                 <groupId>com.mebigfatguy.sb-contrib</groupId>
                 <artifactId>sb-contrib</artifactId>
-                <version>7.6.0</version>
+                <version>7.6.3</version>
               </plugin>
             </plugins>
           </configuration>
@@ -1197,7 +1197,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.4.0</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -1581,22 +1581,8 @@
                 <!-- due to https://github.com/checkstyle/checkstyle/pull/13193 All the code needs to be in single line -->
                 <exclude>**/OneStatementPerLineCheckTest.class</exclude>
 
-                <!-- all bellow until https://github.com/checkstyle/checkstyle/issues/11446 -->
-
-                <!-- usage of custom internal module, 'execute' method should be used -->
-                <exclude>**/FileSetCheckTest.class</exclude>
-                <exclude>**/AbstractFileSetCheckTest.class</exclude>
-
-                <exclude>**/DetailAstImplTest.class</exclude>
-
-                <exclude>**/TreeWalkerTest.class</exclude>
-
-                <exclude>**/CheckerTest.class</exclude>
-
-                <exclude>**/AllBlockCommentsTest.class</exclude>
-
-                <!-- test needs to be updated -->
-                <exclude>**/SuppressionCommentFilterTest.class</exclude>
+                <!-- this class contain forbidden verify method -->
+                <exclude>**/AbstractModuleTestSupport.class</exclude>
 
                 <!-- due to https://github.com/checkstyle/checkstyle/issues/11846 -->
                 <exclude>**/EmptyLineSeparatorCheckTest.class</exclude>
@@ -1606,17 +1592,13 @@
                 <!-- content header is conflicting with Input inline header -->
                 <exclude>**/RegexpHeaderCheckTest.class</exclude>
 
-                <!-- test should be updated -->
-                <exclude>**/AbstractCheckTest.class</exclude>
-
-                <!-- tests need to be updated -->
-                <exclude>**/SuppressWithNearbyCommentFilterTest.class</exclude>
-
-                <!-- this class contain forbidden verify method -->
-                <exclude>**/AbstractModuleTestSupport.class</exclude>
-
-                <!-- tests should be updated -->
-                <exclude>**/AbstractJavadocCheckTest.class</exclude>
+                <!-- all bellow until https://github.com/checkstyle/checkstyle/issues/11446 -->
+                <exclude>**/FileSetCheckTest.class</exclude>
+                <exclude>**/AbstractFileSetCheckTest.class</exclude>
+                <exclude>**/DetailAstImplTest.class</exclude>
+                <exclude>**/TreeWalkerTest.class</exclude>
+                <exclude>**/CheckerTest.class</exclude>
+                <exclude>**/AllBlockCommentsTest.class</exclude>
               </excludes>
             </configuration>
           </execution>
@@ -1659,7 +1641,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.0</version>
       </plugin>
 
       <plugin>
@@ -4762,7 +4744,7 @@
         <dependency>
           <groupId>org.eclipse.jdt</groupId>
           <artifactId>org.eclipse.jdt.annotation</artifactId>
-          <version>2.2.700</version>
+          <version>2.2.800</version>
         </dependency>
       </dependencies>
       <build>

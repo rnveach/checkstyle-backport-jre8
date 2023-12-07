@@ -95,7 +95,6 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
     // Checks that allowed to have no XPath IT Regression Testing
     // till https://github.com/checkstyle/checkstyle/issues/6207
     private static final Set<String> MISSING_CHECK_NAMES = new HashSet<>(Arrays.asList(
-            "BooleanExpressionComplexity",
             "CatchParameterName",
             "ClassDataAbstractionCoupling",
             "ClassFanOutComplexity",
@@ -113,7 +112,6 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             "JavaNCSS",
             "LocalFinalVariableName",
             "LocalVariableName",
-            "MagicNumber",
             "MethodLength",
             "MethodTypeParameterName",
             "ModifiedControlVariable",
@@ -126,7 +124,6 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             "SeparatorWrap",
             "SimplifyBooleanExpression",
             "StaticVariableName",
-            "SuperClone",
             "SuperFinalize",
             "SuppressWarnings",
             "VisibilityModifier"

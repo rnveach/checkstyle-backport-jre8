@@ -23,11 +23,13 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.maven.doxia.macro.AbstractMacro;
@@ -51,6 +53,30 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  */
 @Component(role = Macro.class, hint = "properties")
 public class PropertiesMacro extends AbstractMacro {
+
+    /**
+     * Constant value for cases when tokens set is empty.
+     */
+    public static final String EMPTY = "empty";
+
+    /** Set of properties not inherited from the base token configuration. */
+    public static final Set<String> NON_BASE_TOKEN_PROPERTIES = Collections.unmodifiableSet(
+            Arrays.stream(new String[] {
+                "AtclauseOrder - target",
+                "DescendantToken - limitedTokens",
+                "IllegalType - memberModifiers",
+                "MagicNumber - constantWaiverParentToken",
+                "MultipleStringLiterals - ignoreOccurrenceContext",
+            }).collect(Collectors.toSet()));
+
+    /** The precompiled pattern for a comma followed by a space. */
+    private static final Pattern COMMA_SPACE_PATTERN = Pattern.compile(", ");
+
+    /** The precompiled pattern for a Check. */
+    private static final Pattern CHECK_PATTERN = Pattern.compile("Check$");
+
+    /** The string '{}'. */
+    private static final String CURLY_BRACKET = "{}";
 
     /** Represents the relative path to the property types XML. */
     private static final String PROPERTY_TYPES_XML = "property_types.xml";
@@ -183,9 +209,18 @@ public class PropertiesMacro extends AbstractMacro {
         final List<String> orderedProperties = orderProperties(properties);
 
         for (String property : orderedProperties) {
-            final DetailNode propertyJavadoc = propertiesJavadocs.get(property);
-            final DetailNode currentModuleJavadoc = propertiesJavadocs.get(currentModuleName);
-            writePropertyRow(sink, property, propertyJavadoc, instance, currentModuleJavadoc);
+            try {
+                final DetailNode propertyJavadoc = propertiesJavadocs.get(property);
+                final DetailNode currentModuleJavadoc = propertiesJavadocs.get(currentModuleName);
+                writePropertyRow(sink, property, propertyJavadoc, instance, currentModuleJavadoc);
+            }
+            // -@cs[IllegalCatch] we need to get details in wrapping exception
+            catch (Exception exc) {
+                final String message = String.format(Locale.ROOT,
+                        "Exception while handling moduleName: %s propertyName: %s",
+                        currentModuleName, property);
+                throw new MacroExecutionException(message, exc);
+            }
         }
     }
 
@@ -303,7 +338,7 @@ public class PropertiesMacro extends AbstractMacro {
                         .collect(Collectors.toList());
                 sink.text("subset of tokens");
 
-                writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_TOKEN_TYPES);
+                writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_TOKEN_TYPES, true);
             }
         }
         else if (SiteUtil.JAVADOC_TOKENS.equals(propertyName)) {
@@ -315,7 +350,7 @@ public class PropertiesMacro extends AbstractMacro {
                     .map(JavadocUtil::getTokenName)
                     .collect(Collectors.toList());
             sink.text("subset of javadoc tokens");
-            writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_JAVADOC_TOKEN_TYPES);
+            writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_JAVADOC_TOKEN_TYPES, true);
         }
         else {
             final String type = SiteUtil.getType(field, propertyName, currentModuleName, instance);
@@ -381,9 +416,11 @@ public class PropertiesMacro extends AbstractMacro {
      * @param sink sink to write to.
      * @param tokens the list of tokens to write.
      * @param tokenTypesLink the link to the token types file.
+     * @param printDotAtTheEnd defines if printing period symbols is required.
      * @throws MacroExecutionException if link to the tokenTypesLink file cannot be constructed.
      */
-    private static void writeTokensList(Sink sink, List<String> tokens, String tokenTypesLink)
+    private static void writeTokensList(Sink sink, List<String> tokens, String tokenTypesLink,
+                                        boolean printDotAtTheEnd)
             throws MacroExecutionException {
         for (int index = 0; index < tokens.size(); index++) {
             final String token = tokens.get(index);
@@ -395,12 +432,15 @@ public class PropertiesMacro extends AbstractMacro {
         }
         if (tokens.isEmpty()) {
             sink.rawText(CODE_START);
-            sink.text("empty");
+            sink.text(EMPTY);
             sink.rawText(CODE_END);
         }
-        else {
+        else if (printDotAtTheEnd) {
             sink.rawText(INDENT_LEVEL_18);
             sink.text(SiteUtil.DOT);
+            sink.rawText(INDENT_LEVEL_14);
+        }
+        else {
             sink.rawText(INDENT_LEVEL_14);
         }
     }
@@ -451,7 +491,7 @@ public class PropertiesMacro extends AbstractMacro {
                         .stream()
                         .map(TokenUtil::getTokenName)
                         .collect(Collectors.toList());
-                writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_TOKEN_TYPES);
+                writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_TOKEN_TYPES, true);
             }
         }
         else if (SiteUtil.JAVADOC_TOKENS.equals(propertyName)) {
@@ -462,14 +502,34 @@ public class PropertiesMacro extends AbstractMacro {
                     .stream()
                     .map(JavadocUtil::getTokenName)
                     .collect(Collectors.toList());
-            writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_JAVADOC_TOKEN_TYPES);
+            writeTokensList(sink, configurableTokens, SiteUtil.PATH_TO_JAVADOC_TOKEN_TYPES, true);
         }
         else {
-            final String defaultValue = SiteUtil.getDefaultValue(
-                    propertyName, field, instance, currentModuleName);
-            sink.rawText(CODE_START);
-            sink.text(defaultValue);
-            sink.rawText(CODE_END);
+            final String defaultValue;
+
+            if (field != null) {
+                defaultValue = SiteUtil.getDefaultValue(
+                        propertyName, field, instance, currentModuleName);
+            }
+            else {
+                defaultValue = CURLY_BRACKET;
+            }
+            final String checkName = CHECK_PATTERN
+                    .matcher(instance.getClass().getSimpleName()).replaceAll("");
+
+            final boolean isSpecialTokenProp = NON_BASE_TOKEN_PROPERTIES.stream()
+                    .anyMatch(tokenProp -> tokenProp.equals(checkName + " - " + propertyName));
+
+            if (isSpecialTokenProp && !CURLY_BRACKET.equals(defaultValue)) {
+                final List<String> defaultValuesList =
+                        Arrays.asList(COMMA_SPACE_PATTERN.split(defaultValue));
+                writeTokensList(sink, defaultValuesList, SiteUtil.PATH_TO_TOKEN_TYPES, false);
+            }
+            else {
+                sink.rawText(CODE_START);
+                sink.text(defaultValue);
+                sink.rawText(CODE_END);
+            }
         }
 
         sink.tableCell_();
