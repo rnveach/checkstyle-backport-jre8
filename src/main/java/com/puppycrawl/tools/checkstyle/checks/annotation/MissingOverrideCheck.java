@@ -21,6 +21,7 @@ package com.puppycrawl.tools.checkstyle.checks.annotation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -201,7 +202,8 @@ public final class MissingOverrideCheck extends AbstractCheck {
             .filter(JavadocUtil::isJavadocComment)
             .findFirst();
         return javadoc.isPresent()
-                && MATCH_INHERIT_DOC.matcher(javadoc.get()).find();
+                && MATCH_INHERIT_DOC.matcher(javadoc.orElseThrow(
+                        () -> new NoSuchElementException("No value present"))).find();
     }
 
 }

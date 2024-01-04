@@ -20,6 +20,7 @@
 package com.puppycrawl.tools.checkstyle.checks.naming;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.puppycrawl.tools.checkstyle.api.DetailAST;
@@ -173,9 +174,13 @@ public class ParameterNameCheck extends AbstractNameCheck {
             Optional.ofNullable(parent.getFirstChild().getFirstChild());
 
         if (annotation.isPresent()) {
-            final Optional<DetailAST> overrideToken =
-                Optional.ofNullable(annotation.get().findFirstToken(TokenTypes.IDENT));
-            if (overrideToken.isPresent() && "Override".equals(overrideToken.get().getText())) {
+            final Optional<DetailAST> overrideToken = Optional
+                    .ofNullable(annotation.orElseThrow(
+                            () -> new NoSuchElementException("No value present"))
+                            .findFirstToken(TokenTypes.IDENT));
+            if (overrideToken.isPresent()
+                && "Override".equals(overrideToken.orElseThrow(
+                        () -> new NoSuchElementException("No value present")).getText())) {
                 overridden = true;
             }
         }

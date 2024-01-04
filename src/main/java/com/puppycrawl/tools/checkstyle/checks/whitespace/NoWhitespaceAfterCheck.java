@@ -19,6 +19,7 @@
 
 package com.puppycrawl.tools.checkstyle.checks.whitespace;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
@@ -422,7 +423,8 @@ public class NoWhitespaceAfterCheck extends AbstractCheck {
                     .findFirstToken(TokenTypes.GENERIC_END);
         }
         else if (objectArrayType.isPresent()) {
-            typeLastNode = objectArrayType.get();
+            typeLastNode = objectArrayType.orElseThrow(
+                () -> new NoSuchElementException("No value present"));
         }
         else {
             typeLastNode = parent.getFirstChild();
@@ -495,7 +497,8 @@ public class NoWhitespaceAfterCheck extends AbstractCheck {
         }
         // qualified name case
         else {
-            result = dot.get().getFirstChild().getNextSibling();
+            result = dot.orElseThrow(() -> new NoSuchElementException("No value present"))
+                    .getFirstChild().getNextSibling();
         }
         return result;
     }

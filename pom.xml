@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.12.6</version>
+  <version>10.12.7</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,7 +63,7 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.7.3.5</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.8.2.0</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
     <pmd.version>6.55.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.11</maven.jacoco.plugin.version>
@@ -88,9 +88,24 @@
     <junit.version>5.10.1</junit.version>
     <forbiddenapis.version>3.6</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
-    <error-prone.version>2.23.0</error-prone.version>
-    <checkerframework.version>3.41.0</checkerframework.version>
+    <checkerframework.version>3.42.0</checkerframework.version>
+    <error-prone.version>2.24.0</error-prone.version>
+    <error-prone-support.version>0.14.0</error-prone-support.version>
     <doxia.version>1.12.0</doxia.version>
+    <error-prone.configuration-args>
+      <!-- Reason at https://github.com/checkstyle/checkstyle/issues/8252. -->
+      -Xep:JUnitClassModifiers:OFF
+      <!-- Reason at https://github.com/checkstyle/checkstyle/issues/8252. -->
+      -Xep:JUnitMethodDeclaration:OFF
+      <!-- We prefer different style of writing tests. -->
+      -Xep:JUnitValueSource:OFF
+      <!-- Until https://github.com/checkstyle/checkstyle/issues/14194. -->
+      -Xep:LexicographicalAnnotationListing:OFF
+      <!-- This check is not finalized. -->
+      -Xep:MethodReferenceUsage:OFF
+      <!-- We prefer to qualify all static method calls with class name. -->
+      -Xep:StaticImport:OFF
+    </error-prone.configuration-args>
   </properties>
 
   <dependencies>
@@ -112,7 +127,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>32.1.3-jre</version>
+      <version>33.0.0-jre</version>
       <exclusions>
         <exclusion>
           <groupId>org.checkerframework</groupId>
@@ -180,13 +195,13 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>1.1.5</version>
+      <version>1.2.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.15.4</version>
+      <version>3.15.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -210,7 +225,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.9</version>
+      <version>2.0.10</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -260,6 +275,10 @@
         <exclusion>
           <groupId>commons-codec</groupId>
           <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.google.collections</groupId>
+          <artifactId>google-collections</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -417,7 +436,7 @@
               <plugin>
                 <groupId>com.mebigfatguy.sb-contrib</groupId>
                 <artifactId>sb-contrib</artifactId>
-                <version>7.6.3</version>
+                <version>7.6.4</version>
               </plugin>
             </plugins>
           </configuration>
@@ -498,7 +517,7 @@
       <plugin>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-component-metadata</artifactId>
-        <version>2.1.1</version>
+        <version>2.2.0</version>
         <executions>
           <execution>
             <goals>
@@ -510,7 +529,7 @@
       <plugin>
         <groupId>org.gaul</groupId>
         <artifactId>modernizer-maven-plugin</artifactId>
-        <version>2.5.0</version>
+        <version>2.7.0</version>
         <configuration>
           <javaVersion>${java.version}</javaVersion>
           <includeTestClasses>false</includeTestClasses>
@@ -1141,7 +1160,7 @@
                   <version>${java.version}</version>
                 </requireJavaVersion>
                 <requireMavenVersion>
-                  <version>3.3.9</version>
+                  <version>3.6.3</version>
                 </requireMavenVersion>
                 <!-- doxia-core has a dependency convergence within itself and doxia-module-xdoc -->
                 <dependencyConvergence>
@@ -1229,7 +1248,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
         <configuration>
           <includes>
             <include>com/google/**/*.java</include>
@@ -1256,9 +1275,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
         <configuration>
-          <argLine>-Dfile.encoding=UTF-8 @{surefire.options}</argLine>
+          <argLine>-Dfile.encoding=UTF-8 ${surefire.options}</argLine>
           <systemPropertyVariables>
             <jacoco-agent.destfile>${project.build.directory}/jacoco.exec</jacoco-agent.destfile>
             <!-- Virtual AWT driver for GUI unit tests -->
@@ -1593,9 +1612,7 @@
                 <exclude>**/RegexpHeaderCheckTest.class</exclude>
 
                 <!-- all bellow until https://github.com/checkstyle/checkstyle/issues/11446 -->
-                <exclude>**/FileSetCheckTest.class</exclude>
                 <exclude>**/AbstractFileSetCheckTest.class</exclude>
-                <exclude>**/DetailAstImplTest.class</exclude>
                 <exclude>**/TreeWalkerTest.class</exclude>
                 <exclude>**/CheckerTest.class</exclude>
                 <exclude>**/AllBlockCommentsTest.class</exclude>
@@ -1607,7 +1624,7 @@
       <plugin>
         <groupId>edu.illinois</groupId>
         <artifactId>nondex-maven-plugin</artifactId>
-        <version>2.1.1</version>
+        <version>2.1.7</version>
       </plugin>
 
       <plugin>
@@ -1668,7 +1685,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>3.2.2</version>
+        <version>3.2.3</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -1681,7 +1698,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.2</version>
       </plugin>
 
       <plugin>
@@ -2146,7 +2163,7 @@
                     <arg>-Xpkginfo:always</arg>
                     <arg>-XDcompilePolicy=simple</arg>
                     <arg>
-                      -Xplugin:ErrorProne
+                      -Xplugin:ErrorProne ${error-prone.configuration-args}
                     </arg>
                   </compilerArgs>
                   <annotationProcessorPaths>
@@ -2154,6 +2171,11 @@
                       <groupId>com.google.errorprone</groupId>
                       <artifactId>error_prone_core</artifactId>
                       <version>${error-prone.version}</version>
+                    </path>
+                    <path>
+                      <groupId>tech.picnic.error-prone-support</groupId>
+                      <artifactId>error-prone-contrib</artifactId>
+                      <version>${error-prone-support.version}</version>
                     </path>
                   </annotationProcessorPaths>
                 </configuration>
@@ -2199,7 +2221,8 @@
                     <arg>-XDcompilePolicy=simple</arg>
                     <arg>
                       -Xplugin:ErrorProne \
-                      -XepExcludedPaths:.*[\\/]resources[\\/].*
+                      -XepExcludedPaths:.*[\\/]resources[\\/].* \
+                      ${error-prone.configuration-args}
                     </arg>
                   </compilerArgs>
                   <annotationProcessorPaths>
@@ -2207,6 +2230,11 @@
                       <groupId>com.google.errorprone</groupId>
                       <artifactId>error_prone_core</artifactId>
                       <version>${error-prone.version}</version>
+                    </path>
+                    <path>
+                      <groupId>tech.picnic.error-prone-support</groupId>
+                      <artifactId>error-prone-contrib</artifactId>
+                      <version>${error-prone-support.version}</version>
                     </path>
                   </annotationProcessorPaths>
                 </configuration>

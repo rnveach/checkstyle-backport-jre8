@@ -22,6 +22,7 @@ package com.puppycrawl.tools.checkstyle.checks.whitespace;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
@@ -290,9 +291,9 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
      */
     private void checkCommentInModifiers(DetailAST packageDef) {
         final Optional<DetailAST> comment = findCommentUnder(packageDef);
-        if (comment.isPresent()) {
-            log(comment.get(), MSG_SHOULD_BE_SEPARATED, comment.get().getText());
-        }
+        comment.ifPresent(commentValue -> {
+            log(commentValue, MSG_SHOULD_BE_SEPARATED, commentValue.getText());
+        });
     }
 
     /**
@@ -340,7 +341,8 @@ public class EmptyLineSeparatorCheck extends AbstractCheck {
                 // The first child is DOT in case of POSTFIX which have at least 2 children
                 // First child of DOT again puts us back to normal AST tree which will
                 // recurse down below from here
-                final DetailAST firstChildAfterPostFix = postFixNode.get();
+                final DetailAST firstChildAfterPostFix = postFixNode.orElseThrow(
+                        () -> new NoSuchElementException("No value present"));
                 result = getLastElementBeforeEmptyLines(firstChildAfterPostFix, line);
             }
         }

@@ -61,14 +61,14 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <a href="https://checkstyle.org/config.html#Checker">Checker</a> module}.
  * </li>
  * <li>
- * Property {@code fileExtensions} - Specify the file type extension of files to process.
+ * Property {@code fileExtensions} - Specify the file extensions of the files to process.
  * Type is {@code java.lang.String[]}.
  * Default value is {@code ""}.
  * </li>
  * <li>
  * Property {@code header} - Specify the required header specified inline.
  * Individual header lines must be separated by the string {@code "\n"}
- * (even on platforms with a different line separator), see examples below.
+ * (even on platforms with a different line separator).
  * Type is {@code java.lang.String}.
  * Default value is {@code null}.
  * </li>

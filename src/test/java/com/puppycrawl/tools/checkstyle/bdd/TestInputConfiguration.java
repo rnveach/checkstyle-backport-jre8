@@ -54,7 +54,9 @@ public final class TestInputConfiguration {
             "com.puppycrawl.tools.checkstyle.checks.regexp.RegexpOnFilenameCheck",
             "com.puppycrawl.tools.checkstyle.checks.sizes.FileLengthCheck",
             "com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck",
-            "com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck"
+            "com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck",
+            "com.puppycrawl.tools.checkstyle.api.AbstractFileSetCheckTest$ViolationFileSetCheck",
+            "com.puppycrawl.tools.checkstyle.api.FileSetCheckTest$TestFileSetCheck"
     ));
 
     private final List<ModuleInputConfiguration> childrenModules;
@@ -147,6 +149,10 @@ public final class TestInputConfiguration {
 
         public void addViolation(int violationLine, String violationMessage) {
             violations.add(new TestInputViolation(violationLine, violationMessage));
+        }
+
+        public void addViolations(List<TestInputViolation> inputViolations) {
+            violations.addAll(inputViolations);
         }
 
         public void addFilteredViolation(int violationLine, String violationMessage) {

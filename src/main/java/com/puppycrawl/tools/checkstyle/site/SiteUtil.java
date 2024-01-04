@@ -52,6 +52,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.maven.doxia.macro.MacroExecutionException;
 
@@ -135,6 +137,16 @@ public final class SiteUtil {
     private static final Set<String> FILESET_PROPERTIES =
             getProperties(AbstractFileSetCheck.class);
 
+    /**
+     * Check and property name.
+     */
+    private static final String HEADER_CHECK_HEADER = "HeaderCheck.header";
+
+    /**
+     * Check and property name.
+     */
+    private static final String REGEXP_HEADER_CHECK_HEADER = "RegexpHeaderCheck.header";
+
     /** Set of properties that are undocumented. Those are internal properties. */
     private static final Set<String> UNDOCUMENTED_PROPERTIES = Collections.unmodifiableSet(
         Arrays.stream(new String[] {
@@ -148,8 +160,8 @@ public final class SiteUtil {
             // static field (all upper case)
             "SuppressWarningsHolder.aliasList",
             // loads string into memory similar to file
-            "HeaderCheck.header",
-            "RegexpHeaderCheck.header",
+            HEADER_CHECK_HEADER,
+            REGEXP_HEADER_CHECK_HEADER,
             // until https://github.com/checkstyle/checkstyle/issues/13376
             "CustomImportOrderCheck.customImportOrderRules",
         }).collect(Collectors.toSet()));
@@ -157,11 +169,47 @@ public final class SiteUtil {
     /**
      * Frequent version.
      */
+    private static final String VERSION_6_9 = "6.9";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_5_0 = "5.0";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_3_2 = "3.2";
+
+    /**
+     * Frequent version.
+     */
     private static final String V824 = "8.24";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_3_0 = "3.0";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_7_7 = "7.7";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_5_7 = "5.7";
+
+    /**
+     * Frequent version.
+     */
+    private static final String VERSION_3_4 = "3.4";
 
     /**
      * Map of properties whose since version is different from module version but
      * are not specified in code because they are inherited from their super class(es).
+     * Until <a href="https://github.com/checkstyle/checkstyle/issues/14052">#14052</a>.
      */
     private static final Map<String, String> SINCE_VERSION_FOR_INHERITED_PROPERTY = new HashMap<>();
 
@@ -186,9 +234,12 @@ public final class SiteUtil {
         new File(Paths.get(MAIN_FOLDER_PATH,
                 CHECKS, "header", "AbstractHeaderCheck.java").toString()),
         new File(Paths.get(MAIN_FOLDER_PATH,
+                CHECKS, "metrics", "AbstractClassCouplingCheck.java").toString()),
+        new File(Paths.get(MAIN_FOLDER_PATH,
                 CHECKS, "whitespace", "AbstractParenPadCheck.java").toString())
     );
 
+    // -@cs[ExecutableStatementCount] large because of conversion from java 11
     static {
         CLASS_TO_PARENT_MODULE.put(AbstractCheck.class, TreeWalker.class.getSimpleName());
         CLASS_TO_PARENT_MODULE.put(TreeWalkerFilter.class, TreeWalker.class.getSimpleName());
@@ -197,19 +248,70 @@ public final class SiteUtil {
         CLASS_TO_PARENT_MODULE.put(BeforeExecutionFileFilter.class, Checker.class.getSimpleName());
 
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", V824);
+                "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", V824);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
+                "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.charset", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.fileExtensions", VERSION_6_9);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.headerFile", VERSION_3_2);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(HEADER_CHECK_HEADER, VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpHeaderCheck.charset", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpHeaderCheck.fileExtensions", VERSION_6_9);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpHeaderCheck.headerFile", VERSION_3_2);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(REGEXP_HEADER_CHECK_HEADER, VERSION_5_0);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "NonEmptyAtclauseDescriptionCheck.javadocTokens", "7.3");
+                "ClassDataAbstractionCouplingCheck.excludeClassesRegexps", VERSION_7_7);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "FileTabCharacterCheck.fileExtensions", "5.0");
+                "ClassDataAbstractionCouplingCheck.excludedClasses", VERSION_5_7);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "LineLengthCheck.fileExtensions", V824);
+                "ClassDataAbstractionCouplingCheck.excludedPackages", VERSION_7_7);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassDataAbstractionCouplingCheck.max",
+                VERSION_3_4);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "ParenPadCheck.option", "3.0");
+                "ClassFanOutComplexityCheck.excludeClassesRegexps", VERSION_7_7);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassFanOutComplexityCheck.excludedClasses",
+                VERSION_5_7);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassFanOutComplexityCheck.excludedPackages",
+                VERSION_7_7);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassFanOutComplexityCheck.max", VERSION_3_4);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("NonEmptyAtclauseDescriptionCheck.javadocTokens",
+                "7.3");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("FileTabCharacterCheck.fileExtensions",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("NewlineAtEndOfFileCheck.fileExtensions", "3.1");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("JavadocPackageCheck.fileExtensions",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LineLengthCheck.fileExtensions", V824);
+        // until https://github.com/checkstyle/checkstyle/issues/14052
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-            "TypecastParenPadCheck.option", "3.2");
+                "JavadocBlockTagLocationCheck.violateExecutionOnNonTightHtml", V824);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+                "JavadocMissingLeadingAsteriskCheck.violateExecutionOnNonTightHtml", "8.38");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ParenPadCheck.option", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypecastParenPadCheck.option", VERSION_3_2);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("FileLengthCheck.fileExtensions", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("StaticVariableNameCheck.applyToPackage",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("StaticVariableNameCheck.applyToPrivate",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("StaticVariableNameCheck.applyToProtected",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("StaticVariableNameCheck.applyToPublic",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("StaticVariableNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.applyToPackage", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.applyToPrivate", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.applyToProtected", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.applyToPublic", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpMultilineCheck.fileExtensions",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpOnFilenameCheck.fileExtensions", "6.15");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RegexpSinglelineCheck.fileExtensions",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassTypeParameterNameCheck.format",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("CatchParameterNameCheck.format", "6.14");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.format", VERSION_3_0);
     }
 
     /**
@@ -737,7 +839,8 @@ public final class SiteUtil {
 
         if (sinceVersion == null) {
             final String message = String.format(Locale.ROOT,
-                    "Failed to find since version for %s", propertyName);
+                    "Failed to find '@since' version for '%s' property"
+                            + " in '%s' and all parent classes.", propertyName, moduleName);
             throw new MacroExecutionException(message);
         }
 
@@ -750,12 +853,14 @@ public final class SiteUtil {
      * @param javadoc the Javadoc to extract the since version from.
      * @return the since version of the setter.
      */
+    @Nullable
     private static String getSinceVersionFromJavadoc(DetailNode javadoc) {
         final DetailNode sinceJavadocTag = getSinceJavadocTag(javadoc);
-        final DetailNode description = JavadocUtil.findFirstToken(sinceJavadocTag,
-                JavadocTokenTypes.DESCRIPTION);
-        final DetailNode text = JavadocUtil.findFirstToken(description, JavadocTokenTypes.TEXT);
-        return text.getText();
+        return Optional.ofNullable(sinceJavadocTag)
+            .map(tag -> JavadocUtil.findFirstToken(tag, JavadocTokenTypes.DESCRIPTION))
+            .map(description -> JavadocUtil.findFirstToken(description, JavadocTokenTypes.TEXT))
+            .map(DetailNode::getText)
+            .orElse(null);
     }
 
     /**
@@ -821,7 +926,8 @@ public final class SiteUtil {
         final Class<?> fieldClass = getFieldClass(field, propertyName, moduleName, classInstance);
         String result = null;
         if (CHARSET.equals(propertyName)) {
-            result = "the charset property of the parent Checker module";
+            result = "the charset property of the parent"
+                    + " <a href=\"https://checkstyle.org/config.html#Checker\">Checker</a> module";
         }
         else if (classInstance instanceof PropertyCacheFile) {
             result = "null (no cache file)";
@@ -1039,14 +1145,7 @@ public final class SiteUtil {
                         "Could not find field " + propertyName + " in class " + moduleName);
             }
 
-            try {
-                final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(instance,
-                    propertyName);
-                result = descriptor.getPropertyType();
-            }
-            catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException exc) {
-                throw new MacroExecutionException(exc.getMessage(), exc);
-            }
+            result = getPropertyClass(propertyName, instance);
         }
         if (field != null && (result == List.class || result == Set.class)) {
             final ParameterizedType type = (ParameterizedType) field.getGenericType();
@@ -1071,6 +1170,29 @@ public final class SiteUtil {
             result = int[].class;
         }
 
+        return result;
+    }
+
+    /**
+     * Gets the class of the given java property.
+     *
+     * @param propertyName the name of the property.
+     * @param instance the instance of the module.
+     * @return the class of the java property.
+     * @throws MacroExecutionException if an error occurs during getting the class.
+     */
+    // -@cs[ForbidWildcardAsReturnType] Object is received as param, no prediction on type of field
+    public static Class<?> getPropertyClass(String propertyName, Object instance)
+            throws MacroExecutionException {
+        final Class<?> result;
+        try {
+            final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(instance,
+                    propertyName);
+            result = descriptor.getPropertyType();
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException exc) {
+            throw new MacroExecutionException(exc.getMessage(), exc);
+        }
         return result;
     }
 

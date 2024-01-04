@@ -19,6 +19,7 @@
 
 package com.puppycrawl.tools.checkstyle.checks.javadoc;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.puppycrawl.tools.checkstyle.StatelessCheck;
@@ -121,7 +122,8 @@ public class MissingJavadocPackageCheck extends AbstractCheck {
             .map(DetailAST::getFirstChild);
         boolean result = false;
         if (firstAnnotationChild.isPresent()) {
-            for (DetailAST child = firstAnnotationChild.get(); child != null;
+            for (DetailAST child = firstAnnotationChild.orElseThrow(
+                    () -> new NoSuchElementException("No value present")); child != null;
                  child = child.getNextSibling()) {
                 if (isJavadoc(child)) {
                     result = true;

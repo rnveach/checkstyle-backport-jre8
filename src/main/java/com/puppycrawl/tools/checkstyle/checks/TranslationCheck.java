@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
@@ -411,7 +412,8 @@ public class TranslationCheck extends AbstractFileSetCheck {
                 final ResourceBundle newBundle = new ResourceBundle(baseName, path, extension);
                 final Optional<ResourceBundle> bundle = findBundle(resourceBundles, newBundle);
                 if (bundle.isPresent()) {
-                    bundle.get().addFile(currentFile);
+                    bundle.orElseThrow(() -> new NoSuchElementException("No value present"))
+                        .addFile(currentFile);
                 }
                 else {
                     newBundle.addFile(currentFile);

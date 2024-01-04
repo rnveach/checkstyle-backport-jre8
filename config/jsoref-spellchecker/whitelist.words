@@ -341,6 +341,7 @@ dsm
 Dsonar
 Dspotbugs
 Dstrict
+Dsurefire
 Dtag
 Dtest
 Dubinin
@@ -810,7 +811,6 @@ microsoft
 minimalistic
 Mipmap
 misconfigured
-Misordered
 missingctor
 missingdeprecated
 missingjavadocmethod
