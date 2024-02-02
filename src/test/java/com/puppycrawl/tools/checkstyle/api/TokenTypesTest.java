@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -56,7 +56,8 @@ public class TokenTypesTest {
             .mapToObj(TokenUtil::getTokenName)
             .filter(name -> name.charAt(0) != '$')
             .map(TokenUtil::getShortDescription)
-            .filter(desc -> desc.charAt(desc.length() - 1) != '.').collect(Collectors.toSet());
+            .filter(desc -> desc.charAt(desc.length() - 1) != '.')
+            .collect(Collectors.toSet());
         assertWithMessage("Malformed TokenType descriptions")
                 .that(badDescriptions)
                 .isEqualTo(Collections.emptySet());

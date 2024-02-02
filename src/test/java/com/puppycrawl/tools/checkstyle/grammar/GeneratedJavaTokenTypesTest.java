@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -716,6 +716,27 @@ public class GeneratedJavaTokenTypesTest {
         assertWithMessage(message)
              .that(JavaLanguageLexer.RECORD_PATTERN_COMPONENTS)
              .isEqualTo(216);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.STRING_TEMPLATE_BEGIN)
+            .isEqualTo(217);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.STRING_TEMPLATE_MID)
+            .isEqualTo(218);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.STRING_TEMPLATE_END)
+            .isEqualTo(219);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.STRING_TEMPLATE_CONTENT)
+            .isEqualTo(220);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.EMBEDDED_EXPRESSION_BEGIN)
+            .isEqualTo(221);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.EMBEDDED_EXPRESSION)
+            .isEqualTo(222);
+        assertWithMessage(message)
+            .that(JavaLanguageLexer.EMBEDDED_EXPRESSION_END)
+            .isEqualTo(223);
 
         final int tokenCount = (int) Arrays.stream(JavaLanguageLexer.class.getDeclaredFields())
                 .filter(GeneratedJavaTokenTypesTest::isPublicStaticFinalInt)
@@ -726,7 +747,7 @@ public class GeneratedJavaTokenTypesTest {
                         + " 'GeneratedJavaTokenTypesTest' and verified"
                         + " that their old numbering didn't change")
             .that(tokenCount)
-            .isEqualTo(228);
+            .isEqualTo(235);
     }
 
     /**

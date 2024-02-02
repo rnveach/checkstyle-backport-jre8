@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -156,7 +156,7 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                     JavadocParagraphCheck.MSG_REDUNDANT_PARAGRAPH),
         };
         final String path = getPath("InputTreeWalkerJavadoc.java");
-        final DetailAST mockAst = mock(DetailAST.class);
+        final DetailAST mockAst = mock();
         final DetailAST realAst = JavaParser.parseFile(new File(path),
                 JavaParser.Options.WITH_COMMENTS);
         // Ensure that there is no calls to walk(..., AstState.ORDINARY)

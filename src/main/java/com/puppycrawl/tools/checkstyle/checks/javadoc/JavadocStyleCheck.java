@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -413,10 +413,8 @@ public class JavadocStyleCheck
         int index = 0;
         while (index < line.length()) {
             if (!Character.isWhitespace(line.charAt(index))) {
-                if (line.regionMatches(index, "/**", 0, "/**".length())) {
-                    index += 2;
-                }
-                else if (line.regionMatches(index, "*/", 0, 2)) {
+                if (line.regionMatches(index, "/**", 0, "/**".length())
+                    || line.regionMatches(index, "*/", 0, 2)) {
                     index++;
                 }
                 else if (line.charAt(index) != '*') {

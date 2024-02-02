@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -578,7 +578,7 @@ public class CommonUtilTest extends AbstractPathTestSupport {
 
     @Test
     public void testLoadSuppressionsUriSyntaxException() throws Exception {
-        final URL configUrl = mock(URL.class);
+        final URL configUrl = mock();
         when(configUrl.toURI()).thenThrow(URISyntaxException.class);
         try (MockedStatic<CommonUtil> utilities =
                      mockStatic(CommonUtil.class, CALLS_REAL_METHODS)) {

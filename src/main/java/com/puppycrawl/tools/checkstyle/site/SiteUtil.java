@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -189,6 +189,11 @@ public final class SiteUtil {
     /**
      * Frequent version.
      */
+    private static final String VERSION_8_36 = "8.36";
+
+    /**
+     * Frequent version.
+     */
     private static final String VERSION_3_0 = "3.0";
 
     /**
@@ -204,12 +209,20 @@ public final class SiteUtil {
     /**
      * Frequent version.
      */
+    private static final String VERSION_5_1 = "5.1";
+
+    /**
+     * Frequent version.
+     */
     private static final String VERSION_3_4 = "3.4";
 
     /**
      * Map of properties whose since version is different from module version but
      * are not specified in code because they are inherited from their super class(es).
      * Until <a href="https://github.com/checkstyle/checkstyle/issues/14052">#14052</a>.
+     *
+     * @noinspection JavacQuirks
+     * @noinspectionreason JavacQuirks until #14052
      */
     private static final Map<String, String> SINCE_VERSION_FOR_INHERITED_PROPERTY = new HashMap<>();
 
@@ -239,7 +252,7 @@ public final class SiteUtil {
                 CHECKS, "whitespace", "AbstractParenPadCheck.java").toString())
     );
 
-    // -@cs[ExecutableStatementCount] large because of conversion from java 11
+    // -@cs[ExecutableStatementCount|JavaNCSS] large because of conversion from java 11
     static {
         CLASS_TO_PARENT_MODULE.put(AbstractCheck.class, TreeWalker.class.getSimpleName());
         CLASS_TO_PARENT_MODULE.put(TreeWalkerFilter.class, TreeWalker.class.getSimpleName());
@@ -281,12 +294,19 @@ public final class SiteUtil {
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("NewlineAtEndOfFileCheck.fileExtensions", "3.1");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("JavadocPackageCheck.fileExtensions",
                 VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("OrderedPropertiesCheck.fileExtensions", "8.22");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("UniquePropertiesCheck.fileExtensions",
+                VERSION_5_7);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TranslationCheck.fileExtensions", VERSION_3_0);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LineLengthCheck.fileExtensions", V824);
         // until https://github.com/checkstyle/checkstyle/issues/14052
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "JavadocBlockTagLocationCheck.violateExecutionOnNonTightHtml", V824);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "JavadocMissingLeadingAsteriskCheck.violateExecutionOnNonTightHtml", "8.38");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY
+                .put("RequireEmptyLineBeforeBlockTagGroupCheck.violateExecutionOnNonTightHtml",
+                        VERSION_8_36);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ParenPadCheck.option", VERSION_3_0);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypecastParenPadCheck.option", VERSION_3_2);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("FileLengthCheck.fileExtensions", VERSION_5_0);
@@ -311,6 +331,33 @@ public final class SiteUtil {
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ClassTypeParameterNameCheck.format",
                 VERSION_5_0);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("CatchParameterNameCheck.format", "6.14");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LambdaParameterNameCheck.format", "8.11");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("IllegalIdentifierNameCheck.format", VERSION_8_36);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ConstantNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ConstantNameCheck.applyToPackage", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ConstantNameCheck.applyToPrivate", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ConstantNameCheck.applyToProtected", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ConstantNameCheck.applyToPublic", VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("InterfaceTypeParameterNameCheck.format", "5.8");
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LocalFinalVariableNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LocalVariableNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MemberNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MemberNameCheck.applyToPackage", VERSION_3_4);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MemberNameCheck.applyToPrivate", VERSION_3_4);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MemberNameCheck.applyToProtected", VERSION_3_4);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MemberNameCheck.applyToPublic", VERSION_3_4);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodNameCheck.applyToPackage", VERSION_5_1);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodNameCheck.applyToPrivate", VERSION_5_1);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodNameCheck.applyToProtected", VERSION_5_1);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodNameCheck.applyToPublic", VERSION_5_1);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("MethodTypeParameterNameCheck.format",
+                VERSION_5_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("ParameterNameCheck.format", VERSION_3_0);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("PatternVariableNameCheck.format", VERSION_8_36);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RecordTypeParameterNameCheck.format",
+                VERSION_8_36);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("RecordComponentNameCheck.format", "8.40");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TypeNameCheck.format", VERSION_3_0);
     }
 
@@ -558,7 +605,7 @@ public final class SiteUtil {
                     .filter(prop -> {
                         return !isGlobalProperty(clss, prop) && !isUndocumentedProperty(clss, prop);
                     })
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toCollection(HashSet::new));
         properties.addAll(getNonExplicitProperties(instance, clss));
         return new TreeSet<>(properties);
     }

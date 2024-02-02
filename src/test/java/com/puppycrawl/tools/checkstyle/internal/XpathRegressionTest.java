@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -95,21 +95,15 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
     // Checks that allowed to have no XPath IT Regression Testing
     // till https://github.com/checkstyle/checkstyle/issues/6207
     private static final Set<String> MISSING_CHECK_NAMES = new HashSet<>(Arrays.asList(
-            "CatchParameterName",
             "ClassDataAbstractionCoupling",
             "ClassFanOutComplexity",
             "ClassTypeParameterName",
             "DescendantToken",
             "DesignForExtension",
-            "EqualsHashCode",
             "ExecutableStatementCount",
-            "FinalParameters",
             "HideUtilityClassConstructor",
             "IllegalInstantiation",
-            "IllegalTokenText",
-            "InnerTypeLast",
             "InterfaceTypeParameterName",
-            "JavaNCSS",
             "LocalFinalVariableName",
             "LocalVariableName",
             "MethodLength",
@@ -117,7 +111,6 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
             "ModifiedControlVariable",
             "MultipleStringLiterals",
             "MutableException",
-            "PackageName",
             "ParameterAssignment",
             "ParameterNumber",
             "RedundantModifier",
@@ -154,7 +147,8 @@ public class XpathRegressionTest extends AbstractModuleTestSupport {
     private static Map<String, String> getAllowedDirectoryAndChecks() {
         return SIMPLE_CHECK_NAMES
             .stream()
-            .collect(Collectors.toMap(id -> id.toLowerCase(Locale.ENGLISH), Function.identity()));
+            .collect(Collectors.toMap(
+                id -> id.toLowerCase(Locale.ENGLISH), Function.identity()));
     }
 
     private static Set<String> getInternalModules() {

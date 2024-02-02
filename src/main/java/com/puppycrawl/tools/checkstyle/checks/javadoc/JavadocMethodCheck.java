@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // checkstyle: Checks Java source code and other text files for adherence to a set of rules.
-// Copyright (C) 2001-2023 the original author or authors.
+// Copyright (C) 2001-2024 the original author or authors.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -690,7 +690,7 @@ public class JavadocMethodCheck extends AbstractCheck {
      * @return true if throwAst is inside a block that should be ignored
      */
     private static boolean isInIgnoreBlock(DetailAST methodBodyAst, DetailAST throwAst) {
-        DetailAST ancestor = throwAst.getParent();
+        DetailAST ancestor = throwAst;
         while (ancestor != methodBodyAst) {
             if (ancestor.getType() == TokenTypes.LITERAL_TRY
                     && ancestor.findFirstToken(TokenTypes.LITERAL_CATCH) != null
