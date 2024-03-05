@@ -329,6 +329,8 @@ public final class InlineConfigParser {
                 "com.puppycrawl.tools.checkstyle.checks.whitespace.NoWhitespaceAfterCheck");
         moduleMappings.put("SummaryJavadoc",
                 "com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck");
+        moduleMappings.put("LineLength",
+                "com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck");
         if (moduleMappings.containsKey(moduleName)) {
             fullyQualifiedClassName = moduleMappings.get(moduleName);
         }
@@ -336,7 +338,7 @@ public final class InlineConfigParser {
             fullyQualifiedClassName = moduleName;
         }
         else {
-            final String path = SLASH_PATTERN.matcher(filePath).replaceAll("\\.");
+            final String path = SLASH_PATTERN.matcher(filePath).replaceAll(".");
             final int endIndex = path.lastIndexOf(moduleName.toLowerCase(Locale.ROOT));
             if (endIndex == -1) {
                 throw new CheckstyleException("Unable to resolve module name: " + moduleName
