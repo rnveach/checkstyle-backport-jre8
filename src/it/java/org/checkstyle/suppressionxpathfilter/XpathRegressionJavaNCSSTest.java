@@ -41,7 +41,7 @@ public class XpathRegressionJavaNCSSTest extends AbstractXpathTestSupport {
     @Test
     public void testOne() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionJavaNCSSOne.java"));
+                new File(getPath("InputXpathJavaNCSSOne.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(JavaNCSSCheck.class);
@@ -53,15 +53,15 @@ public class XpathRegressionJavaNCSSTest extends AbstractXpathTestSupport {
 
         final List<String> expectedXpathQueries = Arrays.asList(
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSOne']]"
+                + "[./IDENT[@text='InputXpathJavaNCSSOne']]"
                 + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='test']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSOne']]"
+                + "[./IDENT[@text='InputXpathJavaNCSSOne']]"
                 + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='test']]/MODIFIERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSOne']]"
+                + "[./IDENT[@text='InputXpathJavaNCSSOne']]"
                 + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='test']]/MODIFIERS/LITERAL_PUBLIC"
         );
 
@@ -71,7 +71,7 @@ public class XpathRegressionJavaNCSSTest extends AbstractXpathTestSupport {
     @Test
     public void testTwo() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionJavaNCSSTwo.java"));
+                new File(getPath("InputXpathJavaNCSSTwo.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(JavaNCSSCheck.class);
@@ -85,13 +85,13 @@ public class XpathRegressionJavaNCSSTest extends AbstractXpathTestSupport {
 
         final List<String> expectedXpathQueries = Arrays.asList(
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSTwo']]",
+                + "[./IDENT[@text='InputXpathJavaNCSSTwo']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSTwo']]/MODIFIERS",
+                + "[./IDENT[@text='InputXpathJavaNCSSTwo']]/MODIFIERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF"
-                + "[./IDENT[@text='SuppressionXpathRegressionJavaNCSSTwo']]"
+                + "[./IDENT[@text='InputXpathJavaNCSSTwo']]"
                 + "/MODIFIERS/LITERAL_PUBLIC"
         );
 
@@ -101,7 +101,7 @@ public class XpathRegressionJavaNCSSTest extends AbstractXpathTestSupport {
     @Test
     public void testThree() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionJavaNCSSThree.java"));
+                new File(getPath("InputXpathJavaNCSSThree.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(JavaNCSSCheck.class);

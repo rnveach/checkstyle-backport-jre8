@@ -37,7 +37,7 @@ public final class TokenTypes {
      * This is the root node for the source file.  It's children
      * are an optional package definition, zero or more import statements,
      * and zero or more type declarations.
-      * <p>For example:</p>
+     * <p>For example:</p>
      * <pre>
      * import java.util.List;
      *
@@ -6554,7 +6554,7 @@ public final class TokenTypes {
      * template may have more than one node of this type.
      * <p>For example:</p>
      * <pre>
-     *     String s = STR."Hello, \{firstName + " " + lastName}!";
+     *     String s = STR."Hello, \{firstName + " " + lastName}";
      * </pre>
      * <p>parses as:</p>
      * <pre>
@@ -6577,7 +6577,6 @@ public final class TokenTypes {
      *                  |       |   `--STRING_LITERAL -&gt; " "
      *                  |       `--IDENT -&gt; lastName
      *                  |--EMBEDDED_EXPRESSION_END -&gt; }
-     *                  |--STRING_TEMPLATE_CONTENT -&gt; !
      *                  `--STRING_TEMPLATE_END -&gt; "
      * </pre>
      *

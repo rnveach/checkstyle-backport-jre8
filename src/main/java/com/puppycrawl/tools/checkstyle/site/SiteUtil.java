@@ -184,7 +184,7 @@ public final class SiteUtil {
     /**
      * Frequent version.
      */
-    private static final String V824 = "8.24";
+    private static final String VERSION_8_24 = "8.24";
 
     /**
      * Frequent version.
@@ -261,7 +261,7 @@ public final class SiteUtil {
         CLASS_TO_PARENT_MODULE.put(BeforeExecutionFileFilter.class, Checker.class.getSimpleName());
 
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-                "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", V824);
+                "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", VERSION_8_24);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.charset", VERSION_5_0);
@@ -298,10 +298,10 @@ public final class SiteUtil {
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("UniquePropertiesCheck.fileExtensions",
                 VERSION_5_7);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("TranslationCheck.fileExtensions", VERSION_3_0);
-        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LineLengthCheck.fileExtensions", V824);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put("LineLengthCheck.fileExtensions", VERSION_8_24);
         // until https://github.com/checkstyle/checkstyle/issues/14052
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
-                "JavadocBlockTagLocationCheck.violateExecutionOnNonTightHtml", V824);
+                "JavadocBlockTagLocationCheck.violateExecutionOnNonTightHtml", VERSION_8_24);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "JavadocMissingLeadingAsteriskCheck.violateExecutionOnNonTightHtml", "8.38");
         SINCE_VERSION_FOR_INHERITED_PROPERTY
