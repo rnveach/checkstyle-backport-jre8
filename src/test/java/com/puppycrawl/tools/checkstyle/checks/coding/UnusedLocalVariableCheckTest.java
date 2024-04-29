@@ -25,6 +25,7 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableC
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -150,6 +151,16 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testUnusedLocalVar3() throws Exception {
+        final String[] expected = {
+            "21:13: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputUnusedLocalVariable3.java"),
+                expected);
+    }
+
+    @Test
     public void testUnusedLocalVarInAnonInnerClasses() throws Exception {
         final String[] expected = {
             "14:9: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
@@ -242,6 +253,59 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
     }
 
     @Test
+    public void testUnusedLocalVarNestedClasses4() throws Exception {
+        final String[] expected = {
+            "12:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+            "13:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputUnusedLocalVariableNestedClasses4.java"),
+                expected);
+    }
+
+    @Test
+    public void testUnusedLocalVarNestedClasses5() throws Exception {
+        final String[] expected = {
+            "12:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+            "13:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+            "19:11: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "abc"),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputUnusedLocalVariableNestedClasses5.java"),
+                expected);
+    }
+
+    @Test
+    public void testUnusedLocalVarNestedClasses6() throws Exception {
+        final String[] expected = {
+            "12:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+            "13:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputUnusedLocalVariableNestedClasses6.java"),
+                expected);
+    }
+
+    @Test
+    public void testUnusedLocalVarNestedClasses7() throws Exception {
+        final String[] expected = {
+            "10:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+            "11:5: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+            "16:9: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+            "23:9: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+            "24:9: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "ab"),
+            "28:13: " + getCheckMessage(MSG_UNUSED_LOCAL_VARIABLE, "a"),
+        };
+
+        verifyWithInlineConfigParser(
+                getPath("InputUnusedLocalVariableNestedClasses7.java"),
+                expected);
+    }
+
+    @Test
     public void testUnusedLocalVarTestWarningSeverity() throws Exception {
         final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
 
@@ -308,7 +372,8 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
         assertWithMessage("Ast should contain METHOD_DEF")
                 .that(methodDef.isPresent())
                 .isTrue();
-        final DetailAST variableDef = methodDef.get().getLastChild()
+        final DetailAST variableDef = methodDef
+                .orElseThrow(() -> new NoSuchElementException("No value present")).getLastChild()
                 .findFirstToken(TokenTypes.VARIABLE_DEF);
         assertWithMessage("State is not cleared on beginTree")
                 .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, variableDef,
@@ -330,7 +395,8 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
         assertWithMessage("Ast should contain CLASS_DEF")
                 .that(classDef.isPresent())
                 .isTrue();
-        final DetailAST classDefToken = classDef.get();
+        final DetailAST classDefToken = classDef
+                .orElseThrow(() -> new NoSuchElementException("No value present"));
         assertWithMessage("State is not cleared on beginTree")
                 .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDefToken,
                         "typeDeclarations",
@@ -370,7 +436,8 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
                 .isTrue();
         check.beginTree(root);
         check.visitToken(classDefAst);
-        check.visitToken(literalNew.get());
+        check.visitToken(literalNew
+                .orElseThrow(() -> new NoSuchElementException("No value present")));
         check.beginTree(null);
         final Predicate<Object> isClear = anonInnerAstToTypeDesc -> {
             return ((Map<?, ?>) anonInnerAstToTypeDesc).isEmpty();
@@ -399,7 +466,8 @@ public class UnusedLocalVariableCheckTest extends AbstractModuleTestSupport {
         assertWithMessage("Ast should contain PACKAGE_DEF")
                 .that(packageDef.isPresent())
                 .isTrue();
-        final DetailAST packageDefToken = packageDef.get();
+        final DetailAST packageDefToken = packageDef
+                .orElseThrow(() -> new NoSuchElementException("No value present"));
         assertWithMessage("State is not cleared on beginTree")
                 .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, packageDefToken,
                         "packageName",

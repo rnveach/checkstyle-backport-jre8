@@ -634,7 +634,7 @@ public class EqualsAvoidNullCheck extends AbstractCheck {
          * Determines whether this FieldFrame contains the field.
          *
          * @param name name of the field to check.
-         * @return true if this FieldFrame contains instance field.
+         * @return DetailAST if this FieldFrame contains instance field.
          */
         public DetailAST findField(String name) {
             return fieldNameToAst.get(name);

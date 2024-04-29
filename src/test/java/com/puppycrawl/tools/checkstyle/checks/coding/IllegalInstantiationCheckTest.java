@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -182,9 +183,9 @@ public class IllegalInstantiationCheckTest
                 .that(classDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-            .that(
-                TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDef.get(), "classNames",
-                    classNames -> ((Collection<String>) classNames).isEmpty()))
+            .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                    classDef.orElseThrow(() -> new NoSuchElementException("No value present")),
+                    "classNames", classNames -> ((Collection<String>) classNames).isEmpty()))
             .isTrue();
     }
 
@@ -208,9 +209,9 @@ public class IllegalInstantiationCheckTest
                 .that(importDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-            .that(
-                TestUtil.isStatefulFieldClearedDuringBeginTree(check, importDef.get(), "imports",
-                    imports -> ((Collection<?>) imports).isEmpty()))
+            .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                    importDef.orElseThrow(() -> new NoSuchElementException("No value present")),
+                    "imports", imports -> ((Collection<?>) imports).isEmpty()))
             .isTrue();
     }
 
@@ -235,7 +236,9 @@ public class IllegalInstantiationCheckTest
                 .that(literalNew.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, literalNew.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        literalNew
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "instantiations",
                         instantiations -> ((Collection<DetailAST>) instantiations).isEmpty()))
                 .isTrue();

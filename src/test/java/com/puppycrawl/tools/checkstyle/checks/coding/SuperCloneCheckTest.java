@@ -24,6 +24,7 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.AbstractSuperCheck.M
 
 import java.io.File;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -106,7 +107,9 @@ public class SuperCloneCheckTest
                 .that(methodDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, methodDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        methodDef
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "methodStack",
                         methodStack -> ((Collection<Set<String>>) methodStack).isEmpty()))
                 .isTrue();

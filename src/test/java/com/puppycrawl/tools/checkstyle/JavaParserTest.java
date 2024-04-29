@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -70,7 +71,8 @@ public class JavaParserTest extends AbstractModuleTestSupport {
                 .that(blockComment.isPresent())
                 .isTrue();
 
-        final DetailAST comment = blockComment.get();
+        final DetailAST comment = blockComment
+            .orElseThrow(() -> new NoSuchElementException("No value present"));
 
         assertWithMessage("Unexpected line number")
             .that(comment.getLineNo())
@@ -108,10 +110,11 @@ public class JavaParserTest extends AbstractModuleTestSupport {
         final Optional<DetailAST> singleLineComment = TestUtil.findTokenInAstByPredicate(root,
             ast -> ast.getType() == TokenTypes.SINGLE_LINE_COMMENT);
         assertWithMessage("Single line comment should be present")
-                .that(singleLineComment.isPresent())
-                .isTrue();
+            .that(singleLineComment.isPresent())
+            .isTrue();
 
-        final DetailAST comment = singleLineComment.get();
+        final DetailAST comment = singleLineComment
+            .orElseThrow(() -> new NoSuchElementException("No value present"));
 
         assertWithMessage("Unexpected line number")
             .that(comment.getLineNo())
@@ -151,7 +154,8 @@ public class JavaParserTest extends AbstractModuleTestSupport {
                 .that(singleLineComment.isPresent())
                 .isTrue();
 
-        final DetailAST comment = singleLineComment.get();
+        final DetailAST comment = singleLineComment
+            .orElseThrow(() -> new NoSuchElementException("No value present"));
 
         assertWithMessage("Unexpected line number")
             .that(comment.getLineNo())
@@ -244,7 +248,8 @@ public class JavaParserTest extends AbstractModuleTestSupport {
                 .that(textBlockContent.isPresent())
                 .isTrue();
 
-        final DetailAST content = textBlockContent.get();
+        final DetailAST content = textBlockContent
+            .orElseThrow(() -> new NoSuchElementException("No value present"));
         final String expectedContents = "\n                 string";
 
         assertWithMessage("Unexpected line number")

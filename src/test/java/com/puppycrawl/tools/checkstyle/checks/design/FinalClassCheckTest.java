@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck.MSG_KEY;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -269,8 +270,11 @@ public class FinalClassCheckTest
                 .that(packageDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, packageDef.get(),
-                        "packageName", packageName -> ((String) packageName).isEmpty()))
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        packageDef
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
+                        "packageName",
+                        packageName -> ((String) packageName).isEmpty()))
                 .isTrue();
     }
 

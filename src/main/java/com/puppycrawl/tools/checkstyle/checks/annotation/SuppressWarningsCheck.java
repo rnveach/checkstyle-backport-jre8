@@ -308,6 +308,8 @@ public class SuppressWarningsCheck extends AbstractCheck {
      *
      * @param cond a Conditional type
      *     {@link TokenTypes#QUESTION QUESTION}
+     * @noinspection TailRecursion
+     * @noinspectionreason TailRecursion - until issue #14814
      */
     private void walkConditional(final DetailAST cond) {
         if (cond.getType() == TokenTypes.QUESTION) {

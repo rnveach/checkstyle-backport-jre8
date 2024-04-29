@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -869,7 +870,8 @@ public class CheckstyleAntTaskTest extends AbstractPathTestSupport {
             .that(optionalMessageLevelPair.isPresent())
             .isTrue();
 
-        final long actualTime = getNumberFromLine(optionalMessageLevelPair.get().getMsg());
+        final long actualTime = getNumberFromLine(optionalMessageLevelPair
+            .orElseThrow(() -> new NoSuchElementException("No value present")).getMsg());
 
         assertWithMessage("Logged time in '" + expectedMsg + "' "
                               + "must be less than the testing time")

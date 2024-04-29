@@ -43,7 +43,7 @@ public class XpathRegressionPackageNameTest extends AbstractXpathTestSupport {
     public void testOne() throws Exception {
 
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionPackageNameOne.java"));
+                new File(getPath("InputXpathPackageNameOne.java"));
 
         final String pattern = "[A-Z]+";
 
@@ -68,10 +68,10 @@ public class XpathRegressionPackageNameTest extends AbstractXpathTestSupport {
     }
 
     @Test
-    public void testTwo() throws Exception {
+    public void testThree() throws Exception {
 
         final File fileToProcess =
-                new File(getNonCompilablePath("SuppressionXpathRegressionPackageName.java"));
+                new File(getNonCompilablePath("InputXpathPackageNameThree.java"));
 
         final String pattern = "^[a-z]+(\\.[a-z][a-z0-9]*)*$";
 
@@ -95,10 +95,10 @@ public class XpathRegressionPackageNameTest extends AbstractXpathTestSupport {
     }
 
     @Test
-    public void testThree() throws Exception {
+    public void testTwo() throws Exception {
 
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionPackageNameTwo.java"));
+                new File(getPath("InputXpathPackageNameTwo.java"));
 
         final String pattern = "[A-Z]+";
 

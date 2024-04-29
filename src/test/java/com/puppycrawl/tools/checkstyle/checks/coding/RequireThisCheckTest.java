@@ -26,6 +26,7 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.RequireThisCheck.MSG
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.SortedSet;
 
@@ -576,7 +577,8 @@ public class RequireThisCheckTest extends AbstractModuleTestSupport {
                 .that(classDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        classDef.orElseThrow(() -> new NoSuchElementException("No value present")),
                         "current", current -> ((Collection<?>) current).isEmpty()))
                 .isTrue();
     }

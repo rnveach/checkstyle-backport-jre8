@@ -25,6 +25,7 @@ import static com.puppycrawl.tools.checkstyle.checks.metrics.NPathComplexityChec
 import java.io.File;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.SortedSet;
 
@@ -174,7 +175,8 @@ public class NPathComplexityCheckTest extends AbstractModuleTestSupport {
                 .isTrue();
 
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, question.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        question.orElseThrow(() -> new NoSuchElementException("No value present")),
                         "processingTokenEnd", processingTokenEnd -> {
                             return TestUtil.<Integer>getInternalState(processingTokenEnd,
                                     "endLineNo") == 0

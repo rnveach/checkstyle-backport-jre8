@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -420,6 +421,13 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
         return getNode(JavaParser.parseFile(file, JavaParser.Options.WITH_COMMENTS), type);
     }
 
+    /**
+     * Temporary java doc.
+     *
+     * @param root of type DetailAST
+     * @param type of type int
+     * @return call to get() from node
+     */
     private static DetailAST getNode(DetailAST root, int type) {
         final Optional<DetailAST> node = findTokenInAstByPredicate(root,
             ast -> ast.getType() == type);
@@ -428,6 +436,6 @@ public class CheckUtilTest extends AbstractModuleTestSupport {
             .that(node.isPresent())
             .isTrue();
 
-        return node.get();
+        return node.orElseThrow(() -> new NoSuchElementException("No value present"));
     }
 }

@@ -24,6 +24,7 @@ import static com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVaria
 
 import java.io.File;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -193,7 +194,8 @@ public class ModifiedControlVariableCheckTest
                 .that(methodDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, methodDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        methodDef.orElseThrow(() -> new NoSuchElementException("No value present")),
                         "variableStack",
                         variableStack -> ((Collection<Set<String>>) variableStack).isEmpty()))
                 .isTrue();

@@ -27,6 +27,7 @@ import static com.puppycrawl.tools.checkstyle.checks.whitespace.GenericWhitespac
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.antlr.v4.runtime.CommonToken;
@@ -295,7 +296,9 @@ public class GenericWhitespaceCheckTest
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
                 .that(
-                    TestUtil.isStatefulFieldClearedDuringBeginTree(check, genericStart.get(),
+                    TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                            genericStart
+                                .orElseThrow(() -> new NoSuchElementException("No value present")),
                             "depth",
                             depth -> ((Number) depth).intValue() == 0))
                 .isTrue();

@@ -26,6 +26,7 @@ import static com.puppycrawl.tools.checkstyle.internal.utils.TestUtil.getExpecte
 
 import java.io.File;
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -169,7 +170,9 @@ public class ReturnCountCheckTest extends AbstractModuleTestSupport {
                 .that(methodDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, methodDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        methodDef
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "contextStack",
                         contextStack -> ((Collection<Set<String>>) contextStack).isEmpty()))
                 .isTrue();

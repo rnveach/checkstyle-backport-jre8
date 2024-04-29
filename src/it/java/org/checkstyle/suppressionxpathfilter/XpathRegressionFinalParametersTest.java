@@ -38,9 +38,9 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
     }
 
     @Test
-    public void testOne() throws Exception {
+    public void testMethod() throws Exception {
         final File fileToProcess =
-                  new File(getPath("SuppressionXpathRegressionFinalParameters1.java"));
+                  new File(getPath("InputXpathFinalParametersMethod.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(FinalParametersCheck.class);
@@ -52,27 +52,27 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
 
         final List<String> expectedXpathQueries = Arrays.asList(
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                    + "[@text='SuppressionXpathRegressionFinalParameters1']]"
+                    + "[@text='InputXpathFinalParametersMethod']]"
                     + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='method']]"
                     + "/PARAMETERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                    + "[@text='SuppressionXpathRegressionFinalParameters1']]"
+                    + "[@text='InputXpathFinalParametersMethod']]"
                     + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='method']]"
                     + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                    + "[@text='SuppressionXpathRegressionFinalParameters1']]"
+                    + "[@text='InputXpathFinalParametersMethod']]"
                     + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='method']]"
                     + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/MODIFIERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                    + "[@text='SuppressionXpathRegressionFinalParameters1']]"
+                    + "[@text='InputXpathFinalParametersMethod']]"
                     + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='method']]"
                     + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/TYPE",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                    + "[@text='SuppressionXpathRegressionFinalParameters1']]"
+                    + "[@text='InputXpathFinalParametersMethod']]"
                     + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='method']]"
                     + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/TYPE/LITERAL_INT"
         );
@@ -81,9 +81,9 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
     }
 
     @Test
-    public void testTwo() throws Exception {
+    public void testCtor() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionFinalParameters2.java"));
+                new File(getPath("InputXpathFinalParametersCtor.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(FinalParametersCheck.class);
@@ -91,39 +91,39 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
         moduleConfig.addProperty("tokens", "CTOR_DEF");
 
         final String[] expectedViolation = {
-            "5:55: " + getCheckMessage(FinalParametersCheck.class,
+            "5:42: " + getCheckMessage(FinalParametersCheck.class,
                         FinalParametersCheck.MSG_KEY, "argOne"),
         };
 
         final List<String> expectedXpathQueries = Arrays.asList(
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "[@text='InputXpathFinalParametersCtor']]"
                         + "/OBJBLOCK/CTOR_DEF[./IDENT["
-                        + "@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "@text='InputXpathFinalParametersCtor']]"
                         + "/PARAMETERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "[@text='InputXpathFinalParametersCtor']]"
                         + "/OBJBLOCK/CTOR_DEF[./IDENT["
-                        + "@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "@text='InputXpathFinalParametersCtor']]"
                         + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "[@text='InputXpathFinalParametersCtor']]"
                         + "/OBJBLOCK/CTOR_DEF[./IDENT["
-                        + "@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "@text='InputXpathFinalParametersCtor']]"
                         + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/MODIFIERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "[@text='InputXpathFinalParametersCtor']]"
                         + "/OBJBLOCK/CTOR_DEF[./IDENT["
-                        + "@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "@text='InputXpathFinalParametersCtor']]"
                         + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/TYPE",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "[@text='InputXpathFinalParametersCtor']]"
                         + "/OBJBLOCK/CTOR_DEF[./IDENT["
-                        + "@text='SuppressionXpathRegressionFinalParameters2']]"
+                        + "@text='InputXpathFinalParametersCtor']]"
                         + "/PARAMETERS/PARAMETER_DEF[./IDENT[@text='argOne']]/TYPE/LITERAL_INT"
         );
 
@@ -131,9 +131,9 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
     }
 
     @Test
-    public void testThree() throws Exception {
+    public void testAnonymous() throws Exception {
         final File fileToProcess =
-                new File(getPath("SuppressionXpathRegressionFinalParameters3.java"));
+                new File(getPath("InputXpathFinalParametersAnonymous.java"));
 
         final DefaultConfiguration moduleConfig =
                 createModuleConfig(FinalParametersCheck.class);
@@ -147,14 +147,14 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
 
         final List<String> expectedXpathQueries = Arrays.asList(
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters3']]"
+                        + "[@text='InputXpathFinalParametersAnonymous']]"
                         + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='createClass']]/SLIST/"
                         + "VARIABLE_DEF[./IDENT[@text='obj']]/ASSIGN/EXPR"
                         + "/LITERAL_NEW[./IDENT[@text='AnonymousClass']]/OBJBLOCK"
                         + "/METHOD_DEF[./IDENT[@text='method']]/PARAMETERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters3']]"
+                        + "[@text='InputXpathFinalParametersAnonymous']]"
                         + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='createClass']]/SLIST/"
                         + "VARIABLE_DEF[./IDENT[@text='obj']]/ASSIGN/EXPR"
                         + "/LITERAL_NEW[./IDENT[@text='AnonymousClass']]/OBJBLOCK"
@@ -162,7 +162,7 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
                         + "/PARAMETER_DEF[./IDENT[@text='argOne']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters3']]"
+                        + "[@text='InputXpathFinalParametersAnonymous']]"
                         + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='createClass']]/SLIST/"
                         + "VARIABLE_DEF[./IDENT[@text='obj']]/ASSIGN/EXPR"
                         + "/LITERAL_NEW[./IDENT[@text='AnonymousClass']]/OBJBLOCK"
@@ -170,7 +170,7 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
                         + "/PARAMETER_DEF[./IDENT[@text='argOne']]/MODIFIERS",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters3']]"
+                        + "[@text='InputXpathFinalParametersAnonymous']]"
                         + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='createClass']]/SLIST/"
                         + "VARIABLE_DEF[./IDENT[@text='obj']]/ASSIGN/EXPR"
                         + "/LITERAL_NEW[./IDENT[@text='AnonymousClass']]/OBJBLOCK"
@@ -178,7 +178,7 @@ public class XpathRegressionFinalParametersTest extends AbstractXpathTestSupport
                         + "/PARAMETER_DEF[./IDENT[@text='argOne']]/TYPE[./IDENT[@text='String']]",
 
                 "/COMPILATION_UNIT/CLASS_DEF[./IDENT"
-                        + "[@text='SuppressionXpathRegressionFinalParameters3']]"
+                        + "[@text='InputXpathFinalParametersAnonymous']]"
                         + "/OBJBLOCK/METHOD_DEF[./IDENT[@text='createClass']]/SLIST/"
                         + "VARIABLE_DEF[./IDENT[@text='obj']]/ASSIGN/EXPR"
                         + "/LITERAL_NEW[./IDENT[@text='AnonymousClass']]/OBJBLOCK"

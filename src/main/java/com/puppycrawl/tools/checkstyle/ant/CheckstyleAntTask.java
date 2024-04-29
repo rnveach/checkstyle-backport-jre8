@@ -445,9 +445,9 @@ public class CheckstyleAntTask extends Task {
     }
 
     /**
-     * Return the list of listeners set in this task.
+     * Return the array of listeners set in this task.
      *
-     * @return the list of listeners.
+     * @return the array of listeners.
      * @throws BuildException if the listeners could not be created.
      */
     private AuditListener[] getListeners() {

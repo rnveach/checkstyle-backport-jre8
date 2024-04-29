@@ -25,6 +25,7 @@ import static com.puppycrawl.tools.checkstyle.checks.metrics.ClassFanOutComplexi
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -313,7 +314,8 @@ public class ClassFanOutComplexityCheckTest extends AbstractModuleTestSupport {
                 .that(importAst.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, importAst.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                    importAst.orElseThrow(() -> new NoSuchElementException("No value present")),
                     "importedClassPackages",
                     importedClssPackage -> ((Map<String, String>) importedClssPackage).isEmpty()))
                 .isTrue();
@@ -339,7 +341,8 @@ public class ClassFanOutComplexityCheckTest extends AbstractModuleTestSupport {
                 .that(classDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        classDef.orElseThrow(() -> new NoSuchElementException("No value present")),
                         "classesContexts",
                         classContexts -> ((Collection<?>) classContexts).size() == 1))
                 .isTrue();
@@ -365,7 +368,9 @@ public class ClassFanOutComplexityCheckTest extends AbstractModuleTestSupport {
                 .that(packageDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, packageDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        packageDef
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "packageName",
                         packageName -> ((String) packageName).isEmpty()))
                 .isTrue();

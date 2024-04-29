@@ -384,6 +384,13 @@ public class ModuleReflectionUtilTest {
             method(data);
         }
 
+        /**
+         * Method has tail recursive call.
+         *
+         * @param data of int type.
+         * @noinspection TailRecursion
+         * @noinspectionreason TailRecursion - until issue #14814
+         */
         public final void method(int data) {
             field++;
             if (data > 0) {

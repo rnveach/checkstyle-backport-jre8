@@ -27,6 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -421,7 +422,9 @@ public class SuppressWarningsHolderTest extends AbstractModuleTestSupport {
                 .that(annotationDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, annotationDef.get(),
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        annotationDef
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "ENTRIES",
                         entries -> ((ThreadLocal<List<Object>>) entries).get().isEmpty()))
                 .isTrue();

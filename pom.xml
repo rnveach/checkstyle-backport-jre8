@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.15.0</version>
+  <version>10.16.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,10 +63,10 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.8.3.1</maven.spotbugs.plugin.version>
+    <maven.spotbugs.plugin.version>4.8.4.0</maven.spotbugs.plugin.version>
     <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
     <pmd.version>6.55.0</pmd.version>
-    <maven.jacoco.plugin.version>0.8.11</maven.jacoco.plugin.version>
+    <maven.jacoco.plugin.version>0.8.12</maven.jacoco.plugin.version>
     <mockito.version>4.11.0</mockito.version>
     <saxon.version>11.4</saxon.version>
     <maven.checkstyle.plugin.version>3.2.0</maven.checkstyle.plugin.version>
@@ -77,7 +77,7 @@
     <maven.versions.plugin.version>2.16.2</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.15.8</pitest.plugin.version>
+    <pitest.plugin.version>1.16.0</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
@@ -89,7 +89,7 @@
     <forbiddenapis.version>3.7</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
     <checkerframework.version>3.42.0</checkerframework.version>
-    <error-prone.version>2.26.1</error-prone.version>
+    <error-prone.version>2.27.0</error-prone.version>
     <error-prone-support.version>0.15.0</error-prone-support.version>
     <doxia.version>1.12.0</doxia.version>
     <error-prone.configuration-args>
@@ -217,7 +217,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.16</version>
+      <version>3.16.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -229,7 +229,7 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.16.0</version>
+      <version>2.16.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -241,7 +241,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.12</version>
+      <version>2.0.13</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -350,7 +350,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.2</version>
+          <version>3.5.3</version>
         </plugin>
         <plugin>
           <groupId>org.pitest</groupId>
@@ -1345,7 +1345,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
+        <version>3.4.1</version>
         <configuration>
           <archive>
             <manifest>
@@ -2271,7 +2271,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.4</version>
             <configuration>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>

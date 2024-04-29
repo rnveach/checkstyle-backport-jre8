@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck.MSG_KEY;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -513,9 +514,9 @@ public class HiddenFieldCheckTest
                 .that(classDef.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(
-                    TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDef.get(), "frame",
-                        new CheckIfStatefulFieldCleared()))
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        classDef.orElseThrow(() -> new NoSuchElementException("No value present")),
+                        "frame", new CheckIfStatefulFieldCleared()))
                 .isTrue();
     }
 

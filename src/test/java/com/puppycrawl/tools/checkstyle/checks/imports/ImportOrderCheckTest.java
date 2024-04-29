@@ -25,6 +25,7 @@ import static com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck.MS
 import static com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck.MSG_SEPARATION;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.antlr.v4.runtime.CommonToken;
@@ -816,8 +817,11 @@ public class ImportOrderCheckTest extends AbstractModuleTestSupport {
                 .that(staticImport.isPresent())
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
-                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check, staticImport.get(),
-                        "lastImportStatic", lastImportStatic -> !((boolean) lastImportStatic)))
+                .that(TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                        staticImport
+                            .orElseThrow(() -> new NoSuchElementException("No value present")),
+                        "lastImportStatic",
+                        lastImportStatic -> !((boolean) lastImportStatic)))
                 .isTrue();
 
     }

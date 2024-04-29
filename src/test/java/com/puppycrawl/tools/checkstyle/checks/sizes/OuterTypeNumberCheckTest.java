@@ -23,6 +23,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.puppycrawl.tools.checkstyle.checks.sizes.OuterTypeNumberCheck.MSG_KEY;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -131,7 +132,9 @@ public class OuterTypeNumberCheckTest extends AbstractModuleTestSupport {
                 .isTrue();
         assertWithMessage("State is not cleared on beginTree")
                 .that(
-                    TestUtil.isStatefulFieldClearedDuringBeginTree(check, classDef.get(),
+                    TestUtil.isStatefulFieldClearedDuringBeginTree(check,
+                            classDef
+                                .orElseThrow(() -> new NoSuchElementException("No value present")),
                             "currentDepth",
                             currentDepth -> ((Number) currentDepth).intValue() == 0))
                 .isTrue();
