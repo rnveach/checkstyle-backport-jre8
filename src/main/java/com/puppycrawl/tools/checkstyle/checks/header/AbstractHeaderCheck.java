@@ -30,6 +30,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -201,10 +202,11 @@ public abstract class AbstractHeaderCheck extends AbstractFileSetCheck
         final Set<String> result;
 
         if (headerFile == null) {
-            result = Collections.emptySet();
+            result = Collections.unmodifiableSet(new HashSet<>());
         }
         else {
-            result = Collections.singleton(headerFile.toString());
+            result = Collections.unmodifiableSet(new HashSet<String>(Collections.singletonList(
+                    headerFile.toASCIIString())));
         }
 
         return result;

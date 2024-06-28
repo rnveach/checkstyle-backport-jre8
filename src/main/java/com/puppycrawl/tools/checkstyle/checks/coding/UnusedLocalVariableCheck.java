@@ -129,6 +129,21 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         TokenTypes.COMPACT_CTOR_DEF,
     };
 
+    /**
+     * An array of token types that indicate a variable is being used within
+     * an expression involving increment or decrement operators, or within a switch statement.
+     * When a token of one of these types is the parent of an expression, it indicates that the
+     * variable associated with the increment or decrement operation is being used.
+     * Ex:- TokenTypes.LITERAL_SWITCH: Indicates a switch statement. Variables used within the
+     * switch expression are considered to be used
+     */
+    private static final int[] INCREMENT_DECREMENT_VARIABLE_USAGE_TYPES = {
+        TokenTypes.ELIST,
+        TokenTypes.INDEX_OP,
+        TokenTypes.ASSIGN,
+        TokenTypes.LITERAL_SWITCH,
+    };
+
     /** Package separator. */
     private static final String PACKAGE_SEPARATOR = ".";
 
@@ -233,8 +248,8 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         else if (isInsideLocalAnonInnerClass(ast)) {
             visitLocalAnonInnerClass(ast);
         }
-        else if (TokenUtil.isTypeDeclaration(type)) {
-            visitTypeDeclarationToken(ast);
+        else if (isNonLocalTypeDeclaration(ast)) {
+            visitNonLocalTypeDeclarationToken(ast);
         }
         else if (type == TokenTypes.PACKAGE_DEF) {
             packageName = CheckUtil.extractQualifiedName(ast.getFirstChild().getNextSibling());
@@ -305,18 +320,16 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
     }
 
     /**
-     * Visit the type declaration token.
+     * Visit the non-local type declaration token.
      *
      * @param typeDeclAst type declaration ast
      */
-    private void visitTypeDeclarationToken(DetailAST typeDeclAst) {
-        if (isNonLocalTypeDeclaration(typeDeclAst)) {
-            final String qualifiedName = getQualifiedTypeDeclarationName(typeDeclAst);
-            final TypeDeclDesc currTypeDecl = new TypeDeclDesc(qualifiedName, depth, typeDeclAst);
-            depth++;
-            typeDeclarations.push(currTypeDecl);
-            typeDeclAstToTypeDeclDesc.put(typeDeclAst, currTypeDecl);
-        }
+    private void visitNonLocalTypeDeclarationToken(DetailAST typeDeclAst) {
+        final String qualifiedName = getQualifiedTypeDeclarationName(typeDeclAst);
+        final TypeDeclDesc currTypeDecl = new TypeDeclDesc(qualifiedName, depth, typeDeclAst);
+        depth++;
+        typeDeclarations.push(currTypeDecl);
+        typeDeclAstToTypeDeclDesc.put(typeDeclAst, currTypeDecl);
     }
 
     /**
@@ -401,15 +414,17 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
     private static DetailAST getBlockContainingLocalAnonInnerClass(DetailAST literalNewAst) {
         DetailAST currentAst = literalNewAst;
         DetailAST result = null;
-        while (!TokenUtil.isOfType(currentAst, CONTAINERS_FOR_ANON_INNERS)) {
-            if (currentAst.getType() == TokenTypes.LAMBDA
-                    && currentAst.getParent()
-                    .getParent().getParent().getType() == TokenTypes.OBJBLOCK) {
-                result = currentAst;
-                break;
+        DetailAST topMostLambdaAst = null;
+        while (currentAst != null && !TokenUtil.isOfType(currentAst, CONTAINERS_FOR_ANON_INNERS)) {
+            if (currentAst.getType() == TokenTypes.LAMBDA) {
+                topMostLambdaAst = currentAst;
             }
             currentAst = currentAst.getParent();
             result = currentAst;
+        }
+
+        if (currentAst == null) {
+            result = topMostLambdaAst;
         }
         return result;
     }
@@ -754,8 +769,7 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
      * @return true if variable nested in exprAst is used
      */
     private static boolean isIncrementOrDecrementVariableUsed(DetailAST exprAst) {
-        return TokenUtil.isOfType(exprAst.getParent(),
-                TokenTypes.ELIST, TokenTypes.INDEX_OP, TokenTypes.ASSIGN)
+        return TokenUtil.isOfType(exprAst.getParent(), INCREMENT_DECREMENT_VARIABLE_USAGE_TYPES)
                 && exprAst.getParent().getParent().getType() != TokenTypes.FOR_ITERATOR;
     }
 

@@ -319,6 +319,13 @@
     </Or>
     <Bug pattern="CT_CONSTRUCTOR_THROW"/>
   </Match>
+  <Match>
+    <!-- variable is just being saved for further analysis and isn't the main decider
+         of the loop if it is done or not -->
+    <Class name="com.puppycrawl.tools.checkstyle.checks.coding.UnusedLocalVariableCheck"/>
+    <Method name="getBlockContainingLocalAnonInnerClass"/>
+    <Bug pattern="SLS_SUSPICIOUS_LOOP_SEARCH"/>
+  </Match>
 
   <!-- ========================================================= -->
   <!-- backport suppressions -->
@@ -335,10 +342,5 @@
   <Match>
     <!-- Not needed for simple tests. -->
     <Bug pattern="DP_DO_INSIDE_DO_PRIVILEGED"/>
-  </Match>
-  <Match>
-    <!-- Checkstyle's issue. checkstyle#13877 -->
-    <Class name="com.puppycrawl.tools.checkstyle.site.SiteUtil"/>
-    <Bug pattern="MUI_CONTAINSKEY_BEFORE_GET"/>
   </Match>
 </FindBugsFilter>

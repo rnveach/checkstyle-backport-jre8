@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.16.0</version>
+  <version>10.17.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,9 +63,9 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.8.4.0</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
-    <pmd.version>6.55.0</pmd.version>
+    <maven.spotbugs.plugin.version>4.8.5.0</maven.spotbugs.plugin.version>
+    <maven.pmd.plugin.version>3.22.0</maven.pmd.plugin.version>
+    <pmd.version>7.1.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.12</maven.jacoco.plugin.version>
     <mockito.version>4.11.0</mockito.version>
     <saxon.version>11.4</saxon.version>
@@ -77,7 +77,7 @@
     <maven.versions.plugin.version>2.16.2</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
-    <pitest.plugin.version>1.16.0</pitest.plugin.version>
+    <pitest.plugin.version>1.16.1</pitest.plugin.version>
     <pitest.plugin.timeout.factor>10</pitest.plugin.timeout.factor>
     <pitest.plugin.output.formats>HTML,XML</pitest.plugin.output.formats>
     <pitest.plugin.timeout.constant>50000</pitest.plugin.timeout.constant>
@@ -88,8 +88,8 @@
     <junit.version>5.10.2</junit.version>
     <forbiddenapis.version>3.7</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
-    <checkerframework.version>3.42.0</checkerframework.version>
-    <error-prone.version>2.27.0</error-prone.version>
+    <checkerframework.version>3.43.0</checkerframework.version>
+    <error-prone.version>2.27.1</error-prone.version>
     <error-prone-support.version>0.15.0</error-prone-support.version>
     <doxia.version>1.12.0</doxia.version>
     <error-prone.configuration-args>
@@ -128,7 +128,7 @@
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.7.5</version>
+      <version>4.7.6</version>
     </dependency>
     <dependency>
       <groupId>org.antlr</groupId>
@@ -143,7 +143,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.1.0-jre</version>
+      <version>33.2.0-jre</version>
       <exclusions>
         <exclusion>
           <groupId>org.checkerframework</groupId>
@@ -340,7 +340,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -551,7 +551,7 @@
       <plugin>
         <groupId>org.gaul</groupId>
         <artifactId>modernizer-maven-plugin</artifactId>
-        <version>2.7.0</version>
+        <version>2.9.0</version>
         <configuration>
           <javaVersion>${java.version}</javaVersion>
           <includeTestClasses>false</includeTestClasses>
@@ -576,7 +576,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tidy-maven-plugin</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
         <executions>
           <execution>
             <id>validate</id>
@@ -636,7 +636,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
       </plugin>
 
       <plugin>
@@ -668,7 +668,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
         <configuration>
           <altDeploymentRepository>internal.repo::default::file://${cs.maven.directory}</altDeploymentRepository>
         </configuration>
@@ -1238,7 +1238,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.5.0</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <id>add-source</id>
@@ -1665,7 +1665,7 @@
           <validations>
             <validation>
               <directory>${basedir}/src/test/resources/com/puppycrawl/tools/checkstyle/sariflogger</directory>
-              <jsonSchema>https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Documents/CommitteeSpecifications/2.1.0/sarif-schema-2.1.0.json</jsonSchema>
+              <jsonSchema>https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json</jsonSchema>
               <includes>
                 <include>**/*.sarif</include>
               </includes>
@@ -3032,6 +3032,7 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ConstructorsDeclarationGroupingCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheck*</param>
@@ -3056,6 +3057,7 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.AvoidNoArgumentSuperConstructorCallCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.ConstructorsDeclarationGroupingCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.DefaultComesLastCheckTest</param>
@@ -3443,6 +3445,7 @@
               <targetClasses>
                 <param>com.puppycrawl.tools.checkstyle.checks.imports.*</param>
               </targetClasses>
+              <avoidCallsTo>com.puppycrawl.tools.checkstyle.utils.UnmodifiableCollectionUtil</avoidCallsTo>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.imports.*</param>
               </targetTests>

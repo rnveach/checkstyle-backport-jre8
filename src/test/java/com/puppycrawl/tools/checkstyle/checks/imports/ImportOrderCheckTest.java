@@ -821,7 +821,7 @@ public class ImportOrderCheckTest extends AbstractModuleTestSupport {
                         staticImport
                             .orElseThrow(() -> new NoSuchElementException("No value present")),
                         "lastImportStatic",
-                        lastImportStatic -> !((boolean) lastImportStatic)))
+                        lastImportStatic -> !(boolean) lastImportStatic))
                 .isTrue();
 
     }

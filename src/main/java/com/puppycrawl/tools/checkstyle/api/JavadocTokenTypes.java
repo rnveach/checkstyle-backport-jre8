@@ -89,11 +89,11 @@ public final class JavadocTokenTypes {
      * <pre>{@code @since 3.4 RELEASE}</pre>
      * <b>Tree:</b>
      * <pre>{@code
-     *   |--JAVADOC_TAG[3x0] : [@since 3.4 RELEASE]
-     *       |--SINCE_LITERAL[3x0] : [@since]
-     *       |--WS[3x6] : [ ]
-     *       |--DESCRIPTION[3x7] : [3.4 RELEASE]
-     *           |--TEXT[3x7] : [3.4 RELEASE]
+     * JAVADOC_TAG -> JAVADOC_TAG
+     *  |--SINCE_LITERAL -> @since
+     *  |--WS ->
+     *  `--DESCRIPTION -> DESCRIPTION
+     *      |--TEXT -> 3.4 RELEASE
      * }</pre>
      *
      * @see
@@ -197,21 +197,17 @@ public final class JavadocTokenTypes {
      * <pre>{@code @see org.apache.utils.Lists.Comparator#compare(Object)}</pre>
      * <b>Tree:</b>
      * <pre>{@code
-     *   |--JAVADOC_TAG[3x0] : [@see org.apache.utils.Lists.Comparator#compare(Object)]
-     *       |--SEE_LITERAL[3x0] : [@see]
-     *       |--WS[3x4] : [ ]
-     *       |--REFERENCE[3x5] : [org.apache.utils.Lists.Comparator#compare(Object)]
-     *           |--PACKAGE_CLASS[3x5] : [org.apache.utils]
-     *           |--DOT[3x21] : [.]
-     *           |--CLASS[3x22] : [Lists]
-     *           |--DOT[3x27] : [.]
-     *           |--CLASS[3x28] : [Comparator]
-     *           |--HASH[3x38] : [#]
-     *           |--MEMBER[3x39] : [compare]
-     *           |--PARAMETERS[3x46] : [(Object)]
-     *               |--LEFT_BRACE[3x46] : [(]
-     *               |--ARGUMENT[3x47] : [Object]
-     *               |--RIGHT_BRACE[3x53] : [)]
+     *   JAVADOC_TAG -> JAVADOC_TAG
+     *    |--SEE_LITERAL -> @see
+     *    |--WS ->
+     *    |--REFERENCE -> REFERENCE
+     *        |--PACKAGE_CLASS -> org.apache.utils.Lists.Comparator
+     *        |--HASH -> #
+     *        |--MEMBER -> compare
+     *        `--PARAMETERS -> PARAMETERS
+     *            |--LEFT_BRACE -> (
+     *            |--ARGUMENT -> Object
+     *            `--RIGHT_BRACE -> )
      * }</pre>
      *
      * @see
@@ -264,11 +260,11 @@ public final class JavadocTokenTypes {
      * <pre>{@code @version 1.3}</pre>
      * <b>Tree:</b>
      * <pre>{@code
-     *   |--JAVADOC_TAG[3x0] : [@version 1.3]
-     *       |--VERSION_LITERAL[3x0] : [@version]
-     *       |--WS[3x8] : [ ]
-     *       |--DESCRIPTION[3x9] : [1.3]
-     *           |--TEXT[3x9] : [1.3]
+     *   JAVADOC_TAG -> JAVADOC_TAG
+     *    |--VERSION_LITERAL -> @version
+     *    |--WS ->
+     *    `--DESCRIPTION -> DESCRIPTION
+     *        |--TEXT -> 1.3
      * }</pre>
      *
      * @see
@@ -287,13 +283,13 @@ public final class JavadocTokenTypes {
      * <pre>{@code @exception SQLException if query is not correct}</pre>
      * <b>Tree:</b>
      * <pre>{@code
-     *   |--JAVADOC_TAG[3x0] : [@exception SQLException if query is not correct]
-     *       |--EXCEPTION_LITERAL[3x0] : [@exception]
-     *       |--WS[3x10] : [ ]
-     *       |--CLASS_NAME[3x11] : [SQLException]
-     *       |--WS[3x23] : [ ]
-     *       |--DESCRIPTION[3x24] : [if query is not correct]
-     *           |--TEXT[3x24] : [if query is not correct]
+     *   JAVADOC_TAG -> JAVADOC_TAG
+     *    |--EXCEPTION_LITERAL -> @exception
+     *    |--WS ->
+     *    |--CLASS_NAME -> SQLException
+     *    |--WS ->
+     *    `--DESCRIPTION -> DESCRIPTION
+     *        `--TEXT -> if query is not correct
      * }</pre>
      *
      * @see
@@ -337,11 +333,12 @@ public final class JavadocTokenTypes {
      * <pre>{@code @author Baratali Izmailov}</pre>
      * <b>Tree:</b>
      * <pre>{@code
-     *   |--JAVADOC_TAG[3x0] : [@author Baratali Izmailov]
-     *       |--AUTHOR_LITERAL[3x0] : [@author]
-     *       |--WS[3x7] : [ ]
-     *       |--DESCRIPTION[3x8] : [Baratali Izmailov]
-     *           |--TEXT[3x8] : [Baratali Izmailov]
+     *   --JAVADOC_TAG -> JAVADOC_TAG
+     *      |--AUTHOR_LITERAL -> @author
+     *      |--WS ->
+     *      `--DESCRIPTION -> DESCRIPTION
+     *          |--TEXT -> Baratali Izmailov
+     *          |--NEWLINE -> \r\n
      * }</pre>
      *
      * @see

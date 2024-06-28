@@ -21,6 +21,7 @@ package com.puppycrawl.tools.checkstyle.checks.imports;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -253,7 +254,8 @@ public class ImportControlCheck extends AbstractCheck implements ExternalResourc
 
     @Override
     public Set<String> getExternalResourceLocations() {
-        return Collections.singleton(file.toString());
+        return Collections.unmodifiableSet(new HashSet<String>(Collections.singletonList(
+                file.toASCIIString())));
     }
 
     /**
