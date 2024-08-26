@@ -162,6 +162,8 @@ public final class SiteUtil {
             // loads string into memory similar to file
             HEADER_CHECK_HEADER,
             REGEXP_HEADER_CHECK_HEADER,
+            // property is an int, but we cut off excess to accommodate old versions
+            "RedundantModifierCheck.jdkVersion",
             // until https://github.com/checkstyle/checkstyle/issues/13376
             "CustomImportOrderCheck.customImportOrderRules",
         }).collect(Collectors.toSet()));
@@ -263,6 +265,8 @@ public final class SiteUtil {
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", VERSION_8_24);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+                "MissingDeprecatedCheck.violateExecutionOnNonTightHtml", VERSION_8_24);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "NonEmptyAtclauseDescriptionCheck.violateExecutionOnNonTightHtml", "8.3");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.charset", VERSION_5_0);
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put("HeaderCheck.fileExtensions", VERSION_6_9);
@@ -302,6 +306,8 @@ public final class SiteUtil {
         // until https://github.com/checkstyle/checkstyle/issues/14052
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "JavadocBlockTagLocationCheck.violateExecutionOnNonTightHtml", VERSION_8_24);
+        SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
+                "JavadocLeadingAsteriskAlignCheck.violateExecutionOnNonTightHtml", "10.18");
         SINCE_VERSION_FOR_INHERITED_PROPERTY.put(
                 "JavadocMissingLeadingAsteriskCheck.violateExecutionOnNonTightHtml", "8.38");
         SINCE_VERSION_FOR_INHERITED_PROPERTY
@@ -1182,17 +1188,16 @@ public final class SiteUtil {
             throws MacroExecutionException {
         Class<?> result = null;
 
-        if (field != null) {
+        if (PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD
+                .contains(moduleName + DOT + propertyName)) {
+            result = getPropertyClass(propertyName, instance);
+        }
+        if (field != null && result == null) {
             result = field.getType();
         }
         if (result == null) {
-            if (!PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD
-                    .contains(moduleName + DOT + propertyName)) {
-                throw new MacroExecutionException(
-                        "Could not find field " + propertyName + " in class " + moduleName);
-            }
-
-            result = getPropertyClass(propertyName, instance);
+            throw new MacroExecutionException(
+                    "Could not find field " + propertyName + " in class " + moduleName);
         }
         if (field != null && (result == List.class || result == Set.class)) {
             final ParameterizedType type = (ParameterizedType) field.getGenericType();

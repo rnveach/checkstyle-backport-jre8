@@ -344,6 +344,7 @@ public class WhitespaceAroundCheckTest
             TokenTypes.GENERIC_START,
             TokenTypes.GENERIC_END,
             TokenTypes.ELLIPSIS,
+            TokenTypes.LITERAL_WHEN,
         };
         assertWithMessage("Default acceptable tokens are invalid")
                 .that(actual)
@@ -565,5 +566,48 @@ public class WhitespaceAroundCheckTest
         };
         verifyWithInlineConfigParser(
                 getPath("InputWhitespaceAroundAfterEmoji.java"), expected);
+    }
+
+    @Test
+    public void testLiteralWhen() throws Exception {
+        final String[] expected = {
+            "21:28: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "23:27: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "25:39: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "30:38: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "30:38: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "when"),
+            "34:38: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "34:38: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "when"),
+            "53:27: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "64:21: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "when"),
+            "67:38: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "when"),
+        };
+        verifyWithInlineConfigParser(
+            getNonCompilablePath("InputWhitespaceAroundLiteralWhen.java"),
+            expected);
+    }
+
+    @Test
+    public void testWhitespaceAroundAfterPermitsList() throws Exception {
+        final String[] expected = {
+            "25:53: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "{"),
+            "25:53: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "{"),
+            "25:54: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "}"),
+            "26:40: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "{"),
+            "26:40: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "{"),
+            "26:41: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "}"),
+            "27:48: " + getCheckMessage(MSG_WS_NOT_FOLLOWED, "{"),
+            "27:48: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "{"),
+            "27:49: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "}"),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputWhitespaceAroundAfterPermitsList.java"), expected);
+    }
+
+    @Test
+    public void testWhitespaceAroundUnnamedPatterns() throws Exception {
+        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputWhitespaceAroundUnnamedPattern.java"), expected);
     }
 }

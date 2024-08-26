@@ -29,6 +29,11 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * A catch parameter is considered to be
  * a local variable.
  * </p>
+ * <p>
+ * This check does not support pattern variables. Instead, use
+ * <a href="https://checkstyle.org/checks/naming/patternvariablename.html#PatternVariableName">
+ * PatternVariableName</a>.
+ * </p>
  * <ul>
  * <li>
  * Property {@code allowOneCharVarInForLoop} - Allow one character variable name in
@@ -41,7 +46,7 @@ import com.puppycrawl.tools.checkstyle.utils.ScopeUtil;
  * <li>
  * Property {@code format} - Sets the pattern to match valid identifiers.
  * Type is {@code java.util.regex.Pattern}.
- * Default value is {@code "^[a-z][a-zA-Z0-9]*$"}.
+ * Default value is {@code "^([a-z][a-zA-Z0-9]*|_)$"}.
  * </li>
  * </ul>
  * <p>
@@ -71,7 +76,7 @@ public class LocalVariableNameCheck
 
     /** Creates a new {@code LocalVariableNameCheck} instance. */
     public LocalVariableNameCheck() {
-        super("^[a-z][a-zA-Z0-9]*$");
+        super("^([a-z][a-zA-Z0-9]*|_)$");
     }
 
     /**

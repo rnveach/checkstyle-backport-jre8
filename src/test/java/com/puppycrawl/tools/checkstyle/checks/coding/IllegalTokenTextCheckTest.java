@@ -145,24 +145,6 @@ public class IllegalTokenTextCheckTest
     }
 
     @Test
-    public void testStringTemplate()
-            throws Exception {
-
-        final String[] expected = {
-            "29:28: " + getCheckMessage(MSG_KEY, "x"),
-            "29:35: " + getCheckMessage(MSG_KEY, "x"),
-            "59:20: " + getCheckMessage(MSG_KEY, "x"),
-            "59:27: " + getCheckMessage(MSG_KEY, "x"),
-            "73:23: " + getCheckMessage(MSG_KEY, "x"),
-            "73:30: " + getCheckMessage(MSG_KEY, "x"),
-        };
-
-        verifyWithInlineConfigParser(
-                getNonCompilablePath(
-                        "InputIllegalTokenTextStringTemplate.java"), expected);
-    }
-
-    @Test
     public void testOrderOfProperties() {
         // pure class must be used as configuration doesn't guarantee order of
         // attributes
@@ -180,7 +162,7 @@ public class IllegalTokenTextCheckTest
 
     @Test
     public void testAcceptableTokensMakeSense() {
-        final int expectedTokenTypesTotalNumber = 195;
+        final int expectedTokenTypesTotalNumber = 189;
         assertWithMessage("Total number of TokenTypes has changed, acceptable tokens in"
                 + " IllegalTokenTextCheck need to be reconsidered.")
             .that(TokenUtil.getTokenTypesTotalNumber())
@@ -197,8 +179,7 @@ public class IllegalTokenTextCheckTest
             TokenTypes.COMMENT_CONTENT,
             TokenTypes.STRING_LITERAL,
             TokenTypes.CHAR_LITERAL,
-            TokenTypes.TEXT_BLOCK_CONTENT,
-            TokenTypes.STRING_TEMPLATE_CONTENT
+            TokenTypes.TEXT_BLOCK_CONTENT
         );
         for (int tokenType : allowedTokens) {
             assertWithMessage(TokenUtil.getTokenName(tokenType) + " should not be allowed"

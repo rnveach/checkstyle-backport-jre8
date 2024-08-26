@@ -1,7 +1,6 @@
 aaaa
 aaaaaa
 Aapt
-aar
 aarch
 abbreviationaswordinname
 abcun
@@ -66,7 +65,6 @@ atclause
 atclauseorder
 ATest
 atid
-ation
 atlassian
 atn
 attlist
@@ -102,7 +100,6 @@ basedir
 basefont
 basetag
 baz
-bbb
 bc
 bdc
 bdd
@@ -111,7 +108,6 @@ beanutils
 beforeexecutionexclusionfilefilter
 bestpractices
 bew
-binded
 bitbucket
 bjrke
 bleh
@@ -129,7 +125,6 @@ BNOT
 booleanexpressioncomplexity
 bothfiles
 Bpmn
-bracesareused
 breadcrumbs
 BSR
 Bsubscribe
@@ -153,7 +148,6 @@ casegroup
 catchparametername
 cba
 cbeaff
-ccc
 CComments
 cdata
 cde
@@ -198,6 +192,7 @@ cimg
 Cinit
 circleci
 cirrusci
+classannotations
 classdataabstractioncoupling
 classfanoutcomplexity
 classloader
@@ -282,10 +277,11 @@ dcm
 Dconnection
 Ddry
 declarationorder
+declaredwhenneeded
 Deconstruction
 defau
-defaultcasepresent
 defaultcomeslast
+defaultlabelpresence
 delims
 DENORMALIZER
 Depedency
@@ -328,6 +324,7 @@ Dorekit
 Dorg
 DOTALL
 doubletag
+downloader
 doxia
 Dpi
 Dpmd
@@ -352,7 +349,6 @@ eb
 ecj
 eclemma
 eclipsecommunityawards
-ected
 edb
 edef
 edu
@@ -394,6 +390,7 @@ esversion
 etsy
 ev
 Evt
+exceptionoverrides
 executablestatementcount
 Exif
 explicitinitialization
@@ -425,6 +422,7 @@ FFFF
 Fgoogle
 Fheader
 fht
+fieldannotations
 fieldset
 filebasic
 filechooser
@@ -613,7 +611,6 @@ invalidjavadocposition
 ioe
 ioffset
 IPonr
-IPv
 isfalse
 isindex
 isrutf
@@ -637,6 +634,7 @@ javadoc
 javadocblocktaglocation
 javadoccontentlocation
 javadocdetailnodeparser
+javadocleadingasteriskalign
 javadocmetadatascraper
 javadocmethod
 javadocmissingleadingasterisk
@@ -647,11 +645,13 @@ javadocpropertiesgenerator
 javadocstyle
 javadoctagcontinuationindentation
 javadoctags
+Javadoctoken
 javadoctype
 javadocvariable
 Javaee
 javaformat
 javaguide
+javamagazine
 javamail
 javancss
 javap
@@ -767,7 +767,6 @@ linux
 Lisetskii
 Ljava
 lkuehne
-llll
 LNOT
 localctx
 localfinalvariablename
@@ -808,6 +807,7 @@ methodcount
 methodlength
 methodname
 methodparampad
+methodsandconstructorsannotations
 methodtypeparametername
 MEZk
 Micha
@@ -820,6 +820,7 @@ missingdeprecated
 missingjavadocmethod
 missingjavadocpackage
 missingjavadoctype
+missingnullcaseinswitch
 missingoverride
 missingperiod
 missingswitchdefault
@@ -873,7 +874,6 @@ nbia
 nbsp
 ncal
 ncss
-ndex
 needbraces
 NEGS
 Nejmeh
@@ -943,8 +943,8 @@ npathcomplexity
 npe
 npm
 nrmancuso
-nts
 NTU
+nullcase
 NULLCHECK
 nullness
 numberperline
@@ -964,7 +964,6 @@ onestatementperline
 onetoplevel
 onetoplevelclass
 onevariableperline
-oo
 OOL
 oopsla
 OOQ
@@ -972,8 +971,10 @@ opencollective
 openjdk
 openstreetmap
 operatorwrap
+opsummary
 optgroup
 optimisation
+optionalbracesusage
 OQ
 orderedproperties
 orderingandspacing
@@ -999,7 +1000,7 @@ packageinfo
 packagename
 packagenamesloader
 packageobjectfactory
-packagestate
+packagestatement
 packge
 packifc
 packpub
@@ -1071,7 +1072,6 @@ programpractice
 Proguard
 propertycachefile
 propkey
-prot
 PROTECTE
 protonpack
 Psevntu
@@ -1141,6 +1141,7 @@ rickgiles
 rightcurly
 Rl
 rnveach
+robinraju
 romani
 romanivanovjr
 rp
@@ -1173,6 +1174,7 @@ scp
 screenshot
 Scss
 sdk
+sealedshouldhavepermitslist
 selfexplanatory
 Selkin
 semaphoreci
@@ -1297,7 +1299,6 @@ tcr
 td
 teamcity
 technotes
-tected
 temurin
 Testik
 testmodules
@@ -1328,6 +1329,7 @@ tokennizer
 tokentype
 tolist
 Toolbar
+toolongpackagetotestcoveragegooglesjavastylerule
 TOSTRING
 Touchscreen
 trailingcomment
@@ -1337,7 +1339,6 @@ treemap
 treeset
 treetable
 treewalker
-TRequest
 tschneeberger
 tstamp
 tt
@@ -1374,7 +1375,9 @@ unnecessarysemicolonintrywithresources
 Unproxyable
 unregister
 unsubscribe
+unusedcatchparametershouldbeunnamed
 unusedimports
+unusedlambdaparametershouldbeunnamed
 unusedlocalvariable
 uppercased
 upperell
@@ -1395,7 +1398,6 @@ validator
 VALUEEEE
 vararg
 variabledeclarationusagedistance
-variabledistance
 Veach
 Versioning
 verticalwhitespace
@@ -1426,6 +1428,7 @@ website
 webtoolkit
 Wellformedness
 wget
+whenshouldbeused
 wherejavadocrequired
 wheretobreak
 whitelist

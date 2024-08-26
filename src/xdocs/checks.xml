@@ -567,6 +567,16 @@
             </td>
           </tr>
           <tr>
+            <td>
+              <a href="checks/javadoc/javadocleadingasteriskalign.html#JavadocLeadingAsteriskAlign">
+                JavadocLeadingAsteriskAlign
+              </a>
+            </td>
+            <td>
+              Checks the alignment of leading asterisks in a Javadoc comment.
+            </td>
+          </tr>
+          <tr>
             <td><a href="checks/javadoc/javadocmethod.html#JavadocMethod">JavadocMethod</a></td>
             <td>Checks the Javadoc of a method or constructor.</td>
           </tr>
@@ -717,8 +727,9 @@
             </td>
             <td>
               Checks the padding between the identifier of a method definition,
-              constructor definition, method call, or constructor invocation;
-            and the left parenthesis of the parameter list.</td>
+              constructor definition, method call, constructor invocation,
+              record, or record pattern;
+              and the left parenthesis of the parameter list.</td>
           </tr>
           <tr>
             <td><a href="checks/naming/methodtypeparametername.html#MethodTypeParameterName">
@@ -779,6 +790,17 @@
             <td>
               Verifies that the <code>@Override</code> annotation is present
               when the <code>@inheritDoc</code> javadoc tag is present.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="checks/coding/missingnullcaseinswitch.html#MissingNullCaseInSwitch">
+                MissingNullCaseInSwitch
+              </a>
+            </td>
+            <td>
+              Checks that a given switch statement or expression that use a reference type
+              in its selector expression has a <code>null</code> case label.
             </td>
           </tr>
           <tr>
@@ -1182,7 +1204,7 @@
                 SimplifyBooleanReturn
               </a>
             </td>
-            <td>Checks for over-complicated boolean return statements.</td>
+            <td>Checks for over-complicated boolean return or yield statements.</td>
           </tr>
           <tr>
             <td>
@@ -1259,6 +1281,14 @@
               Allows to specify what warnings that
               <code>@SuppressWarnings</code>
               is not allowed to suppress.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="checks/design/sealedshouldhavepermitslist.html#SealedShouldHavePermitsList">SealedShouldHavePermitsList</a>
+            </td>
+            <td>
+            Checks that sealed classes and interfaces have a permits list.
             </td>
           </tr>
           <tr>
@@ -1358,6 +1388,26 @@
           </tr>
           <tr>
             <td>
+              <a href="checks/coding/unusedcatchparametershouldbeunnamed.html#UnusedCatchParameterShouldBeUnnamed">
+                UnusedCatchParameterShouldBeUnnamed
+              </a>
+            </td>
+            <td>
+              Ensures that catch parameters that are not used are declared as an unnamed variable.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="checks/coding/unusedlambdaparametershouldbeunnamed.html#UnusedLambdaParameterShouldBeUnnamed">
+                UnusedLambdaParameterShouldBeUnnamed
+              </a>
+            </td>
+            <td>
+              Ensures that lambda parameters that are not used are declared as an unnamed variable.
+            </td>
+          </tr>
+          <tr>
+            <td>
               <a href="checks/coding/unusedlocalvariable.html#UnusedLocalVariable">
                 UnusedLocalVariable
               </a>
@@ -1371,6 +1421,17 @@
               </a>
             </td>
             <td>Checks the distance between declaration of variable and its first usage.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="checks/coding/whenshouldbeused.html#WhenShouldBeUsed">
+                WhenShouldBeUsed
+              </a>
+            </td>
+            <td>
+              Ensures that <code>when</code> is used instead of a single
+              <code>if</code> statement inside a case block.
+            </td>
           </tr>
           <tr>
             <td>

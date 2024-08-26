@@ -50,9 +50,13 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * inputs must be covered.
  * </p>
  * <p>
- * See the <a href="https://docs.oracle.com/javase/specs/jls/se17/html/jls-15.html#jls-15.28">
+ * See the <a href="https://docs.oracle.com/javase/specs/jls/se22/html/jls-15.html#jls-15.28">
  *     Java Language Specification</a> for more information about switch statements
  *     and expressions.
+ * </p>
+ * <p>
+ * See the <a href="https://docs.oracle.com/javase/specs/jls/se22/html/jls-14.html#jls-14.30">
+ *     Java Language Specification</a> for more information about patterns.
  * </p>
  * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
@@ -116,7 +120,8 @@ public class MissingSwitchDefaultCheck extends AbstractCheck {
     }
 
     /**
-     * Checks if a switch block contains a case label with a pattern variable definition.
+     * Checks if a switch block contains a case label with a pattern variable definition
+     * or record pattern definition.
      * In this situation, the compiler enforces the given switch block to cover
      * all possible inputs, and we do not need a default label.
      *
@@ -126,7 +131,8 @@ public class MissingSwitchDefaultCheck extends AbstractCheck {
     private static boolean containsPatternCaseLabelElement(DetailAST detailAst) {
         return TokenUtil.findFirstTokenByPredicate(detailAst, ast -> {
             return ast.getFirstChild() != null
-                    && ast.getFirstChild().findFirstToken(TokenTypes.PATTERN_VARIABLE_DEF) != null;
+                    && (ast.getFirstChild().findFirstToken(TokenTypes.PATTERN_VARIABLE_DEF) != null
+                    || ast.getFirstChild().findFirstToken(TokenTypes.RECORD_PATTERN_DEF) != null);
         }).isPresent();
     }
 
@@ -163,20 +169,29 @@ public class MissingSwitchDefaultCheck extends AbstractCheck {
      * @return true if part of a switch expression
      */
     private static boolean isSwitchExpression(DetailAST ast) {
-        return ast.getParent().getType() == TokenTypes.EXPR
-                || ast.getParent().getParent().getType() == TokenTypes.EXPR;
+        final int[] switchStatementParents = {
+            TokenTypes.SLIST,
+            TokenTypes.LITERAL_IF,
+            TokenTypes.LITERAL_ELSE,
+            TokenTypes.LITERAL_DO,
+            TokenTypes.LITERAL_WHILE,
+            TokenTypes.LITERAL_FOR,
+            TokenTypes.LABELED_STAT,
+        };
+
+        return !TokenUtil.isOfType(ast.getParent(), switchStatementParents);
     }
 
     /**
      * Checks if the case contains null label.
      *
-     * @param ast the switch statement we are checking
+     * @param detailAST the switch statement we are checking
      * @return returnValue the ast of null label
      */
-    private static boolean hasNullCaseLabel(DetailAST ast) {
-        final DetailAST firstChild = ast.getFirstChild();
-        return firstChild != null
-                && TokenUtil.isOfType(firstChild.getFirstChild(), TokenTypes.LITERAL_NULL);
-
+    private static boolean hasNullCaseLabel(DetailAST detailAST) {
+        return TokenUtil.findFirstTokenByPredicate(detailAST.getParent(), ast -> {
+            final DetailAST expr = ast.findFirstToken(TokenTypes.EXPR);
+            return expr != null && expr.findFirstToken(TokenTypes.LITERAL_NULL) != null;
+        }).isPresent();
     }
 }

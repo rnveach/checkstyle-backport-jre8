@@ -11,98 +11,96 @@ import java.io.Serializable;
  * @see Some javadoc.
  * @author max
  */
-class InputIncorrectAtClauseOrderCheck3 implements Serializable
-{
+class InputIncorrectAtClauseOrderCheck3 implements Serializable {
+
+  /**
+   * Some text.
+   *
+   * @deprecated Some text.
+   * @return Some text. // violation 'Block tags have to appear in the order .*'
+   * @param str Some text. // violation 'Block tags have to appear in the order .*'
+   */
+  String method5(String str) {
+    return "null";
+  }
+
+  /**
+   * Some text.
+   *
+   * @param str Some text.
+   * @return Some text.
+   * @serialData Some javadoc.
+   * @param number Some text. // violation 'Block tags have to appear in the order .*'
+   * @throws Exception Some text.
+   * @param bool Some text. // violation 'Block tags have to appear in the order .*'
+   * @deprecated Some text.
+   */
+  String method6(String str, int number, boolean bool) throws Exception {
+    return "null";
+  }
+
+  /**
+   * Some javadoc.
+   *
+   * @version 1.0
+   * @since Some javadoc.
+   * @serialData Some javadoc.
+   * @author max
+   */
+  class InnerClassWithAnnotations3 {
 
     /**
      * Some text.
-     * @deprecated Some text.
-     * @return Some text. //warn
-     * @param aString Some text. //warn
-     */
-    String method5(String aString)
-    {
-        return "null";
-    }
-
-    /**
-     * Some text.
-     * @param aString Some text.
-     * @return Some text.
-     * @serialData Some javadoc.
-     * @param aInt Some text. //warn
-     * @throws Exception Some text.
-     * @param aBoolean Some text. //warn
-     * @deprecated Some text.
-     */
-    String method6(String aString, int aInt, boolean aBoolean) throws Exception
-    {
-        return "null";
-    }
-
-    /**
-     * Some javadoc.
      *
-     * @version 1.0
-     * @since Some javadoc.
-     * @serialData Some javadoc.
-     * @author max
+     * @param str Some text.
+     * @deprecated Some text.
+     * @return Some text. // violation 'Block tags have to appear in the order .*'
      */
-    class InnerClassWithAnnotations3
-    {
-
-        /**
-         * Some text.
-         * @param aString Some text.
-         * @deprecated Some text.
-         * @return Some text. //warn
-         */
-        String method5(String aString)
-        {
-            return "null";
-        }
-
-        /**
-         * Some text.
-         * @param aString Some text.
-         * @return Some text.
-         * @param aInt Some text. //warn
-         * @throws Exception Some text.
-         * @param aBoolean Some text. //warn
-         * @deprecated Some text.
-         */
-        String method6(String aString, int aInt, boolean aBoolean) throws Exception
-        {
-            return "null";
-        }
+    String method5(String str) {
+      return "null";
     }
 
-    InnerClassWithAnnotations3 anon = new InnerClassWithAnnotations3()
-    {
+    /**
+     * Some text.
+     *
+     * @param str Some text.
+     * @return Some text.
+     * @param number Some text. // violation 'Block tags have to appear in the order .*'
+     * @throws Exception Some text.
+     * @param bool Some text. // violation 'Block tags have to appear in the order .*'
+     * @deprecated Some text.
+     */
+    String method6(String str, int number, boolean bool) throws Exception {
+      return "null";
+    }
+  }
+
+  InnerClassWithAnnotations3 anon =
+      new InnerClassWithAnnotations3() {
 
         /**
          * Some text.
+         *
          * @deprecated Some text.
-         * @return Some text. //warn
-         * @param aString Some text. //warn
+         * @return Some text. // violation 'Block tags have to appear in the order .*'
+         * @param str Some text. // violation 'Block tags have to appear in the order .*'
          */
-        String method5(String aString)
-        {
-            return "null";
+        String method5(String str) {
+          return "null";
         }
 
         /**
          * Some text.
-         * @param aString Some text.
+         *
+         * @param str Some text.
          * @return Some text.
-         * @param aInt Some text. //warn
+         * @param number Some text. // violation 'Block tags have to appear in the order .*'
          * @throws Exception Some text.
-         * @param aBoolean Some text. //warn
+         * @param bool Some text. // violation 'Block tags have to appear in the order .*'
          * @deprecated Some text.
          */
-        String method6(String aString, int aInt, boolean aBoolean) throws Exception
-        {
-            return "null";
+        String method6(String str, int number, boolean bool) throws Exception {
+          return "null";
         }
-    };
+      };
 }

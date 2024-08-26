@@ -104,6 +104,8 @@
           <item name="InterfaceIsType" href="checks/design/interfaceistype.html"/>
           <item name="MutableException" href="checks/design/mutableexception.html"/>
           <item name="OneTopLevelClass" href="checks/design/onetoplevelclass.html"/>
+          <item name="SealedShouldHavePermitsList"
+                href="checks/design/sealedshouldhavepermitslist.html"/>
           <item name="ThrowsCount" href="checks/design/throwscount.html"/>
           <item name="VisibilityModifier" href="checks/design/visibilitymodifier.html"/>
         </item>
@@ -136,6 +138,7 @@
           <item name="MagicNumber" href="checks/coding/magicnumber.html"/>
           <item name="MatchXpath" href="checks/coding/matchxpath.html"/>
           <item name="MissingCtor" href="checks/coding/missingctor.html"/>
+          <item name="MissingNullCaseInSwitch" href="checks/coding/missingnullcaseinswitch.html"/>
           <item name="MissingSwitchDefault" href="checks/coding/missingswitchdefault.html"/>
           <item name="ModifiedControlVariable" href="checks/coding/modifiedcontrolvariable.html"/>
           <item name="MultipleStringLiterals" href="checks/coding/multiplestringliterals.html"/>
@@ -170,9 +173,15 @@
                 href="checks/coding/unnecessarysemicoloninenumeration.html"/>
           <item name="UnnecessarySemicolonInTryWithResources"
                 href="checks/coding/unnecessarysemicolonintrywithresources.html"/>
+          <item name="UnusedCatchParameterShouldBeUnnamed"
+                href="checks/coding/unusedcatchparametershouldbeunnamed.html"/>
+          <item name="UnusedLambdaParameterShouldBeUnnamed"
+                href="checks/coding/unusedlambdaparametershouldbeunnamed.html"/>
           <item name="UnusedLocalVariable" href="checks/coding/unusedlocalvariable.html"/>
           <item name="VariableDeclarationUsageDistance"
                 href="checks/coding/variabledeclarationusagedistance.html"/>
+          <item name="WhenShouldBeUsed"
+                href="checks/coding/whenshouldbeused.html"/>
         </item>
         <item name="Headers" href="checks/header/index.html" collapse="true">
           <item name="Header" href="checks/header/header.html"/>
@@ -193,6 +202,8 @@
           <item name="InvalidJavadocPosition" href="checks/javadoc/invalidjavadocposition.html"/>
           <item name="JavadocBlockTagLocation" href="checks/javadoc/javadocblocktaglocation.html"/>
           <item name="JavadocContentLocation" href="checks/javadoc/javadoccontentlocation.html"/>
+          <item name="JavadocLeadingAsteriskAlign"
+                href="checks/javadoc/javadocleadingasteriskalign.html"/>
           <item name="JavadocMethod" href="checks/javadoc/javadocmethod.html"/>
           <item name="JavadocMissingLeadingAsterisk"
                 href="checks/javadoc/javadocmissingleadingasterisk.html"/>

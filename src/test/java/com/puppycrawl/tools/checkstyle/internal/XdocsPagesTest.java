@@ -152,6 +152,8 @@ public class XdocsPagesTest {
             // loads string into memory similar to file
             "Header.header",
             "RegexpHeader.header",
+            // property is an int, but we cut off excess to accommodate old versions
+            "RedundantModifier.jdkVersion",
             // until https://github.com/checkstyle/checkstyle/issues/13376
             "CustomImportOrder.customImportOrderRules",
         }).collect(Collectors.toSet()));
@@ -1368,21 +1370,21 @@ public class XdocsPagesTest {
             Field field, String propertyName) throws Exception {
         Class<?> result = null;
 
-        if (field != null) {
+        if (PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD.contains(sectionName + "." + propertyName)) {
+            final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(instance,
+                    propertyName);
+            result = descriptor.getPropertyType();
+        }
+        if (field != null && result == null) {
             result = field.getType();
         }
         if (result == null) {
             assertWithMessage(
                     fileName + " section '" + sectionName + "' could not find field "
                             + propertyName)
-                    .that(PROPERTIES_ALLOWED_GET_TYPES_FROM_METHOD)
-                    .contains(sectionName + "." + propertyName);
-
-            final PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(instance,
-                    propertyName);
-            result = descriptor.getPropertyType();
+                    .fail();
         }
-        if (result == List.class || result == Set.class) {
+        if (field != null && (result == List.class || result == Set.class)) {
             final ParameterizedType type = (ParameterizedType) field.getGenericType();
             final Class<?> parameterClass = (Class<?>) type.getActualTypeArguments()[0];
 
@@ -1779,16 +1781,29 @@ public class XdocsPagesTest {
             Set<String> styleChecks, String styleName, String ruleName) {
         final Iterator<Node> itrChecks = checks.iterator();
         final Iterator<Node> itrConfigs = configs.iterator();
+        final boolean isGoogleDocumentation = "google".equals(styleName);
 
+        if (isGoogleDocumentation) {
+            validateChapterWiseTesting(itrChecks, itrConfigs, styleChecks, styleName, ruleName);
+        }
+        else {
+            validateModuleWiseTesting(itrChecks, itrConfigs, styleChecks, styleName, ruleName);
+        }
+
+        assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' has too many configs")
+                .that(itrConfigs.hasNext())
+                .isFalse();
+    }
+
+    private static void validateModuleWiseTesting(Iterator<Node> itrChecks,
+          Iterator<Node> itrConfigs, Set<String> styleChecks, String styleName, String ruleName) {
         while (itrChecks.hasNext()) {
             final Node module = itrChecks.next();
             final String moduleName = module.getTextContent().trim();
             final String href = module.getAttributes().getNamedItem("href").getTextContent();
-            // until https://github.com/checkstyle/checkstyle/issues/13132
-            final boolean moduleIsConfig = href.startsWith("config_");
             final boolean moduleIsCheck = href.startsWith("checks/");
 
-            if (!moduleIsConfig && !moduleIsCheck) {
+            if (!moduleIsCheck) {
                 continue;
             }
 
@@ -1848,10 +1863,117 @@ public class XdocsPagesTest {
                 }
             }
         }
+    }
 
-        assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' has too many configs")
-                .that(itrConfigs.hasNext())
+    private static void validateChapterWiseTesting(Iterator<Node> itrChecks,
+          Iterator<Node> itrConfigs, Set<String> styleChecks, String styleName, String ruleName) {
+        boolean hasChecks = false;
+
+        while (itrChecks.hasNext()) {
+            final Node module = itrChecks.next();
+            final String moduleName = module.getTextContent().trim();
+            final String href = module.getAttributes().getNamedItem("href").getTextContent();
+            final boolean moduleIsCheck = href.startsWith("checks/");
+
+            if (!moduleIsCheck) {
+                continue;
+            }
+
+            hasChecks = true;
+
+            assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' module '"
+                    + moduleName + "' shouldn't end with 'Check'")
+                    .that(moduleName.endsWith("Check"))
+                    .isFalse();
+
+            styleChecks.remove(moduleName);
+
+            Node config = null;
+
+            try {
+                config = itrConfigs.next();
+            }
+            catch (NoSuchElementException ignore) {
+                assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' module '"
+                        + moduleName + "' is missing the config link: config").fail();
+            }
+
+            final String configUrl = config.getAttributes().getNamedItem("href")
+                    .getTextContent();
+
+            final String expectedUrl = "https://github.com/search?q="
+                    + "path%3Asrc%2Fmain%2Fresources%20path%3A**%2F" + styleName
+                    + "_checks.xml+repo%3Acheckstyle%2Fcheckstyle+" + moduleName;
+
+            assertWithMessage("google_style.xml rule '" + ruleName + "' module '"
+                    + moduleName + "' should have matching config url")
+                    .that(configUrl)
+                    .isEqualTo(expectedUrl);
+
+        }
+
+        if (itrConfigs.hasNext()) {
+            assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' should have checks"
+                    + " if it has config/test links")
+                    .that(hasChecks)
+                    .isTrue();
+
+            final Node config = itrConfigs.next();
+            final String configUrl = config.getAttributes().getNamedItem("href")
+                    .getTextContent();
+            final String extractedRuleName = getExtractedRuleName(ruleName);
+
+            assertWithMessage("google_style.xml rule '" + ruleName + "' rule '"
+                    + "' should have matching test url")
+                    .that(configUrl)
+                    .startsWith("https://github.com/checkstyle/checkstyle/"
+                            + "blob/master/src/it/java/com/google"
+                            + "/checkstyle/test/");
+
+            assertWithMessage("google_style.xml rule '" + ruleName
+                    + "' should have matching test url")
+                    .that(configUrl)
+                    .endsWith("/" + extractedRuleName + "Test.java");
+
+            assertWithMessage("google_style.xml rule '" + ruleName
+                    + "' should have a test that exists")
+                    .that(new File(configUrl.substring(53).replace('/',
+                            File.separatorChar)).exists())
+                    .isTrue();
+        }
+        else {
+            assertWithMessage(styleName + "_style.xml rule '" + ruleName + "' should have no"
+                 + " checks if it has no config/test links")
+                .that(hasChecks)
                 .isFalse();
+        }
+    }
+
+    private static String getExtractedRuleName(String ruleName) {
+        // Remove the preceding section number
+        final String ruleNameWithoutPrecedingNumbers =
+                ruleName.replaceAll("^[0-9.]+\\s*", "");
+        // & considered as definition of term, words around should be considered as single term
+        final String ruleNameWithoutAmp =
+                ruleNameWithoutPrecedingNumbers.replaceAll(" & ", "");
+
+        // Split the remaining string into parts (words and numbers)
+        final String[] parts = ruleNameWithoutAmp.split("[^A-Za-z0-9]+");
+
+        final StringBuilder extractedRuleName = new StringBuilder(120);
+        for (String part : parts) {
+            String camelCasesPart = part;
+            if (part.matches("[A-Za-z]+")) {
+                // Capitalize the first letter and make the rest words lowercase
+                camelCasesPart = part.substring(0, 1).toUpperCase(Locale.ENGLISH)
+                        + part.substring(1).toLowerCase(Locale.ENGLISH);
+            }
+            extractedRuleName.append(camelCasesPart);
+        }
+
+        final String result = extractedRuleName.toString();
+
+        return result.replaceAll("CStyle", "Cstyle");
     }
 
     @Test

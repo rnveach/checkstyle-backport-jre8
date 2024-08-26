@@ -52,6 +52,15 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * components are classified as different kind of variables by
  * <a href="https://docs.oracle.com/javase/specs/jls/se17/html/index.html">JLS</a>.
  * </p>
+ * <ul>
+ * <li>
+ * Property {@code allowUnnamedVariables} - Allow variables named with a single underscore
+ * (known as <a href="https://docs.oracle.com/en/java/javase/21/docs/specs/unnamed-jls.html">
+ * unnamed variables</a> in Java 21+).
+ * Type is {@code boolean}.
+ * Default value is {@code true}.
+ * </li>
+ * </ul>
  * <p>
  * Parent is {@code com.puppycrawl.tools.checkstyle.TreeWalker}
  * </p>
@@ -61,6 +70,9 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <ul>
  * <li>
  * {@code unused.local.var}
+ * </li>
+ * <li>
+ * {@code unused.named.local.var}
  * </li>
  * </ul>
  *
@@ -74,6 +86,12 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
      * file.
      */
     public static final String MSG_UNUSED_LOCAL_VARIABLE = "unused.local.var";
+
+    /**
+     * A key is pointing to the warning message text in "messages.properties"
+     * file.
+     */
+    public static final String MSG_UNUSED_NAMED_LOCAL_VARIABLE = "unused.named.local.var";
 
     /**
      * An array of increment and decrement tokens.
@@ -121,7 +139,7 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
     /**
      * An array of blocks in which local anon inner classes can exist.
      */
-    private static final int[] CONTAINERS_FOR_ANON_INNERS = {
+    private static final int[] ANONYMOUS_CLASS_PARENT_TOKENS = {
         TokenTypes.METHOD_DEF,
         TokenTypes.CTOR_DEF,
         TokenTypes.STATIC_INIT,
@@ -171,10 +189,17 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
     private final Map<DetailAST, TypeDeclDesc> anonInnerAstToTypeDeclDesc = new HashMap<>();
 
     /**
-     * Set of tokens of type {@link UnusedLocalVariableCheck#CONTAINERS_FOR_ANON_INNERS}
+     * Set of tokens of type {@link UnusedLocalVariableCheck#ANONYMOUS_CLASS_PARENT_TOKENS}
      * and {@link TokenTypes#LAMBDA} in some cases.
      */
     private final Set<DetailAST> anonInnerClassHolders = new HashSet<>();
+
+    /**
+     * Allow variables named with a single underscore
+     * (known as  <a href="https://docs.oracle.com/en/java/javase/21/docs/specs/unnamed-jls.html">
+     *  unnamed variables</a> in Java 21+).
+     */
+    private boolean allowUnnamedVariables = true;
 
     /**
      * Name of the package.
@@ -185,6 +210,18 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
      * Depth at which a type declaration is nested, 0 for top level type declarations.
      */
     private int depth;
+
+    /**
+     * Setter to allow variables named with a single underscore
+     * (known as <a href="https://docs.oracle.com/en/java/javase/21/docs/specs/unnamed-jls.html">
+     * unnamed variables</a> in Java 21+).
+     *
+     * @param allowUnnamedVariables true or false.
+     * @since 10.18.0
+     */
+    public void setAllowUnnamedVariables(boolean allowUnnamedVariables) {
+        this.allowUnnamedVariables = allowUnnamedVariables;
+    }
 
     @Override
     public int[] getDefaultTokens() {
@@ -239,7 +276,7 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         if (type == TokenTypes.DOT) {
             visitDotToken(ast, variables);
         }
-        else if (type == TokenTypes.VARIABLE_DEF) {
+        else if (type == TokenTypes.VARIABLE_DEF && !skipUnnamedVariables(ast)) {
             visitVariableDefToken(ast);
         }
         else if (type == TokenTypes.IDENT) {
@@ -343,6 +380,18 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
     }
 
     /**
+     * Check for skip current {@link TokenTypes#VARIABLE_DEF}
+     * due to <b>allowUnnamedVariable</b> option.
+     *
+     * @param varDefAst varDefAst variable to check
+     * @return true if the current variable should be skipped.
+     */
+    private boolean skipUnnamedVariables(DetailAST varDefAst) {
+        final DetailAST ident = varDefAst.findFirstToken(TokenTypes.IDENT);
+        return allowUnnamedVariables && "_".equals(ident.getText());
+    }
+
+    /**
      * Whether ast node of type {@link TokenTypes#LITERAL_NEW} is a part of a local
      * anonymous inner class.
      *
@@ -377,7 +426,12 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
             if (!variableDesc.isUsed()
                     && !variableDesc.isInstVarOrClassVar()) {
                 final DetailAST typeAst = variableDesc.getTypeAst();
-                log(typeAst, MSG_UNUSED_LOCAL_VARIABLE, variableDesc.getName());
+                if (allowUnnamedVariables) {
+                    log(typeAst, MSG_UNUSED_NAMED_LOCAL_VARIABLE, variableDesc.getName());
+                }
+                else {
+                    log(typeAst, MSG_UNUSED_LOCAL_VARIABLE, variableDesc.getName());
+                }
             }
         }
     }
@@ -415,7 +469,8 @@ public class UnusedLocalVariableCheck extends AbstractCheck {
         DetailAST currentAst = literalNewAst;
         DetailAST result = null;
         DetailAST topMostLambdaAst = null;
-        while (currentAst != null && !TokenUtil.isOfType(currentAst, CONTAINERS_FOR_ANON_INNERS)) {
+        while (currentAst != null && !TokenUtil.isOfType(currentAst,
+                ANONYMOUS_CLASS_PARENT_TOKENS)) {
             if (currentAst.getType() == TokenTypes.LAMBDA) {
                 topMostLambdaAst = currentAst;
             }

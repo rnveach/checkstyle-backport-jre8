@@ -1,54 +1,122 @@
-package /** warn */ com.google.checkstyle.test.chapter7javadoc.rule734nonrequiredjavadoc;
+package // violation 'package statement should not be line-wrapped.'
+    /** odd javadoc */ // violation 'Javadoc comment is placed in the wrong location.'
+    com.google.checkstyle.test.chapter7javadoc.rule734nonrequiredjavadoc;
 
-/** warn */
+// violation below 'Javadoc comment is placed in the wrong location.'
+/** odd javadoc */
 import java.lang.String;
 
-/** warn */
-/** valid */
+// violation below 'Javadoc comment is placed in the wrong location.'
+/** odd javadoc */
+/** valid javadoc. */
 class InputInvalidJavadocPosition {
-    /** warn */
+  /** odd javadoc */
+  // violation above 'Javadoc comment is placed in the wrong location.'
 }
-/** valid */
+
+/** valid javadoc. */
 /* ignore */
 class InputInvalidJavadocPosition2 {
-    /** warn */
-    static { /* ignore */ }
+  // violation above '.* InputInvalidJavadocPosition2 has to reside in its own source file.'
 
-    /** warn */
-    /** valid */
-    int field1;
-    /** valid */
-    int[] field2;
-    /** valid */
-    public int[] field3;
-    /** valid */
-    @Deprecated int field4;
+  /** odd javadoc */ // violation 'Javadoc comment is placed in the wrong location.'
+  static {
+    /* ignore */
+  }
 
-    int /** warn */ field20;
-    int field21 /** warn */;
-    @Deprecated /** warn */ int field22;
+  // violation below 'Javadoc comment is placed in the wrong location.'
+  /** odd javadoc */
+  /** valid javadoc. */
+  int field1;
 
-    void method1() {}
-    /** valid */
-    void method2() {}
-    /** valid */
-    <T> T method3() { return null; }
-    /** valid */
-    String[] method4() { return null; }
+  /** valid javadoc. */
+  int[] field2;
 
-    void /** warn */ method20() {}
-    void method21 /** warn */ () {}
-    void method22(/** warn */) {}
-    void method23() /** warn */ {}
-    void method24() { /** warn */ }
-    void method25() { /** warn */ int variable; }
+  /** valid javadoc. */
+  public int[] field3;
+
+  /** valid javadoc. */
+  @Deprecated int field4;
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  int
+      /** odd javadoc */
+      field20;
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  int field21
+      /** odd javadoc */;
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  @Deprecated
+  /** odd javadoc */
+  int field22;
+
+  void method1() {}
+
+  /** valid javadoc. */
+  void method2() {}
+
+  /** valid javadoc. */
+  <T> T method3() {
+    return null;
+  }
+
+  /** valid javadoc. */
+  String[] method4() {
+    return null;
+  }
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void
+      /** odd javadoc */
+      method20() {}
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void method21
+  /** odd javadoc */
+  () {} // violation ''(' should be on the previous line.'
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void method22(
+  /** odd javadoc */
+  ) {}
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void method23()
+    /** odd javadoc */
+    {}
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void method24() {
+    /** odd javadoc */
+  }
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  void method25() {
+    /** odd javadoc */
+    int variable;
+  }
+
+  @Deprecated
+  /** odd javadoc */
+  // violation above 'Javadoc comment is placed in the wrong location.'
+  class InputInvalidJavadocPosition3 {}
+
+  /** valid javadoc. */
+  @Deprecated
+  class InputInvalidJavadocPosition4 {}
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  class
+  /** odd javadoc */
+  InputInvalidJavadocPosition5 {}
+  // violation above ''InputInvalidJavadocPosition5' has incorrect indentation .* 2, expected .* 6.'
+
+  // violation 2 lines below 'Javadoc comment is placed in the wrong location.'
+  class InputInvalidJavadocPosition6
+    /** odd javadoc */
+    {} // violation ''}' at column 6 should be alone on a line.'
+  /** odd javadoc */
+  // violation above 'Javadoc comment is placed in the wrong location.'
 }
-@Deprecated
-/** warn */
-class InputInvalidJavadocPosition3 {}
-/** valid */
-@Deprecated
-class InputInvalidJavadocPosition4 {}
-class /** warn */ InputInvalidJavadocPosition5 {}
-class InputInvalidJavadocPosition6 /** warn */ {}
-/** warn */

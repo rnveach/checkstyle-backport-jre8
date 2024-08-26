@@ -60,6 +60,13 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * {@code record} definitions that are declared as {@code final} and nested
  * {@code record} definitions that are declared as {@code static}.
  * </li>
+ * <li>
+ * {@code strictfp} modifier when using JDK 17 or later. See reason at
+ * <a href="https://openjdk.org/jeps/306">JEP 306</a>
+ * </li>
+ * <li>
+ * {@code final} modifier on unnamed variables when using JDK 22 or later.
+ * </li>
  * </ol>
  * <p>
  * interfaces by definition are abstract so the {@code abstract} modifier is redundant on them.
@@ -144,6 +151,16 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * </pre>
  * <ul>
  * <li>
+ * Property {@code jdkVersion} - Set the JDK version that you are using.
+ * Old JDK version numbering is supported (e.g. 1.8 for Java 8)
+ * as well as just the major JDK version alone (e.g. 8) is supported.
+ * This property only considers features from officially released
+ * Java versions as supported. Features introduced in preview releases are not considered
+ * supported until they are included in a non-preview release.
+ * Type is {@code java.lang.String}.
+ * Default value is {@code "22"}.
+ * </li>
+ * <li>
  * Property {@code tokens} - tokens to check
  * Type is {@code java.lang.String[]}.
  * Validation type is {@code tokenSet}.
@@ -167,7 +184,13 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#ANNOTATION_DEF">
  * ANNOTATION_DEF</a>,
  * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#RECORD_DEF">
- * RECORD_DEF</a>.
+ * RECORD_DEF</a>,
+ * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#PATTERN_VARIABLE_DEF">
+ * PATTERN_VARIABLE_DEF</a>,
+ * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LITERAL_CATCH">
+ * LITERAL_CATCH</a>,
+ * <a href="https://checkstyle.org/apidocs/com/puppycrawl/tools/checkstyle/api/TokenTypes.html#LAMBDA">
+ * LAMBDA</a>.
  * </li>
  * </ul>
  * <p>
@@ -202,6 +225,51 @@ public class RedundantModifierCheck
         TokenTypes.ABSTRACT,
     };
 
+    /**
+     *  Constant for jdk 22 version number.
+     */
+    private static final int JDK_22 = 22;
+
+    /**
+     *  Constant for jdk 17 version number.
+     *
+     */
+    private static final int JDK_17 = 17;
+
+    /**
+     * Set the JDK version that you are using.
+     * Old JDK version numbering is supported (e.g. 1.8 for Java 8)
+     * as well as just the major JDK version alone (e.g. 8) is supported.
+     * This property only considers features from officially released
+     * Java versions as supported. Features introduced in preview releases are not considered
+     * supported until they are included in a non-preview release.
+     *
+     */
+    private int jdkVersion = JDK_22;
+
+    /**
+     * Setter to set the JDK version that you are using.
+     * Old JDK version numbering is supported (e.g. 1.8 for Java 8)
+     * as well as just the major JDK version alone (e.g. 8) is supported.
+     * This property only considers features from officially released
+     * Java versions as supported. Features introduced in preview releases are not considered
+     * supported until they are included in a non-preview release.
+     *
+     * @param jdkVersion the Java version
+     * @since 10.18.0
+     */
+    public void setJdkVersion(String jdkVersion) {
+        final String singleVersionNumber;
+        if (jdkVersion.startsWith("1.")) {
+            singleVersionNumber = jdkVersion.substring(2);
+        }
+        else {
+            singleVersionNumber = jdkVersion;
+        }
+
+        this.jdkVersion = Integer.parseInt(singleVersionNumber);
+    }
+
     @Override
     public int[] getDefaultTokens() {
         return getAcceptableTokens();
@@ -225,6 +293,9 @@ public class RedundantModifierCheck
             TokenTypes.RESOURCE,
             TokenTypes.ANNOTATION_DEF,
             TokenTypes.RECORD_DEF,
+            TokenTypes.PATTERN_VARIABLE_DEF,
+            TokenTypes.LITERAL_CATCH,
+            TokenTypes.LAMBDA,
         };
     }
 
@@ -250,8 +321,17 @@ public class RedundantModifierCheck
             case TokenTypes.RECORD_DEF:
                 checkForRedundantModifier(ast, TokenTypes.FINAL, TokenTypes.LITERAL_STATIC);
                 break;
-            case TokenTypes.CLASS_DEF:
             case TokenTypes.VARIABLE_DEF:
+            case TokenTypes.PATTERN_VARIABLE_DEF:
+                checkUnnamedVariables(ast);
+                break;
+            case TokenTypes.LITERAL_CATCH:
+                checkUnnamedVariables(ast.findFirstToken(TokenTypes.PARAMETER_DEF));
+                break;
+            case TokenTypes.LAMBDA:
+                processLambdaParameters(ast);
+                break;
+            case TokenTypes.CLASS_DEF:
             case TokenTypes.ANNOTATION_FIELD_DEF:
                 break;
             default:
@@ -261,6 +341,48 @@ public class RedundantModifierCheck
         if (isInterfaceOrAnnotationMember(ast)) {
             processInterfaceOrAnnotation(ast);
         }
+
+        if (jdkVersion >= JDK_17) {
+            checkForRedundantModifier(ast, TokenTypes.STRICTFP);
+        }
+    }
+
+    /**
+     * Process lambda parameters.
+     *
+     * @param lambdaAst node of type {@link TokenTypes#LAMBDA}
+     */
+    private void processLambdaParameters(DetailAST lambdaAst) {
+        final DetailAST lambdaParameters = lambdaAst.findFirstToken(TokenTypes.PARAMETERS);
+        if (lambdaParameters != null) {
+            TokenUtil.forEachChild(lambdaParameters, TokenTypes.PARAMETER_DEF,
+                    this::checkUnnamedVariables);
+        }
+    }
+
+    /**
+     * Check if the variable is unnamed and has redundant final modifier.
+     *
+     * @param ast node of type {@link TokenTypes#VARIABLE_DEF}
+     *     or {@link TokenTypes#PATTERN_VARIABLE_DEF}
+     *     or {@link TokenTypes#PARAMETER_DEF}
+     */
+    private void checkUnnamedVariables(DetailAST ast) {
+        if (jdkVersion >= JDK_22 && isUnnamedVariable(ast)) {
+            checkForRedundantModifier(ast, TokenTypes.FINAL);
+        }
+    }
+
+    /**
+     * Check if the variable is unnamed.
+     *
+     * @param ast node of type {@link TokenTypes#VARIABLE_DEF}
+     *     or {@link TokenTypes#PATTERN_VARIABLE_DEF}
+     *     or {@link TokenTypes#PARAMETER_DEF}
+     * @return true if the variable is unnamed
+     */
+    private static boolean isUnnamedVariable(DetailAST ast) {
+        return "_".equals(ast.findFirstToken(TokenTypes.IDENT).getText());
     }
 
     /**

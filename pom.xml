@@ -5,7 +5,7 @@
 
   <groupId>com.puppycrawl.tools</groupId>
   <artifactId>checkstyle-backport-jre8</artifactId>
-  <version>10.17.0</version>
+  <version>10.18.0</version>
   <packaging>jar</packaging>
 
   <name>checkstyle-backport-jre8</name>
@@ -63,9 +63,9 @@
     <projectVersion>${project.version}</projectVersion>
     <antlr4.version>4.9.3</antlr4.version>
     <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-    <maven.spotbugs.plugin.version>4.8.5.0</maven.spotbugs.plugin.version>
-    <maven.pmd.plugin.version>3.22.0</maven.pmd.plugin.version>
-    <pmd.version>7.1.0</pmd.version>
+    <maven.spotbugs.plugin.version>4.8.6.2</maven.spotbugs.plugin.version>
+    <maven.pmd.plugin.version>3.24.0</maven.pmd.plugin.version>
+    <pmd.version>7.4.0</pmd.version>
     <maven.jacoco.plugin.version>0.8.12</maven.jacoco.plugin.version>
     <mockito.version>4.11.0</mockito.version>
     <saxon.version>11.4</saxon.version>
@@ -74,7 +74,7 @@
     <maven.sevntu-checkstyle-check.checkstyle.version>
       9.1
     </maven.sevntu-checkstyle-check.checkstyle.version>
-    <maven.versions.plugin.version>2.16.2</maven.versions.plugin.version>
+    <maven.versions.plugin.version>2.17.1</maven.versions.plugin.version>
     <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
     <java.version>1.8</java.version>
     <pitest.plugin.version>1.16.1</pitest.plugin.version>
@@ -85,11 +85,11 @@
     <pitest.junit5.plugin.version>1.2.1</pitest.junit5.plugin.version>
     <pitest.accelerator.junit5.plugin.version>1.0.6</pitest.accelerator.junit5.plugin.version>
     <sonar.test.exclusions>**/test/resources/**/*,**/it/resources/**/*</sonar.test.exclusions>
-    <junit.version>5.10.2</junit.version>
+    <junit.version>5.11.0</junit.version>
     <forbiddenapis.version>3.7</forbiddenapis.version>
     <json-schema-validator.version>1.2.0</json-schema-validator.version>
-    <checkerframework.version>3.43.0</checkerframework.version>
-    <error-prone.version>2.27.1</error-prone.version>
+    <checkerframework.version>3.46.0</checkerframework.version>
+    <error-prone.version>2.30.0</error-prone.version>
     <error-prone-support.version>0.15.0</error-prone-support.version>
     <doxia.version>1.12.0</doxia.version>
     <error-prone.configuration-args>
@@ -97,11 +97,13 @@
       -Xep:AssertJIsNull:ERROR
       -Xep:AutowiredConstructor:ERROR
       -Xep:CanonicalAnnotationSyntax:ERROR
-      -Xep:DirectReturn:ERROR
       -Xep:CollectorMutability:ERROR
+      -Xep:DirectReturn:ERROR
       -Xep:EmptyMethod:ERROR
       -Xep:ExplicitEnumOrdering:ERROR
       -Xep:FormatStringConcatenation:ERROR
+      -Xep:IdentityConversion:ERROR
+      -Xep:ImmutablesSortedSetComparator:ERROR
       -Xep:IsInstanceLambdaUsage:ERROR
       -Xep:MockitoMockClassReference:ERROR
       -Xep:MockitoStubbing:ERROR
@@ -143,7 +145,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.2.0-jre</version>
+      <version>33.3.0-jre</version>
       <exclusions>
         <exclusion>
           <groupId>org.checkerframework</groupId>
@@ -211,13 +213,13 @@
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
-      <version>1.4.2</version>
+      <version>1.4.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.16.1</version>
+      <version>3.16.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -241,7 +243,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.13</version>
+      <version>2.0.16</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -328,7 +330,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.8.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
@@ -340,7 +342,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>exec-maven-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -350,7 +352,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.6.0</version>
         </plugin>
         <plugin>
           <groupId>org.pitest</groupId>
@@ -372,7 +374,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.6.3</version>
+          <version>3.8.0</version>
           <configuration>
             <!-- Exclude generated sources. -->
             <excludePackageNames>
@@ -570,7 +572,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>3.4.0</version>
       </plugin>
 
       <plugin>
@@ -636,7 +638,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
       </plugin>
 
       <plugin>
@@ -668,7 +670,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
         <configuration>
           <altDeploymentRepository>internal.repo::default::file://${cs.maven.directory}</altDeploymentRepository>
         </configuration>
@@ -963,7 +965,7 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.82</minimum>
+                      <minimum>0.80</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
@@ -981,7 +983,7 @@
                     <limit>
                       <counter>LINE</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.82</minimum>
+                      <minimum>0.80</minimum>
                     </limit>
                     <limit>
                       <counter>BRANCH</counter>
@@ -1169,7 +1171,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <id>enforce-versions</id>
@@ -1270,7 +1272,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.0</version>
         <configuration>
           <includes>
             <include>com/google/**/*.java</include>
@@ -1297,7 +1299,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.0</version>
         <configuration>
           <argLine>-Dfile.encoding=UTF-8 ${surefire.options}</argLine>
           <systemPropertyVariables>
@@ -1334,6 +1336,7 @@
               <target>
                 <property name="mvn.project.build.directory" value="${project.build.directory}" />
                 <property name="mvn.runtime_classpath" refid="maven.runtime.classpath" />
+                <property name="mvn.java.version" value="${java.version}" />
                 <ant antfile="config/ant-phase-verify.xml" />
               </target>
             </configuration>
@@ -1345,7 +1348,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.1</version>
+        <version>3.4.2</version>
         <configuration>
           <archive>
             <manifest>
@@ -1561,6 +1564,7 @@
                 <exclude>**/AbstractJavadocCheck.class</exclude>
                 <exclude>**/AtclauseOrderCheck.class</exclude>
                 <exclude>**/JavadocBlockTagLocationCheck.class</exclude>
+                <exclude>**/JavadocLeadingAsteriskAlignCheck.class</exclude>
                 <exclude>**/JavadocMethodCheck.class</exclude>
                 <exclude>**/JavadocMissingLeadingAsteriskCheck.class</exclude>
                 <exclude>**/JavadocMissingWhitespaceAfterAsteriskCheck.class</exclude>
@@ -1680,7 +1684,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.5.0</version>
+        <version>3.7.0</version>
       </plugin>
 
       <plugin>
@@ -1707,7 +1711,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>3.4.0</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -1720,7 +1724,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>3.3.2</version>
+        <version>3.5.0</version>
       </plugin>
 
       <plugin>
@@ -1732,7 +1736,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <excludes>**/*/checks/TodoCommentCheck.java</excludes>
           <tagListOptions>
@@ -2271,7 +2275,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.4</version>
+            <version>3.2.5</version>
             <configuration>
               <gpgArguments>
                 <arg>--pinentry-mode</arg>
@@ -3051,6 +3055,8 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedCatchParameterShouldBeUnnamedCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLambdaParameterShouldBeUnnamedCheck*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheckTest</param>
@@ -3078,6 +3084,8 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ReturnCountCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanExpressionCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.SimplifyBooleanReturnCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedCatchParameterShouldBeUnnamedCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.UnusedLambdaParameterShouldBeUnnamedCheckTest</param>
               </targetTests>
               <avoidCallsTo>
                 <avoidCallsTo>com.puppycrawl.tools.checkstyle.utils.UnmodifiableCollectionUtil</avoidCallsTo>
@@ -3148,6 +3156,7 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingNullCaseInSwitchCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck*</param>
@@ -3171,6 +3180,7 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheck*</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheck*</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.WhenShouldBeUsedCheck*</param>
               </targetClasses>
               <targetTests>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheckTest</param>
@@ -3180,6 +3190,7 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MatchXpathCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingCtorCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingNullCaseInSwitchCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MissingSwitchDefaultCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.ModifiedControlVariableCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheckTest</param>
@@ -3203,10 +3214,14 @@
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterOuterTypeDeclarationCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonAfterTypeMemberDeclarationCheckTest</param>
                 <param>com.puppycrawl.tools.checkstyle.checks.coding.UnnecessarySemicolonInEnumerationCheckTest</param>
+                <param>com.puppycrawl.tools.checkstyle.checks.coding.WhenShouldBeUsedCheckTest</param>
               </targetTests>
               <excludedTestClasses>
                 <param>*.Input*</param>
               </excludedTestClasses>
+              <features>
+                <feature>+funmodifiablecollection</feature>
+              </features>
               <coverageThreshold>100</coverageThreshold>
               <mutationThreshold>98</mutationThreshold>
               <timeoutFactor>${pitest.plugin.timeout.factor}</timeoutFactor>

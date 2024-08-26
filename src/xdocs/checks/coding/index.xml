@@ -274,6 +274,17 @@
           </tr>
           <tr>
             <td>
+              <a href="missingnullcaseinswitch.html#MissingNullCaseInSwitch">
+                MissingNullCaseInSwitch
+              </a>
+            </td>
+            <td>
+             Checks that a given switch statement or expression that use a reference type
+             in its selector expression has a <code>null</code> case label.
+            </td>
+          </tr>
+          <tr>
+            <td>
               <a href="missingswitchdefault.html#MissingSwitchDefault">
                 MissingSwitchDefault
               </a>
@@ -467,7 +478,7 @@
               </a>
             </td>
             <td>
-              Checks for over-complicated boolean return statements.
+              Checks for over-complicated boolean return or yield statements.
             </td>
           </tr>
           <tr>
@@ -553,6 +564,26 @@
           </tr>
           <tr>
             <td>
+              <a href="unusedcatchparametershouldbeunnamed.html#UnusedCatchParameterShouldBeUnnamed">
+                UnusedCatchParameterShouldBeUnnamed
+              </a>
+            </td>
+            <td>
+              Ensures that catch parameters that are not used are declared as an unnamed variable.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="unusedlambdaparametershouldbeunnamed.html#UnusedLambdaParameterShouldBeUnnamed">
+                UnusedLambdaParameterShouldBeUnnamed
+              </a>
+            </td>
+            <td>
+              Ensures that lambda parameters that are not used are declared as an unnamed variable.
+            </td>
+          </tr>
+          <tr>
+            <td>
               <a href="unusedlocalvariable.html#UnusedLocalVariable">
                 UnusedLocalVariable
               </a>
@@ -569,6 +600,17 @@
             </td>
             <td>
               Checks the distance between declaration of variable and its first usage.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="whenshouldbeused.html#WhenShouldBeUsed">
+                WhenShouldBeUsed
+              </a>
+            </td>
+            <td>
+              Ensures that <code>when</code> is used instead of a single
+              <code>if</code> statement inside a case block.
             </td>
           </tr>
         </table>

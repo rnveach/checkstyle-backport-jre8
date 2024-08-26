@@ -3,7 +3,7 @@ MethodParamPad
 allowLineBreaks = (default)false
 option = SPACE
 tokens = (default)CTOR_DEF, LITERAL_NEW, METHOD_CALL, METHOD_DEF, SUPER_CTOR_CALL, \
-         ENUM_CONSTANT_DEF, RECORD_DEF
+         ENUM_CONSTANT_DEF, RECORD_DEF, RECORD_PATTERN_DEF
 
 
 */
@@ -25,8 +25,7 @@ public class InputMethodParamPadWhitespaceAround
 
     protected InputMethodParamPadWhitespaceAround ( String s)
     {
-        // ok, until https://github.com/checkstyle/checkstyle/issues/13675
-        this();
+        this(); // violation ''(' is not preceded with whitespace'
     }
 
     public void enhancedFor ()

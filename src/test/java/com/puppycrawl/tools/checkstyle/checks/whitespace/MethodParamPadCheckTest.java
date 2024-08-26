@@ -128,6 +128,7 @@ public class MethodParamPadCheckTest
             "20:34: " + getCheckMessage(MSG_WS_PRECEDED, "("),
             "31:17: " + getCheckMessage(MSG_WS_PRECEDED, "("),
             "32:14: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "33:18: " + getCheckMessage(MSG_WS_PRECEDED, "("),
             "37:17: " + getCheckMessage(MSG_WS_PRECEDED, "("),
             "38:33: " + getCheckMessage(MSG_WS_PRECEDED, "("),
             "44:17: " + getCheckMessage(MSG_WS_PRECEDED, "("),
@@ -141,7 +142,9 @@ public class MethodParamPadCheckTest
 
     @Test
     public void test1322879() throws Exception {
-        final String[] expected = CommonUtil.EMPTY_STRING_ARRAY;
+        final String[] expected = {
+            "28:13: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+        };
         verifyWithInlineConfigParser(
                 getPath("InputMethodParamPadWhitespaceAround.java"),
                expected);
@@ -165,17 +168,30 @@ public class MethodParamPadCheckTest
     }
 
     @Test
+    public void testMethodParamPadCheckConstructors() throws Exception {
+        final String[] expected = {
+            "21:15: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "25:14: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "29:14: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+        };
+        verifyWithInlineConfigParser(
+                getPath("InputMethodParamPadCheckConstructors.java"), expected);
+    }
+
+    @Test
     public void testGetAcceptableTokens() {
         final MethodParamPadCheck methodParamPadCheckObj = new MethodParamPadCheck();
         final int[] actual = methodParamPadCheckObj.getAcceptableTokens();
         final int[] expected = {
             TokenTypes.CTOR_DEF,
+            TokenTypes.CTOR_CALL,
             TokenTypes.LITERAL_NEW,
             TokenTypes.METHOD_CALL,
             TokenTypes.METHOD_DEF,
             TokenTypes.SUPER_CTOR_CALL,
             TokenTypes.ENUM_CONSTANT_DEF,
             TokenTypes.RECORD_DEF,
+            TokenTypes.RECORD_PATTERN_DEF,
         };
         assertWithMessage("Default acceptable tokens are invalid")
             .that(actual)
@@ -208,5 +224,39 @@ public class MethodParamPadCheckTest
         };
         verifyWithInlineConfigParser(
                 getPath("InputMethodParamPadSetOptionTrim.java"), expected);
+    }
+
+    @Test
+    public void testRecordPattern() throws Exception {
+        final String[] expected = {
+            "19:41: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "22:42: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "22:50: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "31:31: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "31:39: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "36:31: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "57:41: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+            "57:49: " + getCheckMessage(MSG_WS_PRECEDED, "("),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputMethodParamPadCheckRecordPattern.java"), expected);
+    }
+
+    @Test
+    public void testRecordPattern2() throws Exception {
+        final String[] expected = {
+            "23:40: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+            "23:46: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+            "31:23: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+            "36:17: " + getCheckMessage(MSG_LINE_PREVIOUS, "("),
+            "39:17: " + getCheckMessage(MSG_LINE_PREVIOUS, "("),
+            "40:26: " + getCheckMessage(MSG_LINE_PREVIOUS, "("),
+            "44:17: " + getCheckMessage(MSG_LINE_PREVIOUS, "("),
+            "46:22: " + getCheckMessage(MSG_LINE_PREVIOUS, "("),
+            "50:40: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+            "50:47: " + getCheckMessage(MSG_WS_NOT_PRECEDED, "("),
+        };
+        verifyWithInlineConfigParser(
+                getNonCompilablePath("InputMethodParamPadCheckRecordPattern2.java"), expected);
     }
 }

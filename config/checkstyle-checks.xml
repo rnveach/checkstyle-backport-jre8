@@ -189,6 +189,13 @@
     <property name="message"
               value="Package comment marker should not be used if other visibility is defined"/>
   </module>
+  <module name="RegexpSingleline">
+    <property name="id" value="sinceVersionNumber"/>
+    <property name="format" value="\*\s+@since\s+([1-9][0-9])(\.[0-9]+)?$"/>
+    <property name="fileExtensions" value="java"/>
+    <property name="message"
+              value="@since tag must follow the X.Y.Z version format after version 10.5.0."/>
+  </module>
   <module name="RegexpOnFilename">
     <property name="id" value="regexpOnFilenameWithSpace"/>
   </module>
@@ -355,6 +362,7 @@
     <module name="InterfaceIsType"/>
     <module name="MutableException"/>
     <module name="OneTopLevelClass"/>
+    <module name="SealedShouldHavePermitsList"/>
     <module name="ThrowsCount">
       <property name="max" value="2"/>
     </module>
@@ -508,6 +516,14 @@
       -->
       <property name="severity" value="ignore"/>
     </module>
+    <module name="MissingNullCaseInSwitch">
+      <!--
+        We will not use this check because case null
+        is only supported by newer versions of Java (21).
+        Using a 'case null' will not compile in older Java code.
+      -->
+      <property name="severity" value="ignore"/>
+    </module>
     <module name="MissingSwitchDefault"/>
     <module name="ModifiedControlVariable"/>
     <module name="MultipleStringLiterals"/>
@@ -558,8 +574,31 @@
     <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
     <module name="UnnecessarySemicolonInEnumeration"/>
     <module name="UnnecessarySemicolonInTryWithResources"/>
+    <module name="UnusedCatchParameterShouldBeUnnamed">
+      <!--
+        Unnamed catch parameters will not compile on java versions between 9 and 21. As
+        we migrate to jdk 21 we will use xpath to avoid violations on
+        names like 'ignored'.
+      -->
+      <property name="severity" value="ignore"/>
+    </module>
+    <module name="UnusedLambdaParameterShouldBeUnnamed">
+      <!--
+        Unnamed lambda parameters will not compile on java versions before 21. As
+        we migrate to jdk 21 we will use this check.
+      -->
+      <property name="severity" value="ignore"/>
+    </module>
     <module name="UnusedLocalVariable"/>
     <module name="VariableDeclarationUsageDistance"/>
+    <module name="WhenShouldBeUsed">
+      <!--
+        We will not use this check because guarded case label
+        is only supported by newer versions of Java (21).
+        Using 'when' will not compile in older Java code.
+        -->
+      <property name="severity" value="ignore"/>
+    </module>
 
     <!-- Filters -->
     <module name="SuppressionCommentFilter">
@@ -668,6 +707,7 @@
       <property name="validateThrows" value="true"/>
     </module>
     <module name="JavadocMissingLeadingAsterisk"/>
+    <module name="JavadocLeadingAsteriskAlign"/>
     <module name="JavadocMissingWhitespaceAfterAsterisk"/>
     <module name="JavadocParagraph"/>
     <module name="JavadocStyle">
@@ -778,7 +818,9 @@
       <property name="severity" value="ignore"/>
     </module>
     <module name="ModifierOrder"/>
-    <module name="RedundantModifier"/>
+    <module name="RedundantModifier">
+      <property name="jdkVersion" value="${checkstyle.java.version}"/>
+    </module>
 
     <!-- Naming Conventions -->
     <module name="AbbreviationAsWordInName">

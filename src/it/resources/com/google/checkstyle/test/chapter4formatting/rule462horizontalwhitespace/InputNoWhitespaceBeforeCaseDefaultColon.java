@@ -1,14 +1,15 @@
 package com.google.checkstyle.test.chapter4formatting.rule462horizontalwhitespace;
 
+/** some javadoc. */
 public class InputNoWhitespaceBeforeCaseDefaultColon {
-    {
-        switch(1) {
-            case 1 : // warn
-                break;
-            case 2:
-                break;
-            default : // warn
-                break;
-        }
+  {
+    switch (1) {
+      case 1 : // violation '':' is preceded with whitespace.'
+        break;
+      case 2:
+        break;
+      default : // violation '':' is preceded with whitespace.'
+        break;
     }
+  }
 }

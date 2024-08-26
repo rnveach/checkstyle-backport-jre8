@@ -20,7 +20,7 @@
 package com.google.checkstyle.test.base;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.checkstyle.base.AbstractItModuleTestSupport;
@@ -42,8 +42,11 @@ public abstract class AbstractGoogleModuleTestSupport extends AbstractItModuleTe
 
     static {
         try {
+            final Properties properties = new Properties();
+            properties.put("org.checkstyle.google.severity", "error");
+            final PropertiesExpander expander = new PropertiesExpander(properties);
             CONFIGURATION = ConfigurationLoader.loadConfiguration(XML_NAME,
-                    new PropertiesExpander(System.getProperties()));
+                    expander);
         }
         catch (CheckstyleException ex) {
             throw new IllegalStateException(ex);
@@ -75,39 +78,12 @@ public abstract class AbstractGoogleModuleTestSupport extends AbstractItModuleTe
     }
 
     /**
-     * Returns {@link Configuration} instance for the given module name.
-     * This implementation uses {@link #getModuleConfig(String, String)} method inside.
+     * Performs verification of the file with the given file path against the whole config.
      *
-     * @param moduleName module name.
-     * @return {@link Configuration} instance for the given module name.
+     * @param filePath file path to verify.
+     * @throws Exception if exception occurs during verification process.
      */
-    protected static Configuration getModuleConfig(String moduleName) {
-        return getModuleConfig(moduleName, null);
+    protected void verifyWithWholeConfig(String filePath) throws Exception {
+        verifyWithItConfig(CONFIGURATION, filePath);
     }
-
-    /**
-     * Returns {@link Configuration} instance for the given module name.
-     * This implementation uses {@link #getModuleConfig(String)} method inside.
-     *
-     * @param moduleName module name.
-     * @param moduleId module id.
-     * @return {@link Configuration} instance for the given module name.
-     * @throws IllegalStateException if there is a problem retrieving the module or config.
-     */
-    protected static Configuration getModuleConfig(String moduleName, String moduleId) {
-        return getModuleConfig(CONFIGURATION, moduleName, moduleId);
-    }
-
-    /**
-     * Returns a list of all {@link Configuration} instances for the given module IDs.
-     *
-     * @param moduleIds module IDs.
-     * @return List of {@link Configuration} instances.
-     * @throws CheckstyleException if there is an error with the config.
-     */
-    protected static List<Configuration> getModuleConfigsByIds(String... moduleIds)
-            throws CheckstyleException {
-        return getModuleConfigsByIds(CONFIGURATION, moduleIds);
-    }
-
 }

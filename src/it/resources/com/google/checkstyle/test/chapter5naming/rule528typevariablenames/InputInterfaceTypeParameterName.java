@@ -2,85 +2,96 @@ package com.google.checkstyle.test.chapter5naming.rule528typevariablenames;
 
 import java.io.Serializable;
 
-public class InputInterfaceTypeParameterName <t>
-{
-    public <TT> void foo() { }
+/** some javadoc. */
+public class InputInterfaceTypeParameterName<T> {
+  public <TT> void foo() {}
 
-    <e_e> void foo(int i) {
-    }
+  <T> void foo(int i) {}
 }
 
-class OtherClass <foo extends Serializable & Cloneable> {
+// violation below 'Top-level class OtherClass has to reside in its own source file.'
+class OtherClass<T extends Serializable & Cloneable> {
 
-    foo getOne() {
-        return null;//comment
-    }
+  T getOne() {
+    return null; // comment
+  }
 
-    <Tfo$o2T extends foo> /*comment*/Tfo$o2T getTwo(Tfo$o2T a) {
-        return null;
-    }
+  <X extends T> /*comment*/ X getTwo(X a) {
+    return null;
+  }
 
-    <foo extends Runnable> foo getShadow() {
-        return null;
-    }
+  <E extends Runnable> E getShadow() {
+    return null;
+  }
 
-    static class Junk <foo> {
-        <_fo extends foo> void getMoreFoo() {
-        }
-    }
+  static class Junk<E> {
+    <T extends E> void getMoreFoo() {}
+  }
 }
 
-class MoreOtherClass <T extends Cloneable> {
+// violation below 'Top-level class MoreOtherClass has to reside in its own source file.'
+class MoreOtherClass<T extends Cloneable> {
 
-    <E extends T> void getMore() {
-        new Other() {
-            <T> void getMoreFoo() {
-            }
-        };
+  <E extends T> void getMore() {
+    new Other() {
+      <T> void getMoreFoo() {}
+    };
 
-//        Other o = new Other() {
-//            <EE> void getMoreFoo() {
-//            }
-//        };
-    }
+    //        Other o = new Other() {
+    //            <EE> void getMoreFoo() {
+    //            }
+    //        };
+  }
 }
 
-interface Boo<Input> { // warn
-    Input boo();
+// violation below 'Top-level class Boo has to reside in its own source file.'
+interface Boo<Input> { // violation 'Interface type name 'Input' must match pattern'
+  Input boo();
 }
 
+// violation below 'Top-level class FooInterface has to reside in its own source file.'
 interface FooInterface<T> {
-    T foo();
+  T foo();
 }
 
+// violation below 'Top-level class FooInterface2 has to reside in its own source file.'
 interface FooInterface2 {
-    Input foo();
+  Input foo();
 }
 
+// violation below 'Top-level class FooInterface3 has to reside in its own source file.'
 interface FooInterface3<T2> {
-    Input foo();
+  Input foo();
 }
 
+// violation below 'Top-level class FooInterface4 has to reside in its own source file.'
 interface FooInterface4<E> {
-    Input foo();
+  Input foo();
 }
 
+// violation below 'Top-level class FooInterface5 has to reside in its own source file.'
 interface FooInterface5<X> {
-    Input foo();
+  Input foo();
 }
 
+// violation below 'Top-level class FooInterface6 has to reside in its own source file.'
 interface FooInterface6<RequestT> {
-    Input foo();
+  Input foo();
 }
 
-interface FooInterface7<Request> { // warn
-    Input foo();
+interface FooInterface7<Request> {
+  // 2 violations above:
+  //  'Top-level class FooInterface7 has to reside in its own source file.'
+  //  'Interface type name 'Request' must match pattern'
+  Input foo();
 }
 
-interface FooInterface8<TRequest> { // warn
-    Input foo();
+interface FooInterface8<TRequest> {
+  // 2 violations above:
+  //  'Top-level class FooInterface8 has to reside in its own source file.'
+  //  'Interface type name 'TRequest' must match pattern'
+  Input foo();
 }
 
-class Input {
-
-}
+// violation below 'Top-level class Input has to reside in its own source file.'
+class Input {}

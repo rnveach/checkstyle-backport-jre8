@@ -2,45 +2,44 @@ package com.google.checkstyle.test.chapter5naming.rule528typevariablenames;
 
 import java.io.Serializable;
 
-class InputClassTypeParameterName <t> //warn
-{
-    public <TT> void foo() { }
+class InputClassTypeParameterName<t> { // violation 'Class type name 't' must match pattern'
+  public <TT> void foo() {}
 
-    <e_e> void foo(int i) {
-    }
+  <T> void foo(int i) {}
 }
 
-class Other <foo extends Serializable & Cloneable> { //warn
+// violation below 'Top-level class Other has to reside in its own source file.'
+class Other<foo extends Serializable & Cloneable> {
+  // violation above 'Class type name 'foo' must match pattern'
 
-    foo getOne() {
+  foo getOne() {
     return null;
-    }
+  }
 
-    <Tfo$o2T extends foo> Tfo$o2T getTwo(Tfo$o2T a) {
+  <T extends foo> T getTwo(T a) {
     return null;
-    }
+  }
 
-    <foo_ extends Runnable> foo getShadow() {
+  <T extends Runnable> foo getShadow() {
     return null;
-    }
+  }
 
-    static class Junk <$foo> { //warn
-        <_abc extends $foo> void getMoreFoo() {
-    }
-    }
+  static class Junk<$foo> { // violation 'Class type name '\$foo' must match pattern'
+    <T extends $foo> void getMoreFoo() {}
+  }
 }
 
-class MoreOther <T extends Cloneable> {
+// violation below 'Top-level class MoreOther has to reside in its own source file.'
+class MoreOther<T extends Cloneable> {
 
-    <E extends T> void getMore() {
-        new Other() {
-            <T$> void getMoreFoo() {
-        }
+  <E extends T> void getMore() {
+    new Other() {
+      <T> void getMoreFoo() {}
     };
 
-        Other o = new Other() {
-            <EE> void getMoreFoo() {
-            }
+    Other o =
+        new Other() {
+          <T> void getMoreFoo() {}
         };
-    }
+  }
 }

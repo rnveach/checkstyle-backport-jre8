@@ -34,7 +34,7 @@ public class PatternVariableNameCheckExamplesTest extends AbstractExamplesModule
     @Test
     public void testExample1() throws Exception {
 
-        final String pattern = "^[a-z][a-zA-Z0-9]*$";
+        final String pattern = "^([a-z][a-zA-Z0-9]*|_)$";
 
         final String[] expected = {
             "15:30: " + getCheckMessage(MSG_INVALID_PATTERN, "STRING", pattern),
@@ -67,5 +67,16 @@ public class PatternVariableNameCheckExamplesTest extends AbstractExamplesModule
         };
 
         verifyWithInlineConfigParser(getNonCompilablePath("Example3.java"), expected);
+    }
+
+    @Test
+    public void testExample4() throws Exception {
+
+        final String[] expected = {
+            "37:30: " + getCheckMessage(MSG_INVALID_PATTERN, "BAD", "^([a-z][a-zA-Z0-9]*|_)$"),
+            "40:36: " + getCheckMessage(MSG_INVALID_PATTERN, "bad", "^[A-Z][A-Z0-9]*$"),
+        };
+
+        verifyWithInlineConfigParser(getNonCompilablePath("Example4.java"), expected);
     }
 }

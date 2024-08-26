@@ -91,6 +91,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * <td>NP(for-range) + NP(expr1)+ NP(expr2) + NP(expr3) + 1</td></tr>
  * <tr><td>switch ([expr]) { case : [case-range] default: [default-range] }</td>
  * <td>S(i=1:i=n)NP(case-range[i]) + NP(default-range) + NP(expr)</td></tr>
+ * <tr><td>when[expr]</td><td>NP(expr) + 1</td></tr>
  * <tr><td>[expr1] ? [expr2] : [expr3]</td><td>NP(expr1) + NP(expr2) + NP(expr3) + 2</td></tr>
  * <tr><td>goto label</td><td>1</td></tr><tr><td>break</td><td>1</td></tr>
  * <tr><td>Expressions</td>
@@ -138,6 +139,14 @@ public final class NPathComplexityCheck extends AbstractCheck {
      * file.
      */
     public static final String MSG_KEY = "npathComplexity";
+
+    /** Tokens that are considered as case labels. */
+    private static final int[] CASE_LABEL_TOKENS = {
+        TokenTypes.EXPR,
+        TokenTypes.PATTERN_DEF,
+        TokenTypes.PATTERN_VARIABLE_DEF,
+        TokenTypes.RECORD_PATTERN_DEF,
+    };
 
     /** Default allowed complexity. */
     private static final int DEFAULT_MAX = 200;
@@ -212,6 +221,7 @@ public final class NPathComplexityCheck extends AbstractCheck {
             TokenTypes.LITERAL_DEFAULT,
             TokenTypes.COMPACT_CTOR_DEF,
             TokenTypes.SWITCH_RULE,
+            TokenTypes.LITERAL_WHEN,
         };
     }
 
@@ -240,6 +250,9 @@ public final class NPathComplexityCheck extends AbstractCheck {
                 break;
             case TokenTypes.LITERAL_RETURN:
                 visitUnitaryOperator(ast, 0);
+                break;
+            case TokenTypes.LITERAL_WHEN:
+                visitWhenExpression(ast, 1);
                 break;
             case TokenTypes.CASE_GROUP:
                 final int caseNumber = countCaseTokens(ast);
@@ -283,6 +296,7 @@ public final class NPathComplexityCheck extends AbstractCheck {
             case TokenTypes.LITERAL_FOR:
             case TokenTypes.LITERAL_IF:
             case TokenTypes.LITERAL_SWITCH:
+            case TokenTypes.LITERAL_WHEN:
                 leaveConditional();
                 break;
             case TokenTypes.LITERAL_TRY:
@@ -332,6 +346,19 @@ public final class NPathComplexityCheck extends AbstractCheck {
             expressionValue += countConditionalOperators(bracketed);
         }
         processingTokenEnd.setToken(bracketed);
+        pushValue(expressionValue);
+    }
+
+    /**
+     * Visits when expression token. There is no guarantee that when expression will be
+     * bracketed, so we don't use visitConditional method.
+     *
+     * @param ast visited token.
+     * @param basicBranchingFactor default number of branches added.
+     */
+    private void visitWhenExpression(DetailAST ast, int basicBranchingFactor) {
+        final int expressionValue = basicBranchingFactor + countConditionalOperators(ast);
+        processingTokenEnd.setToken(getLastToken(ast));
         pushValue(expressionValue);
     }
 
@@ -508,17 +535,21 @@ public final class NPathComplexityCheck extends AbstractCheck {
     }
 
     /**
-     * Counts number of case constants (EXPR) tokens in a switch labeled rule.
+     * Counts number of case constants tokens in a switch labeled rule.
      *
      * @param ast switch rule token.
-     * @return number of case constant (EXPR) tokens.
+     * @return number of case constant tokens.
      */
     private static int countCaseConstants(DetailAST ast) {
         final AtomicInteger counter = new AtomicInteger();
         final DetailAST literalCase = ast.getFirstChild();
 
-        TokenUtil.forEachChild(literalCase,
-            TokenTypes.EXPR, node -> counter.getAndIncrement());
+        for (DetailAST node = literalCase.getFirstChild(); node != null;
+                    node = node.getNextSibling()) {
+            if (TokenUtil.isOfType(node, CASE_LABEL_TOKENS)) {
+                counter.getAndIncrement();
+            }
+        }
 
         return counter.get();
     }

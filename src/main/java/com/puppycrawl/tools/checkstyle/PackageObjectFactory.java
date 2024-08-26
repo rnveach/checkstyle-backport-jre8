@@ -535,6 +535,8 @@ public class PackageObjectFactory implements ModuleFactory {
                 BASE_PACKAGE + ".checks.coding.MagicNumberCheck");
         NAME_TO_FULL_MODULE_NAME.put("MissingCtorCheck",
                 BASE_PACKAGE + ".checks.coding.MissingCtorCheck");
+        NAME_TO_FULL_MODULE_NAME.put("MissingNullCaseInSwitchCheck",
+                BASE_PACKAGE + ".checks.coding.MissingNullCaseInSwitchCheck");
         NAME_TO_FULL_MODULE_NAME.put("MissingSwitchDefaultCheck",
                 BASE_PACKAGE + ".checks.coding.MissingSwitchDefaultCheck");
         NAME_TO_FULL_MODULE_NAME.put("ModifiedControlVariableCheck",
@@ -591,12 +593,18 @@ public class PackageObjectFactory implements ModuleFactory {
                 BASE_PACKAGE + ".checks.coding.UnnecessarySemicolonInTryWithResourcesCheck");
         NAME_TO_FULL_MODULE_NAME.put("VariableDeclarationUsageDistanceCheck",
                 BASE_PACKAGE + ".checks.coding.VariableDeclarationUsageDistanceCheck");
+        NAME_TO_FULL_MODULE_NAME.put("WhenShouldBeUsed",
+                BASE_PACKAGE + ".checks.coding.WhenShouldBeUsedCheck");
         NAME_TO_FULL_MODULE_NAME.put("NoArrayTrailingCommaCheck",
                 BASE_PACKAGE + ".checks.coding.NoArrayTrailingCommaCheck");
         NAME_TO_FULL_MODULE_NAME.put("MatchXpathCheck",
                 BASE_PACKAGE + ".checks.coding.MatchXpathCheck");
         NAME_TO_FULL_MODULE_NAME.put("UnusedLocalVariableCheck",
                 BASE_PACKAGE + ".checks.coding.UnusedLocalVariableCheck");
+        NAME_TO_FULL_MODULE_NAME.put("UnusedCatchParameterShouldBeUnnamedCheck",
+                BASE_PACKAGE + ".checks.coding.UnusedCatchParameterShouldBeUnnamedCheck");
+        NAME_TO_FULL_MODULE_NAME.put("UnusedLambdaParameterShouldBeUnnamedCheck",
+                BASE_PACKAGE + ".checks.coding.UnusedLambdaParameterShouldBeUnnamedCheck");
     }
 
     /**
@@ -617,6 +625,8 @@ public class PackageObjectFactory implements ModuleFactory {
                 BASE_PACKAGE + ".checks.design.MutableExceptionCheck");
         NAME_TO_FULL_MODULE_NAME.put("OneTopLevelClassCheck",
                 BASE_PACKAGE + ".checks.design.OneTopLevelClassCheck");
+        NAME_TO_FULL_MODULE_NAME.put("SealedShouldHavePermitsListCheck",
+                BASE_PACKAGE + ".checks.design.SealedShouldHavePermitsListCheck");
         NAME_TO_FULL_MODULE_NAME.put("ThrowsCountCheck",
                 BASE_PACKAGE + ".checks.design.ThrowsCountCheck");
         NAME_TO_FULL_MODULE_NAME.put("VisibilityModifierCheck",
@@ -677,6 +687,8 @@ public class PackageObjectFactory implements ModuleFactory {
                 BASE_PACKAGE + ".checks.javadoc.JavadocBlockTagLocationCheck");
         NAME_TO_FULL_MODULE_NAME.put("JavadocContentLocationCheck",
                 BASE_PACKAGE + ".checks.javadoc.JavadocContentLocationCheck");
+        NAME_TO_FULL_MODULE_NAME.put("JavadocLeadingAsteriskAlignCheck",
+                BASE_PACKAGE + ".checks.javadoc.JavadocLeadingAsteriskAlignCheck");
         NAME_TO_FULL_MODULE_NAME.put("JavadocMethodCheck",
                 BASE_PACKAGE + ".checks.javadoc.JavadocMethodCheck");
         NAME_TO_FULL_MODULE_NAME.put("JavadocMissingLeadingAsteriskCheck",

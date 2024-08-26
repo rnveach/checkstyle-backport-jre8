@@ -1,32 +1,31 @@
-package com.google.checkstyle.test.chapter4formatting.rule4841indentation; //indent:0 exp:0
+package com.google.checkstyle.test.chapter4formatting.rule4841indentation;
 
-public class ClassWithChainedMethods { //indent:0 exp:0
+/** some javadoc. */
+public class ClassWithChainedMethods {
 
-  public ClassWithChainedMethods(Object... params) { //indent:2 exp:2
-  } //indent:2 exp:2
+  public ClassWithChainedMethods(Object... params) {}
 
-  public String doNothing(String something, String... uselessParams) { //indent:2 exp:2
-    return something; //indent:4 exp:4
-  } //indent:2 exp:2
+  /** some javadoc. */
+  public static void main(String[] args) {
+    new ClassWithChainedMethods()
+        .getInstance("string_one")
+    .doNothing("string_one".trim(), "string_two");
+    // violation above ''method call' child has incorrect indentation level 4, expected .* 8.'
 
-  public ClassWithChainedMethods getInstance(String... uselessParams) { //indent:2 exp:2
-    return this; //indent:4 exp:4
-  } //indent:2 exp:2
+    int length =
+    new ClassWithChainedMethods("param1", "param2").getInstance().doNothing("nothing").length();
+    // violation above ''new' has incorrect indentation level 4, expected .* 8.'
 
-  public static void main(String[] args) { //indent:2 exp:2
-    new ClassWithChainedMethods().getInstance("string_one") //indent:4 exp:4
-    .doNothing("string_one".trim(), //indent:4 exp:8 warn
-               "string_two"); //indent:15 exp:>=8
+    int length2 =
+    new ClassWithChainedMethods("param1", "param2").getInstance().doNothing("nothing").length();
+    // violation above ''new' has incorrect indentation level 4, expected .* 8.'
+  }
 
-    int length = new ClassWithChainedMethods("param1", //indent:4 exp:4
-                                "param2").getInstance() //indent:32 exp:>=8
-    .doNothing("nothing") //indent:4 exp:>=8 warn
-    .length(); //indent:4 exp:>=8 warn
+  public String doNothing(String something, String... uselessParams) {
+    return something;
+  }
 
-    int length2 =  //indent:4 exp:4
-    new ClassWithChainedMethods("param1","param2") //indent:4 exp:>=8 warn
-        .getInstance() //indent:8 exp:8
-        .doNothing("nothing") //indent:8 exp:8
-        .length(); //indent:8 exp:8
-  } //indent:2 exp:2
-} //indent:0 exp:0
+  public ClassWithChainedMethods getInstance(String... uselessParams) {
+    return this;
+  }
+}

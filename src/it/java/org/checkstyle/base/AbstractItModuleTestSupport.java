@@ -34,11 +34,13 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import com.puppycrawl.tools.checkstyle.AbstractPathTestSupport;
 import com.puppycrawl.tools.checkstyle.Checker;
@@ -47,6 +49,8 @@ import com.puppycrawl.tools.checkstyle.TreeWalker;
 import com.puppycrawl.tools.checkstyle.api.AbstractViolationReporter;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.api.Configuration;
+import com.puppycrawl.tools.checkstyle.bdd.InlineConfigParser;
+import com.puppycrawl.tools.checkstyle.bdd.TestInputViolation;
 import com.puppycrawl.tools.checkstyle.internal.utils.BriefUtLogger;
 import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
 
@@ -289,7 +293,8 @@ public abstract class AbstractItModuleTestSupport extends AbstractPathTestSuppor
             final Configuration config = createTreeWalkerConfig(moduleConfig);
             checker.configure(config);
         }
-        else if (ROOT_MODULE_NAME.equals(moduleConfig.getName())) {
+        else if (ROOT_MODULE_NAME.equals(moduleConfig.getName())
+                || "Checker".equals(moduleConfig.getName())) {
             checker.configure(moduleConfig);
         }
         else {
@@ -449,6 +454,100 @@ public abstract class AbstractItModuleTestSupport extends AbstractPathTestSuppor
         }
 
         checker.destroy();
+    }
+
+    /**
+     * Performs the verification of the file with the given file path and config.
+     *
+     * @param config config to check against.
+     * @param filePath input file path.
+     * @throws Exception if exception occurs during verification process.
+     */
+    protected void verifyWithItConfig(Configuration config, String filePath) throws Exception {
+        final List<TestInputViolation> violations =
+            InlineConfigParser.getViolationsFromInputFile(filePath);
+        final List<String> actualViolations = getActualViolationsForFile(config, filePath);
+
+        verifyViolations(filePath, violations, actualViolations);
+    }
+
+    /**
+     * Tests the file with the check config.
+     *
+     * @param config check configuration.
+     * @param file input file path.
+     * @return list of actual violations.
+     * @throws Exception if exception occurs during verification process.
+     */
+    private List<String> getActualViolationsForFile(Configuration config,
+          String file) throws Exception {
+        stream.flush();
+        stream.reset();
+        final List<File> files = Collections.singletonList(new File(file));
+        final Checker checker = createChecker(config);
+        final Map<String, List<String>> actualViolations =
+                getActualViolations(checker.process(files));
+        checker.destroy();
+        return actualViolations.getOrDefault(file, new ArrayList<>());
+    }
+
+    /**
+     * Returns the actual violations for each file that has been checked against {@link Checker}.
+     * Each file is mapped to their corresponding violation messages. Reads input stream for these
+     * messages using instance of {@link InputStreamReader}.
+     *
+     * @param errorCount count of errors after checking set of files against {@link Checker}.
+     * @return a {@link Map} object containing file names and the corresponding violation messages.
+     * @throws IOException exception can occur when reading input stream.
+     */
+    private Map<String, List<String>> getActualViolations(int errorCount) throws IOException {
+        // process each of the lines
+        try (ByteArrayInputStream inputStream =
+                     new ByteArrayInputStream(stream.toByteArray());
+             LineNumberReader lnr = new LineNumberReader(
+                     new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            final Map<String, List<String>> actualViolations = new HashMap<>();
+            for (String line = lnr.readLine(); line != null && lnr.getLineNumber() <= errorCount;
+                 line = lnr.readLine()) {
+                // have at least 2 characters before the splitting colon,
+                // to not split after the drive letter on Windows
+                final String[] actualViolation = line.split("(?<=.{2}):", 2);
+                final String actualViolationFileName = actualViolation[0];
+                final String actualViolationMessage = actualViolation[1];
+
+                actualViolations
+                        .computeIfAbsent(actualViolationFileName, key -> new ArrayList<>())
+                        .add(actualViolationMessage);
+            }
+
+            return actualViolations;
+        }
+    }
+
+    /**
+     * Performs verification of violation lines.
+     *
+     * @param file file path.
+     * @param testInputViolations List of TestInputViolation objects.
+     * @param actualViolations for a file
+     */
+    private static void verifyViolations(String file, List<TestInputViolation> testInputViolations,
+          List<String> actualViolations) {
+        final List<Integer> actualViolationLines = actualViolations.stream()
+                .map(violation -> violation.substring(0, violation.indexOf(':')))
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
+        final List<Integer> expectedViolationLines = testInputViolations.stream()
+                .map(TestInputViolation::getLineNo)
+                .collect(Collectors.toList());
+        assertWithMessage("Violation lines for %s differ.", file)
+                .that(actualViolationLines)
+                .isEqualTo(expectedViolationLines);
+        for (int index = 0; index < actualViolations.size(); index++) {
+            assertWithMessage("Actual and expected violations differ.")
+                    .that(actualViolations.get(index))
+                    .matches(testInputViolations.get(index).toRegex());
+        }
     }
 
     /**
