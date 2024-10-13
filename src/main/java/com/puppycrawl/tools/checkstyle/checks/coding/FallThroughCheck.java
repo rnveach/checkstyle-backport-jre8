@@ -45,6 +45,7 @@ import com.puppycrawl.tools.checkstyle.utils.TokenUtil;
  * The comment containing these words must be all on one line,
  * and must be on the last non-empty line before the {@code case} triggering
  * the warning or on the same line before the {@code case}(ugly, but possible).
+ * Any other comment may follow on the same line.
  * </p>
  * <p>
  * Note: The check assumes that there is no unreachable code in the {@code case}.
@@ -454,11 +455,22 @@ public class FallThroughCheck extends AbstractCheck {
      * @return true if relief comment found
      */
     private boolean hasReliefComment(DetailAST ast) {
-        return Optional.ofNullable(getNextNonCommentAst(ast))
-                .map(DetailAST::getPreviousSibling)
-                .map(previous -> previous.getFirstChild().getText())
-                .map(text -> reliefPattern.matcher(text).find())
-                .orElse(Boolean.FALSE);
+        final DetailAST nonCommentAst = getNextNonCommentAst(ast);
+        boolean result = false;
+        if (nonCommentAst != null) {
+            final int prevLineNumber = nonCommentAst.getPreviousSibling().getLineNo();
+            DetailAST sibling = nonCommentAst.getPreviousSibling();
+
+            while (sibling != null && sibling.getLineNo() == prevLineNumber) {
+                final DetailAST firstChild = sibling.getFirstChild();
+                if (firstChild != null && reliefPattern.matcher(firstChild.getText()).find()) {
+                    result = true;
+                    break;
+                }
+                sibling = sibling.getPreviousSibling();
+            }
+        }
+        return result;
     }
 
 }

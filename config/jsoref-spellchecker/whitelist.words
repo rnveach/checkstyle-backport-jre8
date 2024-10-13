@@ -308,6 +308,7 @@ Dforce
 Dgpg
 Dhttp
 Diachenko
+DIFFTOOL
 dirname
 Djacoco
 Dlinkcheck
@@ -1151,6 +1152,7 @@ rq
 Rrridden
 RRRR
 Rsa
+RSPEC
 rtc
 Rtl
 ru

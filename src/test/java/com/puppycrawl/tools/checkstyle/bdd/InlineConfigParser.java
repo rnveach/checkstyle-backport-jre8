@@ -98,7 +98,7 @@ public final class InlineConfigParser {
 
     /** A pattern to find the string: "// violation, explanation". */
     private static final Pattern VIOLATION_WITH_EXPLANATION_PATTERN = Pattern
-            .compile(".*//\\s*violation,\\s.+\\s(?:['\"](.*)['\"])?$");
+            .compile(".*//\\s*violation,\\s+(?:.*)?$");
 
     /** A pattern to find the string: "// X violations". */
     private static final Pattern MULTIPLE_VIOLATIONS_PATTERN = Pattern
@@ -177,6 +177,10 @@ public final class InlineConfigParser {
     private static final Pattern VIOLATIONS_SOME_LINES_BELOW_PATTERN = Pattern
             .compile(".*//\\s*(\\d+) violations (\\d+) lines below:$");
 
+    /** A pattern that matches any comment by default. */
+    private static final Pattern VIOLATION_DEFAULT = Pattern
+            .compile("//.*violation.*");
+
     /** The String "(null)". */
     private static final String NULL_STRING = "(null)";
 
@@ -203,22 +207,17 @@ public final class InlineConfigParser {
      *  Until <a href="https://github.com/checkstyle/checkstyle/issues/15456">#15456</a>.
      */
     private static final Set<String> SUPPRESSED_CHECKS = Stream.of(
-            "com.puppycrawl.tools.checkstyle.checks.annotation.AnnotationOnSameLineCheck",
             "com.puppycrawl.tools.checkstyle.checks.annotation.PackageAnnotationCheck",
             "com.puppycrawl.tools.checkstyle.checks.annotation.SuppressWarningsCheck",
             "com.puppycrawl.tools.checkstyle.checks.ArrayTypeStyleCheck",
             "com.puppycrawl.tools.checkstyle.checks.AvoidEscapedUnicodeCharactersCheck",
-            "com.puppycrawl.tools.checkstyle.checks.blocks.AvoidNestedBlocksCheck",
             "com.puppycrawl.tools.checkstyle.checks.blocks.EmptyCatchBlockCheck",
             "com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.ArrayTrailingCommaCheck",
-            "com.puppycrawl.tools.checkstyle.checks.coding.AvoidDoubleBraceInitializationCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.AvoidInlineConditionalsCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding"
                     + ".AvoidNoArgumentSuperConstructorCallCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.CovariantEqualsCheck",
-            "com.puppycrawl.tools.checkstyle.checks.coding"
-                    + ".EmptyStatementCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.ExplicitInitializationCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck",
             "com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck",
@@ -261,7 +260,6 @@ public final class InlineConfigParser {
             "com.puppycrawl.tools.checkstyle.checks.coding"
                     + ".UnusedCatchParameterShouldBeUnnamedCheck",
             "com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck",
-            "com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck",
             "com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck",
             "com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck",
             "com.puppycrawl.tools.checkstyle.checks.design.InterfaceIsTypeCheck",
@@ -780,6 +778,8 @@ public final class InlineConfigParser {
                 VIOLATIONS_SOME_LINES_ABOVE_PATTERN.matcher(lines.get(lineNo));
         final Matcher violationsSomeLinesBelowMatcher =
                 VIOLATIONS_SOME_LINES_BELOW_PATTERN.matcher(lines.get(lineNo));
+        final Matcher violationsDefault =
+                VIOLATION_DEFAULT.matcher(lines.get(lineNo));
         if (violationMatcher.matches()) {
             final String violationMessage = violationMatcher.group(1);
             final int violationLineNum = lineNo + 1;
@@ -812,11 +812,8 @@ public final class InlineConfigParser {
             inputConfigBuilder.addViolation(violationLineNum, violationMessage);
         }
         else if (violationWithExplanationMatcher.matches()) {
-            final String violationMessage = violationWithExplanationMatcher.group(1);
             final int violationLineNum = lineNo + 1;
-            checkWhetherViolationSpecified(specifyViolationMessage, violationMessage,
-                    violationLineNum);
-            inputConfigBuilder.addViolation(violationLineNum, violationMessage);
+            inputConfigBuilder.addViolation(violationLineNum, null);
         }
         else if (violationSomeLinesAboveMatcher.matches()) {
             final String violationMessage = violationSomeLinesAboveMatcher.group(2);
@@ -874,6 +871,10 @@ public final class InlineConfigParser {
         else if (useFilteredViolations) {
             setFilteredViolation(inputConfigBuilder, lineNo + 1,
                     lines.get(lineNo), specifyViolationMessage);
+        }
+        else if (violationsDefault.matches()) {
+            final int violationLineNum = lineNo + 1;
+            inputConfigBuilder.addViolation(violationLineNum, null);
         }
     }
 

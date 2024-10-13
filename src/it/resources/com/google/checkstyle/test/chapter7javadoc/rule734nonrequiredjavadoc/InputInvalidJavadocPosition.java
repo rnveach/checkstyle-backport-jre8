@@ -4,7 +4,7 @@ package // violation 'package statement should not be line-wrapped.'
 
 // violation below 'Javadoc comment is placed in the wrong location.'
 /** odd javadoc */
-import java.lang.String;
+import javax.swing.JFrame;
 
 // violation below 'Javadoc comment is placed in the wrong location.'
 /** odd javadoc */
@@ -30,7 +30,7 @@ class InputInvalidJavadocPosition2 {
   int field1;
 
   /** valid javadoc. */
-  int[] field2;
+  JFrame frame = new JFrame();
 
   /** valid javadoc. */
   public int[] field3;

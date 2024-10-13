@@ -41,10 +41,6 @@ public class InputWhitespaceAfterGood {
   /** some javadoc. */
   public void check4() throws java.io.IOException {
     try (java.io.InputStream ignored = System.in) {}
-    // 3 violations above:
-    // 'Empty try block.'
-    //  ''{' is not followed by whitespace.'
-    //  ''}' is not preceded with whitespace.'
     try {
       /* foo. */
     } catch (Exception e) {
@@ -71,11 +67,13 @@ public class InputWhitespaceAfterGood {
     }
   }
 
+  /** some javadoc. */
   public void check7() {
     synchronized (this) {
     }
   }
 
+  /** some javadoc. */
   public String check8() {
     return ("a" + "b");
   }
